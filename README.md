@@ -1,12 +1,12 @@
 <div align="center">
 
-# 🐶 두리묭실 (Duri-Myongsil)
+# 🐶 두리묭실 (Duri-Salon)
 
 </div>
 
 <br/>
 
-## 👨‍💻 1. Project Overview (프로젝트 개요)
+## 1. Project Overview (프로젝트 개요)
 
 - **프로젝트 이름**: 두리묭실
 - **프로젝트 설명**: 강아지 맞춤형 스트레스 케어와 합리적인 가격을 제공하는 미용 중계 서비스
@@ -14,8 +14,12 @@
 
 <br/>
 
-## 👥 2. Team Members (팀원 및 팀 소개)
+## 2. Team Members (팀원 및 팀 소개)
+### 2.1 팀명
+- **구름잉**
+- 애견 미용을 뜻하는 Grooming에서 영감을 받은 이름으로, 구름처럼 포근하고 믿음직한 서비스를 제공하겠다는 목표를 담음.
 
+### 2.2 팀원
 |                   노이진                    |                   김찬별                   |                   심승보                    |                   윤준수                    |
 |:----------------------------------------:|:---------------------------------------:|:----------------------------------------:|:----------------------------------------:|
 |    <img src="https://avatars.githubusercontent.com/u/52371699?v=4" alt="노이진" width="100">    |   <img src="https://avatars.githubusercontent.com/u/47071366?v=4" alt="김찬별" width="100">    |    <img src="https://avatars.githubusercontent.com/u/112371013?v=4" alt="심승보" width="100">    |    <img src="https://avatars.githubusercontent.com/u/174159935?v=4" alt="윤준수" width="100">    | 
@@ -28,7 +32,7 @@
 |                 BackEnd                 |              BackEnd              |                       BackEnd                       |
 | [GitHub](https://github.com/delight-es) |             [GitHub](https://github.com/rlawotmd)             |      [GitHub](https://github.com/taeyeon0319) |
 
-## 💡 3. 프로젝트 기능
+## 3. 프로젝트 기능
 
 ### 🐾 사용자
 
@@ -56,6 +60,7 @@
 
 #### 5. 마이페이지
 - 사용자 및 반려견 프로필 등록/수정/삭제
+- 이전 요청서, 견적서, 시술 기록 조회 (히스토리 조회)
 - 미용 완료 후 리뷰 작성
 - 도장 쿠폰 확인
 
@@ -80,6 +85,7 @@
 #### 3. 매장 관리
 - 실적 데이터 통계 시각화
 - 매장 정보, 자격증, 가격표 등록/수정/삭제
+- 매장 리뷰 조회
 
 #### 4. 포트폴리오
 - 시술 사진 및 정보를 작성하여 포트폴리오 관리
@@ -98,10 +104,10 @@
 
 <br/>
 
-## 💻 5. Technology Stack (기술 스택)
+## 4. Technology Stack (기술 스택)
 <img width="500" alt="architecture" src="https://github.com/user-attachments/assets/cf16f43b-2c78-446e-8799-13a95f91fae3">
 
-### 5.1 Frontend
+### 4.1 Frontend
 <table>
   <tr>
     <th>React</th><th>TypeScript</th><th>React-Query</th>
@@ -113,20 +119,21 @@
   </tr>
 </table>
 
-### 5.2 Backend
+### 4.2 Backend
 <table>
   <tr>
-    <th>JAVA</th><th>Spring Boot</th><th>Spring Security</th><th>JWT</th>
+    <th>JAVA</th><th>Spring Boot</th><th>OAuth2</th><th>Spring Security</th><th>JWT</th>
   </tr>
   <tr>
     <td align="center"><img src="https://github.com/user-attachments/assets/5df80afe-5c3d-47c1-9f6d-1549d1b2fc42" alt="JAVA" width="100"></td>
     <td align="center"><img src="https://github.com/user-attachments/assets/4d0c279a-0dfe-4253-b79e-c615935f9aff" alt="Spring Boot" width="100"></td>
+<td align="center"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSer4Aw39i08dpwLOdRu_KtK6UOvMDw6Q1Qxw&s" alt="OAuth2" width="100"></td>
     <td align="center"><img src="https://github.com/user-attachments/assets/f4744195-f1d0-44d9-b64c-0a027aaaf05a" alt="Spring Security" width="100"></td>
     <td align="center"><img src="https://github.com/user-attachments/assets/d43d4e63-3d5c-4ba2-a323-a68c6a8924e1" alt="JWT" width="50"></td>
   </tr>
 </table>
 
-### 5.3 DBMS
+### 4.3 DBMS
 <table>
   <tr>
     <th>MySQL</th>
@@ -136,22 +143,22 @@
   </tr>
 </table>
 
-### 5.4 Infra
+### 4.4 Infra
 <table>
   <tr>
     <th>AWS EC2</th><th>AWS S3</th><th>AWS CodeDeploy</th><th>AWS RDS</th><th>Netlify</th>
   </tr>
   <tr>
-    <td align="center"><img src="https://blog.kakaocdn.net/dn/cuRpSG/btrwTOtzwYU/JPyJL14YecEi52hJiX1Tzk/img.png" alt="AWS EC2" width="50"></td>
+    <td align="center"><img src="https://blog.kakaocdn.net/dn/cuRpSG/btrwTOtzwYU/JPyJL14YecEi52hJiX1Tzk/img.png" alt="AWS EC2" width="60"></td>
     <td align="center"><img src="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Flo3oz%2FbtqL7RbiciD%2FjTgdVG0ZzeoVATFqL8tFmK%2Fimg.png" alt="AWS S3" width="100"></td>
-    <td align="center"><img src="https://blog.kakaocdn.net/dn/S3qon/btsmCNTaczJ/52e2LaFF9AV8Bb3AoQL2Ik/img.jpg" alt="AWS CodeDeploy" width="50"></td>
-    <td align="center"><img src="https://hoing.io/storage/2021/04/AWS_RDS_Ico.png" alt="AWS CodeDeploy" width="50"></td>
-<td align="center"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjBz_aKcBod-HFnXAw6rcK3YCafQz6vQ71og&s" alt="AWS CodeDeploy" width="50"></td>
+    <td align="center"><img src="https://blog.kakaocdn.net/dn/S3qon/btsmCNTaczJ/52e2LaFF9AV8Bb3AoQL2Ik/img.jpg" alt="AWS CodeDeploy" width="70"></td>
+    <td align="center"><img src="https://hoing.io/storage/2021/04/AWS_RDS_Ico.png" alt="AWS CodeDeploy" width="70"></td>
+<td align="center"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjBz_aKcBod-HFnXAw6rcK3YCafQz6vQ71og&s" alt="Netlify" width="70"></td>
     
   </tr>
 </table>
 
-### 5.5 Cooperation
+### 4.5 Cooperation
 <table>
   <tr>
     <th>Git</th><th>Figma</th><th>Notion</th><th>Jira</th>
@@ -167,30 +174,73 @@
 <br/>
 
 
-## 💬 6. 팀 규칙
+## 5. 팀 규칙
 
-### **6.1 커뮤니케이션 규칙**
+### **5.1 커뮤니케이션 규칙**
 - 매일 **오전 9시** 데일리 스크럼 진행
     - **어제 한 일**, **오늘 할 일**, **문제점**을 공유하며 진행 상황 점검.
 - 문서 공유 및 회의 기록은 **Notion**을 통해 관리.
 - 매주 **일요일 저녁 10시** 정기 회의 진행
     - 주간 작업 점검 및 다음 주 계획 수립.
 
-### **6.2 컨벤션**
+### **5.2 컨벤션**
 
 #### **코딩 컨벤션**
-- **프론트엔드 코딩 컨벤션**: [노션링크](#)
-- **백엔드 코딩 컨벤션**: [노션링크](#)
-
-#### **Pull Request 컨벤션**
-- **PR 컨벤션**: [노션링크](#)
+- **프론트엔드 코딩 컨벤션**: [노션링크](https://checkered-muscari-213.notion.site/f526ae57696c49ddbdfc67662d7971d4?pvs=4)
+- **백엔드 코딩 컨벤션**: [노션링크](https://checkered-muscari-213.notion.site/da1788e44f3249799b0f5158e2a4ceb8?pvs=4)
 
 #### **브랜치 명명 규칙**
-- **브랜치 명명 규칙**: [노션링크](#)
+- **브랜치 명명 규칙**: [노션링크](https://checkered-muscari-213.notion.site/780701593d864f288238478aa6395224?pvs=4)
+
+#### **Pull Request 컨벤션**
+- **Pull Request 컨벤션**: [노션링크](https://checkered-muscari-213.notion.site/PR-1dbbb6a28d2d4784964e4e855629656c?pvs=4)
 
 
-### **6.3 Jira로 작업 방식**
+### **5.3 Jira로 작업 방식**
 - Epic, Story, Task 등 우선순위와 작업 단계를 명확히 구분.
 - 작업 상태는 **To Do → In Progress → Done**으로 관리.
 - 각 Task 완료 시, 관련 **Pull Request 링크**를 Jira에 첨부.
 
+<br/>
+
+
+## 6. Project Structure (프로젝트 구조)
+```plaintext
+main
+└── java
+    └── kr
+        └── com
+            └── duri
+                ├── aaa
+                │   ├── presentation
+                │   │   └── controller
+                │   │       └── aaaController.java
+                │   ├── application
+                │   │   ├── facade
+                │   │   │   └── aaaFacade.java
+                │   │   ├── service
+                │   │   │   ├── aaaService.java
+                │   │   │   └── aaaServiceImpl.java
+                │   │   ├── dto
+                │   │   │   ├── aaaRequestDto.java
+                │   │   │   └── aaaResponseDto.java
+                │   │   ├── exception
+                │   │   │   └── aaaNotFoundException.java
+                │   │   └── mapper                 
+                │   │       └── aaaMapper.java     
+                │   ├── infrastructure
+                │   │   ├── repository
+                │   │   │   └── aaaRepository.java
+                │   │   └── external
+                │   │       └── aaaExternalApi.java // 외부 api
+                │   └── domain
+                │       ├── entity
+                │       │   └── aaa.java
+                │       └── enum
+                │           └── aaaStatus.java
+                ├── bbb
+                ├── ...
+                └── DuriApplication
+```
+
+<br/>
