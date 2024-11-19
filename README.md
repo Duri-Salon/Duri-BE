@@ -211,34 +211,34 @@ main
     └── kr
         └── com
             └── duri
-                ├── aaa
+                ├── user
                 │   ├── presentation
                 │   │   └── controller
-                │   │       └── aaaController.java
+                │   │       └── userController.java
                 │   ├── application
                 │   │   ├── facade
-                │   │   │   └── aaaFacade.java
+                │   │   │   └── userFacade.java
                 │   │   ├── service
-                │   │   │   ├── aaaService.java
-                │   │   │   └── aaaServiceImpl.java
+                │   │   │   ├── userService.java
+                │   │   │   └── userServiceImpl.java
                 │   │   ├── dto
-                │   │   │   ├── aaaRequestDto.java
-                │   │   │   └── aaaResponseDto.java
+                │   │   │   ├── userRequestDto.java
+                │   │   │   └── userResponseDto.java
                 │   │   ├── exception
-                │   │   │   └── aaaNotFoundException.java
+                │   │   │   └── userNotFoundException.java
                 │   │   └── mapper                 
-                │   │       └── aaaMapper.java     
+                │   │       └── userMapper.java     
                 │   ├── infrastructure
                 │   │   ├── repository
-                │   │   │   └── aaaRepository.java
+                │   │   │   └── userRepository.java
                 │   │   └── external
-                │   │       └── aaaExternalApi.java // 외부 api
+                │   │       └── userExternalApi.java // 외부 api
                 │   └── domain
                 │       ├── entity
-                │       │   └── aaa.java
+                │       │   └── user.java
                 │       └── enum
-                │           └── aaaStatus.java
-                ├── bbb
+                │           └── userStatus.java
+                ├── designer
                 ├── ...
                 └── DuriApplication
 ```
