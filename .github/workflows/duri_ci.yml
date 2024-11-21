@@ -1,0 +1,39 @@
+name: DuriBeCI
+
+# PR 생성 트리거
+on:
+  pull_request:
+    branches: [ "develop" ]
+
+# BUILD 작업
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      # 1. 소스 가져오기
+      - uses: actions/checkout@v4
+      # 2. Java 17 설정
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      # 3. gradle 빌드 캐싱 (변화 있을 때만 캐시 갱신)
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+        # 4. gradle 권한 부여
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+        # 5. 코드 스타일 수행
+      - name: Code style check with Google Java Style
+        run: ./gradlew spotlessCheck
