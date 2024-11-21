@@ -1,10 +1,10 @@
-package kr.com.duri;
+package kr.com;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DuriApplicationTests {
+class MainApplicationTests {
 
 	@Test
 	void contextLoads() {
