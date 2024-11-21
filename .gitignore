@@ -35,3 +35,11 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Mac OS ###
+.DS_Store
+
+### application.properties ##
+application.properties
+
+/node_modules/
