@@ -53,6 +53,7 @@ subprojects {
 
 	repositories {
 		mavenCentral()
+		maven { url 'https://jitpack.io' } // JitPack 리포지토리 추가
 	}
 
 	spotless{
@@ -82,5 +83,8 @@ subprojects {
 		//JPA
 		runtimeOnly 'com.mysql:mysql-connector-j'
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+		//Swagger
+		implementation 'com.github.Swaggy-Swagger:swagger-custom-java:1.0.1'
 	}
 }
