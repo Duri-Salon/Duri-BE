@@ -1,10 +1,11 @@
 package kr.com.duri.common.response;
 
-import lombok.Data;
-import org.springframework.http.HttpStatus;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import lombok.Data;
+
+import org.springframework.http.HttpStatus;
 
 @Data
 public class CommonResponseEntity<T> {

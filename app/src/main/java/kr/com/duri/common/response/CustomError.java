@@ -1,6 +1,7 @@
 package kr.com.duri.common.response;
 
 import lombok.Data;
+
 import org.springframework.http.HttpStatus;
 
 @Data
@@ -17,4 +18,3 @@ public class CustomError {
         this.status = status.value();
     }
 }
-

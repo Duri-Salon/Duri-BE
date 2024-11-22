@@ -1,6 +1,7 @@
 package kr.com.duri.client.external;
 
 import io.swaggy.swagger.customlib.config.SwaggyConfig;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
