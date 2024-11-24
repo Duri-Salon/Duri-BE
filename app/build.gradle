@@ -11,12 +11,8 @@ repositories {
     mavenCentral()
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src/main/java']
-        }
-    }
+tasks.named('bootJar') {
+    mainClass.set('kr.com.duri.MainApplication')
 }
 
 
