@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'org.springframework.boot' // Spring Boot 플러그인 추가
+    id 'io.spring.dependency-management' // Dependency Management 추가
 }
 
 group = 'kr.com'
@@ -10,6 +12,16 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web' // Spring Boot 의존성 추가
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('bootJar') {
+    mainClass.set('kr.com.duri.MainApplication') // MainApplication 설정
 }
 
 test {
