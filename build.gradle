@@ -36,6 +36,7 @@ dependencies {
 tasks.named('bootJar') {
 	mainClass = 'kr.com.duri.MainApplication'
 }
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
