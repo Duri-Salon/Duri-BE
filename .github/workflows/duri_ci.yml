@@ -1,4 +1,4 @@
-name: DuriBeCI
+name: Duri-Be Server CI
 
 # PR 생성 트리거
 on:
@@ -21,7 +21,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      # 3. gradle 빌드 캐싱 (변화 있을 때만 캐시 갱신)
+      # 3. gradle 빌드 캐싱
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -31,9 +31,15 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-        # 4. gradle 권한 부여
+      # 4. gradle 권한 부여
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-        # 5. 코드 스타일 수행
+      # 5. 코드 스타일 체크
       - name: Code style check with Google Java Style
         run: ./gradlew spotlessCheck
+      # 6. 빌드
+      - name: Build with Gradle
+        run: ./gradlew build
+      # 7. 압축
+      - name: Make zip file
+        run: zip -r duri-git-build.zip ./app/build/libs/
