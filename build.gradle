@@ -79,16 +79,15 @@ subprojects {
 		testImplementation platform('org.junit:junit-bom:5.10.0')
 		testImplementation 'org.junit.jupiter:junit-jupiter'
 		testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
 		developmentOnly 'org.springframework.boot:spring-boot-devtools'
 		implementation 'org.springframework.boot:spring-boot-starter-validation'
-		// lombok
+		// Lombok
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
-		// jpa
+		// Jpa
 		runtimeOnly 'com.mysql:mysql-connector-j'
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-		// swagger
+		// Swagger
 		implementation 'com.github.Swaggy-Swagger:swagger-custom-java:1.0.1'
 
 	}
