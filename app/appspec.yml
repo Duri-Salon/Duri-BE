@@ -19,3 +19,9 @@ hooks:
     - location: /home/ubuntu/duri/scripts/deploy.sh
       timeout: 60
       runas: ubuntu
+    - location: /bin/bash
+      args:
+        - -c
+        - "chmod +x /home/ubuntu/duri/scripts/deploy.sh"
+      timeout: 60
+      runas: ubuntu

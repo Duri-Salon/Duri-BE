@@ -9,7 +9,7 @@ cd $REPOSITORY
 # 2. JAR 파일 찾기
 JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep 'SNAPSHOT.jar' | tail -n 1)
 JAR_PATH=$REPOSITORY/build/libs/$JAR_NAME
-echo "jar 파일 배포 성공"
+echo "> jar 파일 배포 성공 : " + $JAR_NAME
 
 # 3. 현재 실행 중인 프로세스 찾아서 종료
 CURRENT_PID=$(pgrep -f $APP_NAME)
