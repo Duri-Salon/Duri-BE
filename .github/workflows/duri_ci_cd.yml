@@ -56,6 +56,7 @@ jobs:
           mkdir -p duri/build
           cp ./app/appspec.yml ./duri
           cp -r ./app/scripts ./duri
+          chmod +x ./duri/scripts/deploy.sh
           cp -r ./app/build/libs ./duri/build
           cd duri
           zip -r ../duri-git-build.zip *

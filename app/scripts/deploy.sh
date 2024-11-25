@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+chmod +x /home/ubuntu/duri/scripts/deploy.sh
+
 APP_NAME=app
 
 # 1. 배포 파일 경로 이동
