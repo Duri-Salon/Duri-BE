@@ -57,7 +57,8 @@ jobs:
           cp ./app/appspec.yml ./duri
           cp -r ./app/scripts ./duri
           cp -r ./app/build ./duri
-          zip -r duri-git-build.zip ./duri
+          cd duri
+          zip -r ../duri-git-build.zip *
       # 8. AWS 연결
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

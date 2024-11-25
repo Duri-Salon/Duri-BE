@@ -3,7 +3,7 @@
 APP_NAME=app
 
 # 배포 파일 경로 이동
-REPOSITORY=/home/ubuntu
+REPOSITORY=/home/ubuntu/duri
 cd $REPOSITORY
 
 # 1. 압축 해제
