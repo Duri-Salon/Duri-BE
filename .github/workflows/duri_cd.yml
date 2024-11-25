@@ -1,0 +1,40 @@
+name : Duri-Be Server CD
+
+on:
+  workflow_run:
+    workflows: ["Duri-Be Server CI"]
+    types:
+      - completed
+
+permissions:
+  contents: read
+
+env:
+  S3_BUCKET_NAME: duri-cicd-bucket
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1. AWS 연결
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.DURI_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.DURI_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      # 2. S3 전송
+      - name: Upload to S3
+        run: |
+          if [ ! -f ./duri-git-build.zip ]; then
+            echo "Build file not found!"
+            exit 1
+          fi
+          aws s3 cp ./duri-git-build.zip s3://$S3_BUCKET_NAME/duri-aws-build.zip
+
+      # 3. EC2 배포 스크립트 실행
