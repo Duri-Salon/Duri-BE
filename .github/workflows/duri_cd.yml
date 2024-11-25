@@ -1,4 +1,4 @@
-name : Duri-Be Server CD
+name: Duri-Be Server CD
 
 on:
   workflow_run:
