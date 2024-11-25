@@ -32,6 +32,12 @@ dependencies {
 	testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
+//bootJar설정
+tasks.named('bootJar') {
+	mainClass.set('kr.com.duri.MainApplication')
+}
+
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
@@ -53,6 +59,7 @@ subprojects {
 
 	repositories {
 		mavenCentral()
+		maven { url 'https://jitpack.io' } // JitPack 리포지토리 추가
 	}
 
 	spotless{
@@ -68,13 +75,21 @@ subprojects {
 	dependencies {
 		implementation 'org.springframework.boot:spring-boot-starter-web'
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		implementation 'org.springframework.boot:spring-boot-starter-web-services'
 		testImplementation platform('org.junit:junit-bom:5.10.0')
 		testImplementation 'org.junit.jupiter:junit-jupiter'
+		testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+		developmentOnly 'org.springframework.boot:spring-boot-devtools'
+		implementation 'org.springframework.boot:spring-boot-starter-validation'
 		// lombok
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
 		// jpa
+		runtimeOnly 'com.mysql:mysql-connector-j'
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+		// swagger
+		implementation 'com.github.Swaggy-Swagger:swagger-custom-java:1.0.1'
 
 	}
 }
