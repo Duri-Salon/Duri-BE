@@ -52,7 +52,12 @@ jobs:
         run: ./gradlew build
       # 7. 압축 
       - name: Make zip file
-        run: zip -r duri-git-build.zip ./app/build/libs/
+        run: |
+          mkdir ci_cd
+          cp ./app/appspec.yml ./ci_cd
+          cp -r ./app/scripts ./ci_cd
+          cp -r ./app/build/libs/ ./ci_cd
+          zip -r duri-git-build.zip ./ci_cd
       # 8. AWS 연결
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
