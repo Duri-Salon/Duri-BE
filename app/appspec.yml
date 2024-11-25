@@ -2,6 +2,8 @@ version: 0.0
 os: linux
 
 files:
+  - source: /duri-aws-build.zip
+    destination: /home/ubuntu/duri
   - source: /appspec.yml
     destination: /home/ubuntu/duri
   - source: /scripts
