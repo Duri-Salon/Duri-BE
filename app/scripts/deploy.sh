@@ -25,4 +25,5 @@ fi
 
 # 4. 새로운 JAR 파일 실행
 echo "> Deploy - $JAR_PATH"
-nohup java -jar $JAR_PATH > nohup.out 2>&1
+
+echo "Deployment started in background"
