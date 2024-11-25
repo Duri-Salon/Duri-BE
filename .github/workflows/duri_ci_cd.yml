@@ -53,10 +53,10 @@ jobs:
       # 7. 압축 
       - name: Make zip file
         run: |
-          mkdir duri
+          mkdir -p duri/build
           cp ./app/appspec.yml ./duri
           cp -r ./app/scripts ./duri
-          cp -r ./app/build ./duri
+          cp -r ./app/build/libs ./duri/build
           cd duri
           zip -r ../duri-git-build.zip *
       # 8. AWS 연결
