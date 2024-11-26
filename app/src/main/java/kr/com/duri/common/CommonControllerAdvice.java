@@ -5,8 +5,8 @@ import kr.com.duri.common.exception.IllegalParameterException;
 import kr.com.duri.common.exception.NotFoundException;
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.common.response.CustomError;
-
 import kr.com.duri.groomer.exception.ShopNotFoundException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
