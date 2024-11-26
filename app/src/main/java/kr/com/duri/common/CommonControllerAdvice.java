@@ -5,6 +5,7 @@ import kr.com.duri.common.exception.IllegalParameterException;
 import kr.com.duri.common.exception.NotFoundException;
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.common.response.CustomError;
+import kr.com.duri.groomer.exception.GroomerNotFoundException;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
 
 import org.springframework.http.HttpHeaders;
@@ -39,6 +40,11 @@ public class CommonControllerAdvice {
 
     @ExceptionHandler(ShopNotFoundException.class)
     public ResponseEntity<?> handleShopNotFoundException(ShopNotFoundException e) {
+        return response(e, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(GroomerNotFoundException.class)
+    public ResponseEntity<?> handleGroomerNotFoundException(GroomerNotFoundException e) {
         return response(e, HttpStatus.NOT_FOUND);
     }
 

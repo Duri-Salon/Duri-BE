@@ -33,12 +33,6 @@ public class Quotation extends BaseEntity {
     @Column(name = "quotation_price")
     private String price; // 견적 금액
 
-    @Column(name = "quotation_add_menu")
-    private String addMenu; // 추가 미용 메뉴
-
-    @Column(name = "quotation_special_menu")
-    private String specialMenu; // 스페셜케어
-
     @Column(name = "quotation_memo", columnDefinition = "TEXT")
     private String memo; // 메모
 
