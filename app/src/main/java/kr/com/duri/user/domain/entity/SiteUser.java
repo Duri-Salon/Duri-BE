@@ -49,12 +49,15 @@ public class SiteUser extends BaseEntity {
     @Column(name = "user_birth")
     private String birth; // 생년월일
 
+    @Builder.Default
     @Column(name = "user_provider")
     private String provider = "Naver"; // 가입경로(소셜 종류)
 
+    @Builder.Default
     @Column(name = "user_active")
     private Boolean active = true; // 휴면 여부(T활성화, F비활성화)
 
+    @Builder.Default
     @Column(name = "user_stamp", columnDefinition = "INT DEFAULT 0")
     private Integer stamp = 0; // 도장 개수(기본값 0)
 }

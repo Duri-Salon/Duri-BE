@@ -1,6 +1,7 @@
 package kr.com.duri.user.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import kr.com.duri.user.domain.entity.Request;
 
@@ -18,4 +19,6 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
                     + "JOIN FETCH q.pet p "
                     + "WHERE r.shop.id = :shopId AND r.status = 'WAITING'")
     List<Request> findNewRequestsByShopId(@Param("shopId") Long shopId);
+
+    Optional<Request> findById(Long requestId);
 }
