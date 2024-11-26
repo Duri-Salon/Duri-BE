@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/groomer/requests")
+@RequestMapping("/api/v1/groomer/quotations")
 public class QuotationController {
 
     private final QuotationFacade quotationFacade;
