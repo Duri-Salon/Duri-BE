@@ -1,0 +1,21 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /appspec.yml
+    destination: /home/ubuntu/duri
+  - source: /scripts
+    destination: /home/ubuntu/duri/scripts/
+  - source: /build/libs
+    destination: /home/ubuntu/duri/build/libs/
+
+permissions:
+  - object: /home/ubuntu/duri/
+    owner: ubuntu
+    group: ubuntu
+
+hooks:
+  AfterInstall:
+    - location: /scripts/deploy.sh
+      timeout: 300
+      runas: ubuntu
