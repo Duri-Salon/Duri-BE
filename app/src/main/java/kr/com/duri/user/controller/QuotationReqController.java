@@ -18,7 +18,7 @@ public class QuotationReqController {
     private final QuotationReqFacade quotationFacade;
 
     // 새로운 견적 요청서 리스트
-    @GetMapping("/")
+    @GetMapping("/new")
     public CommonResponseEntity<List<NewQuotationReqResponse>> getNewRequests(
             @RequestParam Long shopId) {
         return CommonResponseEntity.success(quotationFacade.getNewRequests(shopId));
