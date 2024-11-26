@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/user/quotation/request")
+@RequestMapping("/api/v1/quotation/request")
 public class QuotationReqController {
 
     private final QuotationReqFacade quotationFacade;
