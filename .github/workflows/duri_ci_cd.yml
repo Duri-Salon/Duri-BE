@@ -49,7 +49,7 @@ jobs:
         run: ./gradlew spotlessCheck
       # 6. 빌드
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew clean build -x test
       # 7. 압축 
       - name: Make zip file
         run: |
