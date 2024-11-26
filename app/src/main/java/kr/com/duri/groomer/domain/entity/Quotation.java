@@ -31,7 +31,7 @@ public class Quotation extends BaseEntity {
     private Request request; // 견적 요청 ID (FK)
 
     @Column(name = "quotation_price")
-    private Integer price; // 견적 금액
+    private String price; // 견적 금액
 
     @Column(name = "quotation_add_menu")
     private String addMenu; // 추가 미용 메뉴

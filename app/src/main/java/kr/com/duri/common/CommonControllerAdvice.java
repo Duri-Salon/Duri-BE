@@ -5,6 +5,7 @@ import kr.com.duri.common.exception.IllegalParameterException;
 import kr.com.duri.common.exception.NotFoundException;
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.common.response.CustomError;
+import kr.com.duri.groomer.exception.ShopNotFoundException;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class CommonControllerAdvice {
+
     private ResponseEntity<CommonResponseEntity<Object>> response(
             Throwable throwable, HttpStatus status) {
         HttpHeaders headers = new HttpHeaders();
@@ -31,7 +33,12 @@ public class CommonControllerAdvice {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<?> handleExceptionForBadRequest(Exception e) {
+    public ResponseEntity<?> handleExceptionForNotFound(Exception e) {
+        return response(e, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ShopNotFoundException.class)
+    public ResponseEntity<?> handleShopNotFoundException(ShopNotFoundException e) {
         return response(e, HttpStatus.NOT_FOUND);
     }
 
