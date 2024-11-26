@@ -13,7 +13,7 @@ public class QuotationMapper {
         Pet pet = request.getQuotation().getPet();
 
         return NewQuotationResponse.builder()
-                .quotationReqId(request.getQuotation().getId()) // 견적요청서 ID
+                .requestId(request.getId()) // 요청 ID
                 .userId(pet.getUser().getId()) // user ID
                 .petId(pet.getId()) // 애완견 ID
                 .petImage(pet.getImage()) // 애완견 사진

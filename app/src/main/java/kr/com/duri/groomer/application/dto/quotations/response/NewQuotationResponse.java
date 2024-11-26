@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class NewQuotationResponse {
-    private Long quotationReqId; // 요청서 ID
+    private Long requestId; // 요청 ID
     private Long userId; // 고객 ID
     private Long petId; // 애완견 ID
     private String petImage; // 강아지 이미지
