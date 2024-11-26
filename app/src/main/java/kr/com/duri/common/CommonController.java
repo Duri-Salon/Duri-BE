@@ -13,12 +13,12 @@ public class CommonController {
 
     @GetMapping("/success")
     public CommonResponseEntity<String> getSuccessExample() {
-        String data = "이것은 성공 메시지입니다.";
+        String data = "이것은 성공 메시지입니다..";
         return CommonResponseEntity.success(data);
     }
 
     @GetMapping("/error")
     public CommonResponseEntity<Object> getErrorExample() {
-        return CommonResponseEntity.error(HttpStatus.INTERNAL_SERVER_ERROR, "이것은 실패 메시지입니다.");
+        return CommonResponseEntity.error(HttpStatus.INTERNAL_SERVER_ERROR, "이것은 실패 메시지입니다..");
     }
 }
