@@ -1,4 +1,4 @@
-package kr.com.duri.groomer.application.dto.quotations.response;
+package kr.com.duri.user.application.dto.response;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class NewQuotationResponse {
+public class NewQuotationReqResponse {
     private Long requestId; // 요청 ID
     private Long userId; // 고객 ID
     private Long petId; // 애완견 ID
