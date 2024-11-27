@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/quotation/request")
 public class QuotationReqController {
 
-    private final QuotationReqFacade quotationFacade;
+    private final QuotationReqFacade quotationReqFacade;
 
     // 새로운 견적 요청서 리스트
     @GetMapping("/new")
     public CommonResponseEntity<List<NewQuotationReqResponse>> getNewRequests(
             @RequestParam Long shopId) {
-        return CommonResponseEntity.success(quotationFacade.getNewRequests(shopId));
+        return CommonResponseEntity.success(quotationReqFacade.getNewRequests(shopId));
     }
 
     // 견적 요청 상세 정보
     @GetMapping("/{requestId}")
     public CommonResponseEntity<NewQuotationReqDetailResponse> getQuotationReqDetail(
             @PathVariable Long requestId) {
-        return CommonResponseEntity.success(quotationFacade.getQuotationReqDetail(requestId));
+        return CommonResponseEntity.success(quotationReqFacade.getQuotationReqDetail(requestId));
     }
 }
