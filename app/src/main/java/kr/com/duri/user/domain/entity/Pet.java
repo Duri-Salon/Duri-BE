@@ -57,4 +57,5 @@ public class Pet extends BaseEntity {
 
     @Column(name = "last_grooming")
     private Date lastGrooming; // 마지막 미용 일자
+
 }
