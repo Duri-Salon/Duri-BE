@@ -21,6 +21,7 @@ public class PetDetailResponse {
     private String breed; // 견종
     private Integer weight; // 몸무게
     private Boolean neutering; // 중성화 여부
-    private Boolean biting; // 입질 여부
+    private String character; // 성격 정보
+    private String diseases; // 질환 정보
     private Date lastGrooming; // 마지막 미용 일자
 }
