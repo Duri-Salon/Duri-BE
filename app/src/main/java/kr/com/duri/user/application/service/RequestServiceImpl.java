@@ -1,0 +1,27 @@
+package kr.com.duri.user.application.service;
+
+import kr.com.duri.user.domain.entity.Request;
+import kr.com.duri.user.exception.RequestNotFoundException;
+import kr.com.duri.user.repository.RequestRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class RequestServiceImpl implements RequestService {
+
+    private final RequestRepository requestRepository;
+
+    @Override
+    public Request getRequestById(Long requestId) {
+        return requestRepository.findById(requestId)
+                .orElseThrow(() -> new RequestNotFoundException("견적 요청을 찾을 수 없습니다."));
+    }
+
+    @Override
+    public List<Request> getNewRequestsByShopId(Long shopId) {
+        return requestRepository.findNewRequestsByShopId(shopId);
+    }
+}

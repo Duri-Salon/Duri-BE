@@ -16,20 +16,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class QuotationServiceImpl implements QuotationService {
 
-    private final RequestRepository requestRepository;
     private final QuotationRepository quotationRepository;
     private final QuotationMapper quotationMapper;
 
     @Override
-    public void saveQuotation(QuotationRequest quotationRequest) {
+    public void saveQuotation(Request request, QuotationRequest quotationRequest) {
 
-        Request request =
-                requestRepository
-                        .findById(quotationRequest.getRequestId())
-                        .orElseThrow(() -> new RequestNotFoundException("해당 요청 ID를 찾을 수 없습니다."));
-
-        boolean existsQuotation =
-                quotationRepository.existsByRequestId(quotationRequest.getRequestId());
+        boolean existsQuotation = quotationRepository.existsByRequestId(quotationRequest.getRequestId());
         if (existsQuotation) {
             throw new QuotationExistsException("해당 요청 ID에 대한 견적이 이미 존재합니다.");
         }
