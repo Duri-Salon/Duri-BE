@@ -17,5 +17,3 @@ public class NewQuotationReqDetailResponse {
     private GroomerDetailResponse groomer; // 디자이너 정보
     private MenuDetailResponse quotationDetails; // 견적 요청 사항
 }
-
-

@@ -1,7 +1,6 @@
 package kr.com.duri.user.application.dto.response;
 
 import java.util.Date;
-import java.util.List;
 
 import kr.com.duri.user.domain.Enum.Gender;
 import lombok.AllArgsConstructor;

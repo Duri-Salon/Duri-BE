@@ -1,9 +1,7 @@
 package kr.com.duri.user.application.mapper;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
+import java.util.List;
+
 import kr.com.duri.groomer.application.dto.response.GroomerDetailResponse;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.user.application.dto.response.MenuDetailResponse;
@@ -15,7 +13,9 @@ import kr.com.duri.user.domain.entity.Request;
 
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 
 @Component
 public class QuotationReqMapper {
@@ -30,7 +30,11 @@ public class QuotationReqMapper {
     private String parseJsonArray(String jsonString) {
         try {
             // 문자열로 저장된 JSON 배열을 List<String>으로 변환
-            List<String> list = objectMapper.readValue(jsonString, TypeFactory.defaultInstance().constructCollectionType(List.class, String.class));
+            List<String> list =
+                    objectMapper.readValue(
+                            jsonString,
+                            TypeFactory.defaultInstance()
+                                    .constructCollectionType(List.class, String.class));
             // 다시 JSON 형식의 문자열로 변환하여 리턴
             return objectMapper.writeValueAsString(list);
         } catch (JsonProcessingException e) {
@@ -70,7 +74,7 @@ public class QuotationReqMapper {
                         .breed(pet.getBreed()) // 강아지 견종
                         .weight(pet.getWeight()) // 강아지 몸무게
                         .neutering(pet.getNeutering()) // 강아지 중성화
-                        .character(parseJsonArray(pet.getCharacter())) //강아지 성격 정보
+                        .character(parseJsonArray(pet.getCharacter())) // 강아지 성격 정보
                         .diseases(parseJsonArray(pet.getDiseases())) // 강아지 질환 정보
                         .lastGrooming(pet.getLastGrooming()) // 강아지 마지막 미용일자
                         .build();
