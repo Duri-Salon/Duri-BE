@@ -19,13 +19,15 @@ public class QuotationReqController {
 
     // 새로운 견적 요청서 리스트
     @GetMapping("/new")
-    public CommonResponseEntity<List<NewQuotationReqResponse>> getNewRequests(@RequestParam Long shopId) {
+    public CommonResponseEntity<List<NewQuotationReqResponse>> getNewRequests(
+            @RequestParam Long shopId) {
         return CommonResponseEntity.success(quotationReqFacade.getNewRequests(shopId));
     }
 
     // 견적 요청 상세 정보
     @GetMapping("/{requestId}")
-    public CommonResponseEntity<NewQuotationReqDetailResponse> getQuotationReqDetail(@PathVariable Long requestId) {
+    public CommonResponseEntity<NewQuotationReqDetailResponse> getQuotationReqDetail(
+            @PathVariable Long requestId) {
         return CommonResponseEntity.success(quotationReqFacade.getQuotationReqDetail(requestId));
     }
 }

@@ -6,8 +6,6 @@ import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.exception.QuotationExistsException;
 import kr.com.duri.groomer.repository.QuotationRepository;
 import kr.com.duri.user.domain.entity.Request;
-import kr.com.duri.user.exception.RequestNotFoundException;
-import kr.com.duri.user.repository.RequestRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -22,7 +20,8 @@ public class QuotationServiceImpl implements QuotationService {
     @Override
     public void saveQuotation(Request request, QuotationRequest quotationRequest) {
 
-        boolean existsQuotation = quotationRepository.existsByRequestId(quotationRequest.getRequestId());
+        boolean existsQuotation =
+                quotationRepository.existsByRequestId(quotationRequest.getRequestId());
         if (existsQuotation) {
             throw new QuotationExistsException("해당 요청 ID에 대한 견적이 이미 존재합니다.");
         }
