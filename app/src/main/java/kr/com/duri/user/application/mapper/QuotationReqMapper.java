@@ -1,5 +1,9 @@
 package kr.com.duri.user.application.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import kr.com.duri.groomer.application.dto.response.GroomerDetailResponse;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.user.application.dto.response.MenuDetailResponse;
@@ -11,8 +15,28 @@ import kr.com.duri.user.domain.entity.Request;
 
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class QuotationReqMapper {
+
+    private final ObjectMapper objectMapper;
+
+    public QuotationReqMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+    // JSON 문자열을 List<String>로 변환하는 메서드
+    private String parseJsonArray(String jsonString) {
+        try {
+            // 문자열로 저장된 JSON 배열을 List<String>으로 변환
+            List<String> list = objectMapper.readValue(jsonString, TypeFactory.defaultInstance().constructCollectionType(List.class, String.class));
+            // 다시 JSON 형식의 문자열로 변환하여 리턴
+            return objectMapper.writeValueAsString(list);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("JSON 문자열을 리스트로 변환할 수 없습니다.", e);
+        }
+    }
 
     public NewQuotationReqResponse toNewQuotationResponse(Request request) {
         Pet pet = request.getQuotation().getPet();
@@ -26,7 +50,8 @@ public class QuotationReqMapper {
                 .petAge(pet.getAge()) // 애완견 나이
                 .petBreed(pet.getBreed()) // 애완견 견종
                 .petNeutering(pet.getNeutering()) // 특이사항1 - 중성화여부
-                .petBiting(pet.getBiting()) // 특이사항2 - 입질여부
+                .petCharacter(parseJsonArray(pet.getCharacter())) // 특이사항2 - 성격
+                .petDiseases(parseJsonArray(pet.getDiseases())) // 특이사항3 - 질환 정보
                 .requestCreatedAt(request.getCreatedAt()) // 요청 생성일
                 .build();
     }
@@ -44,8 +69,9 @@ public class QuotationReqMapper {
                         .gender(pet.getGender()) // 강아지 성별
                         .breed(pet.getBreed()) // 강아지 견종
                         .weight(pet.getWeight()) // 강아지 몸무게
-                        .neutering(pet.getNeutering()) // 강아지 중성화 여부
-                        .biting(pet.getBiting()) // 강아지 입질 여부
+                        .neutering(pet.getNeutering()) // 강아지 중성화
+                        .character(parseJsonArray(pet.getCharacter())) //강아지 성격 정보
+                        .diseases(parseJsonArray(pet.getDiseases())) // 강아지 질환 정보
                         .lastGrooming(pet.getLastGrooming()) // 강아지 마지막 미용일자
                         .build();
 

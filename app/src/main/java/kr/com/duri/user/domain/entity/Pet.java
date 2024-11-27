@@ -24,39 +24,34 @@ public class Pet extends BaseEntity {
     @Column(name = "pet_id")
     private Long id; // 반려견 ID
 
-    @NotBlank
     @ManyToOne
     @JoinColumn(name = "user_id")
     private SiteUser user; // 고객 ID (FK, 1:N 관계)
 
-    @NotBlank
     @Column(name = "pet_name")
     private String name; // 펫 이름
 
-    @NotBlank
     @Column(name = "pet_breed")
     private String breed; // 펫 견종
 
-    @NotBlank
     @Column(name = "pet_age")
     private Integer age; // 펫 나이
 
-    @NotBlank
     @Column(name = "pet_weight")
     private Integer weight; // 펫 몸무게
 
-    @NotBlank
     @Column(name = "pet_gender")
     @Enumerated(EnumType.STRING)
     private Gender gender; // 펫 성별
 
-    @NotBlank
     @Column(name = "pet_neutering")
     private Boolean neutering; // 중성화 여부(T중성화, F중성화안함)
 
-    @NotBlank
-    @Column(name = "pet_biting")
-    private Boolean biting; // 입질 여부(T입질있음, F입질없음)
+    @Column(name = "pet_character", columnDefinition = "TEXT")
+    private String character; // 성격
+
+    @Column(name = "pet_diseases", columnDefinition = "TEXT")
+    private String diseases; // 질환 정보
 
     @Column(name = "pet_memo", columnDefinition = "TEXT")
     private String memo; // 메모
