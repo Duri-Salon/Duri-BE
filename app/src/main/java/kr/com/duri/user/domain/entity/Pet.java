@@ -46,14 +46,11 @@ public class Pet extends BaseEntity {
     @Column(name = "pet_neutering")
     private Boolean neutering; // 중성화 여부(T중성화, F중성화안함)
 
-    @Column(name = "pet_character", columnDefinition = "TEXT")
+    @Column(name = "pet_character")
     private String character; // 성격
 
-    @Column(name = "pet_diseases", columnDefinition = "TEXT")
+    @Column(name = "pet_diseases")
     private String diseases; // 질환 정보
-
-    @Column(name = "pet_memo", columnDefinition = "TEXT")
-    private String memo; // 메모
 
     @Column(name = "pet_image_url")
     private String image; // 펫 이미지 URL
