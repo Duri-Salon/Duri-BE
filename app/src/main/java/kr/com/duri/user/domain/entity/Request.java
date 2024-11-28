@@ -1,7 +1,6 @@
 package kr.com.duri.user.domain.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import kr.com.duri.common.entity.BaseEntity;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.user.domain.Enum.QuotationStatus;
@@ -35,7 +34,7 @@ public class Request extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private QuotationStatus status; // 상태 (대기(W), 승인(A), 만료(E))
 
-    //APPROVED로 상태변화
+    // APPROVED로 상태변화
     public Request withApprovedStatus() {
         return Request.builder()
                 .id(this.id)
