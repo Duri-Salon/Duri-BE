@@ -21,5 +21,8 @@ public class QuotationFacade {
 
         // 2. QuotationService를 사용하여 견적서 저장
         quotationService.saveQuotation(request, quotationRequest);
+
+        // 3. 요청 상태를 APPROVED로 업데이트
+        requestService.updateRequestStatusToApproved(request.getId());
     }
 }

@@ -8,4 +8,6 @@ public interface RequestService {
     Request getRequestById(Long requestId);
 
     List<Request> getNewRequestsByShopId(Long shopId);
+
+    void updateRequestStatusToApproved(Long requestId);
 }
