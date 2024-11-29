@@ -1,9 +1,10 @@
 package kr.com.duri.user.application.service;
 
-import kr.com.duri.groomer.domain.entity.Groomer;
-import kr.com.duri.user.application.dto.response.NewQuotationReqDetailResponse;
-import kr.com.duri.user.application.mapper.QuotationReqMapper;
+import java.util.List;
+
 import kr.com.duri.user.domain.entity.Request;
+import kr.com.duri.user.exception.RequestNotFoundException;
+import kr.com.duri.user.repository.RequestRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -12,10 +13,24 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class QuotationReqServiceImpl implements QuotationReqService {
 
-    private final QuotationReqMapper quotationMapper;
+    private final RequestRepository requestRepository;
 
     @Override
-    public NewQuotationReqDetailResponse getQuotationReqDetail(Request request, Groomer groomer) {
-        return quotationMapper.toQuotationReqDetailResponse(request, groomer);
+    public Request getRequestById(Long requestId) {
+        return requestRepository
+                .findById(requestId)
+                .orElseThrow(() -> new RequestNotFoundException("견적 요청을 찾을 수 없습니다."));
+    }
+
+    @Override
+    public List<Request> getNewRequestsByShopId(Long shopId) {
+        return requestRepository.findNewRequestsByShopId(shopId);
+    }
+
+    @Override
+    public void updateRequestStatusToApproved(Long requestId) {
+        Request existingRequest = getRequestById(requestId);
+        Request updatedRequest = existingRequest.withApprovedStatus();
+        requestRepository.save(updatedRequest);
     }
 }

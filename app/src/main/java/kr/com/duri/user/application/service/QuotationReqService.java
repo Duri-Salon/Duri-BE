@@ -1,9 +1,13 @@
 package kr.com.duri.user.application.service;
 
-import kr.com.duri.groomer.domain.entity.Groomer;
-import kr.com.duri.user.application.dto.response.NewQuotationReqDetailResponse;
+import java.util.List;
+
 import kr.com.duri.user.domain.entity.Request;
 
 public interface QuotationReqService {
-    NewQuotationReqDetailResponse getQuotationReqDetail(Request request, Groomer groomer);
+    Request getRequestById(Long requestId);
+
+    List<Request> getNewRequestsByShopId(Long shopId);
+
+    void updateRequestStatusToApproved(Long requestId);
 }

@@ -10,7 +10,6 @@ import kr.com.duri.user.application.dto.response.NewQuotationReqDetailResponse;
 import kr.com.duri.user.application.dto.response.NewQuotationReqResponse;
 import kr.com.duri.user.application.mapper.QuotationReqMapper;
 import kr.com.duri.user.application.service.QuotationReqService;
-import kr.com.duri.user.application.service.RequestService;
 import kr.com.duri.user.domain.entity.Request;
 import lombok.RequiredArgsConstructor;
 
@@ -20,19 +19,24 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class QuotationReqFacade {
 
-    private final RequestService requestService;
+    private final QuotationReqService requestService;
     private final GroomerService groomerService;
-    private final QuotationReqService quotationReqService;
-    private final QuotationReqMapper quotationMapper;
+    private final QuotationReqMapper quotationReqMapper;
 
     // 새로운 견적 요청서 리스트
     public List<NewQuotationReqResponse> getNewRequests(Long shopId) {
-        List<Request> requests = requestService.getNewRequestsByShopId(shopId);
-        if (requests.isEmpty()) {
+        // 1. shopId 유효성 확인
+        boolean shopExists = groomerService.existsByShopId(shopId);
+        if (!shopExists) {
             throw new ShopNotFoundException("해당하는 미용업체가 없습니다.");
         }
+
+        // 2. WAITING 상태의 요청 조회
+        List<Request> requests = requestService.getNewRequestsByShopId(shopId);
+
+        // 3. 요청 목록을 응답 DTO로 변환
         return requests.stream()
-                .map(quotationMapper::toNewQuotationResponse)
+                .map(quotationReqMapper::toNewQuotationResponse)
                 .collect(Collectors.toList());
     }
 
@@ -45,7 +49,8 @@ public class QuotationReqFacade {
         // shopId로 groomer찾기
         Groomer groomer = groomerService.getGroomerByShopId(shopId);
 
-        // 엔티티를 DTO로 변환
-        return quotationReqService.getQuotationReqDetail(request, groomer);
+        // 3. Mapper를 사용하여 DTO 생성
+        return quotationReqMapper.toQuotationReqDetailResponse(request, groomer);
     }
 }
+

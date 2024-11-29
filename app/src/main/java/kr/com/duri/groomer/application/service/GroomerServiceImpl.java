@@ -19,4 +19,9 @@ public class GroomerServiceImpl implements GroomerService {
                 .findFirst()
                 .orElseThrow(() -> new GroomerNotFoundException("해당 매장의 미용사를 찾을 수 없습니다."));
     }
+
+    @Override
+    public boolean existsByShopId(Long shopId) {
+        return groomerRepository.existsByShopId(shopId);
+    }
 }
