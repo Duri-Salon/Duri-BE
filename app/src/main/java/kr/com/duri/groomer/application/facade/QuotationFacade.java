@@ -1,6 +1,7 @@
 package kr.com.duri.groomer.application.facade;
 
 import kr.com.duri.groomer.application.dto.request.QuotationRequest;
+import kr.com.duri.groomer.application.dto.request.QuotationUpdateRequest;
 import kr.com.duri.groomer.application.service.QuotationService;
 import kr.com.duri.user.application.service.RequestService;
 import kr.com.duri.user.domain.entity.Request;
@@ -21,5 +22,10 @@ public class QuotationFacade {
 
         // 2. QuotationService를 사용하여 견적서 저장
         quotationService.saveQuotation(request, quotationRequest);
+    }
+
+    public void updateQuotation(Long quotationId, QuotationUpdateRequest quotationUpdateRequest) {
+        // 수정 요청 Service에 전달
+        quotationService.updateQuotation(quotationId, quotationUpdateRequest);
     }
 }

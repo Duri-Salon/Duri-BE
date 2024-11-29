@@ -7,6 +7,7 @@ import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.common.response.CustomError;
 import kr.com.duri.groomer.exception.GroomerNotFoundException;
 import kr.com.duri.groomer.exception.QuotationExistsException;
+import kr.com.duri.groomer.exception.QuotationNotFoundException;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
 import kr.com.duri.user.exception.RequestNotFoundException;
 
@@ -51,7 +52,12 @@ public class CommonControllerAdvice {
     }
 
     @ExceptionHandler(RequestNotFoundException.class)
-    public ResponseEntity<?> handleGroomerNotFoundException(RequestNotFoundException e) {
+    public ResponseEntity<?> handleRequestNotFoundException(RequestNotFoundException e) {
+        return response(e, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(QuotationNotFoundException.class)
+    public ResponseEntity<?> handleQuotationNotFoundException(QuotationNotFoundException e) {
         return response(e, HttpStatus.NOT_FOUND);
     }
 
