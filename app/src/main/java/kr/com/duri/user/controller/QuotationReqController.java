@@ -3,6 +3,7 @@ package kr.com.duri.user.controller;
 import java.util.List;
 
 import kr.com.duri.common.response.CommonResponseEntity;
+import kr.com.duri.user.application.dto.response.ApprovedQuotationReqResponse;
 import kr.com.duri.user.application.dto.response.NewQuotationReqDetailResponse;
 import kr.com.duri.user.application.dto.response.NewQuotationReqResponse;
 import kr.com.duri.user.application.facade.QuotationReqFacade;
@@ -29,5 +30,12 @@ public class QuotationReqController {
     public CommonResponseEntity<NewQuotationReqDetailResponse> getQuotationReqDetail(
             @PathVariable Long requestId) {
         return CommonResponseEntity.success(quotationReqFacade.getQuotationReqDetail(requestId));
+    }
+
+    // 답장한 견적 요청서 리스트
+    @GetMapping("/approved")
+    public CommonResponseEntity<List<ApprovedQuotationReqResponse>> getApprovedRequests(
+            @RequestParam Long shopId) {
+        return CommonResponseEntity.success(quotationReqFacade.getApprovedRequests(shopId));
     }
 }
