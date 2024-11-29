@@ -1,6 +1,7 @@
 package kr.com.duri.groomer.application.facade;
 
 import kr.com.duri.groomer.application.dto.request.QuotationRequest;
+import kr.com.duri.groomer.application.dto.request.QuotationUpdateRequest;
 import kr.com.duri.groomer.application.service.QuotationService;
 import kr.com.duri.user.application.service.RequestService;
 import kr.com.duri.user.domain.entity.Request;
@@ -24,5 +25,10 @@ public class QuotationFacade {
 
         // 3. 요청 상태를 APPROVED로 업데이트
         requestService.updateRequestStatusToApproved(request.getId());
+    }
+
+    public void updateQuotation(Long quotationId, QuotationUpdateRequest quotationUpdateRequest) {
+        // 수정 요청 Service에 전달
+        quotationService.updateQuotation(quotationId, quotationUpdateRequest);
     }
 }

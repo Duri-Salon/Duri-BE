@@ -43,4 +43,14 @@ public class Quotation extends BaseEntity {
 
     @Column(name = "quotation_end_datetime")
     private LocalDateTime endDateTime; // 미용 종료 시간 (YYYY-MM-DD HH:MM)
+
+    // 견적서 수정 메서드
+    public Quotation update(
+            String priceJson, String memo, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        this.price = priceJson;
+        this.memo = memo;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        return this;
+    }
 }

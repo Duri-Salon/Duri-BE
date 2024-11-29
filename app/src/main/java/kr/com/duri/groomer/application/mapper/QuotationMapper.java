@@ -2,6 +2,7 @@ package kr.com.duri.groomer.application.mapper;
 
 import kr.com.duri.groomer.application.dto.request.PriceDetailRequest;
 import kr.com.duri.groomer.application.dto.request.QuotationRequest;
+import kr.com.duri.groomer.application.dto.request.QuotationUpdateRequest;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.user.domain.Enum.QuotationStatus;
 import kr.com.duri.user.domain.entity.Request;
@@ -39,5 +40,18 @@ public class QuotationMapper {
                 .startDateTime(quotationRequest.getStartDateTime())
                 .endDateTime(quotationRequest.getEndDateTime())
                 .build();
+    }
+
+    public void updateQuotationEntity(
+            Quotation existingQuotation, QuotationUpdateRequest quotationUpdateRequest) {
+
+        String priceJson = toPriceJson(quotationUpdateRequest.getPriceDetail());
+
+        // 기존 엔티티에 수정 데이터 반영
+        existingQuotation.update(
+                priceJson,
+                quotationUpdateRequest.getMemo(),
+                quotationUpdateRequest.getStartDateTime(),
+                quotationUpdateRequest.getEndDateTime());
     }
 }
