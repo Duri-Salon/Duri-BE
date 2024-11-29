@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import kr.com.duri.groomer.application.service.GroomerService;
+import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
@@ -23,12 +24,13 @@ public class QuotationReqFacade {
 
     private final QuotationReqService quotationReqService;
     private final GroomerService groomerService;
+    private final ShopService shopService;
     private final QuotationReqMapper quotationReqMapper;
 
     // 새로운 견적 요청서 리스트
     public List<NewQuotationReqResponse> getNewRequests(Long shopId) {
         // 1. shopId 유효성 확인
-        boolean shopExists = groomerService.existsByShopId(shopId);
+        boolean shopExists = shopService.existsByShopId(shopId);
         if (!shopExists) {
             throw new ShopNotFoundException("해당하는 미용업체가 없습니다.");
         }
@@ -58,7 +60,7 @@ public class QuotationReqFacade {
     // 답장한 견적 요청서 리스트
     public List<ApprovedQuotationReqResponse> getApprovedRequests(Long shopId) {
         // 1. shopId 유효성 확인
-        boolean shopExists = groomerService.existsByShopId(shopId);
+        boolean shopExists = shopService.existsByShopId(shopId);
         if (!shopExists) {
             throw new ShopNotFoundException("해당하는 미용업체가 없습니다.");
         }
