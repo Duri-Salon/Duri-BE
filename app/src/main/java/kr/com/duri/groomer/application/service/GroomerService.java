@@ -4,6 +4,6 @@ import kr.com.duri.groomer.domain.entity.Groomer;
 
 public interface GroomerService {
     Groomer getGroomerByShopId(Long shopId);
-    boolean existsByShopId(Long shopId);
 
+    boolean existsByShopId(Long shopId);
 }

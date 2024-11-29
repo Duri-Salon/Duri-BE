@@ -24,7 +24,9 @@ public class QuotationFacade {
         Request request = requestService.getRequestById(quotationRequest.getRequestId());
 
         // 2. Mapper를 사용하여 Quotation 엔티티 생성
-        Quotation quotation = quotationMapper.toQuotationEntity(request, quotationRequest, quotationRequest.getPriceDetail());
+        Quotation quotation =
+                quotationMapper.toQuotationEntity(
+                        request, quotationRequest, quotationRequest.getPriceDetail());
 
         // 3. QuotationService를 사용하여 저장
         quotationService.saveQuotation(quotation);
@@ -44,4 +46,3 @@ public class QuotationFacade {
         quotationService.updateQuotation(existingQuotation);
     }
 }
-
