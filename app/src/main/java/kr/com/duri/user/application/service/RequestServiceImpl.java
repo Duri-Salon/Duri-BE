@@ -26,4 +26,11 @@ public class RequestServiceImpl implements RequestService {
     public List<Request> getNewRequestsByShopId(Long shopId) {
         return requestRepository.findNewRequestsByShopId(shopId);
     }
+
+    @Override
+    public void updateRequestStatusToApproved(Long requestId) {
+        Request existingRequest = getRequestById(requestId);
+        Request updatedRequest = existingRequest.withApprovedStatus();
+        requestRepository.save(updatedRequest);
+    }
 }
