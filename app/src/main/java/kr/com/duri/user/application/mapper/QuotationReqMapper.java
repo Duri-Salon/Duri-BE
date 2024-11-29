@@ -4,16 +4,15 @@ import java.util.List;
 
 import kr.com.duri.groomer.application.dto.response.GroomerDetailResponse;
 import kr.com.duri.groomer.domain.entity.Groomer;
-import kr.com.duri.user.application.dto.response.MenuDetailResponse;
-import kr.com.duri.user.application.dto.response.NewQuotationReqDetailResponse;
-import kr.com.duri.user.application.dto.response.NewQuotationReqResponse;
-import kr.com.duri.user.application.dto.response.PetDetailResponse;
+import kr.com.duri.groomer.domain.entity.Quotation;
+import kr.com.duri.user.application.dto.response.*;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.Request;
 
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
@@ -39,6 +38,16 @@ public class QuotationReqMapper {
             return objectMapper.writeValueAsString(list);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("JSON 문자열을 리스트로 변환할 수 없습니다.", e);
+        }
+    }
+
+    // price에서 최종금액만 뽑아내기
+    private Integer extractTotalPriceFromJson(String priceJson) {
+        try {
+            JsonNode jsonNode = objectMapper.readTree(priceJson);
+            return jsonNode.path("totalPrice").asInt(); // "totalPrice" 추출
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("가격 정보를 파싱할 수 없습니다.", e);
         }
     }
 
@@ -104,6 +113,25 @@ public class QuotationReqMapper {
                 .pet(petDetailResponse) // 반려견 정보
                 .groomer(groomerDetailResponse) // 디자이너 정보
                 .quotationDetails(quotationDetailResponse) // 견적 요청 사항
+                .build();
+    }
+
+    public ApprovedQuotationReqResponse toApprovedQuotationResponse(Quotation quotation) {
+        Integer totalPrice = extractTotalPriceFromJson(quotation.getPrice());
+        Pet pet = quotation.getRequest().getQuotation().getPet();
+
+        return ApprovedQuotationReqResponse.builder()
+                .requestId(quotation.getRequest().getId()) // 요청 ID
+                .userId(pet.getUser().getId()) // user ID
+                .petId(pet.getId()) // 강아지 ID
+                .petImage(pet.getImage()) // 강아지 이미지
+                .petName(pet.getName()) // 강아지 이름
+                .petAge(pet.getAge()) // 강아지 나이
+                .petBreed(pet.getBreed()) // 강아지 견종
+                .petNeutering(pet.getNeutering()) // 특이사항1 - 강아지 중성화 여부
+                .petCharacter(pet.getCharacter()) // 특이사항2 - 강아지 성격 정보
+                .petDiseases(pet.getDiseases()) // 특이사항3 - 강아지 질환 정보
+                .totalPrice(totalPrice)
                 .build();
     }
 }

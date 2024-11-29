@@ -21,4 +21,11 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     List<Request> findNewRequestsByShopId(@Param("shopId") Long shopId);
 
     Optional<Request> findById(Long requestId);
+
+    @Query(
+            "SELECT r FROM Request r "
+                    + "JOIN FETCH r.quotation q "
+                    + "JOIN FETCH q.pet p "
+                    + "WHERE r.shop.id = :shopId AND r.status = 'APPROVED'")
+    List<Request> findApprovedRequestsByShopId(@Param("shopId") Long shopId);
 }
