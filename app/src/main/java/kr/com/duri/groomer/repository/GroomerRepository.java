@@ -8,6 +8,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GroomerRepository extends JpaRepository<Groomer, Long> {
     List<Groomer> findByShopId(Long shopId);
-
-    boolean existsByShopId(Long shopId);
 }

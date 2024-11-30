@@ -9,4 +9,6 @@ public interface QuotationService {
     Quotation findQuotationById(Long quotationId);
 
     void updateQuotation(Quotation quotation);
+
+    Quotation findByRequestId(Long requestId);
 }

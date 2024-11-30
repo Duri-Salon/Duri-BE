@@ -26,7 +26,7 @@ public class QuotationReqMapper {
     }
 
     // JSON 문자열을 List<String>로 변환하는 메서드
-    private String parseJsonArray(String jsonString) {
+    private List<String> parseJsonArray(String jsonString) {
         try {
             // 문자열로 저장된 JSON 배열을 List<String>으로 변환
             List<String> list =
@@ -34,8 +34,7 @@ public class QuotationReqMapper {
                             jsonString,
                             TypeFactory.defaultInstance()
                                     .constructCollectionType(List.class, String.class));
-            // 다시 JSON 형식의 문자열로 변환하여 리턴
-            return objectMapper.writeValueAsString(list);
+            return list;
         } catch (JsonProcessingException e) {
             throw new RuntimeException("JSON 문자열을 리스트로 변환할 수 없습니다.", e);
         }
@@ -129,8 +128,8 @@ public class QuotationReqMapper {
                 .petAge(pet.getAge()) // 강아지 나이
                 .petBreed(pet.getBreed()) // 강아지 견종
                 .petNeutering(pet.getNeutering()) // 특이사항1 - 강아지 중성화 여부
-                .petCharacter(pet.getCharacter()) // 특이사항2 - 강아지 성격 정보
-                .petDiseases(pet.getDiseases()) // 특이사항3 - 강아지 질환 정보
+                .petCharacter(parseJsonArray(pet.getCharacter())) // 강아지 성격 정보
+                .petDiseases(parseJsonArray(pet.getDiseases())) // 강아지 질환 정보
                 .totalPrice(totalPrice)
                 .build();
     }

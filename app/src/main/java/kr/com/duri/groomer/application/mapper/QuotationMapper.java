@@ -1,16 +1,26 @@
 package kr.com.duri.groomer.application.mapper;
 
+import java.util.List;
+
 import kr.com.duri.groomer.application.dto.request.PriceDetailRequest;
 import kr.com.duri.groomer.application.dto.request.QuotationRequest;
 import kr.com.duri.groomer.application.dto.request.QuotationUpdateRequest;
+import kr.com.duri.groomer.application.dto.response.QuotationDetailResponse;
+import kr.com.duri.groomer.application.dto.response.QuotationShopDetailResponse;
+import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
+import kr.com.duri.groomer.domain.entity.Shop;
+import kr.com.duri.user.application.dto.response.MenuDetailResponse;
+import kr.com.duri.user.application.dto.response.PetDetailResponse;
 import kr.com.duri.user.domain.Enum.QuotationStatus;
+import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.Request;
 
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 
 @Component
 public class QuotationMapper {
@@ -19,6 +29,21 @@ public class QuotationMapper {
 
     public QuotationMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
+    }
+
+    // JSON 문자열을 List<String>로 변환하는 메서드
+    private List<String> parseJsonArray(String jsonString) {
+        try {
+            // 문자열로 저장된 JSON 배열을 List<String>으로 변환
+            List<String> list =
+                    objectMapper.readValue(
+                            jsonString,
+                            TypeFactory.defaultInstance()
+                                    .constructCollectionType(List.class, String.class));
+            return list;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("JSON 문자열을 리스트로 변환할 수 없습니다.", e);
+        }
     }
 
     public String toPriceJson(PriceDetailRequest priceDetail) {
@@ -53,5 +78,71 @@ public class QuotationMapper {
                 quotationUpdateRequest.getMemo(),
                 quotationUpdateRequest.getStartDateTime(),
                 quotationUpdateRequest.getEndDateTime());
+    }
+
+    public QuotationDetailResponse toQuotationDetailResponse(
+            Request request, Shop shop, Groomer groomer, Pet pet, Quotation quotation) {
+
+        // ShopDetailResponse 생성
+        QuotationShopDetailResponse quotationShopDetailResponse =
+                QuotationShopDetailResponse.builder()
+                        .shopName(shop.getName())
+                        .shopAddress(shop.getAddress())
+                        .shopPhone(shop.getPhone())
+                        .groomerName(groomer.getName())
+                        .build();
+
+        // PetDetailResponse 생성
+        PetDetailResponse petDetailResponse =
+                PetDetailResponse.builder()
+                        .image(pet.getImage())
+                        .name(pet.getName())
+                        .age(pet.getAge())
+                        .gender(pet.getGender())
+                        .breed(pet.getBreed())
+                        .weight(pet.getWeight())
+                        .neutering(pet.getNeutering())
+                        .character(parseJsonArray(pet.getCharacter()))
+                        .diseases(parseJsonArray(pet.getDiseases()))
+                        .lastGrooming(pet.getLastGrooming())
+                        .build();
+
+        // MenuDetailResponse 생성
+        MenuDetailResponse menuDetailResponse =
+                MenuDetailResponse.builder()
+                        .groomingMenu(request.getQuotation().getMenu())
+                        .additionalGrooming(request.getQuotation().getAddMenu())
+                        .specialCare(request.getQuotation().getSpecialMenu())
+                        .designCut(request.getQuotation().getDesign())
+                        .otherRequests(request.getQuotation().getEtc())
+                        .build();
+
+        // QuotationRequest 생성
+        QuotationRequest quotationRequest =
+                QuotationRequest.builder()
+                        .requestId(quotation.getRequest().getId())
+                        .memo(quotation.getMemo())
+                        .startDateTime(quotation.getStartDateTime())
+                        .endDateTime(quotation.getEndDateTime())
+                        .priceDetail(parsePriceDetail(quotation.getPrice()))
+                        .build();
+
+        // QuotationDetailResponse 통합 생성
+        return QuotationDetailResponse.builder()
+                .shopDetail(quotationShopDetailResponse)
+                .quotationCreatedAt(quotation.getCreatedAt())
+                .petDetail(petDetailResponse)
+                .menuDetail(menuDetailResponse)
+                .quotation(quotationRequest)
+                .build();
+    }
+
+    // JSON 문자열을 PriceDetailRequest로 파싱
+    private PriceDetailRequest parsePriceDetail(String priceJson) {
+        try {
+            return objectMapper.readValue(priceJson, PriceDetailRequest.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("가격 정보 파싱 실패", e);
+        }
     }
 }

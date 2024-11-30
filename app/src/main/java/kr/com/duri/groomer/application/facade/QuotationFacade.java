@@ -2,10 +2,15 @@ package kr.com.duri.groomer.application.facade;
 
 import kr.com.duri.groomer.application.dto.request.QuotationRequest;
 import kr.com.duri.groomer.application.dto.request.QuotationUpdateRequest;
+import kr.com.duri.groomer.application.dto.response.QuotationDetailResponse;
 import kr.com.duri.groomer.application.mapper.QuotationMapper;
+import kr.com.duri.groomer.application.service.GroomerService;
 import kr.com.duri.groomer.application.service.QuotationService;
+import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
+import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.user.application.service.QuotationReqService;
+import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.Request;
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +22,7 @@ public class QuotationFacade {
 
     private final QuotationReqService requestService;
     private final QuotationService quotationService;
+    private final GroomerService groomerService;
     private final QuotationMapper quotationMapper;
 
     public void createQuotation(QuotationRequest quotationRequest) {
@@ -44,5 +50,21 @@ public class QuotationFacade {
 
         // 3. 업데이트된 엔티티 저장
         quotationService.updateQuotation(existingQuotation);
+    }
+
+    public QuotationDetailResponse getQuotationDetail(Long requestId) {
+        // 1. request조회
+        Request request = requestService.getRequestById(requestId);
+
+        // 2. Shop 및 Groomer 조회
+        Shop shop = request.getShop();
+        Groomer groomer = groomerService.getGroomerByShopId(shop.getId());
+
+        // 3. Pet 및 Quotation 조회
+        Pet pet = request.getQuotation().getPet();
+        Quotation quotation = quotationService.findByRequestId(requestId);
+
+        // 4. DTO조합
+        return quotationMapper.toQuotationDetailResponse(request, shop, groomer, pet, quotation);
     }
 }
