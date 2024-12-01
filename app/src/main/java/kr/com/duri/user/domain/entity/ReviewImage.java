@@ -1,7 +1,8 @@
 package kr.com.duri.user.domain.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import kr.com.duri.common.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,12 +22,22 @@ public class ReviewImage extends BaseEntity {
     @Column(name = "review_img_id")
     private Long id; // 리뷰이미지 ID
 
-    @NotBlank
     @ManyToOne
     @JoinColumn(name = "review_id")
     private Review review; // 리뷰 ID (FK)
 
-    @NotBlank
     @Column(name = "image")
     private String image; // 리뷰이미지 URL
+
+    // 생성
+    public static ReviewImage create(String imageUrl, Review review) {
+        return ReviewImage.builder().image(imageUrl).review(review).build();
+    }
+
+    // 수정
+    public void update(String imageUrl, Review review) {
+        this.image = imageUrl;
+        this.review = review;
+        this.setUpdatedAt(LocalDateTime.now());
+    }
 }
