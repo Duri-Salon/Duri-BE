@@ -37,14 +37,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     // [3] 추가
     @Override
-    public Review createReview(Pet pet, Groomer groomer, NewReviewRequest newReviewRequest) { // ) {
+    public Review createReview(Pet pet, Groomer groomer, NewReviewRequest newReviewRequest) {
         Review review = reviewMapper.toReview(pet, groomer, newReviewRequest);
         return reviewRepository.save(review);
     }
 
     // [4] 수정
     @Override
-    public Review updateReview(Long reviewId, UpdateReviewRequest newReviewRequest) { // ) {
+    public Review updateReview(Long reviewId, UpdateReviewRequest newReviewRequest) {
         Review review = getReview(reviewId);
         review.update(newReviewRequest.getRating(), newReviewRequest.getComment());
         return reviewRepository.save(review);

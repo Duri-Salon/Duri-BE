@@ -86,7 +86,7 @@ public class ReviewFacade {
             return false;
         }
         // ReviewImage 저장
-        reviewImageService.saveReviewImage(img, review); // newReviewRequest.getImg(), review);
+        reviewImageService.saveReviewImage(img, review);
         return true;
     }
 

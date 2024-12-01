@@ -50,7 +50,6 @@ public class ReviewImageServiceImpl implements ReviewImageService {
         // 업로드 이미지 없을 경우
         if (image == null) {
             return false;
-            // throw new RuntimeException("등록된 이미지가 없습니다.");
         }
         // 리뷰 이미지 S3 업로드
         String imageS3Url = uploadToS3(image);

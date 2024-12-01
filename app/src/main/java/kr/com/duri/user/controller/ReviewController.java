@@ -46,8 +46,6 @@ public class ReviewController {
     public CommonResponseEntity<String> createReview(
             @RequestPart @Valid NewReviewRequest newReviewRequest,
             @RequestPart(value = "image", required = false) MultipartFile img) {
-        // @RequestBody NewReviewRequest newReviewRequest) {
-        // newReviewRequest.newImg(img);
         reviewFacade.createReview(newReviewRequest, img);
         return CommonResponseEntity.success("리뷰가 성공적으로 저장되었습니다.");
     }
@@ -58,7 +56,6 @@ public class ReviewController {
             @PathVariable Long reviewId,
             @RequestPart @Valid UpdateReviewRequest updateReviewRequest,
             @RequestPart(value = "image", required = false) MultipartFile img) {
-        // updateReviewRequest.newImg(img);
         reviewFacade.updateReview(reviewId, updateReviewRequest, img);
         return CommonResponseEntity.success("리뷰가 성공적으로 수정되었습니다.");
     }
