@@ -73,9 +73,7 @@ public class ReviewFacade {
     }
 
     // [3] 리뷰 추가
-    public boolean createReview(
-            NewReviewRequest newReviewRequest,
-            MultipartFile img) {
+    public boolean createReview(NewReviewRequest newReviewRequest, MultipartFile img) {
         // Pet, Groomer 조회
         Pet pet = getPet(newReviewRequest.getUserId());
         Groomer groomer = getGroomer(newReviewRequest.getShopId());
