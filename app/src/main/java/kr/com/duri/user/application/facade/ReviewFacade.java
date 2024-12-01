@@ -45,7 +45,7 @@ public class ReviewFacade {
         // Review 목록 조회
         List<Review> reviewList = reviewService.getReviewList(petId);
         if (reviewList.isEmpty()) {
-            // TODO : 리뷰 목록 비어있음 처리
+            // TODO : 리뷰 목록 비어있음
         }
         // ReviewImage 조회
         return reviewList.stream()
@@ -64,7 +64,7 @@ public class ReviewFacade {
         // Review 조회
         Review review = reviewService.getReview(reviewId);
         if (review == null) {
-            // TODO : 해당하는 리뷰 없음 처리
+            // TODO : 해당하는 리뷰 없음
         }
         // ReviewImage 조회
         ReviewImage reviewImage = reviewImageService.getReviewImageByReviewId(review.getId());
@@ -75,14 +75,14 @@ public class ReviewFacade {
     // [3] 리뷰 추가
     public boolean createReview(
             NewReviewRequest newReviewRequest,
-            MultipartFile img) { // NewReviewRequest newReviewRequest) {
+            MultipartFile img) {
         // Pet, Groomer 조회
         Pet pet = getPet(newReviewRequest.getUserId());
         Groomer groomer = getGroomer(newReviewRequest.getShopId());
         // Review 저장
         Review review = reviewService.createReview(pet, groomer, newReviewRequest); // );
         if (review == null) {
-            // TODO : 리뷰 저장 안됨 처리
+            // TODO : 리뷰 저장 안됨
             return false;
         }
         // ReviewImage 저장
@@ -96,7 +96,7 @@ public class ReviewFacade {
         // Review 수정
         Review afterReview = reviewService.updateReview(reviewId, newReviewRequest);
         if (afterReview == null) {
-            // TODO : 리뷰 수정 안됨 처리
+            // TODO : 리뷰 수정 안됨
             return false;
         }
         reviewImageService.saveReviewImage(img, afterReview);
