@@ -6,8 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.com.duri.common.security.provider.NaverOAuth2User;
 import kr.com.duri.common.security.jwt.JwtUtil;
-import kr.com.duri.groomer.controller.SiteUserController;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -21,20 +19,13 @@ import java.util.Iterator;
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtUtil jwtUtil;
-    private final SiteUserController user;
 
-    @Value("${client.user.home.url}")
-    private String CLIENT_USER_HOME_URL;
-
-    @Value("${client.shop.home.url}")
-    private String CLIENT_SHOP_HOME_URL;
-
-    public CustomSuccessHandler(JwtUtil jwtUtil, SiteUserController user) {
-
+    public CustomSuccessHandler(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        this.user = user;
     }
 
+//    todo : 도메인 단위 분리 고려 및 리팩토링 진행
+//    todo : 프론트엔드 리턴값 확인
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 

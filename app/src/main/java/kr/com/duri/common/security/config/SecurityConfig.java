@@ -54,8 +54,8 @@ public class SecurityConfig {
 
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
 
-                        configuration.setAllowedHeaders(Arrays.asList("Authorization_USER", "Authorization_SHOP", "Content-Type"));
-                        configuration.setExposedHeaders(Arrays.asList("Authorization_USER", "Authorization_SHOP"));
+                        configuration.setAllowedHeaders(Arrays.asList("authorization_user", "authorization_shop", "Content-Type"));
+                        configuration.setExposedHeaders(Arrays.asList("authorization_user", "authorization_shop"));
 
                         configuration.setMaxAge(3600L);
                         return configuration;
@@ -90,8 +90,9 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/**").authenticated()
-                        .requestMatchers("/api/oauth2/**").permitAll()
+//                        todo : 개발 진행을 위해 임의로 모두 허용
+//                        .requestMatchers("/api/**").authenticated()
+//                        .requestMatchers("/api/oauth2/**").permitAll()
                         .anyRequest().permitAll()
                 );
 

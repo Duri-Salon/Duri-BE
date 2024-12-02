@@ -13,6 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+// todo : 통합 테스트 진행하며 필요한 부분 리팩토링
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
