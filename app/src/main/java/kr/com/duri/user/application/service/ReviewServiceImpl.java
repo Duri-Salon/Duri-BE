@@ -2,11 +2,8 @@ package kr.com.duri.user.application.service;
 
 import java.util.List;
 
-import kr.com.duri.groomer.domain.entity.Groomer;
-import kr.com.duri.user.application.dto.request.NewReviewRequest;
 import kr.com.duri.user.application.dto.request.UpdateReviewRequest;
 import kr.com.duri.user.application.mapper.ReviewMapper;
-import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.Review;
 import kr.com.duri.user.exception.ReviewNotFoundException;
 import kr.com.duri.user.repository.ReviewRepository;
@@ -37,8 +34,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     // [3] 추가
     @Override
-    public Review createReview(Pet pet, Groomer groomer, NewReviewRequest newReviewRequest) {
-        Review review = reviewMapper.toReview(pet, groomer, newReviewRequest);
+    public Review createReview(Review review) {
         return reviewRepository.save(review);
     }
 
@@ -53,6 +49,7 @@ public class ReviewServiceImpl implements ReviewService {
     // [5] 삭제
     @Override
     public void deleteReview(Long reviewId) {
-        reviewRepository.deleteById(reviewId);
+        Review review = getReview(reviewId);
+        reviewRepository.deleteById(review.getId());
     }
 }

@@ -41,7 +41,9 @@ public class ReviewFacade {
     }
 
     // [1] 리뷰 목록 조회
-    public List<ReviewResponse> getReviewList(Long petId) {
+    public List<ReviewResponse> getReviewList(Long userId) {
+        // 반려견 ID 조회
+        Long petId = getPet(userId).getId();
         // Review 목록 조회
         List<Review> reviewList = reviewService.getReviewList(petId);
         if (reviewList.isEmpty()) {
@@ -78,11 +80,12 @@ public class ReviewFacade {
         Pet pet = getPet(newReviewRequest.getUserId());
         Groomer groomer = getGroomer(newReviewRequest.getShopId());
         // Review 저장
-        Review review = reviewService.createReview(pet, groomer, newReviewRequest); // );
+        Review review = reviewMapper.toReview(pet, groomer, newReviewRequest);
         if (review == null) {
             // TODO : 리뷰 저장 안됨
             return false;
         }
+        reviewService.createReview(review);
         // ReviewImage 저장
         reviewImageService.saveReviewImage(img, review);
         return true;

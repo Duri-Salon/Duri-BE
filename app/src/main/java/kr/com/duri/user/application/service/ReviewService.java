@@ -2,10 +2,7 @@ package kr.com.duri.user.application.service;
 
 import java.util.List;
 
-import kr.com.duri.groomer.domain.entity.Groomer;
-import kr.com.duri.user.application.dto.request.NewReviewRequest;
 import kr.com.duri.user.application.dto.request.UpdateReviewRequest;
-import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.Review;
 
 public interface ReviewService {
@@ -17,10 +14,10 @@ public interface ReviewService {
     Review getReview(Long reviewId);
 
     // 추가
-    Review createReview(Pet pet, Groomer groomer, NewReviewRequest newReviewRequest); // );
+    Review createReview(Review review);
 
     // 수정
-    Review updateReview(Long reviewId, UpdateReviewRequest newReviewRequest); // );
+    Review updateReview(Long reviewId, UpdateReviewRequest newReviewRequest);
 
     // 삭제
     void deleteReview(Long reviewId);

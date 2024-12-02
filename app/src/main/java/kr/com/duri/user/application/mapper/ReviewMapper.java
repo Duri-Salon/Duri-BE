@@ -29,7 +29,7 @@ public class ReviewMapper {
     // Review Request DTO to Entity
     public Review toReview(Pet pet, Groomer groomer, NewReviewRequest newReviewRequest) {
         if (groomer == null || pet == null) {
-            throw new IllegalArgumentException("[ReviewMapper] 미용사 또는 펫의 정보가 null입니다.");
+            throw new IllegalArgumentException("미용사 또는 펫의 정보가 null입니다.");
         }
         return Review.builder()
                 .shop(groomer.getShop())
