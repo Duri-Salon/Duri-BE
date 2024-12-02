@@ -9,5 +9,4 @@ public interface OAuth2Response {
 
     // 이메일
     String getEmail();
-
 }

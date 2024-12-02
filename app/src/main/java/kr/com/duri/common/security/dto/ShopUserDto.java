@@ -5,5 +5,4 @@ import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
-public class ShopUserDto extends NaverUserDto {
-}
+public class ShopUserDto extends NaverUserDto {}

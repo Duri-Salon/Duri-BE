@@ -1,9 +1,10 @@
 package kr.com.duri.groomer.repository;
 
-import kr.com.duri.groomer.domain.entity.Shop;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.Optional;
+
+import kr.com.duri.groomer.domain.entity.Shop;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ShopRepository extends JpaRepository<Shop, Long> {
     Optional<Shop> findBySocialId(String socialId);

@@ -1,8 +1,8 @@
 package kr.com.duri.user.application.service;
 
-import kr.com.duri.user.domain.entity.SiteUser;
-
 import java.util.Optional;
+
+import kr.com.duri.user.domain.entity.SiteUser;
 
 public interface SiteUserService {
     Optional<SiteUser> findBySocialId(String socialId);
@@ -14,6 +14,5 @@ public interface SiteUserService {
             String phone,
             String gender,
             String birth,
-            String birthYear
-    );
+            String birthYear);
 }

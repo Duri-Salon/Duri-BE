@@ -10,6 +10,7 @@ import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.user.application.service.SiteUserService;
 import kr.com.duri.user.domain.entity.SiteUser;
+
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -34,36 +35,42 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         System.out.println("oAuth2User Info -> " + oAuth2User);
         System.out.println("userRequest : " + userRequest.getClientRegistration());
 
-        String registrationId = userRequest.getClientRegistration().getRegistrationId(); // 현재 로그인 진행 중인 서비스를 구분하는 코드
+        String registrationId =
+                userRequest
+                        .getClientRegistration()
+                        .getRegistrationId(); // 현재 로그인 진행 중인 서비스를 구분하는 코드
 
         if (registrationId.equals("naver-user")) { // 유저
 
             NaverUserResponse oAuth2Response = new NaverUserResponse(oAuth2User.getAttributes());
-            SiteUserDto siteUserDto = SiteUserDto.builder()
-                    .email(oAuth2Response.getEmail())
-                    .providerId(oAuth2Response.getProviderId())
-                    .provider(userRequest.getClientRegistration().getRegistrationId())
-                    .name(oAuth2Response.getName())
-                    .birthday(oAuth2Response.getBirthday())
-                    .birthyear(oAuth2Response.getBirthyear())
-                    .gender(oAuth2Response.getGender())
-                    .mobile(oAuth2Response.getMobile())
-                    .mobileE164(oAuth2Response.getMobileE164())
-                    .role("ROLE_USER")
-                    .client("naver_user")
-                    .build();
+            SiteUserDto siteUserDto =
+                    SiteUserDto.builder()
+                            .email(oAuth2Response.getEmail())
+                            .providerId(oAuth2Response.getProviderId())
+                            .provider(userRequest.getClientRegistration().getRegistrationId())
+                            .name(oAuth2Response.getName())
+                            .birthday(oAuth2Response.getBirthday())
+                            .birthyear(oAuth2Response.getBirthyear())
+                            .gender(oAuth2Response.getGender())
+                            .mobile(oAuth2Response.getMobile())
+                            .mobileE164(oAuth2Response.getMobileE164())
+                            .role("ROLE_USER")
+                            .client("naver_user")
+                            .build();
 
-
-            SiteUser siteUser = siteUserService.findBySocialId(siteUserDto.getProviderId())
-                    .orElseGet(() -> siteUserService.saveNewSiteUser(
-                            siteUserDto.getProviderId(),
-                            siteUserDto.getEmail(),
-                            siteUserDto.getName(),
-                            siteUserDto.getMobile(),
-                            siteUserDto.getGender(),
-                            siteUserDto.getBirthday(),
-                            siteUserDto.getBirthyear()
-                    ));
+            SiteUser siteUser =
+                    siteUserService
+                            .findBySocialId(siteUserDto.getProviderId())
+                            .orElseGet(
+                                    () ->
+                                            siteUserService.saveNewSiteUser(
+                                                    siteUserDto.getProviderId(),
+                                                    siteUserDto.getEmail(),
+                                                    siteUserDto.getName(),
+                                                    siteUserDto.getMobile(),
+                                                    siteUserDto.getGender(),
+                                                    siteUserDto.getBirthday(),
+                                                    siteUserDto.getBirthyear()));
 
             siteUserDto.updateId(siteUser.getId());
             siteUserDto.updateNewUser(siteUser.getNewUser());
@@ -74,16 +81,23 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             OAuth2Response oAuth2Response = new NaverShopResponse(oAuth2User.getAttributes());
 
-            ShopUserDto shopUserDto = ShopUserDto.builder()
-                    .email(oAuth2Response.getEmail())
-                    .providerId(oAuth2Response.getProviderId())
-                    .provider(userRequest.getClientRegistration().getRegistrationId())
-                    .role("ROLE_SHOP")
-                    .client("naver_shop")
-                    .build();
+            ShopUserDto shopUserDto =
+                    ShopUserDto.builder()
+                            .email(oAuth2Response.getEmail())
+                            .providerId(oAuth2Response.getProviderId())
+                            .provider(userRequest.getClientRegistration().getRegistrationId())
+                            .role("ROLE_SHOP")
+                            .client("naver_shop")
+                            .build();
 
-            Shop shop = shopService.findBySocialId(shopUserDto.getProviderId())
-                    .orElseGet(() -> shopService.saveNewShop(shopUserDto.getProviderId(), shopUserDto.getEmail()));
+            Shop shop =
+                    shopService
+                            .findBySocialId(shopUserDto.getProviderId())
+                            .orElseGet(
+                                    () ->
+                                            shopService.saveNewShop(
+                                                    shopUserDto.getProviderId(),
+                                                    shopUserDto.getEmail()));
 
             shopUserDto.updateId(shop.getId());
             shopUserDto.updateNewUser(shop.getNewShop());

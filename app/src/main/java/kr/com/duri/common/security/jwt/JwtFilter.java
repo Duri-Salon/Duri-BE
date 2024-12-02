@@ -1,17 +1,18 @@
 package kr.com.duri.common.security.jwt;
 
+import java.io.IOException;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.com.duri.common.security.dto.NaverUserDto;
 import kr.com.duri.common.security.provider.NaverOAuth2User;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.io.IOException;
 
 // todo : 통합 테스트 진행하며 필요한 부분 리팩토링
 public class JwtFilter extends OncePerRequestFilter {
@@ -24,7 +25,9 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
         String clientHost = request.getHeader("Host");
         System.out.println("clientHost: " + clientHost);
@@ -63,16 +66,16 @@ public class JwtFilter extends OncePerRequestFilter {
         // 5. JWT에서 사용자 정보 추출
         String providerId = jwtUtil.getProviderId(token);
 
-        NaverUserDto naverUserDto = NaverUserDto.builder()
-                .providerId(providerId)
-                .client(client).build();
+        NaverUserDto naverUserDto =
+                NaverUserDto.builder().providerId(providerId).client(client).build();
 
         NaverOAuth2User customOAuth2User = new NaverOAuth2User(naverUserDto);
 
-        Authentication authToken = new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());
+        Authentication authToken =
+                new UsernamePasswordAuthenticationToken(
+                        customOAuth2User, null, customOAuth2User.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);
     }
 }
-

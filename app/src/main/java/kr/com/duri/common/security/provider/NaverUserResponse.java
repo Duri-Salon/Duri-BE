@@ -48,5 +48,4 @@ public class NaverUserResponse implements OAuth2Response {
     public String getBirthyear() {
         return attributes.get("birthyear").toString();
     }
-
 }

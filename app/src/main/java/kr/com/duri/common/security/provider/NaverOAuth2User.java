@@ -1,12 +1,13 @@
 package kr.com.duri.common.security.provider;
 
-import kr.com.duri.common.security.dto.NaverUserDto;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+
+import kr.com.duri.common.security.dto.NaverUserDto;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public class NaverOAuth2User implements OAuth2User {
 
@@ -24,12 +25,13 @@ public class NaverOAuth2User implements OAuth2User {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collection = new ArrayList<>();
-        collection.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return naverUserDto.getRole();
-            }
-        });
+        collection.add(
+                new GrantedAuthority() {
+                    @Override
+                    public String getAuthority() {
+                        return naverUserDto.getRole();
+                    }
+                });
 
         return collection;
     }

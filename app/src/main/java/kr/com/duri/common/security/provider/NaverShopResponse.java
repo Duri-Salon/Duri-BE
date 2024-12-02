@@ -24,5 +24,4 @@ public class NaverShopResponse implements OAuth2Response {
     public String getEmail() {
         return attributes.get("email").toString();
     }
-
 }
