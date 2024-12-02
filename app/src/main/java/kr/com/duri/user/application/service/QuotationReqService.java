@@ -3,6 +3,7 @@ package kr.com.duri.user.application.service;
 import java.util.List;
 
 import kr.com.duri.groomer.domain.entity.Quotation;
+import kr.com.duri.user.domain.entity.QuotationReq;
 import kr.com.duri.user.domain.entity.Request;
 
 public interface QuotationReqService {
@@ -15,4 +16,6 @@ public interface QuotationReqService {
     List<Request> getApprovedRequestsByShopId(Long shopId);
 
     Quotation getQuotationByRequestId(Long requestId);
+
+    QuotationReq saveQuotationRequest(QuotationReq quotationReq);
 }

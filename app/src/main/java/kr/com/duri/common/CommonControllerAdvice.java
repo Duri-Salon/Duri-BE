@@ -9,6 +9,7 @@ import kr.com.duri.groomer.exception.GroomerNotFoundException;
 import kr.com.duri.groomer.exception.QuotationExistsException;
 import kr.com.duri.groomer.exception.QuotationNotFoundException;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
+import kr.com.duri.user.exception.PetNotFoundException;
 import kr.com.duri.user.exception.RequestNotFoundException;
 
 import org.springframework.http.HttpHeaders;
@@ -58,6 +59,11 @@ public class CommonControllerAdvice {
 
     @ExceptionHandler(QuotationNotFoundException.class)
     public ResponseEntity<?> handleQuotationNotFoundException(QuotationNotFoundException e) {
+        return response(e, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PetNotFoundException.class)
+    public ResponseEntity<?> handlePetNotFoundException(PetNotFoundException e) {
         return response(e, HttpStatus.NOT_FOUND);
     }
 

@@ -5,8 +5,10 @@ import java.util.List;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.exception.QuotationNotFoundException;
 import kr.com.duri.groomer.repository.QuotationRepository;
+import kr.com.duri.user.domain.entity.QuotationReq;
 import kr.com.duri.user.domain.entity.Request;
 import kr.com.duri.user.exception.RequestNotFoundException;
+import kr.com.duri.user.repository.QuotationReqRepository;
 import kr.com.duri.user.repository.RequestRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +20,7 @@ public class QuotationReqServiceImpl implements QuotationReqService {
 
     private final RequestRepository requestRepository;
     private final QuotationRepository quotationRepository;
+    private final QuotationReqRepository quotationReqRepository;
 
     @Override
     public Request getRequestById(Long requestId) {
@@ -48,5 +51,10 @@ public class QuotationReqServiceImpl implements QuotationReqService {
         return quotationRepository
                 .findByRequestId(requestId)
                 .orElseThrow(() -> new QuotationNotFoundException("해당 견적을 찾을 수 없습니다."));
+    }
+
+    @Override
+    public QuotationReq saveQuotationRequest(QuotationReq quotationReq) {
+        return quotationReqRepository.save(quotationReq);
     }
 }

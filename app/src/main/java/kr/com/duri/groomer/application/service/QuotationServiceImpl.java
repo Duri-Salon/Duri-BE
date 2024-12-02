@@ -3,9 +3,7 @@ package kr.com.duri.groomer.application.service;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.exception.QuotationExistsException;
 import kr.com.duri.groomer.exception.QuotationNotFoundException;
-import kr.com.duri.groomer.repository.GroomerRepository;
 import kr.com.duri.groomer.repository.QuotationRepository;
-import kr.com.duri.user.repository.RequestRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -15,8 +13,6 @@ import org.springframework.stereotype.Service;
 public class QuotationServiceImpl implements QuotationService {
 
     private final QuotationRepository quotationRepository;
-    private final RequestRepository requestRepository;
-    private final GroomerRepository groomerRepository;
 
     @Override
     public void saveQuotation(Quotation quotation) {

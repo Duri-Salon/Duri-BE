@@ -3,7 +3,6 @@ package kr.com.duri.user.domain.entity;
 import java.time.LocalDate;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import kr.com.duri.common.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,19 +22,16 @@ public class QuotationReq extends BaseEntity {
     @Column(name = "quotation_req_id") // 컬럼 이름 변경
     private Long id; // 요청서 ID
 
-    @NotBlank
     @ManyToOne
     @JoinColumn(name = "pet_id")
     private Pet pet; // 반려견 ID (FK)
 
-    @NotBlank
     @Column(name = "quotation_req_close") // 컬럼 이름 변경
     private Boolean close; // 마감 여부 (T: 마감, F: 진행중)
 
     @Column(name = "quotation_req_max_price") // 컬럼 이름 변경
     private Integer maxPrice; // 가능한 최대 금액
 
-    @NotBlank
     @Column(name = "quotation_req_menu") // 컬럼 이름 변경
     private String menu; // 미용 메뉴 (가위컷, 부분_목욕, 스포팅 등)
 
@@ -54,7 +50,6 @@ public class QuotationReq extends BaseEntity {
     @Column(name = "quotation_req_etc", columnDefinition = "TEXT") // 컬럼 이름 변경
     private String etc; // 기타 요구사항
 
-    @NotBlank
     @Column(name = "quotation_req_day") // 컬럼 이름 변경
     private LocalDate day; // 예약일 (YYYY-MM-DD)
 
