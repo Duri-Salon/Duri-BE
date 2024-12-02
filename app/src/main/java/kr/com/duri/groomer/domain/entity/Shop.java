@@ -63,4 +63,20 @@ public class Shop extends BaseEntity {
 
     @Column(name = "shop_rating")
     private Integer rating; // 매장 별점
+
+    @Builder.Default
+    @Column(name = "new_shop")
+    private Boolean newShop = true; // 신규 유저 여부
+
+    @Builder.Default
+    @Column(name = "shop_provider")
+    private String provider = "Naver"; // 제공자
+
+    public static Shop createNewShop(String socialId, String email) {
+        if (socialId == null || socialId.isEmpty()) {
+            throw new IllegalArgumentException("Social ID must not be null or empty");
+        }
+
+        return Shop.builder().socialId(socialId).email(email).build();
+    }
 }

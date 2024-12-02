@@ -25,11 +25,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
 //bootJar설정
@@ -93,5 +88,14 @@ subprojects {
         implementation 'io.awspring.cloud:spring-cloud-aws-starter:3.1.1'
         // Amazon S3
         implementation 'com.amazonaws:aws-java-sdk-s3:1.12.767'
+        // Security
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        testImplementation 'org.springframework.security:spring-security-test'
+        // Oauth2
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+        // Jwt
+        implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+        implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
+        implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
     }
 }

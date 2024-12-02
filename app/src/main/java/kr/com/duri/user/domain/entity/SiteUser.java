@@ -49,6 +49,9 @@ public class SiteUser extends BaseEntity {
     @Column(name = "user_birth")
     private String birth; // 생년월일
 
+    @Column(name = "user_brith_year")
+    private String birthYear; // 출생년도
+
     @Builder.Default
     @Column(name = "user_provider")
     private String provider = "Naver"; // 가입경로(소셜 종류)
@@ -60,4 +63,27 @@ public class SiteUser extends BaseEntity {
     @Builder.Default
     @Column(name = "user_stamp", columnDefinition = "INT DEFAULT 0")
     private Integer stamp = 0; // 도장 개수(기본값 0)
+
+    @Builder.Default
+    @Column(name = "new_user")
+    private Boolean newUser = true; // 신규 유저 여부
+
+    public static SiteUser createNewSiteUser(
+            String socialId,
+            String email,
+            String name,
+            String phone,
+            String gender,
+            String birth,
+            String birthYear) {
+        return SiteUser.builder()
+                .socialId(socialId)
+                .email(email)
+                .name(name)
+                .phone(phone)
+                .gender(Gender.valueOf(gender))
+                .birth(birth)
+                .birthYear(birthYear)
+                .build();
+    }
 }
