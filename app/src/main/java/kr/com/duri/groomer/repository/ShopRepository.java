@@ -7,4 +7,7 @@ import java.util.Optional;
 
 public interface ShopRepository extends JpaRepository<Shop, Long> {
     Optional<Shop> findBySocialId(String socialId);
+
+    // shopId로 존재 여부를 확인하는 메서드
+    boolean existsById(Long shopId);
 }
