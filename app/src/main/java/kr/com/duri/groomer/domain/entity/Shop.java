@@ -71,4 +71,12 @@ public class Shop extends BaseEntity {
 
     @Column(name = "shop_kakao_talk")
     private String kakaoTalk; // 오픈카톡방 링크
+
+    @Builder.Default
+    @Column(name = "new_shop")
+    private Boolean newShop = true; // 신규 유저 여부
+
+    @Builder.Default
+    @Column(name = "shop_provider")
+    private String provider = "Naver"; // 제공자
 }

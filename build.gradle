@@ -89,6 +89,14 @@ subprojects {
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 		// Swagger
 		implementation 'com.github.Swaggy-Swagger:swagger-custom-java:1.0.1'
-
+		// Security
+		implementation 'org.springframework.boot:spring-boot-starter-security'
+		testImplementation 'org.springframework.security:spring-security-test'
+		// Oauth2
+		implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+		// Jwt
+		implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+		implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
+		implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 	}
 }
