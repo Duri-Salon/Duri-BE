@@ -19,10 +19,6 @@ tasks.named('bootJar') {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web' // Spring Boot 의존성 추가
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    // AWS Starter
-    implementation 'io.awspring.cloud:spring-cloud-aws-starter:3.1.1'
-    // Amazon S3
-    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.767'
 }
 
 tasks.named('bootJar') {
