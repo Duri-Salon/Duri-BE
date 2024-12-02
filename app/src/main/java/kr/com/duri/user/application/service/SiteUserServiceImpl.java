@@ -2,7 +2,6 @@ package kr.com.duri.user.application.service;
 
 import java.util.Optional;
 
-import kr.com.duri.user.domain.Enum.Gender;
 import kr.com.duri.user.domain.entity.SiteUser;
 import kr.com.duri.user.repository.SiteUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,15 +28,8 @@ public class SiteUserServiceImpl implements SiteUserService {
             String gender,
             String birth,
             String birthYear) {
-        return siteUserRepository.save(
-                SiteUser.builder()
-                        .socialId(socialId)
-                        .email(email)
-                        .name(name)
-                        .phone(phone)
-                        .gender(Gender.valueOf(gender))
-                        .birth(birth)
-                        .birthYear(birthYear)
-                        .build());
+        SiteUser newSiteUser =
+                SiteUser.createNewSiteUser(socialId, email, name, phone, gender, birth, birthYear);
+        return siteUserRepository.save(newSiteUser);
     }
 }

@@ -26,6 +26,7 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public Shop saveNewShop(String socialId, String email) {
-        return shopRepository.save(Shop.builder().socialId(socialId).email(email).build());
+        Shop newShop = Shop.createNewShop(socialId, email);
+        return shopRepository.save(newShop);
     }
 }

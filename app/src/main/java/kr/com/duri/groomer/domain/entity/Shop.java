@@ -71,4 +71,12 @@ public class Shop extends BaseEntity {
     @Builder.Default
     @Column(name = "shop_provider")
     private String provider = "Naver"; // 제공자
+
+    public static Shop createNewShop(String socialId, String email) {
+        if (socialId == null || socialId.isEmpty()) {
+            throw new IllegalArgumentException("Social ID must not be null or empty");
+        }
+
+        return Shop.builder().socialId(socialId).email(email).build();
+    }
 }
