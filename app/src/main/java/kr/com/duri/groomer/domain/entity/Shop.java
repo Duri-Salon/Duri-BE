@@ -60,4 +60,7 @@ public class Shop extends BaseEntity {
 
     @Column(name = "shop_kakao_talk")
     private String kakaoTalk; // 오픈카톡방 링크
+
+    @Column(name = "shop_rating")
+    private Integer rating; // 매장 별점
 }
