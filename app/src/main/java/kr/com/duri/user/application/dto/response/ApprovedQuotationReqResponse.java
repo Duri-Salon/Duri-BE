@@ -1,5 +1,7 @@
 package kr.com.duri.user.application.dto.response;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +20,7 @@ public class ApprovedQuotationReqResponse {
     private Integer petAge; // 강아지 나이
     private String petBreed; // 견종
     private Boolean petNeutering; // 특이사항1 - 중성화여부
-    private String petCharacter; // 특이사항2 - 성격 정보
-    private String petDiseases; // 특이사항3 - 질환 정보
+    private List<String> petCharacter; // 특이사항2 - 성격 정보
+    private List<String> petDiseases; // 특이사항3 - 질환 정보
     private Integer totalPrice; // 최종 결제 금액 (totalPrice만 추가)
 }

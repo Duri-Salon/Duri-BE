@@ -1,6 +1,7 @@
 package kr.com.duri.user.application.dto.response;
 
 import java.util.Date;
+import java.util.List;
 
 import kr.com.duri.user.domain.Enum.Gender;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class PetDetailResponse {
     private String breed; // 견종
     private Integer weight; // 몸무게
     private Boolean neutering; // 중성화 여부
-    private String character; // 성격 정보
-    private String diseases; // 질환 정보
+    private List<String> character; // 성격 정보
+    private List<String> diseases; // 질환 정보
     private Date lastGrooming; // 마지막 미용 일자
 }
