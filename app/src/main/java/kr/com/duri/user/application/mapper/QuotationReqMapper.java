@@ -1,12 +1,17 @@
 package kr.com.duri.user.application.mapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import kr.com.duri.groomer.application.dto.response.GroomerDetailResponse;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
+import kr.com.duri.groomer.domain.entity.Shop;
+import kr.com.duri.user.application.dto.request.NewQuotationReqRequest;
 import kr.com.duri.user.application.dto.response.*;
+import kr.com.duri.user.domain.Enum.QuotationStatus;
 import kr.com.duri.user.domain.entity.Pet;
+import kr.com.duri.user.domain.entity.QuotationReq;
 import kr.com.duri.user.domain.entity.Request;
 
 import org.springframework.stereotype.Component;
@@ -132,5 +137,43 @@ public class QuotationReqMapper {
                 .petDiseases(parseJsonArray(pet.getDiseases())) // 강아지 질환 정보
                 .totalPrice(totalPrice)
                 .build();
+    }
+
+    public QuotationReq toQuotationReqEntity(
+            NewQuotationReqRequest newQuotationReqRequest, Pet pet) {
+        return QuotationReq.builder()
+                .pet(pet) // petId
+                .close(false) // 마감여부는 false로 기본 세팅
+                .maxPrice(newQuotationReqRequest.getMaxPrice()) // 희망 최대금액
+                .menu(newQuotationReqRequest.getMenu()) // 기본 미용메뉴
+                .addMenu(newQuotationReqRequest.getAddMenu()) // 추가 미용메뉴
+                .specialMenu(newQuotationReqRequest.getSpecialMenu()) // 스페셜 미용 메뉴
+                .design(newQuotationReqRequest.getDesign()) // 디자인 컷
+                .petSize(newQuotationReqRequest.getPetSize()) // 반려견 품종(소형/중형/대형)
+                .etc(newQuotationReqRequest.getEtc()) // 기타 요구사항
+                .day(newQuotationReqRequest.getDay()) // 미용희망 날짜
+                .time9(newQuotationReqRequest.getTime9()) // 9시 가능여부
+                .time10(newQuotationReqRequest.getTime10()) // 10시 가능여부
+                .time11(newQuotationReqRequest.getTime11()) // 11시 가능여부
+                .time12(newQuotationReqRequest.getTime12()) // 12시 가능여부
+                .time13(newQuotationReqRequest.getTime13()) // 13시 가능여부
+                .time14(newQuotationReqRequest.getTime14()) // 14시 가능여부
+                .time15(newQuotationReqRequest.getTime15()) // 15시 가능여부
+                .time16(newQuotationReqRequest.getTime16()) // 16시 가능여부
+                .time17(newQuotationReqRequest.getTime17()) // 17시 가능여부
+                .time18(newQuotationReqRequest.getTime18()) // 18시 가능여부
+                .build();
+    }
+
+    public List<Request> toRequestEntities(QuotationReq quotationReq, List<Long> shopIds) {
+        return shopIds.stream()
+                .map(
+                        shopId ->
+                                Request.builder()
+                                        .quotation(quotationReq) // 견적 요청서 저장
+                                        .shop(Shop.builder().id(shopId).build()) // 미용 매장ID저장
+                                        .status(QuotationStatus.WAITING) // 상태는 대기로 세팅
+                                        .build())
+                .collect(Collectors.toList());
     }
 }

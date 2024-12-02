@@ -64,6 +64,11 @@ public class CommonControllerAdvice {
         return response(e, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(PetNotFoundException.class)
+    public ResponseEntity<?> handlePetNotFoundException(PetNotFoundException e) {
+        return response(e, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(QuotationExistsException.class)
     public ResponseEntity<?> handleQuotationAlreadyExistsException(QuotationExistsException e) {
         return response(e, HttpStatus.CONFLICT);
@@ -71,11 +76,6 @@ public class CommonControllerAdvice {
 
     @ExceptionHandler(ReviewNotFoundException.class)
     public ResponseEntity<?> handleReviewNotFoundException(ReviewNotFoundException e) {
-        return response(e, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(PetNotFoundException.class)
-    public ResponseEntity<?> handlePetNotFoundException(PetNotFoundException e) {
         return response(e, HttpStatus.NOT_FOUND);
     }
 
