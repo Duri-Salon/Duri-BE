@@ -15,10 +15,4 @@ public class NewReviewRequest {
     private Long shopId; // 리뷰할 매장 ID
     private Integer rating; // 별점
     private String comment; // 후기
-    /* private MultipartFile img; // 이미지
-
-    // 이미지 등록
-    public void newImg(MultipartFile img) {
-      this.img = img;
-    } */
 }
