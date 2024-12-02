@@ -1,94 +1,97 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.3.5'
-	id 'io.spring.dependency-management' version '1.1.6'
-	id 'com.diffplug.spotless' version '6.25.0'
+    id 'java'
+    id 'org.springframework.boot' version '3.3.5'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'com.diffplug.spotless' version '6.25.0'
 }
 
 group = 'kr.com'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	testImplementation platform('org.junit:junit-bom:5.10.0')
-	testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
 //bootJar설정
 tasks.named('bootJar') {
-	mainClass.set('kr.com.duri.MainApplication')
+    mainClass.set('kr.com.duri.MainApplication')
 }
 
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 // 하위 모듈 세팅
 subprojects {
-	apply plugin: 'java'
-	apply plugin: 'org.springframework.boot'
-	apply plugin: 'io.spring.dependency-management'
-	apply plugin: 'com.diffplug.spotless'
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'com.diffplug.spotless'
 
-	group = 'kr.com'
-	version = '0.0.1-SNAPSHOT'
+    group = 'kr.com'
+    version = '0.0.1-SNAPSHOT'
 
-	compileJava.options.encoding = 'UTF-8'
+    compileJava.options.encoding = 'UTF-8'
 
-	sourceCompatibility = '17'
-	targetCompatibility = '17'
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
 
-	repositories {
-		mavenCentral()
-		maven { url 'https://jitpack.io' } // JitPack 리포지토리 추가
-	}
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' } // JitPack 리포지토리 추가
+    }
 
-	spotless{
-		java{
-			googleJavaFormat().aosp() // 구글 자바 포맷 적용
-			importOrder("java", "javax", "", "org", "com") // import 순서
-			removeUnusedImports()
-			trimTrailingWhitespace() // 공백 제거
-			endWithNewline() // 줄바꿈
-		}
-	}
+    spotless {
+        java {
+            googleJavaFormat().aosp() // 구글 자바 포맷 적용
+            importOrder("java", "javax", "", "org", "com") // import 순서
+            removeUnusedImports()
+            trimTrailingWhitespace() // 공백 제거
+            endWithNewline() // 줄바꿈
+        }
+    }
 
-	dependencies {
-		implementation 'org.springframework.boot:spring-boot-starter-web'
-		testImplementation 'org.springframework.boot:spring-boot-starter-test'
-		implementation 'org.springframework.boot:spring-boot-starter-web-services'
-		testImplementation platform('org.junit:junit-bom:5.10.0')
-		testImplementation 'org.junit.jupiter:junit-jupiter'
-		testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-		developmentOnly 'org.springframework.boot:spring-boot-devtools'
-		implementation 'org.springframework.boot:spring-boot-starter-validation'
-		// Lombok
-		compileOnly 'org.projectlombok:lombok'
-		annotationProcessor 'org.projectlombok:lombok'
-		// Jpa
-		runtimeOnly 'com.mysql:mysql-connector-j'
-		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-		// Swagger
-		implementation 'com.github.Swaggy-Swagger:swagger-custom-java:1.0.1'
-
-	}
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        implementation 'org.springframework.boot:spring-boot-starter-web-services'
+        testImplementation platform('org.junit:junit-bom:5.10.0')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        // Lombok
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        // Jpa
+        runtimeOnly 'com.mysql:mysql-connector-j'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        // Swagger
+        implementation 'com.github.Swaggy-Swagger:swagger-custom-java:1.0.1'
+        // AWS Starter
+        implementation 'io.awspring.cloud:spring-cloud-aws-starter:3.1.1'
+        // Amazon S3
+        implementation 'com.amazonaws:aws-java-sdk-s3:1.12.767'
+    }
 }
