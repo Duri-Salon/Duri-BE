@@ -3,7 +3,6 @@ package kr.com.duri.groomer.domain.entity;
 import java.time.LocalTime;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import kr.com.duri.common.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,11 +22,9 @@ public class Shop extends BaseEntity {
     @Column(name = "shop_id")
     private Long id; // 매장 ID
 
-    @NotBlank
     @Column(name = "shop_social_id", unique = true)
     private String socialId; // 소셜 제공 고유 아이디
 
-    @NotBlank
     @Column(name = "shop_name")
     private String name; // 매장명
 
@@ -37,35 +34,27 @@ public class Shop extends BaseEntity {
     @Column(name = "shop_email")
     private String email; // 이메일
 
-    @NotBlank
     @Column(name = "shop_address")
     private String address; // 주소
 
-    @NotBlank
     @Column(name = "shop_lat")
     private Double lat; // 매장위치 위도
 
-    @NotBlank
     @Column(name = "shop_lon")
     private Double lon; // 매장위치 경도
 
-    @NotBlank
     @Column(name = "shop_phone", unique = true)
     private String phone; // 매장 전화번호
 
-    @NotBlank
     @Column(name = "shop_adtop")
     private Boolean adtop; // 광고 상단 노출 여부
 
-    @NotBlank
     @Column(name = "shop_entry")
     private String entry; // 입점 승인 여부
 
-    @NotBlank
     @Column(name = "shop_open_time")
     private LocalTime openTime; // 오픈시간
 
-    @NotBlank
     @Column(name = "shop_close_time")
     private LocalTime closeTime; // 마감시간
 

@@ -9,9 +9,11 @@ permissions:
   contents: read
 
 env:
-  S3_BUCKET_NAME: duri-cicd-bucket
+  S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
   CODE_DEPLOY_APP_NAME: duri_ci_cd
   CODE_DEPLOY_GROUP_NAME: duri_instance
+  S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+  S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
 
 jobs:
   build:

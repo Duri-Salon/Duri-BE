@@ -9,7 +9,10 @@ import kr.com.duri.groomer.exception.GroomerNotFoundException;
 import kr.com.duri.groomer.exception.QuotationExistsException;
 import kr.com.duri.groomer.exception.QuotationNotFoundException;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
+import kr.com.duri.user.exception.PetNotFoundException;
 import kr.com.duri.user.exception.RequestNotFoundException;
+import kr.com.duri.user.exception.ReviewImageUploadException;
+import kr.com.duri.user.exception.ReviewNotFoundException;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -66,8 +69,23 @@ public class CommonControllerAdvice {
         return response(e, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(ReviewNotFoundException.class)
+    public ResponseEntity<?> handleReviewNotFoundException(ReviewNotFoundException e) {
+        return response(e, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PetNotFoundException.class)
+    public ResponseEntity<?> handlePetNotFoundException(PetNotFoundException e) {
+        return response(e, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGlobalException(Exception e) {
+        return response(e, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(ReviewImageUploadException.class)
+    public ResponseEntity<?> handleReviewImageUploadException(ReviewImageUploadException e) {
         return response(e, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
