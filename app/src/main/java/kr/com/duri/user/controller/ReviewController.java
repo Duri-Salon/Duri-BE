@@ -17,22 +17,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/user/review")
+@RequestMapping("/api/v1/review")
 public class ReviewController {
 
     private final ReviewFacade reviewFacade;
 
     // DURI-288 : 리뷰 전체 조회
-    @GetMapping()
-    public CommonResponseEntity<List<ReviewResponse>> getReviews(@RequestParam Long petId) {
-        return CommonResponseEntity.success(reviewFacade.getReviewList(petId));
+    @GetMapping("/user/{userId}")
+    public CommonResponseEntity<List<ReviewResponse>> getReviews(@PathVariable Long userId) {
+        return CommonResponseEntity.success(reviewFacade.getReviewList(userId));
     }
 
     // DURI-288 : 리뷰 상세 조회
@@ -42,7 +41,7 @@ public class ReviewController {
     }
 
     // DURI-286 : 리뷰 작성
-    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/new", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public CommonResponseEntity<String> createReview(
             @RequestPart @Valid NewReviewRequest newReviewRequest,
             @RequestPart(value = "image", required = false) MultipartFile img) {
