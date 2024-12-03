@@ -8,8 +8,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsMvcConfig implements WebMvcConfigurer {
 
-    @Value("${client.front.dev.url}")
-    private String FRONTEND_DEV_URL;
+    @Value("${client.local.user.dev.url}")
+    private String LOCAL_USER_DEV_URL;
+
+    @Value("${client.local.shop.dev.url}")
+    private String LOCAL_SHOP_DEV_URL;
 
     @Value("${client.user.url}")
     private String CLIENT_USER_URL;
@@ -32,7 +35,8 @@ public class CorsMvcConfig implements WebMvcConfigurer {
                         "Set-Cookie", "authorization_user", "authorization_shop", "Content-Type")
                 .allowedHeaders("authorization_user", "authorization_shop", "Content-Type")
                 .allowedOrigins(
-                        FRONTEND_DEV_URL,
+                        LOCAL_USER_DEV_URL,
+                        LOCAL_SHOP_DEV_URL,
                         CLIENT_USER_URL,
                         CLIENT_SHOP_URL,
                         CLIENT_USER_DEV_URL,
