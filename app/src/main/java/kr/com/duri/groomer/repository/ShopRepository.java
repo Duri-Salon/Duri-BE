@@ -22,7 +22,7 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
     SELECT s.shop_id, s.shop_name, s.shop_address, s.shop_lat, s.shop_lon, s.shop_phone, s.shop_open_time, s.shop_close_time, s.shop_rating,
            (6371000 * ACOS(COS(RADIANS(:lat)) * COS(RADIANS(s.shop_lat)) * COS(RADIANS(s.shop_lon) - RADIANS(:lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(s.shop_lat)))) AS d
     FROM shop s
-    HAVING (6371000 * ACOS(COS(RADIANS(:lat)) * COS(RADIANS(s.shop_lat)) * COS(RADIANS(s.shop_lon) - RADIANS(:lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(s.shop_lat)))) <= :radius
+    WHERE (6371000 * ACOS(COS(RADIANS(:lat)) * COS(RADIANS(s.shop_lat)) * COS(RADIANS(s.shop_lon) - RADIANS(:lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(s.shop_lat)))) <= :radius
 """,
             nativeQuery = true)
     List<Object[]> findShopsWithinRadius(
