@@ -29,8 +29,13 @@ public class CorsMvcConfig implements WebMvcConfigurer {
                 .addMapping("/**")
                 .allowedMethods("*")
                 .exposedHeaders(
-                        "Set-Cookie", "Authorization_USER", "Authorization_SHOP", "Content-Type")
-                .allowedHeaders("Authorization_USER", "Authorization_SHOP", "Content-Type")
-                .allowedOrigins(FRONTEND_DEV_URL, CLIENT_USER_URL, CLIENT_SHOP_URL, CLIENT_USER_DEV_URL, CLIENT_SHOP_DEV_URL);
+                        "Set-Cookie", "authorization_user", "authorization_shop", "Content-Type")
+                .allowedHeaders("authorization_user", "authorization_shop", "Content-Type")
+                .allowedOrigins(
+                        FRONTEND_DEV_URL,
+                        CLIENT_USER_URL,
+                        CLIENT_SHOP_URL,
+                        CLIENT_USER_DEV_URL,
+                        CLIENT_SHOP_DEV_URL);
     }
 }
