@@ -68,6 +68,8 @@ public class SecurityConfig {
                                             HttpServletRequest request) {
                                         CorsConfiguration configuration = new CorsConfiguration();
 
+                                        configuration.setAllowedMethods(Arrays.asList("*"));
+
                                         configuration.setAllowedOrigins(
                                                 Arrays.asList(
                                                         LOCAL_USER_DEV_URL,
@@ -81,11 +83,6 @@ public class SecurityConfig {
                                         configuration.setAllowedHeaders(
                                                 Collections.singletonList("*"));
 
-                                        configuration.setAllowedHeaders(
-                                                Arrays.asList(
-                                                        "authorization_user",
-                                                        "authorization_shop",
-                                                        "Content-Type"));
                                         configuration.setExposedHeaders(
                                                 Arrays.asList(
                                                         "Set-Cookie",
