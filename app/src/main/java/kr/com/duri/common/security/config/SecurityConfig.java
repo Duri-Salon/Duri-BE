@@ -28,8 +28,11 @@ public class SecurityConfig {
     private final CustomSuccessHandler customSuccessHandler;
     private final JwtUtil jwtUtil;
 
-    @Value("${client.front.dev.url}")
-    private String FRONTEND_DEV_URL;
+    @Value("${client.local.user.dev.url}")
+    private String LOCAL_USER_DEV_URL;
+
+    @Value("${client.local.shop.dev.url}")
+    private String LOCAL_SHOP_DEV_URL;
 
     @Value("${client.user.url}")
     private String CLIENT_USER_URL;
@@ -67,7 +70,8 @@ public class SecurityConfig {
 
                                         configuration.setAllowedOrigins(
                                                 Arrays.asList(
-                                                        FRONTEND_DEV_URL,
+                                                        LOCAL_USER_DEV_URL,
+                                                        LOCAL_SHOP_DEV_URL,
                                                         CLIENT_USER_URL,
                                                         CLIENT_SHOP_URL,
                                                         CLIENT_USER_DEV_URL,
