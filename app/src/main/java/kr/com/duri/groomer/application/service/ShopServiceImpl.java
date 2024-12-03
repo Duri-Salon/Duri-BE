@@ -3,6 +3,7 @@ package kr.com.duri.groomer.application.service;
 import java.util.Optional;
 
 import kr.com.duri.groomer.domain.entity.Shop;
+import kr.com.duri.groomer.exception.ShopNotFoundException;
 import kr.com.duri.groomer.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -28,5 +29,12 @@ public class ShopServiceImpl implements ShopService {
     public Shop saveNewShop(String socialId, String email) {
         Shop newShop = Shop.createNewShop(socialId, email);
         return shopRepository.save(newShop);
+    }
+
+    @Override
+    public Shop findById(Long shopId) {
+        return shopRepository
+                .findById(shopId)
+                .orElseThrow(() -> new ShopNotFoundException("해당 매장을 찾을 수 없습니다."));
     }
 }

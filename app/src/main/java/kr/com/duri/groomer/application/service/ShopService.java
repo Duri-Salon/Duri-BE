@@ -10,4 +10,6 @@ public interface ShopService {
     Optional<Shop> findBySocialId(String socialId);
 
     Shop saveNewShop(String email, String provider);
+
+    Shop findById(Long shopId);
 }
