@@ -1,5 +1,6 @@
 package kr.com.duri.groomer.application.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import kr.com.duri.groomer.domain.entity.Shop;
@@ -10,4 +11,6 @@ public interface ShopService {
     Optional<Shop> findBySocialId(String socialId);
 
     Shop saveNewShop(String email, String provider);
+
+    List<Object[]> findShopsWithinRadius(Double lat, Double lon, Double radius);
 }
