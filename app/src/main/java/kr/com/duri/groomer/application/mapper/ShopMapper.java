@@ -36,7 +36,7 @@ public class ShopMapper {
                 .build();
     }
 
-    //Object[] result -> ShopNearByResponse로 변환
+    // Object[] result -> ShopNearByResponse로 변환
     public ShopNearByResponse toShopNearByResponse(Object[] result, List<String> tags) {
         Long shopId = (Long) result[0];
         String shopName = (String) result[1];

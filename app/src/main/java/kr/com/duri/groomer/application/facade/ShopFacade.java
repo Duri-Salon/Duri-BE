@@ -1,6 +1,5 @@
 package kr.com.duri.groomer.application.facade;
 
-import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,11 +21,12 @@ public class ShopFacade {
 
     private List<ShopNearByResponse> mapToShopNearByResponses(List<Object[]> shopResults) {
         return shopResults.stream()
-                .map(result -> {
-                    Long shopId = (Long) result[0];
-                    List<String> tags = shopTagService.findTagsByShopId(shopId);
-                    return shopMapper.toShopNearByResponse(result, tags);
-                })
+                .map(
+                        result -> {
+                            Long shopId = (Long) result[0];
+                            List<String> tags = shopTagService.findTagsByShopId(shopId);
+                            return shopMapper.toShopNearByResponse(result, tags);
+                        })
                 .collect(Collectors.toList());
     }
 
@@ -51,6 +51,4 @@ public class ShopFacade {
                 .sorted(Comparator.comparingDouble(ShopNearByResponse::getShopRating).reversed())
                 .collect(Collectors.toList());
     }
-
-
 }

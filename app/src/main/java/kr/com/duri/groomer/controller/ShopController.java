@@ -19,7 +19,7 @@ public class ShopController {
 
     private final ShopFacade shopFacade;
 
-    //주변 매장 리스트 조회
+    // 주변 매장 리스트 조회
     @GetMapping("/nearby")
     public CommonResponseEntity<List<ShopNearByResponse>> getNearByShops(
             @RequestParam double lat, @RequestParam double lon, @RequestParam double radius) {
@@ -27,7 +27,7 @@ public class ShopController {
         return CommonResponseEntity.success(response);
     }
 
-    //주변 매장 리스트 조회(거리순)
+    // 주변 매장 리스트 조회(거리순)
     @GetMapping("/nearby/sort/distance")
     public CommonResponseEntity<List<ShopNearByResponse>> getNearByShopsDistance(
             @RequestParam double lat, @RequestParam double lon, @RequestParam double radius) {
@@ -35,7 +35,7 @@ public class ShopController {
         return CommonResponseEntity.success(response);
     }
 
-    //주변 매장 리스트 조회(평점순)
+    // 주변 매장 리스트 조회(평점순)
     @GetMapping("/nearby/sort/rating")
     public CommonResponseEntity<List<ShopNearByResponse>> getNearByShopsRating(
             @RequestParam double lat, @RequestParam double lon, @RequestParam double radius) {
