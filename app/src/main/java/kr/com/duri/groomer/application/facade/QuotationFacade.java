@@ -9,7 +9,6 @@ import kr.com.duri.groomer.application.service.QuotationService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.domain.entity.Shop;
-import kr.com.duri.user.application.service.QuotationReqService;
 import kr.com.duri.user.application.service.RequestService;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.Request;
