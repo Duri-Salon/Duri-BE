@@ -36,10 +36,8 @@ public class ShopFacade {
                             Double shopLat = (Double) result[3];
                             Double shopLon = (Double) result[4];
                             String shopPhone = (String) result[5];
-                            LocalTime shopOpenTime =
-                                    ((java.sql.Time) result[6]).toLocalTime();
-                            LocalTime shopCloseTime =
-                                    ((java.sql.Time) result[7]).toLocalTime();
+                            LocalTime shopOpenTime = ((java.sql.Time) result[6]).toLocalTime();
+                            LocalTime shopCloseTime = ((java.sql.Time) result[7]).toLocalTime();
                             Float shopRating = (Float) result[8];
                             Integer distance = (int) Math.round((Double) result[9]);
 
