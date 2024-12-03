@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import kr.com.duri.groomer.application.service.GroomerService;
+import kr.com.duri.groomer.application.service.QuotationService;
 import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
@@ -36,6 +37,7 @@ public class QuotationReqFacade {
     private final QuotationReqMapper quotationReqMapper;
     private final PetRepository petRepository;
     private final ShopRepository shopRepository;
+    private final QuotationService quotationService;
 
     // 새로운 견적 요청서 리스트
     public List<NewQuotationReqResponse> getNewRequests(Long shopId) {
@@ -46,7 +48,7 @@ public class QuotationReqFacade {
         }
 
         // 2. WAITING 상태의 요청 조회
-        List<Request> requests = quotationReqService.getNewRequestsByShopId(shopId);
+        List<Request> requests = requestService.getNewRequestsByShopId(shopId);
 
         // 3. 요청 목록을 응답 DTO로 변환
         return requests.stream()
@@ -57,7 +59,7 @@ public class QuotationReqFacade {
     // 견적 요청 상세 정보
     public NewQuotationReqDetailResponse getQuotationReqDetail(Long requestId) {
         // 견적 요청 ID로 데이터를 조회
-        Request request = quotationReqService.getRequestById(requestId);
+        Request request = requestService.getRequestById(requestId);
         Long shopId = request.getShop().getId();
 
         // shopId로 groomer찾기
@@ -76,14 +78,13 @@ public class QuotationReqFacade {
         }
 
         // 2. APPROVED 상태의 요청 조회
-        List<Request> requests = quotationReqService.getApprovedRequestsByShopId(shopId);
+        List<Request> requests = requestService.getApprovedRequestsByShopId(shopId);
 
         // 3. 요청 목록을 응답 DTO로 변환
         return requests.stream()
                 .map(
                         request -> {
-                            Quotation quotation =
-                                    quotationReqService.getQuotationByRequestId(request.getId());
+                            Quotation quotation = quotationService.findByRequestId(request.getId());
                             return quotationReqMapper.toApprovedQuotationResponse(quotation);
                         })
                 .collect(Collectors.toList());
