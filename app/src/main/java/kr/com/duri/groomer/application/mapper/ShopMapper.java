@@ -20,6 +20,7 @@ public class ShopMapper {
                 .name(shop.getName())
                 .address(shop.getAddress())
                 .imageURL(shopImage.getShopImageUrl())
+                .phone(shop.getPhone())
                 .build();
     }
 
