@@ -10,6 +10,7 @@ import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.user.application.service.QuotationReqService;
+import kr.com.duri.user.application.service.RequestService;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.Request;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class QuotationFacade {
 
-    private final QuotationReqService requestService;
+    private final RequestService requestService;
     private final QuotationService quotationService;
     private final GroomerService groomerService;
     private final QuotationMapper quotationMapper;

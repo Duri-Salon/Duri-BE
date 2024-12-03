@@ -3,7 +3,6 @@ package kr.com.duri.user.application.service;
 import java.util.List;
 
 import kr.com.duri.user.application.dto.request.UpdateReviewRequest;
-import kr.com.duri.user.application.mapper.ReviewMapper;
 import kr.com.duri.user.domain.entity.Review;
 import kr.com.duri.user.exception.ReviewNotFoundException;
 import kr.com.duri.user.repository.ReviewRepository;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final ReviewMapper reviewMapper;
 
     // [1] 목록 조회
     @Override
