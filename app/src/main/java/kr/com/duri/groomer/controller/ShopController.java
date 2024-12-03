@@ -20,7 +20,7 @@ public class ShopController {
     private final ShopFacade shopFacade;
 
     @GetMapping("/nearby")
-    public CommonResponseEntity<List<ShopNearByResponse>> getNearbyShops(
+    public CommonResponseEntity<List<ShopNearByResponse>> getNearByShops(
             @RequestParam double lat, @RequestParam double lon, @RequestParam double radius) {
         List<ShopNearByResponse> response = shopFacade.getNearbyShops(lat, lon, radius);
         return CommonResponseEntity.success(response);
