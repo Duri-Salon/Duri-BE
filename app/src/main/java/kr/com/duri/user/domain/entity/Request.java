@@ -23,7 +23,7 @@ public class Request extends BaseEntity {
     private Long id; // 견적서 ID
 
     @ManyToOne
-    @JoinColumn(name = "quotation_id")
+    @JoinColumn(name = "quotation_req_id")
     private QuotationReq quotation; // 견적요청서 ID (FK)
 
     @ManyToOne

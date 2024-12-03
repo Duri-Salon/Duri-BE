@@ -1,5 +1,10 @@
 package kr.com.duri.groomer.application.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import kr.com.duri.groomer.application.dto.request.QuotationUpdateCompleteRequest;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.exception.QuotationExistsException;
 import kr.com.duri.groomer.exception.QuotationNotFoundException;
@@ -41,5 +46,32 @@ public class QuotationServiceImpl implements QuotationService {
         return quotationRepository
                 .findByRequestId(requestId)
                 .orElseThrow(() -> new QuotationNotFoundException("해당 견적을 찾을 수 없습니다."));
+    }
+
+    // 가장 최근 시술 견적서 조회
+    @Override
+    public Quotation getClosetQuoation(Long shopId) {
+        Optional<Quotation> quotation =
+                quotationRepository.findApprovedClosetQuotation(shopId, LocalDateTime.now());
+        if (!quotation.isPresent()) { // 조회된 견적서 없음
+            return null;
+        }
+        return quotation.get();
+    }
+
+    // 매장의 당일 시술 견적서 조회
+    @Override
+    public List<Quotation> getTodayQuotations(Long shopId) {
+        List<Quotation> quotationList =
+                quotationRepository.findTodayQuotation(shopId, LocalDateTime.now());
+        return quotationList;
+    }
+
+    // 시술 완료 여부 업데이트
+    public Quotation updateComplete(
+            Long quotationId, QuotationUpdateCompleteRequest quotationUpdateCompleteRequest) {
+        Quotation quotation = findQuotationById(quotationId);
+        quotation.updateComplete(quotationUpdateCompleteRequest.isComplete());
+        return quotationRepository.save(quotation);
     }
 }
