@@ -12,7 +12,7 @@ public interface ShopService {
 
     Shop saveNewShop(String email, String provider);
 
-  Shop findById(Long shopId);
+    Shop findById(Long shopId);
 
-  List<Object[]> findShopsWithinRadius(Double lat, Double lon, Double radius);
+    List<Object[]> findShopsWithinRadius(Double lat, Double lon, Double radius);
 }
