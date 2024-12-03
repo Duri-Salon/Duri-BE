@@ -30,18 +30,18 @@ public class ShopFacade {
         return shopResults.stream()
                 .map(
                         result -> {
-                            Long shopId = (Long) result[0]; // shopId
-                            String shopName = (String) result[1]; // shopName
-                            String shopAddress = (String) result[2]; // shopAddress
-                            Double shopLat = (Double) result[3]; // shopLat
-                            Double shopLon = (Double) result[4]; // shopLon
-                            String shopPhone = (String) result[5]; // shopPhone
+                            Long shopId = (Long) result[0];
+                            String shopName = (String) result[1];
+                            String shopAddress = (String) result[2];
+                            Double shopLat = (Double) result[3];
+                            Double shopLon = (Double) result[4];
+                            String shopPhone = (String) result[5];
                             LocalTime shopOpenTime =
-                                    ((java.sql.Time) result[6]).toLocalTime(); // shopOpenTime
+                                    ((java.sql.Time) result[6]).toLocalTime();
                             LocalTime shopCloseTime =
-                                    ((java.sql.Time) result[7]).toLocalTime(); // shopCloseTime
-                            Float shopRating = (Float) result[8]; // shopRating
-                            Integer distance = (int) Math.round((Double) result[9]); // distance
+                                    ((java.sql.Time) result[7]).toLocalTime();
+                            Float shopRating = (Float) result[8];
+                            Integer distance = (int) Math.round((Double) result[9]);
 
                             List<String> tags = shopTagService.findTagsByShopId(shopId);
 
