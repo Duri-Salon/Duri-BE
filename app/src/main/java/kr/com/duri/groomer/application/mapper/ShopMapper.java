@@ -50,4 +50,31 @@ public class ShopMapper {
                 .tags(tags) // 태그들
                 .build();
     }
+
+    // Object[] result -> ShopNearByResponse로 변환
+    public ShopNearByResponse toShopNearByResponse(Object[] result, List<String> tags) {
+        Long shopId = (Long) result[0];
+        String shopName = (String) result[1];
+        String shopAddress = (String) result[2];
+        Double shopLat = (Double) result[3];
+        Double shopLon = (Double) result[4];
+        String shopPhone = (String) result[5];
+        LocalTime shopOpenTime = ((java.sql.Time) result[6]).toLocalTime();
+        LocalTime shopCloseTime = ((java.sql.Time) result[7]).toLocalTime();
+        Float shopRating = (Float) result[8];
+        Integer distance = (int) Math.round((Double) result[9]);
+
+        return toShopNearByResponse(
+                shopId,
+                shopName,
+                shopAddress,
+                shopLat,
+                shopLon,
+                shopPhone,
+                shopOpenTime,
+                shopCloseTime,
+                shopRating,
+                distance,
+                tags);
+    }
 }
