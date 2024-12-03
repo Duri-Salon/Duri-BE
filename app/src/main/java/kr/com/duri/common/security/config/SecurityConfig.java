@@ -28,11 +28,20 @@ public class SecurityConfig {
     private final CustomSuccessHandler customSuccessHandler;
     private final JwtUtil jwtUtil;
 
+    @Value("${client.front.dev.url}")
+    private String FRONTEND_DEV_URL;
+
     @Value("${client.user.url}")
     private String CLIENT_USER_URL;
 
     @Value("${client.shop.url}")
     private String CLIENT_SHOP_URL;
+
+    @Value("${client.user.dev.url}")
+    private String CLIENT_USER_DEV_URL;
+
+    @Value("${client.shop.dev.url}")
+    private String CLIENT_SHOP_DEV_URL;
 
     public SecurityConfig(
             CustomOAuth2UserService customOAuth2UserService,
@@ -57,7 +66,12 @@ public class SecurityConfig {
                                         CorsConfiguration configuration = new CorsConfiguration();
 
                                         configuration.setAllowedOrigins(
-                                                Arrays.asList(CLIENT_USER_URL, CLIENT_SHOP_URL));
+                                                Arrays.asList(
+                                                        FRONTEND_DEV_URL,
+                                                        CLIENT_USER_URL,
+                                                        CLIENT_SHOP_URL,
+                                                        CLIENT_USER_DEV_URL,
+                                                        CLIENT_SHOP_DEV_URL));
                                         configuration.setAllowCredentials(true);
 
                                         configuration.setAllowedHeaders(
@@ -70,8 +84,10 @@ public class SecurityConfig {
                                                         "Content-Type"));
                                         configuration.setExposedHeaders(
                                                 Arrays.asList(
+                                                        "Set-Cookie",
                                                         "authorization_user",
-                                                        "authorization_shop"));
+                                                        "authorization_shop",
+                                                        "Content-Type"));
 
                                         configuration.setMaxAge(3600L);
                                         return configuration;
