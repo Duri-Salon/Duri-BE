@@ -10,6 +10,7 @@ import kr.com.duri.groomer.exception.QuotationExistsException;
 import kr.com.duri.groomer.exception.QuotationNotFoundException;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
 import kr.com.duri.user.exception.PetNotFoundException;
+import kr.com.duri.user.exception.QuotationReqNotFoundException;
 import kr.com.duri.user.exception.RequestNotFoundException;
 import kr.com.duri.user.exception.ReviewImageUploadException;
 import kr.com.duri.user.exception.ReviewNotFoundException;
@@ -76,6 +77,11 @@ public class CommonControllerAdvice {
 
     @ExceptionHandler(ReviewNotFoundException.class)
     public ResponseEntity<?> handleReviewNotFoundException(ReviewNotFoundException e) {
+        return response(e, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(QuotationReqNotFoundException.class)
+    public ResponseEntity<?> handleQuotationReqNotFoundException(QuotationReqNotFoundException e) {
         return response(e, HttpStatus.NOT_FOUND);
     }
 
