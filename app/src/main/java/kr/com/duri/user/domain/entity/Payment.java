@@ -44,5 +44,5 @@ public class Payment extends BaseEntity {
     @NotBlank
     @Column(name = "payment_status")
     @Enumerated(EnumType.STRING)
-    private PaymentStatus status; // 상태 (대기(W), 성공(S), 실패(F))
+    private PaymentStatus status; // 상태 (대기(WATING), 성공(SUCCESS), 실패(FAILED))
 }
