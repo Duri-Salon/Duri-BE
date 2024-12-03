@@ -45,7 +45,7 @@ public class Quotation extends BaseEntity {
     private LocalDateTime endDateTime; // 미용 종료 시간 (YYYY-MM-DD HH:MM)
 
     @Column(name = "complete")
-    private float complete; // 미용 시술 여부
+    private boolean complete; // 미용 시술 여부 (True(완료), False(미완료))
 
     // 견적서 수정 메서드
     public Quotation update(
@@ -55,5 +55,10 @@ public class Quotation extends BaseEntity {
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         return this;
+    }
+
+    // 시술 여부 수정 메서드
+    public void updateComplete(boolean complete) {
+        this.complete = complete;
     }
 }
