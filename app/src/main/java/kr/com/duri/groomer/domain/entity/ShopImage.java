@@ -30,5 +30,6 @@ public class ShopImage extends BaseEntity {
     private String shopImageUrl; // 매장 이미지 URL
 
     @Column(name = "category")
-    private String category; // 카테고리(매장이미지 - shop, 가격표 이미지 - price, 사업자등록증(business)
+    // TODO : ENUM 변경
+    private String category; // 카테고리 (매장이미지(MAIN), 가격표 이미지(PRICE), 사업자등록증(BUSINESS), 기타(ETC))
 }
