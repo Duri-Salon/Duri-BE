@@ -3,11 +3,14 @@ package kr.com.duri.groomer.application.mapper;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import kr.com.duri.groomer.application.dto.response.HomeQuotationReqResponse;
 import kr.com.duri.groomer.application.dto.response.RecentProcedureResponse;
 import kr.com.duri.groomer.application.dto.response.TodayScheduleResponse;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.user.domain.entity.Pet;
+import kr.com.duri.user.domain.entity.QuotationReq;
+import kr.com.duri.user.domain.entity.Request;
 import kr.com.duri.user.domain.entity.SiteUser;
 
 import org.springframework.stereotype.Component;
@@ -57,6 +60,24 @@ public class GroomerHomeMapper {
                 .gender(String.valueOf(pet.getGender()))
                 .weight(pet.getWeight())
                 .groomerName(groomer.getName())
+                .build();
+    }
+
+    // (Request, QuotationRequest, Pet) Entity to HomeQuotationReqResponse
+    public HomeQuotationReqResponse toHomeQuotationReqResponse(
+            Request request, QuotationReq quotationReq, Pet pet) {
+        return HomeQuotationReqResponse.builder()
+                .requestId(request.getId())
+                .petId(pet.getId())
+                .imageURL(pet.getImage() == null ? "" : pet.getImage())
+                .name(pet.getName())
+                .breed(pet.getBreed())
+                .gender(String.valueOf(pet.getGender()))
+                .age(pet.getAge())
+                .weight(pet.getWeight())
+                .neutering(pet.getNeutering())
+                .quotationReqId(quotationReq.getId())
+                .memo(quotationReq.getEtc() == null ? "" : quotationReq.getEtc())
                 .build();
     }
 }
