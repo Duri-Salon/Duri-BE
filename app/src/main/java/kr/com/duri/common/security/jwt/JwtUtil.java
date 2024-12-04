@@ -51,11 +51,11 @@ public class JwtUtil {
                 .before(new Date());
     }
 
-    public String createJwt(Long id, String providerId, String role, Long expiredMs) {
+    public String createJwt(Long id, String providerId, Long expiredMs) {
         return Jwts.builder()
                 .claim("id", id)
                 .claim("providerId", providerId)
-                .claim("role", role)
+//                .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))
                 .signWith(secretKey)
@@ -87,5 +87,14 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload()
                 .get("providerId", String.class);
+    }
+
+    private Long getId(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("id", Long.class);
     }
 }

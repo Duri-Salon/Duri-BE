@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.com.duri.common.security.jwt.JwtUtil;
 import kr.com.duri.common.security.provider.NaverOAuth2User;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -18,6 +19,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+    @Value("${client.local.user.dev.url}")
+    private String LOCAL_USER_DEV_URL;
+
+    @Value("${client.local.shop.dev.url}")
+    private String LOCAL_SHOP_DEV_URL;
 
     private final JwtUtil jwtUtil;
 
@@ -49,7 +56,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String role = auth.getAuthority();
         System.out.println("role : " + role);
 
-        String token = jwtUtil.createJwt(id, providerId, role, 60 * 60 * 60 * 60L);
+//        String token = jwtUtil.createJwt(id, providerId, role, 60 * 60 * 60 * 60L);
 
         String tokenName =
                 username.equals("naver-user")
@@ -75,25 +82,14 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             response.getWriter().flush();
 
         } else {
+            if (tokenName.equals("authorization_user")) {
+                String redirectUrl = LOCAL_USER_DEV_URL + "/auth?providerId=" + providerId;
+                response.sendRedirect(redirectUrl);
+            } else {
+                String redirectUrl = LOCAL_SHOP_DEV_URL + "/auth?providerId=" + providerId;
+                response.sendRedirect(redirectUrl);
+            }
 
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-
-            String jsonResponse =
-                    String.format(
-                            "{\n"
-                                    + "  \"success\": true,\n"
-                                    + "  \"response\": {\n"
-                                    + "    \"client\": \"%s\",\n"
-                                    + "    \"token\": \"%s\",\n"
-                                    + "    \"newUser\": %s\n"
-                                    + "  },\n"
-                                    + "  \"error\": null\n"
-                                    + "}",
-                            tokenName, token, newUser);
-
-            response.getWriter().write(jsonResponse);
-            response.getWriter().flush();
         }
     }
 
