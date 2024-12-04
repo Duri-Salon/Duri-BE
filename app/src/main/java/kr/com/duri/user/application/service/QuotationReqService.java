@@ -6,5 +6,6 @@ public interface QuotationReqService {
 
     QuotationReq saveQuotationRequest(QuotationReq quotationReq);
 
+    // TODO : 지워도 되는지 확인
     QuotationReq getQuotationReqById(Long quotationReqId);
 }
