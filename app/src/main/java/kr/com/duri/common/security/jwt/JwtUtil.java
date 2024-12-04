@@ -55,7 +55,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .claim("id", id)
                 .claim("providerId", providerId)
-//                .claim("role", role)
+                //                .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))
                 .signWith(secretKey)

@@ -56,7 +56,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String role = auth.getAuthority();
         System.out.println("role : " + role);
 
-//        String token = jwtUtil.createJwt(id, providerId, role, 60 * 60 * 60 * 60L);
+        //        String token = jwtUtil.createJwt(id, providerId, role, 60 * 60 * 60 * 60L);
 
         String tokenName =
                 username.equals("naver-user")
@@ -89,7 +89,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 String redirectUrl = LOCAL_SHOP_DEV_URL + "/auth?providerId=" + providerId;
                 response.sendRedirect(redirectUrl);
             }
-
         }
     }
 

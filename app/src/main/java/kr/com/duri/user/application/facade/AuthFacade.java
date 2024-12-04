@@ -5,6 +5,7 @@ import kr.com.duri.user.application.dto.response.NewJwtResponse;
 import kr.com.duri.user.application.service.SiteUserService;
 import kr.com.duri.user.domain.entity.SiteUser;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,7 +23,5 @@ public class AuthFacade {
                 .token(token)
                 .newUser(siteUser.getNewUser())
                 .build();
-
     }
-
 }
