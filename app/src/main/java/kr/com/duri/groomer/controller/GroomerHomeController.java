@@ -5,7 +5,6 @@ import java.util.List;
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.groomer.application.dto.request.QuotationUpdateCompleteRequest;
 import kr.com.duri.groomer.application.dto.response.RecentProcedureResponse;
-import kr.com.duri.groomer.application.dto.response.ShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.TodayScheduleResponse;
 import kr.com.duri.groomer.application.facade.GroomerHomeFacade;
 import lombok.RequiredArgsConstructor;
@@ -19,19 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/home/shop")
+@RequestMapping("/api/v1/shop/home")
 public class GroomerHomeController {
 
     private final GroomerHomeFacade homeFacade;
 
-    // DURI-260 : 매장정보 조회
-    @GetMapping("/{shopId}")
-    public CommonResponseEntity<ShopDetailResponse> getShopDetail(@PathVariable Long shopId) {
-        return CommonResponseEntity.success(homeFacade.getShopDetail(shopId));
-    }
-
     // DURI-221 : 가까운 시술정보 조회
-    @GetMapping("/now/{shopId}")
+    @GetMapping("/closet/{shopId}")
     public CommonResponseEntity<RecentProcedureResponse> getRecentProcedure(
             @PathVariable Long shopId) {
         return CommonResponseEntity.success(homeFacade.getRecentProcedure(shopId));

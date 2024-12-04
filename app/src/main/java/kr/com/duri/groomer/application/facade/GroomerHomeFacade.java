@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import kr.com.duri.groomer.application.dto.request.QuotationUpdateCompleteRequest;
 import kr.com.duri.groomer.application.dto.response.RecentProcedureResponse;
-import kr.com.duri.groomer.application.dto.response.ShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.TodayScheduleResponse;
 import kr.com.duri.groomer.application.mapper.GroomerHomeMapper;
 import kr.com.duri.groomer.application.mapper.ShopMapper;
@@ -17,7 +16,6 @@ import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.domain.entity.Shop;
-import kr.com.duri.groomer.domain.entity.ShopImage;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.QuotationReq;
 import kr.com.duri.user.domain.entity.Request;
@@ -42,15 +40,7 @@ public class GroomerHomeFacade {
         return shopService.findById(shopId);
     }
 
-    // [1] 매장 정보 조회
-    public ShopDetailResponse getShopDetail(Long shopId) {
-        Shop shop = getShop(shopId);
-        // TODO : 매장 이미지 조회 구현 및 연결
-        ShopImage shopImage = new ShopImage(); // shopImageService.?(shopId)
-        return shopMapper.toShopDetailResponse(shop, shopImage);
-    }
-
-    // [2] 가까운 시술정보 조회
+    // 가까운 시술정보 조회
     public RecentProcedureResponse getRecentProcedure(Long shopId) {
         getShop(shopId);
         // 1. 현재 일자로부터 가장 최근의 견적서 조회
@@ -75,7 +65,7 @@ public class GroomerHomeFacade {
         return groomerHomeMapper.toRecentProcedureResponse(pet, user, quotation);
     }
 
-    // [3] 당일 스케줄 조회
+    // 당일 스케줄 조회
     public List<TodayScheduleResponse> getTodaySchedule(Long shopId) {
         getShop(shopId);
         // 1. 매장으로 디자이너 조회
@@ -98,7 +88,7 @@ public class GroomerHomeFacade {
                 .collect(Collectors.toList());
     }
 
-    // [4] 미용 완료 여부 수정
+    // 미용 완료 여부 수정
     public void updateComplete(
             Long quotationId, QuotationUpdateCompleteRequest quotationUpdateCompleteRequest) {
         quotationService.updateComplete(quotationId, quotationUpdateCompleteRequest);
