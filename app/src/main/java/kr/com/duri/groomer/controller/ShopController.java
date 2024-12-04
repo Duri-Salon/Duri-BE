@@ -55,7 +55,7 @@ public class ShopController {
     }
 
     // DURI-322 : 이번달 총 매출 조회
-    @GetMapping("/Income/{shopId}")
+    @GetMapping("/income/{shopId}")
     public CommonResponseEntity<MonthIncomeResponse> getMonthIncome(@PathVariable Long shopId) {
         return CommonResponseEntity.success(shopFacade.getMonthIncome(shopId));
     }
