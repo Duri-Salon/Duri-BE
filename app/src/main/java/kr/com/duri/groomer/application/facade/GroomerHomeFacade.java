@@ -45,19 +45,19 @@ public class GroomerHomeFacade {
     // 견적서로 요청 조회
     private Request getRequestByQuotation(Quotation quotation) {
         return Optional.ofNullable(quotation.getRequest())
-            .orElseThrow(() -> new RequestNotFoundException("해당 요청을 찾을 수 없습니다."));
+                .orElseThrow(() -> new RequestNotFoundException("해당 요청을 찾을 수 없습니다."));
     }
 
     // 요청으로 견적 요청서 조회
     private QuotationReq getQuotationReqByRequest(Request request) {
         return Optional.ofNullable(request.getQuotation())
-            .orElseThrow(() -> new RequestNotFoundException("해당 견적요청서를 찾을 수 없습니다."));
+                .orElseThrow(() -> new RequestNotFoundException("해당 견적요청서를 찾을 수 없습니다."));
     }
 
     // 견적 요청서로 반려견 조회
     private Pet getPetByQuotationReq(QuotationReq quotationReq) {
         return Optional.ofNullable(quotationReq.getPet())
-            .orElseThrow(() -> new PetNotFoundException("해당 반려견을 찾을 수 없습니다."));
+                .orElseThrow(() -> new PetNotFoundException("해당 반려견을 찾을 수 없습니다."));
     }
 
     // 가까운 시술정보 조회
@@ -90,24 +90,24 @@ public class GroomerHomeFacade {
             return Collections.emptyList();
         }
         return quotationList.stream()
-            .map(
-                quotation -> {
-                    // 3. 견적서로 요청 조회
-                    Request request = getRequestByQuotation(quotation);
-                    // 4. 요청으로 견적 요청서 조회
-                    QuotationReq quotationReq = getQuotationReqByRequest(request);
-                    // 5. 견적 요청서로 반려견 조회
-                    Pet pet = getPetByQuotationReq(quotationReq);
-                    // 6. DTO 변환
-                    return groomerHomeMapper.toTodayScheduleResponse(
-                        pet, quotation, groomer);
-                })
-            .collect(Collectors.toList());
+                .map(
+                        quotation -> {
+                            // 3. 견적서로 요청 조회
+                            Request request = getRequestByQuotation(quotation);
+                            // 4. 요청으로 견적 요청서 조회
+                            QuotationReq quotationReq = getQuotationReqByRequest(request);
+                            // 5. 견적 요청서로 반려견 조회
+                            Pet pet = getPetByQuotationReq(quotationReq);
+                            // 6. DTO 변환
+                            return groomerHomeMapper.toTodayScheduleResponse(
+                                    pet, quotation, groomer);
+                        })
+                .collect(Collectors.toList());
     }
 
     // 미용 완료 여부 수정
     public void updateComplete(
-        Long quotationId, QuotationUpdateCompleteRequest quotationUpdateCompleteRequest) {
+            Long quotationId, QuotationUpdateCompleteRequest quotationUpdateCompleteRequest) {
         quotationService.updateComplete(quotationId, quotationUpdateCompleteRequest);
     }
 
@@ -120,15 +120,15 @@ public class GroomerHomeFacade {
             return Collections.emptyList();
         }
         return requestList.stream()
-            .map(
-                request -> {
-                    // 2. 요청으로 견적 요청서 조회
-                    QuotationReq quotationReq = getQuotationReqByRequest(request);
-                    // 3. 견적 요청서로 반려견 조회
-                    Pet pet = getPetByQuotationReq(quotationReq);
-                    return groomerHomeMapper.toHomeQuotationReqResponse(
-                        request, quotationReq, pet);
-                })
-            .collect(Collectors.toList());
+                .map(
+                        request -> {
+                            // 2. 요청으로 견적 요청서 조회
+                            QuotationReq quotationReq = getQuotationReqByRequest(request);
+                            // 3. 견적 요청서로 반려견 조회
+                            Pet pet = getPetByQuotationReq(quotationReq);
+                            return groomerHomeMapper.toHomeQuotationReqResponse(
+                                    request, quotationReq, pet);
+                        })
+                .collect(Collectors.toList());
     }
 }
