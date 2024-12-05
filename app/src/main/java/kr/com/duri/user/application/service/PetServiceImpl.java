@@ -28,4 +28,12 @@ public class PetServiceImpl implements PetService {
                 .findFirst()
                 .orElseThrow(() -> new PetNotFoundException("해당 고객의 반려견을 찾을 수 없습니다."));
     }
+
+    // petID로 조회
+    @Override
+    public Pet findById(Long petId) {
+        return petRepository
+                .findById(petId)
+                .orElseThrow(() -> new PetNotFoundException("애완견 ID를 찾을 수 없습니다."));
+    }
 }
