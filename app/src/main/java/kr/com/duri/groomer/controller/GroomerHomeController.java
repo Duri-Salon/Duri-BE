@@ -4,8 +4,8 @@ import java.util.List;
 
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.groomer.application.dto.request.QuotationUpdateCompleteRequest;
+import kr.com.duri.groomer.application.dto.response.HomeQuotationReqResponse;
 import kr.com.duri.groomer.application.dto.response.RecentProcedureResponse;
-import kr.com.duri.groomer.application.dto.response.ShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.TodayScheduleResponse;
 import kr.com.duri.groomer.application.facade.GroomerHomeFacade;
 import lombok.RequiredArgsConstructor;
@@ -19,19 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/home/shop")
+@RequestMapping("/api/v1/shop/home")
 public class GroomerHomeController {
 
     private final GroomerHomeFacade homeFacade;
 
-    // DURI-260 : 매장정보 조회
-    @GetMapping("/{shopId}")
-    public CommonResponseEntity<ShopDetailResponse> getShopDetail(@PathVariable Long shopId) {
-        return CommonResponseEntity.success(homeFacade.getShopDetail(shopId));
-    }
-
     // DURI-221 : 가까운 시술정보 조회
-    @GetMapping("/now/{shopId}")
+    @GetMapping("/closet/{shopId}")
     public CommonResponseEntity<RecentProcedureResponse> getRecentProcedure(
             @PathVariable Long shopId) {
         return CommonResponseEntity.success(homeFacade.getRecentProcedure(shopId));
@@ -51,5 +45,12 @@ public class GroomerHomeController {
             @RequestBody QuotationUpdateCompleteRequest quotationUpdateCompleteRequest) {
         homeFacade.updateComplete(quotationId, quotationUpdateCompleteRequest);
         return CommonResponseEntity.success("미용 완료 여부가 성공적으로 수정되었습니다.");
+    }
+
+    // DURI-325 : 받은 견적요청서 리스트 조회
+    @GetMapping("/request/{shopId}")
+    public CommonResponseEntity<List<HomeQuotationReqResponse>> getRequestList(
+            @PathVariable Long shopId) {
+        return CommonResponseEntity.success(homeFacade.getRequestList(shopId));
     }
 }

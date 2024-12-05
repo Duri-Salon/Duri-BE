@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface RequestRepository extends JpaRepository<Request, Long> {
 
+    // 매장이 받은 대기 중인 견적 요청 조회
     @Query(
             "SELECT r FROM Request r "
                     + "JOIN FETCH r.quotation q "

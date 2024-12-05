@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.servlet.http.HttpSession;
 import kr.com.duri.user.application.dto.request.ConfirmPaymentRequest;
@@ -105,5 +107,12 @@ public class PaymentServiceImpl implements PaymentService {
                 responseCode == 200 ? connection.getInputStream() : connection.getErrorStream();
         JSONParser parser = new JSONParser();
         return (JSONObject) parser.parse(new InputStreamReader(is, StandardCharsets.UTF_8));
+    }
+
+    // 월별 총 매출액 조회
+    public Long getTotalPriceMonth(Long shopId) {
+        LocalDateTime startOfMonth = LocalDate.now().withDayOfMonth(1).atStartOfDay(); // 이번 달의 첫 초
+        LocalDateTime endOfMonth = startOfMonth.plusMonths(1).minusSeconds(1); // 이번 달의 마지막 초
+        return paymentRepository.findTotalPriceByShopId(shopId, startOfMonth, endOfMonth);
     }
 }

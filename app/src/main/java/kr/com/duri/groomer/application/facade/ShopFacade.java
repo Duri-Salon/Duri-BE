@@ -4,10 +4,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import kr.com.duri.groomer.application.dto.response.MonthIncomeResponse;
+import kr.com.duri.groomer.application.dto.response.ShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopNearByResponse;
 import kr.com.duri.groomer.application.mapper.ShopMapper;
 import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.application.service.ShopTagService;
+import kr.com.duri.groomer.domain.entity.Shop;
+import kr.com.duri.groomer.domain.entity.ShopImage;
+import kr.com.duri.user.application.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -17,7 +22,21 @@ import org.springframework.stereotype.Service;
 public class ShopFacade {
     private final ShopService shopService;
     private final ShopTagService shopTagService;
+    private final PaymentService paymentService;
     private final ShopMapper shopMapper;
+
+    // 매장 조회
+    private Shop getShop(Long shopId) {
+        return shopService.findById(shopId);
+    }
+
+    // 매장 상세정보 조회
+    public ShopDetailResponse getShopDetail(Long shopId) {
+        Shop shop = getShop(shopId);
+        // TODO : 매장 이미지 조회 구현 및 연결
+        ShopImage shopImage = new ShopImage(); // shopImageService.?(shopId)
+        return shopMapper.toShopDetailResponse(shop, shopImage);
+    }
 
     private List<ShopNearByResponse> mapToShopNearByResponses(List<Object[]> shopResults) {
         return shopResults.stream()
@@ -50,5 +69,12 @@ public class ShopFacade {
         return mapToShopNearByResponses(shopResults).stream()
                 .sorted(Comparator.comparingDouble(ShopNearByResponse::getShopRating).reversed())
                 .collect(Collectors.toList());
+    }
+
+    // 총 매출 통계 조회
+    public MonthIncomeResponse getMonthIncome(Long shopId) {
+        getShop(shopId);
+        Long totalIncome = paymentService.getTotalPriceMonth(shopId);
+        return shopMapper.toShopDetailResponse(totalIncome);
     }
 }
