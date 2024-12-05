@@ -12,6 +12,8 @@ import kr.com.duri.common.security.oauth2.CustomSuccessHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -120,7 +122,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
                 (auth) ->
                         auth
-                                //                        todo : 개발 진행을 위해 임의로 모두 허용
+                                // todo : 개발 진행을 위해 임의로 모두 허용
                                 //
                                 // .requestMatchers("/api/**").authenticated()
                                 //
@@ -133,5 +135,10 @@ public class SecurityConfig {
                 (session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class).build();
     }
 }

@@ -40,6 +40,7 @@ public class CorsMvcConfig implements WebMvcConfigurer {
                         CLIENT_USER_URL,
                         CLIENT_SHOP_URL,
                         CLIENT_USER_DEV_URL,
-                        CLIENT_SHOP_DEV_URL);
+                        CLIENT_SHOP_DEV_URL)
+                .allowCredentials(true); // 인증 정보 허용
     }
 }
