@@ -16,7 +16,8 @@ public class ShopAuthController {
     private final ShopAuthFacade shopAuthFacade;
 
     @GetMapping("/shop/token")
-    public CommonResponseEntity<NewShopJwtResponse> requestNewShopToken(@RequestParam String providerId) {
+    public CommonResponseEntity<NewShopJwtResponse> requestNewShopToken(
+            @RequestParam String providerId) {
         NewShopJwtResponse newShopJwtResponse = null;
 
         try {
@@ -27,5 +28,4 @@ public class ShopAuthController {
 
         return CommonResponseEntity.success(newShopJwtResponse);
     }
-
 }

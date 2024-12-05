@@ -16,7 +16,8 @@ public class UserAuthController {
     private final UserAuthFacade userAuthFacade;
 
     @GetMapping("/user/token")
-    public CommonResponseEntity<NewUserJwtResponse> requestNewUserToken(@RequestParam String providerId) {
+    public CommonResponseEntity<NewUserJwtResponse> requestNewUserToken(
+            @RequestParam String providerId) {
         NewUserJwtResponse newUserJwtResponse = null;
 
         try {
@@ -27,5 +28,4 @@ public class UserAuthController {
 
         return CommonResponseEntity.success(newUserJwtResponse);
     }
-
 }
