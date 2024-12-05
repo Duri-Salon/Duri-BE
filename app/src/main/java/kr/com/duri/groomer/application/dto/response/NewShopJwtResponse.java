@@ -1,11 +1,11 @@
-package kr.com.duri.user.application.dto.response;
+package kr.com.duri.groomer.application.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class NewJwtResponse {
+public class NewShopJwtResponse {
     private String client;
     private String token;
     private Boolean newUser;
