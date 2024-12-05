@@ -20,6 +20,7 @@ public interface PaymentService {
     // 결제 승인 요청 처리
     JSONObject confirmPayment(
             ConfirmPaymentRequest confirmPaymentRequest, String tossApiUrl, String widgetSecretKey);
+
     // 월별 총 매출액 조회
     Long getTotalPriceMonth(Long shopId);
 }
