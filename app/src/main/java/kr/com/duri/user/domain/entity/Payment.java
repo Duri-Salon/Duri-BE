@@ -23,14 +23,15 @@ public class Payment extends BaseEntity {
     @Column(name = "payment_id")
     private Long id; // 결제 ID
 
-    @NotBlank
+    @Column(name = "toss_order_id")
+    private String tossOrderId; // 토스 내부에서 관리하는 orderID
+
     @OneToOne
     @JoinColumn(name = "quotation_id")
     private Quotation quotation; // 견적서 ID (FK)
 
-    @NotBlank
     @Column(name = "toss_key")
-    private String tossKey; // 토스에서 제공하는 결제 키 값
+    private String tossKey; // 토스에서 제공하는 결제 키 값(paymentKey)
 
     @Column(name = "original_price")
     private Integer originalPrice; // 결제 금액
@@ -41,8 +42,7 @@ public class Payment extends BaseEntity {
     @Column(name = "price")
     private Integer price; // 최종 결제 금액
 
-    @NotBlank
     @Column(name = "payment_status")
     @Enumerated(EnumType.STRING)
-    private PaymentStatus status; // 상태 (대기(W), 성공(S), 실패(F))
+    private PaymentStatus status; // 상태 (대기(WAITING), 성공(SUCCESS), 실패(FAILED))
 }

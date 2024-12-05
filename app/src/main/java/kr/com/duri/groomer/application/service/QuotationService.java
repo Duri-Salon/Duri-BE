@@ -24,4 +24,7 @@ public interface QuotationService {
     // 시술 완료 여부 수정
     Quotation updateComplete(
             Long quotationId, QuotationUpdateCompleteRequest quotationUpdateCompleteRequest);
+
+    // QuotationId로 Quotation 조회
+    Quotation findById(Long quotationId);
 }

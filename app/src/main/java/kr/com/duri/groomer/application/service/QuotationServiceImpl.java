@@ -74,4 +74,10 @@ public class QuotationServiceImpl implements QuotationService {
         quotation.updateComplete(quotationUpdateCompleteRequest.isComplete());
         return quotationRepository.save(quotation);
     }
+
+    // QuotationId로 Quotation 조회
+    @Override
+    public Quotation findById(Long quotationId) {
+        return quotationRepository.findById(quotationId).orElse(null);
+    }
 }
