@@ -19,7 +19,7 @@ public class PaymentController {
     private final PaymentFacade paymentFacade;
 
     // 결제 금액 임시 저장
-    @PostMapping("/saveAmount")
+    @PostMapping("/amount-save")
     public CommonResponseEntity<String> saveAmount(
             HttpSession session, @RequestBody SaveAmountRequest saveAmountRequest) {
         paymentFacade.saveAmount(session, saveAmountRequest);
@@ -27,7 +27,7 @@ public class PaymentController {
     }
 
     // 결제 금액 검증
-    @PostMapping("/verifyAmount")
+    @PostMapping("/amount-verify")
     public CommonResponseEntity<String> verifyAmount(
             HttpSession session, @RequestBody SaveAmountRequest saveAmountRequest) {
         boolean isValid = paymentFacade.verifyAmount(session, saveAmountRequest);
