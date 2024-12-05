@@ -78,6 +78,6 @@ public class QuotationServiceImpl implements QuotationService {
     // QuotationId로 Quotation 조회
     @Override
     public Quotation findById(Long quotationId) {
-        return quotationRepository.findById(quotationId).orElse(null);
+        return quotationRepository.findById(quotationId).orElseThrow(() -> new QuotationNotFoundException("해당 견적을 찾을 수 없습니다."));
     }
 }
