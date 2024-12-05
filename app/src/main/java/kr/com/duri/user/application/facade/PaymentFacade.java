@@ -5,6 +5,7 @@ import kr.com.duri.groomer.application.service.QuotationService;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.user.application.dto.request.ConfirmPaymentRequest;
 import kr.com.duri.user.application.dto.request.SaveAmountRequest;
+import kr.com.duri.user.application.dto.response.PaymentResponse;
 import kr.com.duri.user.application.mapper.PaymentMapper;
 import kr.com.duri.user.application.service.PaymentService;
 import kr.com.duri.user.domain.entity.Payment;
@@ -39,7 +40,7 @@ public class PaymentFacade {
     }
 
     // 결제 승인 요청
-    public JSONObject confirmPayment(ConfirmPaymentRequest confirmPaymentRequest) {
+    public PaymentResponse confirmPayment(ConfirmPaymentRequest confirmPaymentRequest) {
         // Toss API 호출
         JSONObject response = paymentService.confirmPayment(confirmPaymentRequest, tossApiUrl, widgetSecretKey);
         Object status = response.get("status");
@@ -52,6 +53,6 @@ public class PaymentFacade {
             Payment payment = paymentMapper.toPayment(confirmPaymentRequest, quotation);
             paymentService.save(payment);
         }
-        return response;
+        return paymentMapper.toPaymentResponse(response);
     }
 }
