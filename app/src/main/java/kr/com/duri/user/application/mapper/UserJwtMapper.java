@@ -2,18 +2,18 @@ package kr.com.duri.user.application.mapper;
 
 import kr.com.duri.user.application.dto.response.NewUserJwtResponse;
 
+import kr.com.duri.user.domain.entity.SiteUser;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserJwtMapper {
 
-    public NewUserJwtResponse toNewUserJwtResponse(
-            String username, String client, String token, Boolean newUser) {
+    public NewUserJwtResponse toNewUserJwtResponse(SiteUser siteUser, String token) {
         return NewUserJwtResponse.builder()
-                .username(username)
+                .username(siteUser.getName())
                 .token(token)
-                .client(client)
-                .newUser(newUser)
+                .client("authorization_user")
+                .newUser(siteUser.getNewUser())
                 .build();
     }
 }

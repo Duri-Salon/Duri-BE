@@ -1,7 +1,9 @@
-package kr.com.duri.user.application.service;
+package kr.com.duri.user.application.service.impl;
 
 import java.util.Optional;
 
+import kr.com.duri.common.security.jwt.JwtUtil;
+import kr.com.duri.user.application.service.SiteUserService;
 import kr.com.duri.user.domain.entity.SiteUser;
 import kr.com.duri.user.repository.SiteUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 public class SiteUserServiceImpl implements SiteUserService {
 
     private final SiteUserRepository siteUserRepository;
+
+    private final JwtUtil jwtUtil;
 
     @Override
     public Optional<SiteUser> findBySocialId(String socialId) {
@@ -31,5 +35,10 @@ public class SiteUserServiceImpl implements SiteUserService {
         SiteUser newSiteUser =
                 SiteUser.createNewSiteUser(socialId, email, name, phone, gender, birth, birthYear);
         return siteUserRepository.save(newSiteUser);
+    }
+
+    @Override
+    public String createNewUserJwt(SiteUser siteUser) {
+        return jwtUtil.createJwt(siteUser.getId(), siteUser.getSocialId(), 60 * 60 * 60 * 60L);
     }
 }

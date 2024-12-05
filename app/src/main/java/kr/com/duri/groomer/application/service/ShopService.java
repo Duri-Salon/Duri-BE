@@ -14,5 +14,7 @@ public interface ShopService {
 
     Shop findById(Long shopId);
 
+    String createNewShopJwt(Shop shop);
+
     List<Object[]> findShopsWithinRadius(Double lat, Double lon, Double radius);
 }
