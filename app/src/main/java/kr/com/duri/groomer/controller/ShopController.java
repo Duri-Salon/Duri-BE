@@ -6,7 +6,6 @@ import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.groomer.application.dto.response.MonthIncomeResponse;
 import kr.com.duri.groomer.application.dto.response.ShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopNearByResponse;
-import kr.com.duri.groomer.application.facade.GroomerHomeFacade;
 import kr.com.duri.groomer.application.facade.ShopFacade;
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ShopController {
 
     private final ShopFacade shopFacade;
-    private final GroomerHomeFacade homeFacade;
 
     // DURI-260 : 매장 상세정보 조회
     @GetMapping("/{shopId}")
