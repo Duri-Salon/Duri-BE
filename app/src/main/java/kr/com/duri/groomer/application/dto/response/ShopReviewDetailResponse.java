@@ -14,7 +14,7 @@ public class ShopReviewDetailResponse {
     private String userName; // 사용자 이름
     private String userImageURL; // 사용자 이미지 URL
     private Long reviewId; // 리뷰 ID
-    private int rating; // 별점
+    private Integer rating; // 별점
     private String reviewImageURL; // 리뷰 이미지 URL
     private String comment; // 리뷰 내용
     private Long quotationReqId; // 견적 요청서 ID
