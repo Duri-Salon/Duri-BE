@@ -1,8 +1,9 @@
-package kr.com.duri.groomer.application.service;
+package kr.com.duri.groomer.application.service.impl;
 
 import java.util.List;
 import java.util.Optional;
 
+import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
 import kr.com.duri.groomer.repository.ShopRepository;

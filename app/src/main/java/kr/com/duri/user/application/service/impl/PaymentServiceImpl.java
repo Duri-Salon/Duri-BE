@@ -1,4 +1,4 @@
-package kr.com.duri.user.application.service;
+package kr.com.duri.user.application.service.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +14,7 @@ import java.util.Base64;
 import jakarta.servlet.http.HttpSession;
 import kr.com.duri.user.application.dto.request.ConfirmPaymentRequest;
 import kr.com.duri.user.application.dto.request.SaveAmountRequest;
+import kr.com.duri.user.application.service.PaymentService;
 import kr.com.duri.user.domain.entity.Payment;
 import kr.com.duri.user.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;

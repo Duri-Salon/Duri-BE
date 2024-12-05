@@ -1,8 +1,9 @@
-package kr.com.duri.groomer.application.service;
+package kr.com.duri.groomer.application.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import kr.com.duri.groomer.application.service.ShopTagService;
 import kr.com.duri.groomer.domain.entity.ShopTag;
 import kr.com.duri.groomer.repository.ShopTagRepository;
 import lombok.RequiredArgsConstructor;
