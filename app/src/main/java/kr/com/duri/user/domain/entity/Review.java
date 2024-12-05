@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 import kr.com.duri.common.entity.BaseEntity;
-import kr.com.duri.groomer.domain.entity.Shop;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,13 +22,9 @@ public class Review extends BaseEntity {
     @Column(name = "review_id")
     private Long id; // 리뷰 ID
 
-    @ManyToOne
-    @JoinColumn(name = "shop_id")
-    private Shop shop; // 매장 ID (FK)
-
-    @ManyToOne
-    @JoinColumn(name = "pet_id")
-    private Pet pet; // 반려견 ID (FK)
+    @OneToOne
+    @JoinColumn(name = "request_id")
+    private Request request; // 견적 요청 ID (FK)
 
     @Column(name = "rating")
     private Integer rating; // 별점 (0점~5점)

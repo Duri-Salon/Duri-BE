@@ -16,6 +16,12 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
 
+    // 매장 리뷰 조회
+    @Override
+    public List<Review> getReviewsByShopId(Long shopId) {
+        return reviewRepository.findAllByShopId(shopId);
+    }
+
     // [1] 목록 조회
     @Override
     public List<Review> getReviewList(Long petId) {

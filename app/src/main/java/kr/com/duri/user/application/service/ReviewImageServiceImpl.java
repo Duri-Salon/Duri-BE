@@ -41,7 +41,7 @@ public class ReviewImageServiceImpl implements ReviewImageService {
     // [1-1] 단일 조회
     @Override
     public ReviewImage getReviewImageByReviewId(Long reviewId) {
-        return getReviewImageList(reviewId).stream().findFirst().orElse(null);
+        return getReviewImageList(reviewId).stream().findFirst().orElse(new ReviewImage());
     }
 
     // [2] 추가, 수정

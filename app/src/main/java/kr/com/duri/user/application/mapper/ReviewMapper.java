@@ -1,41 +1,78 @@
 package kr.com.duri.user.application.mapper;
 
+import kr.com.duri.groomer.application.dto.response.ShopReviewDetailResponse;
+import kr.com.duri.groomer.application.dto.response.ShopReviewResponse;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.user.application.dto.request.NewReviewRequest;
 import kr.com.duri.user.application.dto.response.ReviewResponse;
-import kr.com.duri.user.domain.entity.Pet;
+import kr.com.duri.user.domain.entity.QuotationReq;
+import kr.com.duri.user.domain.entity.Request;
 import kr.com.duri.user.domain.entity.Review;
 import kr.com.duri.user.domain.entity.ReviewImage;
+import kr.com.duri.user.domain.entity.SiteUser;
 
 import org.springframework.stereotype.Component;
 
 @Component
 public class ReviewMapper {
 
+    // null 방지
+    private String safeGet(String value) {
+        return value == null ? "" : value;
+    }
+
     // Review Entity to Response DTO
     public ReviewResponse toReviewResponse(
             Groomer groomer, Review review, ReviewImage reviewImage) {
         return ReviewResponse.builder()
                 .reviewId(review.getId())
-                .shopName(groomer.getShop().getName())
-                .groomerName(groomer.getName())
+                .shopName(safeGet(groomer.getShop().getName()))
+                .groomerName(safeGet(groomer.getName()))
                 .rating(review.getRating())
-                .comment(review.getComment())
-                .imgUrl(reviewImage != null ? reviewImage.getImage() : null)
+                .comment(safeGet(review.getComment()))
+                .imgUrl(safeGet(reviewImage.getImage()))
                 .createdAt(review.getCreatedAt())
                 .build();
     }
 
     // Review Request DTO to Entity
-    public Review toReview(Pet pet, Groomer groomer, NewReviewRequest newReviewRequest) {
-        if (groomer == null || pet == null) {
-            throw new IllegalArgumentException("미용사 또는 펫의 정보가 공백입니다.");
-        }
+    public Review toReview(NewReviewRequest newReviewRequest, Request request) {
         return Review.builder()
-                .shop(groomer.getShop())
-                .pet(pet)
                 .rating(newReviewRequest.getRating())
-                .comment(newReviewRequest.getComment())
+                .comment(safeGet(newReviewRequest.getComment()))
+                .request(request)
+                .build();
+    }
+
+    // Review, ReviewImage, SiteUser Entity to ShopReviewResponse DTO
+    public ShopReviewResponse toShopReviewResponse(
+            Review review, ReviewImage reviewImage, SiteUser user) {
+        return ShopReviewResponse.builder()
+                .reviewId(review.getId())
+                .reviewImageURL(safeGet(reviewImage.getImage()))
+                .comment(safeGet(review.getComment()))
+                .rating(review.getRating())
+                .userId(user.getId())
+                .userImageURL(safeGet(user.getImage()))
+                .build();
+    }
+
+    // Review, ReviewImage, SiteUser Entity to ShopReviewDetailResponse DTO
+    public ShopReviewDetailResponse toShopReviewDetailResponse(
+            Review review, ReviewImage reviewImage, QuotationReq quotationReq, SiteUser user) {
+        return ShopReviewDetailResponse.builder()
+                .userId(user.getId())
+                .userName(safeGet(user.getName()))
+                .userImageURL(safeGet(user.getImage()))
+                .reviewId(review.getId())
+                .rating(review.getRating())
+                .comment(safeGet(review.getComment()))
+                .reviewImageURL(safeGet(reviewImage.getImage()))
+                .quotationReqId(quotationReq.getId())
+                .menu(safeGet(quotationReq.getMenu()))
+                .addMenu(safeGet(quotationReq.getAddMenu()))
+                .specailMenu(safeGet(quotationReq.getSpecialMenu()))
+                .design(safeGet(quotationReq.getDesign()))
                 .build();
     }
 }
