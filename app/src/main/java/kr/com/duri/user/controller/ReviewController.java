@@ -4,6 +4,8 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 import kr.com.duri.common.response.CommonResponseEntity;
+import kr.com.duri.groomer.application.dto.response.ShopReviewDetailResponse;
+import kr.com.duri.groomer.application.dto.response.ShopReviewResponse;
 import kr.com.duri.user.application.dto.request.NewReviewRequest;
 import kr.com.duri.user.application.dto.request.UpdateReviewRequest;
 import kr.com.duri.user.application.dto.response.ReviewResponse;
@@ -27,6 +29,19 @@ import org.springframework.web.multipart.MultipartFile;
 public class ReviewController {
 
     private final ReviewFacade reviewFacade;
+
+    // DURI-294 : 매장 리뷰 리스트 조회
+    @GetMapping("/review/{shopId}")
+    public CommonResponseEntity<List<ShopReviewResponse>> getReviewList(@PathVariable Long shopId) {
+        return CommonResponseEntity.success(reviewFacade.getReviewByShop(shopId));
+    }
+
+    // DURI-324 : 매장 리뷰 상세 리스트 조회
+    @GetMapping("/review-detail/{shopId}")
+    public CommonResponseEntity<List<ShopReviewDetailResponse>> getReviewDetailList(
+            @PathVariable Long shopId) {
+        return CommonResponseEntity.success(reviewFacade.getReviewDetailByShop(shopId));
+    }
 
     // DURI-288 : 리뷰 전체 조회
     @GetMapping("/user/{userId}")
