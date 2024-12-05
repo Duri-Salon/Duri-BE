@@ -1,8 +1,8 @@
 package kr.com.duri.user.application.mapper;
 
 import kr.com.duri.user.application.dto.response.NewUserJwtResponse;
-
 import kr.com.duri.user.domain.entity.SiteUser;
+
 import org.springframework.stereotype.Component;
 
 @Component
