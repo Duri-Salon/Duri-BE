@@ -20,6 +20,6 @@ public class TodayScheduleResponse {
     private String petName; // 펫 이름
     private String breed; // 견종
     private String gender; // 성별
-    private Integer weight; // 무게
+    private Float weight; // 무게
     private String groomerName; // 미용사 이름
 }

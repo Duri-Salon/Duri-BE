@@ -20,7 +20,7 @@ public class PetDetailResponse {
     private Integer age; // 나이
     private Gender gender; // 성별
     private String breed; // 견종
-    private Integer weight; // 몸무게
+    private Float weight; // 몸무게
     private Boolean neutering; // 중성화 여부
     private List<String> character; // 성격 정보
     private List<String> diseases; // 질환 정보

@@ -37,7 +37,7 @@ public class Pet extends BaseEntity {
     private Integer age; // 펫 나이
 
     @Column(name = "pet_weight")
-    private Integer weight; // 펫 몸무게
+    private Float weight; // 펫 몸무게
 
     @Column(name = "pet_gender")
     @Enumerated(EnumType.STRING)
