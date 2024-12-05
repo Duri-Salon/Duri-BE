@@ -10,6 +10,7 @@ import kr.com.duri.user.application.mapper.PaymentMapper;
 import kr.com.duri.user.application.service.PaymentService;
 import kr.com.duri.user.domain.entity.Payment;
 import lombok.RequiredArgsConstructor;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,6 @@ public class PaymentFacade {
     private final PaymentService paymentService;
     private final QuotationService quotationService;
     private final PaymentMapper paymentMapper;
-
 
     @Value("${toss.widget.secret.key}")
     private String widgetSecretKey;
@@ -42,7 +42,8 @@ public class PaymentFacade {
     // 결제 승인 요청
     public PaymentResponse confirmPayment(ConfirmPaymentRequest confirmPaymentRequest) {
         // Toss API 호출
-        JSONObject response = paymentService.confirmPayment(confirmPaymentRequest, tossApiUrl, widgetSecretKey);
+        JSONObject response =
+                paymentService.confirmPayment(confirmPaymentRequest, tossApiUrl, widgetSecretKey);
         Object status = response.get("status");
 
         // Quotation 조회

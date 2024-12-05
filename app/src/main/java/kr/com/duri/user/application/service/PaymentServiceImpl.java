@@ -1,18 +1,5 @@
 package kr.com.duri.user.application.service;
 
-import jakarta.servlet.http.HttpSession;
-import kr.com.duri.user.application.dto.request.ConfirmPaymentRequest;
-import kr.com.duri.user.application.dto.request.SaveAmountRequest;
-import kr.com.duri.user.domain.entity.Payment;
-import kr.com.duri.user.repository.PaymentRepository;
-import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,6 +9,20 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+import jakarta.servlet.http.HttpSession;
+import kr.com.duri.user.application.dto.request.ConfirmPaymentRequest;
+import kr.com.duri.user.application.dto.request.SaveAmountRequest;
+import kr.com.duri.user.domain.entity.Payment;
+import kr.com.duri.user.repository.PaymentRepository;
+import lombok.RequiredArgsConstructor;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
@@ -30,26 +31,31 @@ public class PaymentServiceImpl implements PaymentService {
 
     // 결제 금액 임시 저장
     @Override
-    public void saveAmount(HttpSession session, SaveAmountRequest saveAmountRequest){
-        session.setAttribute(String.valueOf(saveAmountRequest.getQuotationId()), saveAmountRequest.getAmount());
+    public void saveAmount(HttpSession session, SaveAmountRequest saveAmountRequest) {
+        session.setAttribute(
+                String.valueOf(saveAmountRequest.getQuotationId()), saveAmountRequest.getAmount());
     }
 
-    //결제 금액 검증
+    // 결제 금액 검증
     @Override
-    public boolean verifyAmount(HttpSession session, SaveAmountRequest saveAmountRequest){
-        Integer amount = (Integer) session.getAttribute(String.valueOf(saveAmountRequest.getQuotationId()));
+    public boolean verifyAmount(HttpSession session, SaveAmountRequest saveAmountRequest) {
+        Integer amount =
+                (Integer) session.getAttribute(String.valueOf(saveAmountRequest.getQuotationId()));
         return amount != null && amount.equals(saveAmountRequest.getAmount());
     }
 
-    //Payment정보 DB저장
+    // Payment정보 DB저장
     @Override
     public Payment save(Payment payment) {
         return paymentRepository.save(payment);
     }
 
-    //결제 승인 요청 처리
+    // 결제 승인 요청 처리
     @Override
-    public JSONObject confirmPayment(ConfirmPaymentRequest confirmPaymentRequest, String tossApiUrl, String widgetSecretKey) {
+    public JSONObject confirmPayment(
+            ConfirmPaymentRequest confirmPaymentRequest,
+            String tossApiUrl,
+            String widgetSecretKey) {
         try {
             // 결제 요청 정보 JSON 형식으로 변환
             JSONObject requestData = new JSONObject();
@@ -76,11 +82,13 @@ public class PaymentServiceImpl implements PaymentService {
     // 인증 헤더 생성
     private String generateAuthorizationHeader(String secretKey) {
         String credentials = secretKey + ":";
-        return "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.UTF_8));
+        return "Basic "
+                + Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.UTF_8));
     }
 
     // Toss API 호출
-    private JSONObject callTossApi(JSONObject requestData, String authorization, String tossApiUrl) throws IOException, ParseException {
+    private JSONObject callTossApi(JSONObject requestData, String authorization, String tossApiUrl)
+            throws IOException, ParseException {
         URL url = new URL(tossApiUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -93,9 +101,9 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         int responseCode = connection.getResponseCode();
-        InputStream is = responseCode == 200 ? connection.getInputStream() : connection.getErrorStream();
+        InputStream is =
+                responseCode == 200 ? connection.getInputStream() : connection.getErrorStream();
         JSONParser parser = new JSONParser();
         return (JSONObject) parser.parse(new InputStreamReader(is, StandardCharsets.UTF_8));
     }
-
 }

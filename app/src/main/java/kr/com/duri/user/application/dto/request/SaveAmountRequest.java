@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SaveAmountRequest {
-    private Long quotationId; //견적서 ID
-    private Integer amount; //결제 금액
+    private Long quotationId; // 견적서 ID
+    private Integer amount; // 결제 금액
 }

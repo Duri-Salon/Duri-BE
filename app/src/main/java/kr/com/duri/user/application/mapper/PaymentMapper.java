@@ -5,6 +5,7 @@ import kr.com.duri.user.application.dto.request.ConfirmPaymentRequest;
 import kr.com.duri.user.application.dto.response.PaymentResponse;
 import kr.com.duri.user.domain.Enum.PaymentStatus;
 import kr.com.duri.user.domain.entity.Payment;
+
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
 
@@ -33,8 +34,6 @@ public class PaymentMapper {
                 ((Number) response.get("totalAmount")).intValue(),
                 (String) response.get("approvedAt"),
                 receiptUrl,
-                (String) response.get("status")
-        );
+                (String) response.get("status"));
     }
-
 }
