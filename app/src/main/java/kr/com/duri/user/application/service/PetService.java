@@ -11,4 +11,7 @@ public interface PetService {
 
     // 단일 조회
     Pet getPetByUserId(Long userId);
+
+    // petID로 조회
+    Pet findById(Long petId);
 }
