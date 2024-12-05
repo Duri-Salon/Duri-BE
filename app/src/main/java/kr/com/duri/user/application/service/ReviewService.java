@@ -7,6 +7,9 @@ import kr.com.duri.user.domain.entity.Review;
 
 public interface ReviewService {
 
+    // 매장 리뷰 조회
+    List<Review> getReviewsByShopId(Long shopId);
+
     // 목록 조회
     List<Review> getReviewList(Long petId);
 
