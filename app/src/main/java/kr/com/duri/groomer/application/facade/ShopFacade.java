@@ -77,4 +77,10 @@ public class ShopFacade {
         Long totalIncome = paymentService.getTotalPriceMonth(shopId);
         return shopMapper.toShopDetailResponse(totalIncome);
     }
+
+    // 주변 매장 검색
+    public List<ShopNearByResponse> searchShops(String search, Double lat, Double lon) {
+        List<Object[]> shopResults = shopService.findShopsWithSearch(search, lat, lon);
+        return mapToShopNearByResponses(shopResults);
+    }
 }

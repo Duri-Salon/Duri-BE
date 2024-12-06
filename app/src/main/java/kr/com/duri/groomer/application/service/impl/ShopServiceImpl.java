@@ -48,7 +48,13 @@ public class ShopServiceImpl implements ShopService {
         return jwtUtil.createJwt(shop.getId(), shop.getSocialId(), 60 * 60 * 60 * 60L);
     }
 
+    @Override
     public List<Object[]> findShopsWithinRadius(Double lat, Double lon, Double radius) {
         return shopRepository.findShopsWithinRadius(lat, lon, radius);
+    }
+
+    @Override
+    public List<Object[]> findShopsWithSearch(String search, Double lat, Double lon) {
+        return shopRepository.findShopsWithSearch(search, lat, lon);
     }
 }
