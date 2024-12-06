@@ -61,4 +61,9 @@ public class Quotation extends BaseEntity {
     public void updateComplete(boolean complete) {
         this.complete = complete;
     }
+
+    // 상태 변경 메서드
+    public void updateStatus(QuotationStatus status) {
+        this.status = status;
+    }
 }

@@ -24,9 +24,12 @@ public class QuotationServiceImpl implements QuotationService {
     public void saveQuotation(Quotation quotation) {
         boolean existsQuotation =
                 quotationRepository.existsByRequestId(quotation.getRequest().getId());
-        if (existsQuotation) {
+
+        // 존재하는 견적이지만, 동일 ID인 경우 업데이트 허용
+        if (existsQuotation && !quotationRepository.existsById(quotation.getId())) {
             throw new QuotationExistsException("해당 요청 ID에 대한 견적이 이미 존재합니다.");
         }
+
         quotationRepository.save(quotation);
     }
 
@@ -82,5 +85,10 @@ public class QuotationServiceImpl implements QuotationService {
         return quotationRepository
                 .findById(quotationId)
                 .orElseThrow(() -> new QuotationNotFoundException("해당 견적을 찾을 수 없습니다."));
+    }
+
+    @Override
+    public List<Quotation> findByQuotationReqId(Long quotationReqId) {
+        return quotationRepository.findByRequest_Quotation_Id(quotationReqId);
     }
 }

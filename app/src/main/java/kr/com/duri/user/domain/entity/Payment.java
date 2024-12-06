@@ -1,7 +1,6 @@
 package kr.com.duri.user.domain.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import kr.com.duri.common.entity.BaseEntity;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.user.domain.Enum.PaymentStatus;
@@ -42,7 +41,6 @@ public class Payment extends BaseEntity {
     @Column(name = "price")
     private Integer price; // 최종 결제 금액
 
-    @NotBlank
     @Column(name = "payment_status")
     @Enumerated(EnumType.STRING)
     private PaymentStatus status; // 상태 (대기(WATING), 성공(SUCCESS), 실패(FAILED))
