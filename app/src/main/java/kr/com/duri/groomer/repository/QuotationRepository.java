@@ -39,4 +39,8 @@ public interface QuotationRepository extends JpaRepository<Quotation, Long> {
           """)
     List<Quotation> findTodayQuotation(
             @Param("shopId") Long shopId, @Param("currentTime") LocalDateTime currentTime);
+
+
+    // QuotationReq ID로 Quotation 목록 조회
+    List<Quotation> findByRequest_Quotation_Id(Long quotationReqId);
 }

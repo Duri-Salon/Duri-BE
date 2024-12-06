@@ -27,4 +27,6 @@ public interface QuotationService {
 
     // QuotationId로 Quotation 조회
     Quotation findById(Long quotationId);
+
+    List<Quotation> findByQuotationReqId(Long quotationReqId);
 }

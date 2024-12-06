@@ -42,7 +42,6 @@ public class Payment extends BaseEntity {
     @Column(name = "price")
     private Integer price; // 최종 결제 금액
 
-    @NotBlank
     @Column(name = "payment_status")
     @Enumerated(EnumType.STRING)
     private PaymentStatus status; // 상태 (대기(WATING), 성공(SUCCESS), 실패(FAILED))
