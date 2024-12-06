@@ -34,7 +34,7 @@ public class UserHomeFacade {
 
     // 사용자 조회
     private SiteUser getUser(Long userId) {
-        return siteUserService.findById(userId);
+        return siteUserService.getSiteUserById(userId);
     }
 
     // TODO : 매장 이미지 조회 서비스 연결
@@ -82,7 +82,7 @@ public class UserHomeFacade {
                         ? calculateDateDiff(pet.getLastGrooming(), false)
                         : -1;
         // 2. 견적서, 예약일 디데이
-        Quotation quotation = quotationService.getClosetQuoationByUser(userId);
+        Quotation quotation = quotationService.getClosetQuoationByUserId(userId);
         if (quotation == null) { // 해당 견적서 없음
             return userHomeMapper.createEmpty(pet.getId(), lastSinceDay);
         }

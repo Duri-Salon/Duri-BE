@@ -54,7 +54,7 @@ public class QuotationServiceImpl implements QuotationService {
 
     // 가장 최근 시술 견적서 조회
     @Override
-    public Quotation getClosetQuoationByShop(Long shopId) {
+    public Quotation getClosetQuoationByShopId(Long shopId) {
         Optional<Quotation> quotation =
                 quotationRepository.findApprovedClosetQuotation(shopId, LocalDateTime.now());
         if (!quotation.isPresent()) { // 조회된 견적서 없음
@@ -94,7 +94,7 @@ public class QuotationServiceImpl implements QuotationService {
 
     // 사용자의 다음 시술 견적서 조회
     @Override
-    public Quotation getClosetQuoationByUser(Long userId) {
+    public Quotation getClosetQuoationByUserId(Long userId) {
         Optional<Quotation> quotation =
                 quotationRepository.findApprovedNextQuotation(userId, LocalDateTime.now());
         if (!quotation.isPresent()) { // 조회된 견적서 없음
