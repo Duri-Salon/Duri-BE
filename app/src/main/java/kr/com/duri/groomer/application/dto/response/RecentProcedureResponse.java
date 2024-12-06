@@ -15,7 +15,7 @@ public class RecentProcedureResponse {
     @Builder.Default private String breed = ""; // 견종
     @Builder.Default private String gender = ""; // 성별
     @Builder.Default private Integer age = 0; // 나이
-    @Builder.Default private Integer weight = 0; // 무게
+    @Builder.Default private Float weight = 0F; // 무게
     @Builder.Default private String memo = ""; // 메모 사항
     @Builder.Default private Long userId = 0L; // 사용자 ID
     @Builder.Default private String userPhone = ""; // 보호자 전화번호
