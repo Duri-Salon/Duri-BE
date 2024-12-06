@@ -72,9 +72,6 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         }
 
-//        client = "naver_user";
-//        token = request.getHeader("authorization_user");
-
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7).trim();
         }
@@ -107,16 +104,6 @@ public class JwtFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             throw new RuntimeException("Unknown error");
         }
-
-        //        if (jwtUtil.isExpired(token)) {
-        //            String refreshToken = request.getHeader("refresh_token");
-        //            if (refreshToken == null || !refreshTokenService.validate(refreshToken)) {
-        //                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        //                return;
-        //            }
-        //            String newToken = refreshTokenService.generateNewToken(refreshToken);
-        //            response.setHeader("Authorization", "Bearer " + newToken);
-        //        }
 
         filterChain.doFilter(request, response);
     }

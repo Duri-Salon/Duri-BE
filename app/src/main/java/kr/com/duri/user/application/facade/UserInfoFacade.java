@@ -1,6 +1,5 @@
 package kr.com.duri.user.application.facade;
 
-import kr.com.duri.common.security.jwt.JwtUtil;
 import kr.com.duri.user.application.dto.request.NewPetRequest;
 import kr.com.duri.user.application.dto.response.PetDetailResponse;
 import kr.com.duri.user.application.mapper.PetMapper;
