@@ -109,11 +109,23 @@ public class QuotationReqMapper {
                         .specialCare(request.getQuotation().getSpecialMenu()) // 스페셜케어
                         .designCut(request.getQuotation().getDesign()) // 디자인컷
                         .otherRequests(request.getQuotation().getEtc()) // 기타 요구사항
+                        .day(request.getQuotation().getDay())
+                        .time9(request.getQuotation().getTime9())
+                        .time10(request.getQuotation().getTime10()) //
+                        .time11(request.getQuotation().getTime11())
+                        .time12(request.getQuotation().getTime12())
+                        .time13(request.getQuotation().getTime13())
+                        .time14(request.getQuotation().getTime14())
+                        .time15(request.getQuotation().getTime15())
+                        .time16(request.getQuotation().getTime16())
+                        .time17(request.getQuotation().getTime17())
+                        .time18(request.getQuotation().getTime18())
                         .build();
 
         // 최종 DTO 반환
         return NewQuotationReqDetailResponse.builder()
                 .userName(pet.getUser().getName()) // 요청 사용자 이름
+                .userPhone(pet.getUser().getPhone()) // 요청 사용자 전화번호
                 .pet(petDetailResponse) // 반려견 정보
                 .groomer(groomerDetailResponse) // 디자이너 정보
                 .quotationDetails(quotationDetailResponse) // 견적 요청 사항
