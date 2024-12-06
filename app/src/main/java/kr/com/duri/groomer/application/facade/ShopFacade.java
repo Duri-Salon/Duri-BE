@@ -80,7 +80,7 @@ public class ShopFacade {
 
     // 주변 매장 검색
     public List<ShopNearByResponse> searchShops(String search, Double lat, Double lon) {
-        List<Object[]> shopResults = shopService.findShopsWithinRadiusWithSearch(search, lat, lon);
+        List<Object[]> shopResults = shopService.findShopsWithSearch(search, lat, lon);
         return mapToShopNearByResponses(shopResults);
     }
 }

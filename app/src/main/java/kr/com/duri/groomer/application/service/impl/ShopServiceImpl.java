@@ -54,7 +54,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<Object[]> findShopsWithinRadiusWithSearch(String search, Double lat, Double lon) {
+    public List<Object[]> findShopsWithSearch(String search, Double lat, Double lon) {
         return shopRepository.findShopsWithSearch(search, lat, lon);
     }
 }

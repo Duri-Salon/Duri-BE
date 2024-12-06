@@ -18,5 +18,5 @@ public interface ShopService {
 
     List<Object[]> findShopsWithinRadius(Double lat, Double lon, Double radius);
 
-    List<Object[]> findShopsWithinRadiusWithSearch(String search, Double lat, Double lon);
+    List<Object[]> findShopsWithSearch(String search, Double lat, Double lon);
 }
