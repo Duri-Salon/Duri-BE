@@ -7,8 +7,6 @@ import kr.com.duri.user.domain.entity.SiteUser;
 public interface SiteUserService {
     Optional<SiteUser> findBySocialId(String socialId);
 
-    SiteUser findById(Long userId);
-
     SiteUser saveNewSiteUser(
             String socialId,
             String email,

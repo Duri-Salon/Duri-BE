@@ -14,7 +14,7 @@ import kr.com.duri.user.exception.QuotationReqNotFoundException;
 import kr.com.duri.user.exception.RequestNotFoundException;
 import kr.com.duri.user.exception.ReviewImageUploadException;
 import kr.com.duri.user.exception.ReviewNotFoundException;
-import kr.com.duri.user.exception.SiteUserNotFoundException;
+import kr.com.duri.user.exception.UserNotFoundException;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -86,8 +86,8 @@ public class CommonControllerAdvice {
         return response(e, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(SiteUserNotFoundException.class)
-    public ResponseEntity<?> handleSiteUserNotFoundException(SiteUserNotFoundException e) {
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException e) {
         return response(e, HttpStatus.NOT_FOUND);
     }
 
