@@ -16,7 +16,7 @@ public interface QuotationService {
     Quotation findByRequestId(Long requestId);
 
     // 가장 최근 시술 견적서 조회
-    Quotation getClosetQuoationByShop(Long requestId);
+    Quotation getClosetQuoationByShop(Long shopId);
 
     // 매장의 당일 시술 견적서 조회
     List<Quotation> getTodayQuotations(Long shopId);

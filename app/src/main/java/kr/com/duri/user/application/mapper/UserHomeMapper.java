@@ -31,19 +31,18 @@ public class UserHomeMapper {
                 .petId(pet.getId())
                 .lastSinceDay(lastSinceDay)
                 .shopId(shop.getId())
-                .imageURL(
-                        shopImage.getShopImageUrl()) // != null ? shopImage.getShopImageUrl() : "")
-                .name(shop.getName()) // != null ? shop.getName() : "")
-                .address(shop.getAddress()) // != null ? shop.getAddress() : "")
-                .phone(shop.getPhone()) // != null ? shop.getPhone() : "")
-                .kakaoURL(shop.getKakaoTalk()) // != null ? shop.getKakaoTalk() : "")
+                .imageURL(shopImage.getShopImageUrl() != null ? shopImage.getShopImageUrl() : "")
+                .name(shop.getName())
+                .address(shop.getAddress())
+                .phone(shop.getPhone())
+                .kakaoURL(shop.getKakaoTalk() != null ? shop.getKakaoTalk() : "")
                 .quotationId(quotation.getId())
                 .reserveDday(reserveDday)
                 .reservationDate(
                         quotation.getStartDateTime() != null
                                 ? quotation.getStartDateTime().format(DayTimeFormatter)
                                 : "")
-                .price(quotation.getPrice()) // != null? quotation.getPrice() : "")
+                .price(quotation.getPrice())
                 .build();
     }
 }
