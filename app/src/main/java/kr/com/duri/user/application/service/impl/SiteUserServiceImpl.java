@@ -5,6 +5,7 @@ import java.util.Optional;
 import kr.com.duri.common.security.jwt.JwtUtil;
 import kr.com.duri.user.application.service.SiteUserService;
 import kr.com.duri.user.domain.entity.SiteUser;
+import kr.com.duri.user.exception.SiteUserNotFoundException;
 import kr.com.duri.user.repository.SiteUserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +22,13 @@ public class SiteUserServiceImpl implements SiteUserService {
     @Override
     public Optional<SiteUser> findBySocialId(String socialId) {
         return siteUserRepository.findBySocialId(socialId);
+    }
+
+    @Override
+    public SiteUser findById(Long userId) {
+        return siteUserRepository
+                .findById(userId)
+                .orElseThrow(() -> new SiteUserNotFoundException("해당 고객을 찾을 수 없습니다."));
     }
 
     @Override
