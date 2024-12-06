@@ -45,6 +45,7 @@ public class SiteUserServiceImpl implements SiteUserService {
 
     @Override
     public Long getUserIdByToken(String token) {
+        token = jwtUtil.removeBearer(token);
         return jwtUtil.getId(token);
     }
 

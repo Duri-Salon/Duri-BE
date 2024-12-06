@@ -22,11 +22,7 @@ public class UserInfoFacade {
 
     private final PetMapper petMapper;
 
-    private final JwtUtil jwtUtil;
-
     public PetDetailResponse createNewPet(String token, NewPetRequest newPetRequest) {
-        token = jwtUtil.removeBearer(token);
-
         Long userId = siteUserService.getUserIdByToken(token);
 
         SiteUser siteUser = siteUserService.getSiteUserById(userId);
