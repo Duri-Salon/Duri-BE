@@ -15,7 +15,7 @@ public interface QuotationRepository extends JpaRepository<Quotation, Long> {
 
     Optional<Quotation> findByRequestId(Long requestId);
 
-    // 현재로부터 가장 최근이며, 승인(APPROVED)된 견적서 조회
+    // 매장의 승인(APPROVED)된 현재로부터 가장 최근 견적서 조회
     @Query(
             """
         SELECT q FROM Quotation q
@@ -42,4 +42,19 @@ public interface QuotationRepository extends JpaRepository<Quotation, Long> {
 
     // QuotationReq ID로 Quotation 목록 조회
     List<Quotation> findByRequest_Quotation_Id(Long quotationReqId);
+
+    // 사용자의 승인(APPROVED)된 다음 시술 조회
+    @Query(
+            """
+    SELECT q FROM Quotation q
+    JOIN q.request r
+    JOIN r.quotation qr
+    JOIN qr.pet p
+    WHERE p.user.id = :userId
+    AND q.status = 'APPROVED'
+    AND q.startDateTime > :currentTime
+    ORDER BY q.startDateTime ASC LIMIT 1
+    """)
+    Optional<Quotation> findApprovedNextQuotation(
+            @Param("userId") Long userId, @Param("currentTime") LocalDateTime currentTime);
 }

@@ -1,5 +1,6 @@
 package kr.com.duri.user.application.service;
 
+import java.util.Date;
 import java.util.List;
 
 import kr.com.duri.user.application.dto.request.NewPetRequest;
@@ -20,4 +21,7 @@ public interface PetService {
     Pet createNewPet(SiteUser siteUser, NewPetRequest newPetRequest);
 
     Pet save(Pet pet);
+
+    // 마지막 미용 일자 수정
+    void updateLastGromming(Long petId, Date lastDate);
 }
