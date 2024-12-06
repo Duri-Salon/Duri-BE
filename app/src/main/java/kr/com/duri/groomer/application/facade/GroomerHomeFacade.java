@@ -64,7 +64,7 @@ public class GroomerHomeFacade {
     public RecentProcedureResponse getRecentProcedure(Long shopId) {
         getShop(shopId);
         // 1. 현재 일자로부터 가장 최근의 견적서 조회
-        Quotation quotation = quotationService.getClosetQuoation(shopId);
+        Quotation quotation = quotationService.getClosetQuoationByShop(shopId);
         if (quotation == null) { // 예약 시술 내역 없음
             return RecentProcedureResponse.createEmpty();
         }
