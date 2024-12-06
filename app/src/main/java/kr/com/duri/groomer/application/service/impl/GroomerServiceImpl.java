@@ -1,5 +1,6 @@
-package kr.com.duri.groomer.application.service;
+package kr.com.duri.groomer.application.service.impl;
 
+import kr.com.duri.groomer.application.service.GroomerService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.exception.GroomerNotFoundException;
 import kr.com.duri.groomer.repository.GroomerRepository;

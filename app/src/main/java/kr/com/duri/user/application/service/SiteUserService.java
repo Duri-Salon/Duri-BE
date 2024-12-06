@@ -15,4 +15,6 @@ public interface SiteUserService {
             String gender,
             String birth,
             String birthYear);
+
+    String createNewUserJwt(SiteUser siteUser);
 }

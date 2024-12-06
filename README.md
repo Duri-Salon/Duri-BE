@@ -214,31 +214,23 @@ main
                 ├── user
                 │   ├── presentation
                 │   │   └── controller
-                │   │       └── userController.java
                 │   ├── application
                 │   │   ├── facade
-                │   │   │   └── userFacade.java
                 │   │   ├── service
-                │   │   │   ├── userService.java
-                │   │   │   └── userServiceImpl.java
+                │   │   │   ├── impl
+                │   │   │   └── userService.java
                 │   │   ├── dto
-                │   │   │   ├── userRequestDto.java
-                │   │   │   └── userResponseDto.java
-                │   │   ├── exception
-                │   │   │   └── userNotFoundException.java
-                │   │   └── mapper                 
-                │   │       └── userMapper.java     
+                │   │   │   ├── request
+                │   │   │   └── response
+                │   │   └── mapper                    
                 │   ├── infrastructure
-                │   │   ├── repository
-                │   │   │   └── userRepository.java
-                │   │   └── external
-                │   │       └── userExternalApi.java // 외부 api
-                │   └── domain
-                │       ├── entity
-                │       │   └── user.java
-                │       └── enum
-                │           └── userStatus.java
-                ├── designer
+                │   │   └── repository
+                │   ├── domain
+                │   │   ├── entity
+                │   │   ├── pojo
+                │   │   └── enum
+                │   └── exception
+                ├── groomer
                 ├── ...
                 └── DuriApplication
 ```

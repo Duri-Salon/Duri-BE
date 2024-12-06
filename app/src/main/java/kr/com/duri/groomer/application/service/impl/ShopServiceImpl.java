@@ -1,8 +1,10 @@
-package kr.com.duri.groomer.application.service;
+package kr.com.duri.groomer.application.service.impl;
 
 import java.util.List;
 import java.util.Optional;
 
+import kr.com.duri.common.security.jwt.JwtUtil;
+import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
 import kr.com.duri.groomer.repository.ShopRepository;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 public class ShopServiceImpl implements ShopService {
 
     private final ShopRepository shopRepository;
+
+    private final JwtUtil jwtUtil;
 
     @Override
     public boolean existsByShopId(Long shopId) {
@@ -37,6 +41,11 @@ public class ShopServiceImpl implements ShopService {
         return shopRepository
                 .findById(shopId)
                 .orElseThrow(() -> new ShopNotFoundException("해당 매장을 찾을 수 없습니다."));
+    }
+
+    @Override
+    public String createNewShopJwt(Shop shop) {
+        return jwtUtil.createJwt(shop.getId(), shop.getSocialId(), 60 * 60 * 60 * 60L);
     }
 
     public List<Object[]> findShopsWithinRadius(Double lat, Double lon, Double radius) {
