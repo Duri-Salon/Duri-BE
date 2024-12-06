@@ -1,5 +1,7 @@
 package kr.com.duri.user.application.facade;
 
+import java.util.List;
+
 import jakarta.servlet.http.HttpSession;
 import kr.com.duri.groomer.application.service.QuotationService;
 import kr.com.duri.groomer.domain.entity.Quotation;
@@ -15,8 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -50,7 +50,8 @@ public class PaymentFacade {
         Object status = response.get("status");
 
         // Quotation 조회
-        Quotation approvedQuotation = quotationService.findById(confirmPaymentRequest.getQuotationId());
+        Quotation approvedQuotation =
+                quotationService.findById(confirmPaymentRequest.getQuotationId());
 
         // 결제 상태가 DONE일 경우 결제 성공 처리
         if ("DONE".equals(status)) {
@@ -59,16 +60,17 @@ public class PaymentFacade {
             quotationService.saveQuotation(approvedQuotation);
 
             // 동일한 quotationReq에 연결된 다른 Quotation상태 변경
-            List<Quotation> relatedQuotation = quotationService.findByQuotationReqId(
-                    approvedQuotation.getRequest().getQuotation().getId());
+            List<Quotation> relatedQuotation =
+                    quotationService.findByQuotationReqId(
+                            approvedQuotation.getRequest().getQuotation().getId());
 
             relatedQuotation.stream()
                     .filter(q -> !q.getId().equals(approvedQuotation.getId()))
-                    .forEach(q -> {
-                        q.updateStatus(QuotationStatus.EXPIRED);
-                        quotationService.saveQuotation(q);
-                    });
-
+                    .forEach(
+                            q -> {
+                                q.updateStatus(QuotationStatus.EXPIRED);
+                                quotationService.saveQuotation(q);
+                            });
 
             Payment payment = paymentMapper.toPayment(confirmPaymentRequest, approvedQuotation);
             paymentService.save(payment);

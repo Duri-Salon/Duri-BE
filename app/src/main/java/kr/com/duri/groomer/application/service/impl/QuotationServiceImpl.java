@@ -33,7 +33,6 @@ public class QuotationServiceImpl implements QuotationService {
         quotationRepository.save(quotation);
     }
 
-
     @Override
     public Quotation findQuotationById(Long quotationId) {
         return quotationRepository
@@ -89,7 +88,7 @@ public class QuotationServiceImpl implements QuotationService {
     }
 
     @Override
-    public List<Quotation> findByQuotationReqId(Long quotationReqId){
+    public List<Quotation> findByQuotationReqId(Long quotationReqId) {
         return quotationRepository.findByRequest_Quotation_Id(quotationReqId);
     }
 }
