@@ -1,5 +1,6 @@
-package kr.com.duri.user.application.service;
+package kr.com.duri.user.application.service.impl;
 
+import kr.com.duri.user.application.service.QuotationReqService;
 import kr.com.duri.user.domain.entity.QuotationReq;
 import kr.com.duri.user.exception.QuotationReqNotFoundException;
 import kr.com.duri.user.repository.QuotationReqRepository;

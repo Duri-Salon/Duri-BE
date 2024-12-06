@@ -1,7 +1,8 @@
-package kr.com.duri.user.application.service;
+package kr.com.duri.user.application.service.impl;
 
 import java.util.List;
 
+import kr.com.duri.user.application.service.PetService;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.exception.PetNotFoundException;
 import kr.com.duri.user.repository.PetRepository;

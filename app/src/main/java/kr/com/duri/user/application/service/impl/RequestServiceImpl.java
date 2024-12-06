@@ -1,7 +1,8 @@
-package kr.com.duri.user.application.service;
+package kr.com.duri.user.application.service.impl;
 
 import java.util.List;
 
+import kr.com.duri.user.application.service.RequestService;
 import kr.com.duri.user.domain.entity.Request;
 import kr.com.duri.user.exception.RequestNotFoundException;
 import kr.com.duri.user.repository.RequestRepository;

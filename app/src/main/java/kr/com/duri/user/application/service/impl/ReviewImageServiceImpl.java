@@ -1,9 +1,10 @@
-package kr.com.duri.user.application.service;
+package kr.com.duri.user.application.service.impl;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import kr.com.duri.user.application.service.ReviewImageService;
 import kr.com.duri.user.domain.entity.Review;
 import kr.com.duri.user.domain.entity.ReviewImage;
 import kr.com.duri.user.exception.ReviewImageUploadException;

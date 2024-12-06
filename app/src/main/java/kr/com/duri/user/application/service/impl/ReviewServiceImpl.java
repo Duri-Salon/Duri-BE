@@ -1,8 +1,9 @@
-package kr.com.duri.user.application.service;
+package kr.com.duri.user.application.service.impl;
 
 import java.util.List;
 
 import kr.com.duri.user.application.dto.request.UpdateReviewRequest;
+import kr.com.duri.user.application.service.ReviewService;
 import kr.com.duri.user.domain.entity.Review;
 import kr.com.duri.user.exception.ReviewNotFoundException;
 import kr.com.duri.user.repository.ReviewRepository;
