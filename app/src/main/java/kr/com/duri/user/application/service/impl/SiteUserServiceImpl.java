@@ -5,6 +5,7 @@ import java.util.Optional;
 import kr.com.duri.common.security.jwt.JwtUtil;
 import kr.com.duri.user.application.service.SiteUserService;
 import kr.com.duri.user.domain.entity.SiteUser;
+import kr.com.duri.user.exception.UserNotFoundException;
 import kr.com.duri.user.repository.SiteUserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -40,5 +41,17 @@ public class SiteUserServiceImpl implements SiteUserService {
     @Override
     public String createNewUserJwt(SiteUser siteUser) {
         return jwtUtil.createJwt(siteUser.getId(), siteUser.getSocialId(), 60 * 60 * 60 * 60L);
+    }
+
+    @Override
+    public Long getUserIdByToken(String token) {
+        return jwtUtil.getId(token);
+    }
+
+    @Override
+    public SiteUser getSiteUserById(Long userId) {
+        return siteUserRepository
+                .findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다."));
     }
 }

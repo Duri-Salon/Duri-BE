@@ -17,4 +17,8 @@ public interface SiteUserService {
             String birthYear);
 
     String createNewUserJwt(SiteUser siteUser);
+
+    Long getUserIdByToken(String token);
+
+    SiteUser getSiteUserById(Long userId);
 }

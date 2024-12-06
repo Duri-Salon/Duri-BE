@@ -2,7 +2,9 @@ package kr.com.duri.user.application.service;
 
 import java.util.List;
 
+import kr.com.duri.user.application.dto.request.NewPetRequest;
 import kr.com.duri.user.domain.entity.Pet;
+import kr.com.duri.user.domain.entity.SiteUser;
 
 public interface PetService {
 
@@ -14,4 +16,8 @@ public interface PetService {
 
     // petID로 조회
     Pet findById(Long petId);
+
+    Pet createNewPet(SiteUser siteUser, NewPetRequest newPetRequest);
+
+    Pet save(Pet pet);
 }

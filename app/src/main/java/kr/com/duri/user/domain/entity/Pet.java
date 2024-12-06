@@ -57,4 +57,27 @@ public class Pet extends BaseEntity {
 
     @Column(name = "last_grooming")
     private Date lastGrooming; // 마지막 미용 일자
+
+    public static Pet createNewPet(
+            SiteUser user,
+            String name,
+            String breed,
+            Integer age,
+            Float weight,
+            String gender,
+            Boolean neutering,
+            String character,
+            String diseases) {
+        return Pet.builder()
+                .user(user)
+                .name(name)
+                .breed(breed)
+                .age(age)
+                .weight(weight)
+                .gender(Gender.valueOf(gender))
+                .neutering(neutering)
+                .character(character)
+                .diseases(diseases)
+                .build();
+    }
 }

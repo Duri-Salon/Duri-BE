@@ -2,8 +2,11 @@ package kr.com.duri.user.application.service.impl;
 
 import java.util.List;
 
+import kr.com.duri.user.application.dto.request.NewPetRequest;
+import kr.com.duri.user.application.mapper.PetMapper;
 import kr.com.duri.user.application.service.PetService;
 import kr.com.duri.user.domain.entity.Pet;
+import kr.com.duri.user.domain.entity.SiteUser;
 import kr.com.duri.user.exception.PetNotFoundException;
 import kr.com.duri.user.repository.PetRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,8 @@ import org.springframework.stereotype.Service;
 public class PetServiceImpl implements PetService {
 
     private final PetRepository petRepository;
+
+    private final PetMapper petMapper;
 
     // [1] 목록 조회
     @Override
@@ -36,5 +41,26 @@ public class PetServiceImpl implements PetService {
         return petRepository
                 .findById(petId)
                 .orElseThrow(() -> new PetNotFoundException("애완견 ID를 찾을 수 없습니다."));
+    }
+
+    @Override
+    public Pet createNewPet(SiteUser siteUser, NewPetRequest newPetRequest) {
+        String characterStringJson = petMapper.toStringJson(newPetRequest.getCharacter());
+        String diseasesStringJson = petMapper.toStringJson(newPetRequest.getDiseases());
+        return Pet.createNewPet(
+                siteUser,
+                newPetRequest.getName(),
+                newPetRequest.getBreed(),
+                newPetRequest.getAge(),
+                newPetRequest.getWeight(),
+                newPetRequest.getGender(),
+                newPetRequest.getNeutering(),
+                characterStringJson,
+                diseasesStringJson);
+    }
+
+    @Override
+    public Pet save(Pet pet) {
+        return petRepository.save(pet);
     }
 }
