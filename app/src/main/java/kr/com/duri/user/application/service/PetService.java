@@ -1,5 +1,6 @@
 package kr.com.duri.user.application.service;
 
+import java.util.Date;
 import java.util.List;
 
 import kr.com.duri.user.domain.entity.Pet;
@@ -14,4 +15,7 @@ public interface PetService {
 
     // petID로 조회
     Pet findById(Long petId);
+
+    // 마지막 미용 일자 수정
+    void updateLastGromming(Long petId, Date lastDate);
 }

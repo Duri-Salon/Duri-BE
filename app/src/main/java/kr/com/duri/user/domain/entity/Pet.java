@@ -57,4 +57,9 @@ public class Pet extends BaseEntity {
 
     @Column(name = "last_grooming")
     private Date lastGrooming; // 마지막 미용 일자
+
+    // 시술 여부 수정 메서드
+    public void updateLastGromming(Date lastDate) {
+        this.lastGrooming = lastDate;
+    }
 }

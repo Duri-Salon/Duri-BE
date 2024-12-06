@@ -1,5 +1,6 @@
 package kr.com.duri.user.application.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import kr.com.duri.user.application.service.PetService;
@@ -36,5 +37,13 @@ public class PetServiceImpl implements PetService {
         return petRepository
                 .findById(petId)
                 .orElseThrow(() -> new PetNotFoundException("애완견 ID를 찾을 수 없습니다."));
+    }
+
+    // 마지막 미용 일자 수정
+    @Override
+    public void updateLastGromming(Long petId, Date lastDate) {
+        Pet pet = findById(petId);
+        pet.updateLastGromming(lastDate);
+        petRepository.save(pet);
     }
 }

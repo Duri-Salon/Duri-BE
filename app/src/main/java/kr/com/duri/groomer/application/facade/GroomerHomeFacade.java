@@ -1,6 +1,8 @@
 package kr.com.duri.groomer.application.facade;
 
+import java.time.ZoneId;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,6 +18,7 @@ import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.domain.entity.Shop;
+import kr.com.duri.user.application.service.PetService;
 import kr.com.duri.user.application.service.RequestService;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.QuotationReq;
@@ -36,6 +39,7 @@ public class GroomerHomeFacade {
     private final GroomerService groomerService;
     private final RequestService requestService;
     private final GroomerHomeMapper groomerHomeMapper;
+    private final PetService petService;
 
     // 매장 조회
     private Shop getShop(Long shopId) {
@@ -108,7 +112,17 @@ public class GroomerHomeFacade {
     // 미용 완료 여부 수정
     public void updateComplete(
             Long quotationId, QuotationUpdateCompleteRequest quotationUpdateCompleteRequest) {
+        // 1. 미용 완료 여부 수정
         quotationService.updateComplete(quotationId, quotationUpdateCompleteRequest);
+        // 2. 반려견 조회
+        Quotation quotation = quotationService.findById(quotationId);
+        Request request = getRequestByQuotation(quotation);
+        QuotationReq quotationReq = getQuotationReqByRequest(request);
+        Pet pet = getPetByQuotationReq(quotationReq);
+        // 3. 마지막 미용일 업데이트
+        Date lastDate =
+                Date.from(quotation.getEndDateTime().atZone(ZoneId.systemDefault()).toInstant());
+        petService.updateLastGromming(pet.getId(), lastDate);
     }
 
     // 받은 견적요청서 리스트 조회
