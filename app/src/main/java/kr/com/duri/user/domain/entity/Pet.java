@@ -37,7 +37,7 @@ public class Pet extends BaseEntity {
     private Integer age; // 펫 나이
 
     @Column(name = "pet_weight")
-    private Integer weight; // 펫 몸무게
+    private Float weight; // 펫 몸무게
 
     @Column(name = "pet_gender")
     @Enumerated(EnumType.STRING)
@@ -57,6 +57,29 @@ public class Pet extends BaseEntity {
 
     @Column(name = "last_grooming")
     private Date lastGrooming; // 마지막 미용 일자
+
+    public static Pet createNewPet(
+            SiteUser user,
+            String name,
+            String breed,
+            Integer age,
+            Float weight,
+            String gender,
+            Boolean neutering,
+            String character,
+            String diseases) {
+        return Pet.builder()
+                .user(user)
+                .name(name)
+                .breed(breed)
+                .age(age)
+                .weight(weight)
+                .gender(Gender.valueOf(gender))
+                .neutering(neutering)
+                .character(character)
+                .diseases(diseases)
+                .build();
+    }
 
     // 시술 여부 수정 메서드
     public void updateLastGromming(Date lastDate) {

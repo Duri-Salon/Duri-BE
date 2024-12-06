@@ -17,7 +17,7 @@ public class HomeQuotationReqResponse {
     private String breed; // 견종
     private String gender; // 성별
     private Integer age; // 나이
-    private Integer weight; // 무게
+    private Float weight; // 무게
     private boolean neutering; // 중성화여부
     private Long quotationReqId; // 견적 요청서 ID
     private String memo; // 요구사항

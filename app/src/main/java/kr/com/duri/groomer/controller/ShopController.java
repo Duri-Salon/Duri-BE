@@ -57,4 +57,13 @@ public class ShopController {
     public CommonResponseEntity<MonthIncomeResponse> getMonthIncome(@PathVariable Long shopId) {
         return CommonResponseEntity.success(shopFacade.getMonthIncome(shopId));
     }
+
+    // 주변 매장 검색
+    @GetMapping("/search")
+    public CommonResponseEntity<List<ShopNearByResponse>> searchShops(
+            @RequestParam String search, @RequestParam double lat, @RequestParam double lon) {
+
+        List<ShopNearByResponse> response = shopFacade.searchShops(search, lat, lon);
+        return CommonResponseEntity.success(response);
+    }
 }

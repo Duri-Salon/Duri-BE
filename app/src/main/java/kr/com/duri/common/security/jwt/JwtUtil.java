@@ -52,12 +52,19 @@ public class JwtUtil {
                 .get("providerId", String.class);
     }
 
-    private Long getId(String token) {
+    public Long getId(String token) {
         return Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
                 .get("id", Long.class);
+    }
+
+    public String removeBearer(String token) {
+        if (token.startsWith("Bearer ")) {
+            return token.substring(7);
+        }
+        return token;
     }
 }
