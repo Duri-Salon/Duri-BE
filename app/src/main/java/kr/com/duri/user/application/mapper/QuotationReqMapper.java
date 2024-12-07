@@ -1,5 +1,8 @@
 package kr.com.duri.user.application.mapper;
 
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -150,6 +153,44 @@ public class QuotationReqMapper {
                 .petDiseases(parseJsonArray(pet.getDiseases())) // 강아지 질환 정보
                 .totalPrice(totalPrice)
                 .status(String.valueOf(quotation.getStatus()))
+                .build();
+    }
+
+    public ReservationQuotationReqResponse toReservationQuotationResponse(
+            Quotation quotation, Groomer groomer) {
+        Integer totalPrice = extractTotalPriceFromJson(quotation.getPrice());
+
+        Pet pet = quotation.getRequest().getQuotation().getPet();
+        LocalDate today = LocalDate.now(); // 현재 날짜
+        LocalDate date = quotation.getStartDateTime().toLocalDate(); // 미용 날짜
+
+        // 반려견 상세 정보 매핑
+        PetDetailResponse petDetailResponse =
+                PetDetailResponse.builder()
+                        .image(pet.getImage()) // 강아지 이미지
+                        .name(pet.getName()) // 강아지 이름
+                        .age(pet.getAge()) // 강아지 나이
+                        .gender(pet.getGender()) // 강아지 성별
+                        .breed(pet.getBreed()) // 강아지 견종
+                        .weight(pet.getWeight()) // 강아지 몸무게
+                        .neutering(pet.getNeutering()) // 강아지 중성화
+                        .character(parseJsonArray(pet.getCharacter())) // 강아지 성격 정보
+                        .diseases(parseJsonArray(pet.getDiseases())) // 강아지 질환 정보
+                        .lastGrooming(pet.getLastGrooming()) // 강아지 마지막 미용일자
+                        .build();
+
+        return ReservationQuotationReqResponse.builder()
+                .requestId(quotation.getRequest().getId()) // 요청 ID
+                .userId(pet.getUser().getId()) // user ID
+                .petId(pet.getId()) // 강아지 ID
+                .petDetailResponse(petDetailResponse)
+                .groomerName(groomer.getName())
+                .groomerImage(groomer.getImage())
+                .totalPrice(totalPrice)
+                .dday((int) ChronoUnit.DAYS.between(today, date))
+                .date(date)
+                .startTime(Time.valueOf(quotation.getStartDateTime().toLocalTime()))
+                .endTime(Time.valueOf(quotation.getEndDateTime().toLocalTime()))
                 .build();
     }
 

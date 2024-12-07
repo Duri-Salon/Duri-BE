@@ -14,4 +14,8 @@ public interface RequestService {
     void updateRequestStatusToApproved(Long requestId);
 
     List<Request> getApprovedRequestsByShopId(Long shopId);
+
+    List<Request> getReservationRequestsByShopId(Long shopId);
+
+    List<Request> getCompleteRequestsByShopId(Long shopId);
 }

@@ -44,4 +44,14 @@ public class RequestServiceImpl implements RequestService {
     public List<Request> getApprovedRequestsByShopId(Long shopId) {
         return requestRepository.findApprovedRequestsByShopId(shopId);
     }
+
+    @Override
+    public List<Request> getReservationRequestsByShopId(Long shopId) {
+        return requestRepository.findReservationQuotationsByShopId(shopId);
+    }
+
+    @Override
+    public List<Request> getCompleteRequestsByShopId(Long shopId) {
+        return requestRepository.findCompleteQuotationsByShopId(shopId);
+    }
 }
