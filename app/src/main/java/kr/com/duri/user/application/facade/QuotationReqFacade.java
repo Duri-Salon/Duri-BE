@@ -13,6 +13,7 @@ import kr.com.duri.user.application.dto.request.NewQuotationReqRequest;
 import kr.com.duri.user.application.dto.response.ApprovedQuotationReqResponse;
 import kr.com.duri.user.application.dto.response.NewQuotationReqDetailResponse;
 import kr.com.duri.user.application.dto.response.NewQuotationReqResponse;
+import kr.com.duri.user.application.dto.response.ReservationQuotationReqResponse;
 import kr.com.duri.user.application.mapper.QuotationReqMapper;
 import kr.com.duri.user.application.service.PetService;
 import kr.com.duri.user.application.service.QuotationReqService;
@@ -36,7 +37,7 @@ public class QuotationReqFacade {
     private final PetService petService;
     private final QuotationReqMapper quotationReqMapper;
 
-    // 새로운 견적 요청서 리스트
+    // 새로운 견적 요청서 리스트(Groomer)
     public List<NewQuotationReqResponse> getNewRequests(Long shopId) {
         // 1. shopId 유효성 확인
         boolean shopExists = shopService.existsByShopId(shopId);
@@ -53,7 +54,7 @@ public class QuotationReqFacade {
                 .collect(Collectors.toList());
     }
 
-    // 견적 요청 상세 정보
+    // 견적 요청 상세 정보(Groomer)
     public NewQuotationReqDetailResponse getQuotationReqDetail(Long requestId) {
         // 견적 요청 ID로 데이터를 조회
         Request request = requestService.getRequestById(requestId);
@@ -66,7 +67,7 @@ public class QuotationReqFacade {
         return quotationReqMapper.toQuotationReqDetailResponse(request, groomer);
     }
 
-    // 답장한 견적 요청서 리스트
+    // 답장한 견적 요청서 리스트(Groomer)
     public List<ApprovedQuotationReqResponse> getApprovedRequests(Long shopId) {
         // 1. shopId 유효성 확인
         boolean shopExists = shopService.existsByShopId(shopId);
@@ -83,6 +84,48 @@ public class QuotationReqFacade {
                         request -> {
                             Quotation quotation = quotationService.findByRequestId(request.getId());
                             return quotationReqMapper.toApprovedQuotationResponse(quotation);
+                        })
+                .collect(Collectors.toList());
+    }
+
+    // 예약 확정한 견적 요청서 리스트(Groomer)
+    public List<ReservationQuotationReqResponse> getReservationRequests(Long shopId) {
+        // 1. shopId 유효성 확인
+        boolean shopExists = shopService.existsByShopId(shopId);
+        if (!shopExists) {
+            throw new ShopNotFoundException("해당하는 미용업체가 없습니다.");
+        }
+
+        // 2. Quotation의 상태가 APPROVED이면서 Complete가 false인 요청 조회
+        List<Request> requests = requestService.getReservationRequestsByShopId(shopId);
+
+        // 3. 요청 목록을 응답 DTO로 변환
+        return requests.stream()
+                .map(
+                        request -> {
+                            Quotation quotation = quotationService.findByRequestId(request.getId());
+                            return quotationReqMapper.toReservationQuotationResponse(quotation);
+                        })
+                .collect(Collectors.toList());
+    }
+
+    // 시술 완료한 견적 요청서 리스트(Groomer)
+    public List<ReservationQuotationReqResponse> getCompleteRequests(Long shopId) {
+        // 1. shopId 유효성 확인
+        boolean shopExists = shopService.existsByShopId(shopId);
+        if (!shopExists) {
+            throw new ShopNotFoundException("해당하는 미용업체가 없습니다.");
+        }
+
+        // 2. Quotation의 상태가 APPROVED이면서 Complete가 true인 요청 조회
+        List<Request> requests = requestService.getCompleteRequestsByShopId(shopId);
+
+        // 3. 요청 목록을 응답 DTO로 변환
+        return requests.stream()
+                .map(
+                        request -> {
+                            Quotation quotation = quotationService.findByRequestId(request.getId());
+                            return quotationReqMapper.toReservationQuotationResponse(quotation);
                         })
                 .collect(Collectors.toList());
     }
