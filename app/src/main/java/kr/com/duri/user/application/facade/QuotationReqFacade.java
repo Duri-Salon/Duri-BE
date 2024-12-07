@@ -95,6 +95,8 @@ public class QuotationReqFacade {
         if (!shopExists) {
             throw new ShopNotFoundException("해당하는 미용업체가 없습니다.");
         }
+        // shopId로 groomer찾기
+        Groomer groomer = groomerService.getGroomerByShopId(shopId);
 
         // 2. Quotation의 상태가 APPROVED이면서 Complete가 false인 요청 조회
         List<Request> requests = requestService.getReservationRequestsByShopId(shopId);
@@ -104,7 +106,8 @@ public class QuotationReqFacade {
                 .map(
                         request -> {
                             Quotation quotation = quotationService.findByRequestId(request.getId());
-                            return quotationReqMapper.toReservationQuotationResponse(quotation);
+                            return quotationReqMapper.toReservationQuotationResponse(
+                                    quotation, groomer);
                         })
                 .collect(Collectors.toList());
     }
@@ -116,6 +119,8 @@ public class QuotationReqFacade {
         if (!shopExists) {
             throw new ShopNotFoundException("해당하는 미용업체가 없습니다.");
         }
+        // shopId로 groomer찾기
+        Groomer groomer = groomerService.getGroomerByShopId(shopId);
 
         // 2. Quotation의 상태가 APPROVED이면서 Complete가 true인 요청 조회
         List<Request> requests = requestService.getCompleteRequestsByShopId(shopId);
@@ -125,7 +130,8 @@ public class QuotationReqFacade {
                 .map(
                         request -> {
                             Quotation quotation = quotationService.findByRequestId(request.getId());
-                            return quotationReqMapper.toReservationQuotationResponse(quotation);
+                            return quotationReqMapper.toReservationQuotationResponse(
+                                    quotation, groomer);
                         })
                 .collect(Collectors.toList());
     }

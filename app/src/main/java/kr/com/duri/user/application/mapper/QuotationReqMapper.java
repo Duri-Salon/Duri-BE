@@ -156,8 +156,10 @@ public class QuotationReqMapper {
                 .build();
     }
 
-    public ReservationQuotationReqResponse toReservationQuotationResponse(Quotation quotation) {
+    public ReservationQuotationReqResponse toReservationQuotationResponse(
+            Quotation quotation, Groomer groomer) {
         Integer totalPrice = extractTotalPriceFromJson(quotation.getPrice());
+
         Pet pet = quotation.getRequest().getQuotation().getPet();
         LocalDate today = LocalDate.now(); // 현재 날짜
         LocalDate date = quotation.getStartDateTime().toLocalDate(); // 미용 날짜
@@ -182,6 +184,8 @@ public class QuotationReqMapper {
                 .userId(pet.getUser().getId()) // user ID
                 .petId(pet.getId()) // 강아지 ID
                 .petDetailResponse(petDetailResponse)
+                .groomerName(groomer.getName())
+                .groomerImage(groomer.getImage())
                 .totalPrice(totalPrice)
                 .dday((int) ChronoUnit.DAYS.between(today, date))
                 .date(date)
