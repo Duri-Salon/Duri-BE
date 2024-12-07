@@ -50,7 +50,8 @@ public class ShopFacade {
 
                             Shop shop = shopService.findById(shopId);
                             String imageURL = new ShopImage().getShopImageUrl();
-                            return shopMapper.toShopNearByResponse(result, tags, reviewCnt, imageURL);
+                            return shopMapper.toShopNearByResponse(
+                                    result, tags, reviewCnt, imageURL);
                         })
                 .collect(Collectors.toList());
     }

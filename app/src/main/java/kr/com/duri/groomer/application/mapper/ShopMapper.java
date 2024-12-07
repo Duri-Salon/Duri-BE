@@ -27,7 +27,6 @@ public class ShopMapper {
                 .build();
     }
 
-
     // Object[] result -> ShopNearByResponse로 변환
     public ShopNearByResponse toShopNearByResponse(
             Object[] result, List<String> tags, Integer reviewCnt, String imageURL) {
