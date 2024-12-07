@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class TodayScheduleResponse {
     private String date =
             LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // 오늘 날짜
+    private Long quotationId; // 견적서 ID
     private String startTime; // 미용 시작 시간 (YYYY-MM-DD HH:MM)
     private Long petId; // 펫 ID
     private String petName; // 펫 이름
