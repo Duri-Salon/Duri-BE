@@ -144,10 +144,12 @@ public class QuotationReqMapper {
                 .petName(pet.getName()) // 강아지 이름
                 .petAge(pet.getAge()) // 강아지 나이
                 .petBreed(pet.getBreed()) // 강아지 견종
+                .petWeight(pet.getWeight()) // 강아지 무게
                 .petNeutering(pet.getNeutering()) // 특이사항1 - 강아지 중성화 여부
                 .petCharacter(parseJsonArray(pet.getCharacter())) // 강아지 성격 정보
                 .petDiseases(parseJsonArray(pet.getDiseases())) // 강아지 질환 정보
                 .totalPrice(totalPrice)
+                .status(String.valueOf(quotation.getStatus()))
                 .build();
     }
 
