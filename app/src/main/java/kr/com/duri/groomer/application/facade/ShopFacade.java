@@ -13,6 +13,7 @@ import kr.com.duri.groomer.application.service.ShopTagService;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.domain.entity.ShopImage;
 import kr.com.duri.user.application.service.PaymentService;
+import kr.com.duri.user.application.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ShopFacade {
     private final ShopService shopService;
+    private final ReviewService reviewService;
     private final ShopTagService shopTagService;
     private final PaymentService paymentService;
     private final ShopMapper shopMapper;
@@ -44,7 +46,12 @@ public class ShopFacade {
                         result -> {
                             Long shopId = (Long) result[0];
                             List<String> tags = shopTagService.findTagsByShopId(shopId);
-                            return shopMapper.toShopNearByResponse(result, tags);
+                            Integer reviewCnt = reviewService.getReviewsByShopId(shopId).size();
+
+                            Shop shop = shopService.findById(shopId);
+                            String imageURL = new ShopImage().getShopImageUrl();
+                            return shopMapper.toShopNearByResponse(
+                                    result, tags, reviewCnt, imageURL);
                         })
                 .collect(Collectors.toList());
     }
