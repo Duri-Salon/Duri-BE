@@ -119,7 +119,6 @@ public class UserHomeFacade {
         // 2. 반려견 아이디로 단골샵 매장 (3번 이상, 가장 많은 방문횟수) 조회
         List<Object[]> regularVisitInfo = quotationService.getRegualrInfoByPetId(petId);
         if (regularVisitInfo.isEmpty()) { // 단골샵 없음
-            // TODO : 처리
             return userHomeMapper.toRegularShopResponse(pet, Collections.emptyList());
         }
         // 3. HomeShopResponse 리스트 생성
@@ -130,7 +129,7 @@ public class UserHomeFacade {
                                     // 매장
                                     Long shopId = (Long) info[0];
                                     Shop shop = shopService.findById(shopId);
-                                    // 4. TODO : 매장 이미지 조회 연결
+                                    // 4. TODO : 매장 이미지
                                     ShopImage shopImage =
                                             new ShopImage(); // shopImageService.getByShopId(shop.getId());
                                     Integer reviewCnt =
