@@ -2,6 +2,7 @@ package kr.com.duri.user.controller;
 
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.user.application.dto.response.RecentProcedureResponse;
+import kr.com.duri.user.application.dto.response.RegularShopResponse;
 import kr.com.duri.user.application.facade.UserHomeFacade;
 import lombok.RequiredArgsConstructor;
 
@@ -23,5 +24,12 @@ public class UserHomeController {
             @PathVariable Long userId) {
         RecentProcedureResponse recentProcedureResponse = userHomeFacade.getRecentProcedure(userId);
         return CommonResponseEntity.success(recentProcedureResponse);
+    }
+
+    // DURI-271 : 단골샵 조회
+    @GetMapping("/regular/{userId}")
+    public CommonResponseEntity<RegularShopResponse> getRegularInfo(@PathVariable Long userId) {
+        RegularShopResponse regularShopResponses = userHomeFacade.getRegularShops(userId);
+        return CommonResponseEntity.success(regularShopResponses);
     }
 }

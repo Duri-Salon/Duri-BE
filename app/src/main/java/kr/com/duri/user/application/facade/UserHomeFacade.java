@@ -3,17 +3,24 @@ package kr.com.duri.user.application.facade;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import kr.com.duri.groomer.application.service.QuotationService;
+import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.domain.entity.ShopImage;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
+import kr.com.duri.user.application.dto.response.HomeShopResponse;
 import kr.com.duri.user.application.dto.response.RecentProcedureResponse;
+import kr.com.duri.user.application.dto.response.RegularShopResponse;
 import kr.com.duri.user.application.mapper.UserHomeMapper;
 import kr.com.duri.user.application.service.PetService;
+import kr.com.duri.user.application.service.ReviewService;
 import kr.com.duri.user.application.service.SiteUserService;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.Request;
@@ -31,6 +38,10 @@ public class UserHomeFacade {
     private final QuotationService quotationService;
     private final PetService petService;
     private final SiteUserService siteUserService;
+    private final ShopService shopService;
+    private final ReviewService reviewService;
+
+    // private final ShopImageService shopImageService;
 
     // 사용자 조회
     private SiteUser getUser(Long userId) {
@@ -97,5 +108,41 @@ public class UserHomeFacade {
         ShopImage shopImage = new ShopImage();
         return userHomeMapper.toRecentProcedureResponse(
                 quotation, pet, shop, shopImage, lastSinceDay, reserveDday);
+    }
+
+    // 단골샵 조회
+    public RegularShopResponse getRegularShops(Long userId) {
+        getUser(userId);
+        // 1. 사용자 아이디로 반려견 조회
+        Pet pet = petService.findById(userId);
+        Long petId = pet.getId();
+        // 2. 반려견 아이디로 단골샵 매장 (3번 이상, 가장 많은 방문횟수) 조회
+        List<Object[]> regularVisitInfo = quotationService.getRegularInfoByPetId(petId);
+        if (regularVisitInfo.isEmpty()) { // 단골샵 없음
+            return userHomeMapper.toRegularShopResponse(pet, Collections.emptyList());
+        }
+        // 3. HomeShopResponse 리스트 생성
+        List<HomeShopResponse> homeShopList =
+                regularVisitInfo.stream()
+                        .map(
+                                info -> {
+                                    // 매장
+                                    Long shopId = (Long) info[0];
+                                    Shop shop = shopService.findById(shopId);
+                                    // 4. TODO : 매장 이미지
+                                    ShopImage shopImage =
+                                            new ShopImage(); // shopImageService.getByShopId(shop.getId());
+                                    Integer reviewCnt =
+                                            reviewService
+                                                    .getReviewsByShopId(shop.getId())
+                                                    .size(); // 리뷰 개수
+                                    Integer visitCnt = ((Number) info[1]).intValue(); // 방문 횟수
+                                    return userHomeMapper.toHomeShopResponse(
+                                            shop, shopImage, reviewCnt, visitCnt);
+                                })
+                        .collect(Collectors.toList());
+
+        // 4. RegularShopResponse 변환
+        return userHomeMapper.toRegularShopResponse(pet, homeShopList);
     }
 }
