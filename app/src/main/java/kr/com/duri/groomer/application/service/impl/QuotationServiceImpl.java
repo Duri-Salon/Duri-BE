@@ -1,6 +1,7 @@
 package kr.com.duri.groomer.application.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -101,5 +102,15 @@ public class QuotationServiceImpl implements QuotationService {
             return null;
         }
         return quotation.get();
+    }
+
+    // 반려견 ID로 사용자의 견적서 개수 조회 : [매장 ID, 방문횟수]
+    @Override
+    public List<Object[]> getRegualrInfoByPetId(Long petId) {
+        List<Object[]> quotationList = quotationRepository.findRegularShop(petId);
+        if (quotationList.isEmpty()) { // 조회된 견적서 없음
+            return Collections.emptyList();
+        }
+        return quotationList;
     }
 }
