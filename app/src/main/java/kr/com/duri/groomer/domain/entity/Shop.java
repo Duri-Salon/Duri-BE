@@ -79,4 +79,27 @@ public class Shop extends BaseEntity {
 
         return Shop.builder().socialId(socialId).email(email).build();
     }
+
+    public Shop updateDetail(
+            String name,
+            String phone,
+            String address,
+            Double lat,
+            Double lon,
+            LocalTime openTime,
+            LocalTime closeTime,
+            String info,
+            String kakaoTalk) {
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.lat = lat;
+        this.lon = lon;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.info = info;
+        this.kakaoTalk = kakaoTalk;
+        this.newShop = false;
+        return this;
+    }
 }

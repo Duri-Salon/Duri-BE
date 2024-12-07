@@ -27,6 +27,16 @@ public class ShopMapper {
                 .build();
     }
 
+    public ShopDetailResponse toShopDetailResponse(Shop shop) {
+        return ShopDetailResponse.builder()
+                .id(shop.getId())
+                .name(shop.getName())
+                .address(shop.getAddress())
+                .imageURL(null)
+                .phone(shop.getPhone())
+                .build();
+    }
+
     public ShopNearByResponse toShopNearByResponse(
             Long shopId,
             String shopName,
