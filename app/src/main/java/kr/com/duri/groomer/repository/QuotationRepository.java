@@ -57,4 +57,17 @@ public interface QuotationRepository extends JpaRepository<Quotation, Long> {
     """)
     Optional<Quotation> findApprovedNextQuotation(
             @Param("userId") Long userId, @Param("currentTime") LocalDateTime currentTime);
+
+    // 사용자의 견적서 리스트 확인 : [매장 ID, 횟수]
+    @Query(
+            """
+    SELECT r.shop.id, COUNT(q) FROM Quotation q
+    JOIN q.request r
+    JOIN r.quotation qr
+    WHERE qr.pet.id = :petId
+    GROUP BY r.shop.id
+    HAVING COUNT(q) >= 3
+    ORDER BY COUNT(q) DESC
+    """)
+    List<Object[]> findRegularShop(@Param("petId") Long petId);
 }
