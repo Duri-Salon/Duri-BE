@@ -1,5 +1,7 @@
 package kr.com.duri.user.application.service.impl;
 
+import java.util.List;
+
 import kr.com.duri.user.application.service.QuotationReqService;
 import kr.com.duri.user.domain.entity.QuotationReq;
 import kr.com.duri.user.exception.QuotationReqNotFoundException;
@@ -25,5 +27,10 @@ public class QuotationReqServiceImpl implements QuotationReqService {
         return quotationReqRepository
                 .findById(quotationReqId)
                 .orElseThrow(() -> new QuotationReqNotFoundException("해당 견적요청서를 찾을 수 없습니다."));
+    }
+
+    @Override
+    public List<QuotationReq> findByPetId(Long petId) {
+        return quotationReqRepository.findByPetId(petId);
     }
 }

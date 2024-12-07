@@ -18,4 +18,6 @@ public interface RequestService {
     List<Request> getReservationRequestsByShopId(Long shopId);
 
     List<Request> getCompleteRequestsByShopId(Long shopId);
+
+    List<Request> findByQuotationId(Long quotationId);
 }

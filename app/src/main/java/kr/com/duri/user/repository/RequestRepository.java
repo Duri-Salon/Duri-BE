@@ -43,4 +43,6 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
                     + "JOIN r.shop s "
                     + "WHERE s.id = :shopId AND q.status = 'APPROVED' AND q.complete = true")
     List<Request> findCompleteQuotationsByShopId(@Param("shopId") Long shopId);
+
+    List<Request> findByQuotationId(Long quotationId);
 }
