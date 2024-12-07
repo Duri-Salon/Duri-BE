@@ -117,7 +117,7 @@ public class UserHomeFacade {
         Pet pet = petService.findById(userId);
         Long petId = pet.getId();
         // 2. 반려견 아이디로 단골샵 매장 (3번 이상, 가장 많은 방문횟수) 조회
-        List<Object[]> regularVisitInfo = quotationService.getRegualrInfoByPetId(petId);
+        List<Object[]> regularVisitInfo = quotationService.getRegularInfoByPetId(petId);
         if (regularVisitInfo.isEmpty()) { // 단골샵 없음
             return userHomeMapper.toRegularShopResponse(pet, Collections.emptyList());
         }

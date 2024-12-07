@@ -34,5 +34,5 @@ public interface QuotationService {
     Quotation getClosetQuoationByUserId(Long userId);
 
     // 반려견 ID로 사용자의 견적서 개수 조회 : [매장 ID, 방문횟수]
-    List<Object[]> getRegualrInfoByPetId(Long petId);
+    List<Object[]> getRegularInfoByPetId(Long petId);
 }

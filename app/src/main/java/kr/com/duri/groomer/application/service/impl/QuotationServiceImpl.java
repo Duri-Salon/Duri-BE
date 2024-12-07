@@ -106,7 +106,7 @@ public class QuotationServiceImpl implements QuotationService {
 
     // 반려견 ID로 사용자의 견적서 개수 조회 : [매장 ID, 방문횟수]
     @Override
-    public List<Object[]> getRegualrInfoByPetId(Long petId) {
+    public List<Object[]> getRegularInfoByPetId(Long petId) {
         List<Object[]> quotationList = quotationRepository.findRegularShop(petId);
         if (quotationList.isEmpty()) { // 조회된 견적서 없음
             return Collections.emptyList();
