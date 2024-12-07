@@ -160,7 +160,7 @@ public class QuotationReqMapper {
         Integer totalPrice = extractTotalPriceFromJson(quotation.getPrice());
         Pet pet = quotation.getRequest().getQuotation().getPet();
         LocalDate today = LocalDate.now(); // 현재 날짜
-        LocalDate date = quotation.getStartDateTime().toLocalDate(); //미용 날짜
+        LocalDate date = quotation.getStartDateTime().toLocalDate(); // 미용 날짜
 
         // 반려견 상세 정보 매핑
         PetDetailResponse petDetailResponse =

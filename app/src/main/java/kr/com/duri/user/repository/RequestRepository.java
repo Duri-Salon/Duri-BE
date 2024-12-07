@@ -33,8 +33,7 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
             "SELECT r FROM Quotation q "
                     + "JOIN q.request r "
                     + "JOIN r.shop s "
-                    + "WHERE s.id = :shopId AND q.status = 'APPROVED' AND q.complete = false"
-    )
+                    + "WHERE s.id = :shopId AND q.status = 'APPROVED' AND q.complete = false")
     List<Request> findReservationQuotationsByShopId(@Param("shopId") Long shopId);
 
     // 시술 완료된 견적 요청서 리스트 가져오기
@@ -42,7 +41,6 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
             "SELECT r FROM Quotation q "
                     + "JOIN q.request r "
                     + "JOIN r.shop s "
-                    + "WHERE s.id = :shopId AND q.status = 'APPROVED' AND q.complete = true"
-    )
+                    + "WHERE s.id = :shopId AND q.status = 'APPROVED' AND q.complete = true")
     List<Request> findCompleteQuotationsByShopId(@Param("shopId") Long shopId);
 }
