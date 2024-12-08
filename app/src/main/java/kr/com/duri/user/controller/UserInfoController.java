@@ -1,7 +1,11 @@
 package kr.com.duri.user.controller;
 
+import java.util.List;
+
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.user.application.dto.request.NewPetRequest;
+import kr.com.duri.user.application.dto.response.HistoryResponse;
+import kr.com.duri.user.application.dto.response.MonthlyHistoryResponse;
 import kr.com.duri.user.application.dto.response.PetDetailResponse;
 import kr.com.duri.user.application.facade.UserInfoFacade;
 import kr.com.duri.user.exception.UserNotFoundException;
@@ -26,5 +30,15 @@ public class UserInfoController {
         } catch (UserNotFoundException e) {
             return CommonResponseEntity.error(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다.");
         }
+    }
+
+    // DURI-329 : 이용기록 조회
+    @GetMapping("/history/{userId}")
+    public CommonResponseEntity<List<MonthlyHistoryResponse>> getHistory(
+            @PathVariable Long userId) {
+        List<HistoryResponse> historyResponseList = userInfoFacade.getHistoryList(userId);
+        List<MonthlyHistoryResponse> monthlyHistoryResponseList =
+                userInfoFacade.getMonthlyHistory(historyResponseList);
+        return CommonResponseEntity.success(monthlyHistoryResponseList);
     }
 }
