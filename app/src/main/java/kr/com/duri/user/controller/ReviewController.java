@@ -9,6 +9,7 @@ import kr.com.duri.groomer.application.dto.response.ShopReviewResponse;
 import kr.com.duri.user.application.dto.request.NewReviewRequest;
 import kr.com.duri.user.application.dto.request.UpdateReviewRequest;
 import kr.com.duri.user.application.dto.response.ReviewResponse;
+import kr.com.duri.user.application.dto.response.UserReviewResponseList;
 import kr.com.duri.user.application.facade.ReviewFacade;
 import lombok.RequiredArgsConstructor;
 
@@ -25,30 +26,33 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/review")
+@RequestMapping("/api/v1")
 public class ReviewController {
 
     private final ReviewFacade reviewFacade;
 
-    // DURI-294 : 매장 리뷰 리스트 조회
-    @GetMapping("/review/{shopId}")
-    public CommonResponseEntity<List<ShopReviewResponse>> getReviewList(@PathVariable Long shopId) {
-        return CommonResponseEntity.success(reviewFacade.getReviewByShop(shopId));
+    // DURI-294 : 매장 리뷰 리스트 조회 (미용사)
+    @GetMapping("/shop/review/{shopId}")
+    public CommonResponseEntity<List<ShopReviewResponse>> getShopReviewList(
+            @PathVariable Long shopId) {
+        return CommonResponseEntity.success(reviewFacade.getReviewsByShopId(shopId));
     }
 
-    // DURI-324 : 매장 리뷰 상세 리스트 조회
-    @GetMapping("/review-detail/{shopId}")
+    // DURI-324 : 매장 리뷰 상세 리스트 조회 (미용사)
+    @GetMapping("/shop/review-detail/{shopId}")
     public CommonResponseEntity<List<ShopReviewDetailResponse>> getReviewDetailList(
             @PathVariable Long shopId) {
-        return CommonResponseEntity.success(reviewFacade.getReviewDetailByShop(shopId));
+        return CommonResponseEntity.success(reviewFacade.getReviewsDetailByShopId(shopId));
     }
 
-    // DURI-288 : 리뷰 전체 조회
-    @GetMapping("/user/{userId}")
-    public CommonResponseEntity<List<ReviewResponse>> getReviews(@PathVariable Long userId) {
-        return CommonResponseEntity.success(reviewFacade.getReviewList(userId));
+    // DURI-288 : 내가 쓴 후기 목록 조회 (고객)
+    @GetMapping("/user/review/{userId}")
+    public CommonResponseEntity<UserReviewResponseList> getUserReviewList(
+            @PathVariable Long userId) {
+        return CommonResponseEntity.success(reviewFacade.getReviewsByUserId(userId));
     }
 
+    /* 리팩토링 필요 */
     // DURI-288 : 리뷰 상세 조회
     @GetMapping("/{reviewId}")
     public CommonResponseEntity<ReviewResponse> getReview(@PathVariable Long reviewId) {
