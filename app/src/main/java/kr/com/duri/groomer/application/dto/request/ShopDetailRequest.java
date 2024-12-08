@@ -20,10 +20,10 @@ public class ShopDetailRequest {
     private Double lat; // 매장 위도
     private Double lon; // 매장 경도
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime openTime; // 오픈 시간
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime closeTime; // 마감 시간
 
     private String info; // 매장 소개
