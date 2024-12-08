@@ -15,29 +15,30 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserInfoMapper {
 
-    // Entity to HistoryResponse DTO
-    public HistoryResponse toHistoryResponse(
-            Quotation quotation, Groomer groomer, Shop shop, Pet pet, String day) {
-        DateTimeFormatter dateTimeformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        return HistoryResponse.builder()
-                .quotationId(quotation.getId())
-                .complete(quotation.isComplete())
-                .groomerImageURL(groomer.getImage())
-                .groomerName(groomer.getName())
-                .shopId(shop.getId())
-                .shopName(shop.getName())
-                .petName(pet.getName())
-                .day(day)
-                .startDate(quotation.getStartDateTime().format(dateTimeformatter))
-                .build();
-    }
+  // Entity to HistoryResponse DTO
+  public HistoryResponse toHistoryResponse(
+      Quotation quotation, Groomer groomer, Shop shop, Pet pet, String day) {
+    DateTimeFormatter dateTimeformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    return HistoryResponse.builder()
+        .quotationId(quotation.getId())
+        .complete(quotation.isComplete())
+        .groomerImageURL(groomer.getImage() != null ? groomer.getImage() : "")
+        .groomerName(groomer.getName() != null ? groomer.getName() : "")
+        .shopId(shop.getId())
+        .shopName(shop.getName())
+        .petName(pet.getName())
+        .day(day != null ? day : "")
+        .startDate(quotation.getStartDateTime() != null ?
+            quotation.getStartDateTime().format(dateTimeformatter) : "")
+        .build();
+  }
 
-    // Entity to MonthlyHistoryResponse DTO
-    public MonthlyHistoryResponse toMonthlyHistoryResponse(
-            String month, List<HistoryResponse> historyResponseList) {
-        return MonthlyHistoryResponse.builder()
-                .month(month)
-                .historyList(historyResponseList)
-                .build();
-    }
+  // Entity to MonthlyHistoryResponse DTO
+  public MonthlyHistoryResponse toMonthlyHistoryResponse(
+      String month, List<HistoryResponse> historyResponseList) {
+    return MonthlyHistoryResponse.builder()
+        .month(month)
+        .historyList(historyResponseList)
+        .build();
+  }
 }
