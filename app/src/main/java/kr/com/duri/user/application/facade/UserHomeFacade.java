@@ -157,7 +157,7 @@ public class UserHomeFacade {
 
     // 성별 한글로 변환
     private String translateGender(Gender gender) {
-        switch (gender){
+        switch (gender) {
             case F:
                 return "여아";
             case M:
