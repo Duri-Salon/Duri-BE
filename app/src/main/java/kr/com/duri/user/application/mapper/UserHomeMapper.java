@@ -6,6 +6,7 @@ import java.util.List;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.domain.entity.ShopImage;
+import kr.com.duri.user.application.dto.response.HomePetInfoResponse;
 import kr.com.duri.user.application.dto.response.HomeShopResponse;
 import kr.com.duri.user.application.dto.response.RecentProcedureResponse;
 import kr.com.duri.user.application.dto.response.RegularShopResponse;
@@ -68,6 +69,19 @@ public class UserHomeMapper {
                 .petId(pet.getId())
                 .petName(pet.getName())
                 .homeShopList(homeShopList)
+                .build();
+    }
+
+    // Pet Entity to HomePetInfoResponse DTO
+    public HomePetInfoResponse toHomePetInfoResponse(Pet pet, String gender) {
+        return HomePetInfoResponse.builder()
+                .petId(pet.getId())
+                .imageURL(pet.getImage() != null ? pet.getImage() : "")
+                .name(pet.getName())
+                .breed(pet.getBreed() != null ? pet.getBreed() : "")
+                .gender(gender != null ? gender : "")
+                .age(pet.getAge())
+                .weight(pet.getWeight() != null ? pet.getWeight() : 0F)
                 .build();
     }
 }
