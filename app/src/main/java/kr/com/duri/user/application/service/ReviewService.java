@@ -11,7 +11,7 @@ public interface ReviewService {
     List<Review> getReviewsByShopId(Long shopId);
 
     // 목록 조회
-    List<Review> getReviewList(Long petId);
+    List<Review> getReviewsByPetId(Long petId);
 
     // 단일 조회
     Review getReview(Long reviewId);

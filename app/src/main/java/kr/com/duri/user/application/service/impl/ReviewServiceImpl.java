@@ -25,7 +25,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     // [1] 목록 조회
     @Override
-    public List<Review> getReviewList(Long petId) {
+    public List<Review> getReviewsByPetId(Long petId) {
         return reviewRepository.findByPetId(petId);
     }
 
