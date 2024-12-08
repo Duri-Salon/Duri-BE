@@ -1,6 +1,7 @@
 package kr.com.duri.user.controller;
 
 import kr.com.duri.common.response.CommonResponseEntity;
+import kr.com.duri.user.application.dto.response.HomePetInfoResponse;
 import kr.com.duri.user.application.dto.response.RecentProcedureResponse;
 import kr.com.duri.user.application.dto.response.RegularShopResponse;
 import kr.com.duri.user.application.facade.UserHomeFacade;
@@ -31,5 +32,12 @@ public class UserHomeController {
     public CommonResponseEntity<RegularShopResponse> getRegularInfo(@PathVariable Long userId) {
         RegularShopResponse regularShopResponses = userHomeFacade.getRegularShops(userId);
         return CommonResponseEntity.success(regularShopResponses);
+    }
+
+    // DURI-334 : 펫 간단 정보 조회
+    @GetMapping("/pet/{userId}")
+    public CommonResponseEntity<HomePetInfoResponse> getPetInfo(@PathVariable Long userId) {
+        HomePetInfoResponse homePetInfoResponse = userHomeFacade.getPetInfo(userId);
+        return CommonResponseEntity.success(homePetInfoResponse);
     }
 }
