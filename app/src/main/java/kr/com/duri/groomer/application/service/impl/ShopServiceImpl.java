@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import kr.com.duri.common.security.jwt.JwtUtil;
-import kr.com.duri.groomer.application.dto.request.ShopDetailRequest;
+import kr.com.duri.groomer.application.dto.request.ShopOnboardingInfo;
 import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
@@ -66,17 +66,15 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public Shop updateDetail(Shop shop, ShopDetailRequest shopDetailRequest) {
+    public Shop updateDetail(Shop shop, ShopOnboardingInfo shopOnboardingInfo) {
         return shopRepository.save(
-                shop.updateDetail(
-                        shopDetailRequest.getName(),
-                        shopDetailRequest.getPhone(),
-                        shopDetailRequest.getAddress(),
-                        shopDetailRequest.getLat(),
-                        shopDetailRequest.getLon(),
-                        shopDetailRequest.getOpenTime(),
-                        shopDetailRequest.getCloseTime(),
-                        shopDetailRequest.getInfo(),
-                        shopDetailRequest.getKakaoTalk()));
+                shop.updateDetailWithOnboarding(
+                        shopOnboardingInfo.getName(),
+                        shopOnboardingInfo.getPhone(),
+                        shopOnboardingInfo.getAddress(),
+                        shopOnboardingInfo.getLat(),
+                        shopOnboardingInfo.getLon(),
+                        shopOnboardingInfo.getBusinessRegistrationNumber(),
+                        shopOnboardingInfo.getGroomerLicenseNumber()));
     }
 }

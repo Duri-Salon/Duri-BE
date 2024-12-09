@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ShopOnboardingRequest {
-    private ShopDetailRequest shopDetailRequest;
-    private GroomerDetailRequest groomerDetailRequest;
+    private ShopOnboardingInfo shopOnboardingInfo;
+    private GroomerOnboardingInfo groomerOnboardingInfo;
 }

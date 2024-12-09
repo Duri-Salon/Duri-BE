@@ -9,4 +9,5 @@ public class NewShopJwtResponse {
     private String client;
     private String token;
     private Boolean newUser;
+    private String entry;
 }

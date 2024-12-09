@@ -30,11 +30,11 @@ public class ShopOnboardingFacade {
 
         Shop shop = shopService.findById(shopId);
 
-        shop = shopService.updateDetail(shop, shopOnboardingRequest.getShopDetailRequest());
+        shop = shopService.updateDetail(shop, shopOnboardingRequest.getShopOnboardingInfo());
 
         Groomer groomer =
                 groomerService.createNewGroomer(
-                        shop, shopOnboardingRequest.getGroomerDetailRequest());
+                        shop, shopOnboardingRequest.getGroomerOnboardingInfo());
 
         return ShopOnboardingResponse.builder()
                 .shopDetailResponse(shopMapper.toShopDetailResponse(shop))

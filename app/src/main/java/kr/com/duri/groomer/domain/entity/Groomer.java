@@ -53,27 +53,21 @@ public class Groomer extends BaseEntity {
     @Column(name = "groomer_license")
     private String license; // 자격증
 
-    public static Groomer createNewGroomer(
+    public static Groomer createNewGroomerWithOnboarding(
             Shop shop,
-            String email,
-            String phone,
             String name,
             Integer age,
             String gender,
             Integer history,
-            String image,
-            String info,
+            String profileImage,
             String license) {
         return Groomer.builder()
                 .shop(shop)
-                .email(email)
-                .phone(phone)
                 .name(name)
                 .age(age)
                 .gender(Gender.valueOf(gender))
                 .history(history)
-                .image(image)
-                .info(info)
+                .image(profileImage)
                 .license(license)
                 .build();
     }

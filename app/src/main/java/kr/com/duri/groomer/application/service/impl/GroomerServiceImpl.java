@@ -1,7 +1,7 @@
 package kr.com.duri.groomer.application.service.impl;
 
 import kr.com.duri.common.Mapper.CommonMapper;
-import kr.com.duri.groomer.application.dto.request.GroomerDetailRequest;
+import kr.com.duri.groomer.application.dto.request.GroomerOnboardingInfo;
 import kr.com.duri.groomer.application.service.GroomerService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Shop;
@@ -27,19 +27,16 @@ public class GroomerServiceImpl implements GroomerService {
     }
 
     @Override
-    public Groomer createNewGroomer(Shop shop, GroomerDetailRequest groomerDetailRequest) {
-        String licenseStringJson = commonMapper.toStringJson(groomerDetailRequest.getLicense());
+    public Groomer createNewGroomer(Shop shop, GroomerOnboardingInfo groomerOnboardingInfo) {
+        String licenseStringJson = commonMapper.toStringJson(groomerOnboardingInfo.getLicense());
         return groomerRepository.save(
-                Groomer.createNewGroomer(
+                Groomer.createNewGroomerWithOnboarding(
                         shop,
-                        groomerDetailRequest.getEmail(),
-                        groomerDetailRequest.getPhone(),
-                        groomerDetailRequest.getName(),
-                        groomerDetailRequest.getAge(),
-                        groomerDetailRequest.getGender(),
-                        groomerDetailRequest.getHistory(),
-                        groomerDetailRequest.getImage(),
-                        groomerDetailRequest.getInfo(),
+                        groomerOnboardingInfo.getName(),
+                        groomerOnboardingInfo.getAge(),
+                        groomerOnboardingInfo.getGender(),
+                        groomerOnboardingInfo.getHistory(),
+                        groomerOnboardingInfo.getProfileImage(),
                         licenseStringJson));
     }
 }
