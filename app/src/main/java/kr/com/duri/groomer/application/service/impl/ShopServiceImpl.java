@@ -65,4 +65,10 @@ public class ShopServiceImpl implements ShopService {
         shop.updateRating(Float.valueOf(rating));
         return shopRepository.save(shop);
     }
+
+    // 추천 매장 조회
+    @Override
+    public List<Shop> findShopsByRadius(Double lat, Double lon, Double radians) {
+        return shopRepository.findShopsByRadius(lat, lon, radians);
+    }
 }
