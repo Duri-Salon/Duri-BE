@@ -76,7 +76,10 @@ public class Shop extends BaseEntity {
         if (socialId == null || socialId.isEmpty()) {
             throw new IllegalArgumentException("Social ID must not be null or empty");
         }
-
         return Shop.builder().socialId(socialId).email(email).build();
+    }
+
+    public void updateRating(Float rating) {
+        this.rating = rating;
     }
 }

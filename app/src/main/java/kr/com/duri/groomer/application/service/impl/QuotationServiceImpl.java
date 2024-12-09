@@ -116,7 +116,7 @@ public class QuotationServiceImpl implements QuotationService {
 
     @Override
     public List<Quotation> getHistoryByUserId(Long petId) {
-        List<Quotation> quotationList = quotationRepository.findQuotationsByUserId(petId);
+        List<Quotation> quotationList = quotationRepository.findQuotationsByPetId(petId);
         if (quotationList.isEmpty()) {
             return Collections.emptyList();
         }
