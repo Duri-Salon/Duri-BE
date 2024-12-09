@@ -25,4 +25,7 @@ public interface ShopService {
 
     // 반경 내 매장 목록 조회
     List<Shop> findShopsByRadius(Double lat, Double lon, Double radians);
+
+    // 토큰으로 매장 아이디 찾기
+    Long getShopIdByToken(String token);
 }
