@@ -46,7 +46,7 @@ public class UserHomeFacade {
     private static final Double RADIUS_20KM = 20000d;
     private static final Double RADIUS_40KM = 40000d;
     private static final Double RADIUS_60KM = 60000d;
-    private static final int MAX_RECOMMEND = 2;
+    private static final int MAX_RECOMMEND = 4;
 
     private final UserHomeMapper userHomeMapper;
     private final PetMapper petMapper;
