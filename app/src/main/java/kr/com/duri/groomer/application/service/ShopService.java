@@ -19,4 +19,7 @@ public interface ShopService {
     List<Object[]> findShopsWithinRadius(Double lat, Double lon, Double radius);
 
     List<Object[]> findShopsWithSearch(String search, Double lat, Double lon);
+
+    // 매장 평점 업데이트
+    Shop updateShopRating(Long shopId, Float rating);
 }
