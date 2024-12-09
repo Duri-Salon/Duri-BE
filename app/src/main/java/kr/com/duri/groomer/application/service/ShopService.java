@@ -22,4 +22,7 @@ public interface ShopService {
 
     // 매장 평점 업데이트
     Shop updateShopRating(Long shopId, Float rating);
+
+    // 반경 내 매장 목록 조회
+    List<Shop> findShopsByRadius(Double lat, Double lon, Double radians);
 }

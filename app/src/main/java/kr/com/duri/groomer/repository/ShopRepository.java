@@ -40,4 +40,18 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
             nativeQuery = true)
     List<Object[]> findShopsWithSearch(
             @Param("search") String search, @Param("lat") Double lat, @Param("lon") Double lon);
+
+    // 반경 내 매장 리스트 조회
+    @Query(
+            value =
+                    """
+            SELECT s
+            FROM Shop s
+            WHERE (6371000 * ACOS(
+                COS(RADIANS(:lat)) * COS(RADIANS(s.lat)) * COS(RADIANS(s.lon) - RADIANS(:lon)) +
+                SIN(RADIANS(:lat)) * SIN(RADIANS(s.lat))
+            )) <= :radians
+        """)
+    List<Shop> findShopsByRadius(
+            @Param("lat") Double lat, @Param("lon") Double lon, @Param("radians") Double radians);
 }

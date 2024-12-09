@@ -10,7 +10,9 @@ import kr.com.duri.groomer.domain.entity.ShopImage;
 import kr.com.duri.user.application.dto.response.HomePetInfoResponse;
 import kr.com.duri.user.application.dto.response.HomeShopResponse;
 import kr.com.duri.user.application.dto.response.RecentProcedureResponse;
+import kr.com.duri.user.application.dto.response.RecommendShopResponse;
 import kr.com.duri.user.application.dto.response.RegularShopResponse;
+import kr.com.duri.user.domain.Enum.Gender;
 import kr.com.duri.user.domain.entity.Pet;
 
 import org.springframework.stereotype.Component;
@@ -89,5 +91,39 @@ public class UserHomeMapper {
                                 ? dayTimeFormatter.format(pet.getLastGrooming())
                                 : "")
                 .build();
+    }
+
+    // Pet, Shop Entity to RecommendShopResponse DTO
+    public RecommendShopResponse toRecommendShopResponse(
+            Pet pet,
+            String feature,
+            Shop shop,
+            ShopImage shopImage,
+            List<String> shopTagsStr,
+            Float score) {
+        return RecommendShopResponse.builder()
+                .petId(pet.getId())
+                .recommendFeature(feature)
+                .shopId(shop.getId())
+                .imageURL(shopImage.getShopImageUrl() != null ? shopImage.getShopImageUrl() : "")
+                .shopName(shop.getName())
+                .address(shop.getAddress())
+                .phone(shop.getPhone() != null ? shop.getPhone() : "")
+                .shopTag1(shopTagsStr.size() > 0 ? shopTagsStr.get(0) : "")
+                .shopTag2(shopTagsStr.size() > 1 ? shopTagsStr.get(1) : "")
+                .score(score != null ? score : 0F)
+                .build();
+    }
+
+    // 성별 한글로 변환
+    public String translateGender(Gender gender) {
+        switch (gender) {
+            case F:
+                return "여아";
+            case M:
+                return "남아";
+            default:
+                throw new IllegalArgumentException("잘못된 성별입니다.");
+        }
     }
 }
