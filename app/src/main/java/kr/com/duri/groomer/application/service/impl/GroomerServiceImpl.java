@@ -1,6 +1,7 @@
 package kr.com.duri.groomer.application.service.impl;
 
 import kr.com.duri.common.Mapper.CommonMapper;
+import kr.com.duri.groomer.application.dto.request.GroomerDetailRequest;
 import kr.com.duri.groomer.application.dto.request.GroomerOnboardingInfo;
 import kr.com.duri.groomer.application.service.GroomerService;
 import kr.com.duri.groomer.domain.entity.Groomer;
@@ -37,6 +38,23 @@ public class GroomerServiceImpl implements GroomerService {
                         groomerOnboardingInfo.getGender(),
                         groomerOnboardingInfo.getHistory(),
                         groomerOnboardingInfo.getProfileImage(),
+                        licenseStringJson));
+    }
+
+    @Override
+    public Groomer createNewGroomer(Shop shop, GroomerDetailRequest groomerDetailRequest) {
+        String licenseStringJson = commonMapper.toStringJson(groomerDetailRequest.getLicense());
+        return groomerRepository.save(
+                Groomer.createNewGroomer(
+                        shop,
+                        groomerDetailRequest.getName(),
+                        groomerDetailRequest.getAge(),
+                        groomerDetailRequest.getGender(),
+                        groomerDetailRequest.getEmail(),
+                        groomerDetailRequest.getPhone(),
+                        groomerDetailRequest.getHistory(),
+                        groomerDetailRequest.getImage(),
+                        groomerDetailRequest.getInfo(),
                         licenseStringJson));
     }
 }

@@ -71,4 +71,19 @@ public class Groomer extends BaseEntity {
                 .license(license)
                 .build();
     }
+
+    public static Groomer createNewGroomer(Shop shop, String name, Integer age, String gender, String email, String phone, Integer history, String image, String info, String license) {
+        return Groomer.builder()
+                .shop(shop)
+                .name(name)
+                .age(age)
+                .gender(Gender.valueOf(gender))
+                .email(email)
+                .phone(phone)
+                .history(history)
+                .image(image)
+                .info(info)
+                .license(license)
+                .build();
+    }
 }
