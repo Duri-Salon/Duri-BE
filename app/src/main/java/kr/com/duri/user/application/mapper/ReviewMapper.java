@@ -89,6 +89,15 @@ public class ReviewMapper {
                 .build();
     }
 
+    // NewReviewRequest DTO to Entity
+    public Review toReview(NewReviewRequest newReviewRequest, Request request) {
+        return Review.builder()
+                .rating(newReviewRequest.getRating())
+                .comment(safeGet(newReviewRequest.getComment()))
+                .request(request)
+                .build();
+    }
+
     /* 리팩토링 필요 */
     // Review Entity to Response DTO
     public ReviewResponse toReviewResponse(
@@ -101,15 +110,6 @@ public class ReviewMapper {
                 .comment(safeGet(review.getComment()))
                 .imgUrl(safeGet(reviewImage.getImage()))
                 .createdAt(review.getCreatedAt())
-                .build();
-    }
-
-    // Review Request DTO to Entity
-    public Review toReview(NewReviewRequest newReviewRequest, Request request) {
-        return Review.builder()
-                .rating(newReviewRequest.getRating())
-                .comment(safeGet(newReviewRequest.getComment()))
-                .request(request)
                 .build();
     }
 }
