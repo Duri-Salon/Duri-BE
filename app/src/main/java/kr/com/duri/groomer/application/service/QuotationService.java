@@ -37,5 +37,5 @@ public interface QuotationService {
     List<Object[]> getRegularInfoByPetId(Long petId);
 
     // 사용자 ID로 견적서 조회
-    List<Quotation> getHistoryByUserId(Long petId);
+    List<Quotation> getHistoryByPetId(Long petId);
 }

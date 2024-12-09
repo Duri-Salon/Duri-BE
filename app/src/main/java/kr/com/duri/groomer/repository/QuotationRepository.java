@@ -79,5 +79,5 @@ public interface QuotationRepository extends JpaRepository<Quotation, Long> {
       JOIN r.quotation qr
       WHERE qr.pet.id = :petId
       """)
-    List<Quotation> findQuotationsByUserId(@Param("petId") Long petId);
+    List<Quotation> findQuotationsByPetId(@Param("petId") Long petId);
 }

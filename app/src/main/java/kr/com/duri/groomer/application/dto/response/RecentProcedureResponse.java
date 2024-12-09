@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class RecentProcedureResponse {
     @Builder.Default private Long petId = 0L; // 펫 ID
     @Builder.Default private String petName = ""; // 펫 이름
-    @Builder.Default private String imageURL = ""; // 펫 이름
+    @Builder.Default private String imageURL = ""; // 펫 이미지 URL
     @Builder.Default private String breed = ""; // 견종
     @Builder.Default private String gender = ""; // 성별
     @Builder.Default private Integer age = 0; // 나이
