@@ -18,7 +18,7 @@ public class PetMapper {
 
     private final ObjectMapper objectMapper;
 
-    private List<String> parseJsonArray(String jsonString) {
+    public List<String> parseJsonArray(String jsonString) {
         try {
             List<String> list =
                     objectMapper.readValue(

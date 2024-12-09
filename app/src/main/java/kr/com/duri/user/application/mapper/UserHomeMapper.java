@@ -9,6 +9,7 @@ import kr.com.duri.groomer.domain.entity.ShopImage;
 import kr.com.duri.user.application.dto.response.HomePetInfoResponse;
 import kr.com.duri.user.application.dto.response.HomeShopResponse;
 import kr.com.duri.user.application.dto.response.RecentProcedureResponse;
+import kr.com.duri.user.application.dto.response.RecommendShopResponse;
 import kr.com.duri.user.application.dto.response.RegularShopResponse;
 import kr.com.duri.user.domain.entity.Pet;
 
@@ -82,6 +83,28 @@ public class UserHomeMapper {
                 .gender(gender != null ? gender : "")
                 .age(pet.getAge())
                 .weight(pet.getWeight() != null ? pet.getWeight() : 0F)
+                .build();
+    }
+
+    // Pet, Shop Entity to RecommendShopResponse DTO
+    public RecommendShopResponse toRecommendShopResponse(
+            Pet pet,
+            String feature,
+            Shop shop,
+            ShopImage shopImage,
+            List<String> shopTagsStr,
+            Float score) {
+        return RecommendShopResponse.builder()
+                .petId(pet.getId())
+                .recommendFeature(feature)
+                .shopId(shop.getId())
+                .imageURL(shopImage.getShopImageUrl() != null ? shopImage.getShopImageUrl() : "")
+                .shopName(shop.getName())
+                .address(shop.getAddress())
+                .phone(shop.getPhone() != null ? shop.getPhone() : "")
+                .shopTag1(shopTagsStr.size() > 0 ? shopTagsStr.get(0) : "")
+                .shopTag2(shopTagsStr.size() > 1 ? shopTagsStr.get(1) : "")
+                .score(score != null ? score : 0F)
                 .build();
     }
 }
