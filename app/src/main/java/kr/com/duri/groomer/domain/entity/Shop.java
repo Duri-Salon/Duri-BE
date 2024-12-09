@@ -1,6 +1,5 @@
 package kr.com.duri.groomer.domain.entity;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import jakarta.persistence.*;
@@ -82,6 +81,5 @@ public class Shop extends BaseEntity {
 
     public void updateRating(Float rating) {
         this.rating = rating;
-        this.setUpdatedAt(LocalDateTime.now());
     }
 }
