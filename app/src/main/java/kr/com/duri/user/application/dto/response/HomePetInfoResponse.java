@@ -17,4 +17,5 @@ public class HomePetInfoResponse {
     private String gender; // 성별
     private Integer age; // 나이
     private Float weight; // 몸무게
+    private String lastGrooming; // 마지막 미용일자
 }
