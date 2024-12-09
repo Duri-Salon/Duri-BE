@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class QuotationListResponse {
-    private Long quotationId; // 견적 요청 ID
+    private Long quotationReqId; // 견적 요청 ID
     private LocalDateTime createdAt; // 생성 시각
     private LocalDateTime expiredAt; // 만료 시각
     private List<QuotationListShopResponse> shops; // 관련 매장 목록

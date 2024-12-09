@@ -195,7 +195,7 @@ public class QuotationReqFacade {
                                             .collect(Collectors.toList());
 
                             return QuotationListResponse.builder()
-                                    .quotationId(quotationReq.getId())
+                                    .quotationReqId(quotationReq.getId())
                                     .createdAt(createdAt)
                                     .expiredAt(expiredAt)
                                     .shops(shops)
