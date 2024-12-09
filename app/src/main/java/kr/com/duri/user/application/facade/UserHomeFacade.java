@@ -15,6 +15,7 @@ import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.domain.entity.ShopImage;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
+import kr.com.duri.user.application.dto.response.HomePetInfoResponse;
 import kr.com.duri.user.application.dto.response.HomeShopResponse;
 import kr.com.duri.user.application.dto.response.RecentProcedureResponse;
 import kr.com.duri.user.application.dto.response.RegularShopResponse;
@@ -22,6 +23,7 @@ import kr.com.duri.user.application.mapper.UserHomeMapper;
 import kr.com.duri.user.application.service.PetService;
 import kr.com.duri.user.application.service.ReviewService;
 import kr.com.duri.user.application.service.SiteUserService;
+import kr.com.duri.user.domain.Enum.Gender;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.Request;
 import kr.com.duri.user.domain.entity.SiteUser;
@@ -144,5 +146,24 @@ public class UserHomeFacade {
 
         // 4. RegularShopResponse 변환
         return userHomeMapper.toRegularShopResponse(pet, homeShopList);
+    }
+
+    // 펫 간단 정보 조회
+    public HomePetInfoResponse getPetInfo(Long userId) {
+        Pet pet = petService.getPetByUserId(userId);
+        String gender = translateGender(pet.getGender());
+        return userHomeMapper.toHomePetInfoResponse(pet, gender);
+    }
+
+    // 성별 한글로 변환
+    private String translateGender(Gender gender) {
+        switch (gender) {
+            case F:
+                return "여아";
+            case M:
+                return "남아";
+            default:
+                throw new IllegalArgumentException("잘못된 성별입니다.");
+        }
     }
 }

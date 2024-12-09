@@ -29,6 +29,7 @@ public class GroomerHomeMapper {
         return RecentProcedureResponse.builder()
                 .petId(pet.getId())
                 .petName(pet.getName())
+                .imageURL(pet.getImage())
                 .breed(pet.getBreed())
                 .gender(String.valueOf(pet.getGender()))
                 .age(pet.getAge())
