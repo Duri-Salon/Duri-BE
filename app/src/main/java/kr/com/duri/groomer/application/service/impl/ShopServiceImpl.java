@@ -57,4 +57,12 @@ public class ShopServiceImpl implements ShopService {
     public List<Object[]> findShopsWithSearch(String search, Double lat, Double lon) {
         return shopRepository.findShopsWithSearch(search, lat, lon);
     }
+
+    // 매장 평점 업데이트
+    @Override
+    public Shop updateShopRating(Long shopId, Float rating) {
+        Shop shop = findById(shopId);
+        shop.updateRating(Float.valueOf(rating));
+        return shopRepository.save(shop);
+    }
 }

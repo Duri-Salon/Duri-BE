@@ -113,4 +113,13 @@ public class QuotationServiceImpl implements QuotationService {
         }
         return quotationList;
     }
+
+    @Override
+    public List<Quotation> getHistoryByUserId(Long petId) {
+        List<Quotation> quotationList = quotationRepository.findQuotationsByUserId(petId);
+        if (quotationList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return quotationList;
+    }
 }

@@ -30,4 +30,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             where qr.pet.id = :petId
             """)
     List<Review> findByPetId(@Param("petId") Long petId);
+
+    // 요청 ID에 리뷰가 존재하는지 확인
+    boolean existsByRequestId(Long requestId);
 }

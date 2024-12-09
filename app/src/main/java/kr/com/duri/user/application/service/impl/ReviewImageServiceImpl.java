@@ -56,7 +56,7 @@ public class ReviewImageServiceImpl implements ReviewImageService {
         String imageS3Url = uploadToS3(image);
         // 기존 리뷰 이미지 있다면 S3 삭제 후 수정
         ReviewImage reviewImage = getReviewImageByReviewId(review.getId());
-        if (reviewImage != null) {
+        if (reviewImage.getId() != null) {
             deleteFromS3(reviewImage);
             reviewImage.update(imageS3Url, review);
         } else {
