@@ -2,6 +2,7 @@ package kr.com.duri.user.application.mapper;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -230,5 +231,36 @@ public class QuotationReqMapper {
                                         .status(QuotationStatus.WAITING) // 상태는 대기로 세팅
                                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public QuotationListResponse toQuotationReqListResponse(
+            QuotationReq quotationReq, List<Request> requests) {
+        // 만료 시간 계산
+        LocalDateTime createdAt = quotationReq.getCreatedAt();
+        LocalDateTime expiredAt = createdAt.plusHours(24);
+
+        // Request -> ShopResponse 변환
+        List<QuotationListShopResponse> shops =
+                requests.stream()
+                        .map(
+                                request -> {
+                                    Shop shop = request.getShop();
+                                    return QuotationListShopResponse.builder()
+                                            .shopId(shop.getId())
+                                            .shopName(shop.getName())
+                                            .build();
+                                })
+                        .collect(Collectors.toList());
+
+        boolean isExpired = LocalDateTime.now().isAfter(expiredAt);
+
+        // QuotationListResponse 빌드
+        return QuotationListResponse.builder()
+                .quotationReqId(quotationReq.getId())
+                .createdAt(createdAt)
+                .expiredAt(expiredAt)
+                .shops(shops)
+                .isExpired(isExpired)
+                .build();
     }
 }

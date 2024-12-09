@@ -1,6 +1,5 @@
 package kr.com.duri.user.application.facade;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,7 +8,6 @@ import kr.com.duri.groomer.application.service.QuotationService;
 import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
-import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
 import kr.com.duri.user.application.dto.request.NewQuotationReqRequest;
 import kr.com.duri.user.application.dto.response.*;
@@ -174,32 +172,10 @@ public class QuotationReqFacade {
         return quotationReqs.stream()
                 .map(
                         quotationReq -> {
-                            LocalDateTime createdAt = quotationReq.getCreatedAt();
-                            LocalDateTime expiredAt = createdAt.plusHours(24);
-
                             List<Request> requests =
                                     requestService.findByQuotationId(quotationReq.getId());
-
-                            List<QuotationListShopResponse> shops =
-                                    requests.stream()
-                                            .map(
-                                                    request -> {
-                                                        Shop shop =
-                                                                shopService.findById(
-                                                                        request.getShop().getId());
-                                                        return QuotationListShopResponse.builder()
-                                                                .shopId(shop.getId())
-                                                                .shopName(shop.getName())
-                                                                .build();
-                                                    })
-                                            .collect(Collectors.toList());
-
-                            return QuotationListResponse.builder()
-                                    .quotationReqId(quotationReq.getId())
-                                    .createdAt(createdAt)
-                                    .expiredAt(expiredAt)
-                                    .shops(shops)
-                                    .build();
+                            return quotationReqMapper.toQuotationReqListResponse(
+                                    quotationReq, requests);
                         })
                 .collect(Collectors.toList());
     }

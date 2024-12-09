@@ -17,4 +17,5 @@ public class QuotationListResponse {
     private LocalDateTime createdAt; // 생성 시각
     private LocalDateTime expiredAt; // 만료 시각
     private List<QuotationListShopResponse> shops; // 관련 매장 목록
+    private Boolean isExpired; // 만료 여부
 }
