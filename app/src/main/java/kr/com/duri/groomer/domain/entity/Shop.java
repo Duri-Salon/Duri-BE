@@ -1,6 +1,5 @@
 package kr.com.duri.groomer.domain.entity;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import jakarta.persistence.*;
