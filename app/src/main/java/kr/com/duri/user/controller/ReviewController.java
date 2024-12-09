@@ -13,6 +13,7 @@ import kr.com.duri.user.application.dto.response.UserReviewResponseList;
 import kr.com.duri.user.application.facade.ReviewFacade;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,20 +54,24 @@ public class ReviewController {
         return CommonResponseEntity.success(reviewFacade.getReviewsByUserId(userId));
     }
 
+    // DURI-286 : 리뷰 작성 (고객)
+    @PostMapping(value = "/user/review/new", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public CommonResponseEntity<String> createReview(
+            @RequestParam Long quotationId,
+            @RequestPart @Valid NewReviewRequest newReviewRequest,
+            @RequestPart(value = "image", required = false) MultipartFile img) {
+        boolean success = reviewFacade.createReview(quotationId, newReviewRequest, img);
+        return success
+                ? CommonResponseEntity.success("리뷰가 성공적으로 저장되었습니다.")
+                : CommonResponseEntity.error(
+                        HttpStatus.BAD_REQUEST, "요청 데이터가 올바르지 않아 리뷰 작성에 실패하였습니다. 다시 시도해주세요.");
+    }
+
     /* 리팩토링 필요 */
     // DURI-288 : 리뷰 상세 조회
     @GetMapping("/{reviewId}")
     public CommonResponseEntity<ReviewResponse> getReview(@PathVariable Long reviewId) {
         return CommonResponseEntity.success(reviewFacade.getReview(reviewId));
-    }
-
-    // DURI-286 : 리뷰 작성
-    @PostMapping(value = "/new", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public CommonResponseEntity<String> createReview(
-            @RequestPart @Valid NewReviewRequest newReviewRequest,
-            @RequestPart(value = "image", required = false) MultipartFile img) {
-        reviewFacade.createReview(newReviewRequest, img);
-        return CommonResponseEntity.success("리뷰가 성공적으로 저장되었습니다.");
     }
 
     // DURI-289 : 리뷰 수정
