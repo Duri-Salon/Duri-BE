@@ -30,7 +30,6 @@ import kr.com.duri.user.application.mapper.UserHomeMapper;
 import kr.com.duri.user.application.service.PetService;
 import kr.com.duri.user.application.service.ReviewService;
 import kr.com.duri.user.application.service.SiteUserService;
-import kr.com.duri.user.domain.Enum.Gender;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.Request;
 import kr.com.duri.user.domain.entity.SiteUser;
@@ -315,19 +314,7 @@ public class UserHomeFacade {
     public HomePetInfoResponse getPetInfo(Long userId) {
         getUser(userId);
         Pet pet = petService.getPetByUserId(userId);
-        String gender = translateGender(pet.getGender());
+        String gender = userHomeMapper.translateGender(pet.getGender());
         return userHomeMapper.toHomePetInfoResponse(pet, gender);
-    }
-
-    // 성별 한글로 변환
-    private String translateGender(Gender gender) {
-        switch (gender) {
-            case F:
-                return "여아";
-            case M:
-                return "남아";
-            default:
-                throw new IllegalArgumentException("잘못된 성별입니다.");
-        }
     }
 }

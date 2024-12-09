@@ -11,6 +11,7 @@ import kr.com.duri.user.application.dto.response.HomeShopResponse;
 import kr.com.duri.user.application.dto.response.RecentProcedureResponse;
 import kr.com.duri.user.application.dto.response.RecommendShopResponse;
 import kr.com.duri.user.application.dto.response.RegularShopResponse;
+import kr.com.duri.user.domain.Enum.Gender;
 import kr.com.duri.user.domain.entity.Pet;
 
 import org.springframework.stereotype.Component;
@@ -106,5 +107,17 @@ public class UserHomeMapper {
                 .shopTag2(shopTagsStr.size() > 1 ? shopTagsStr.get(1) : "")
                 .score(score != null ? score : 0F)
                 .build();
+    }
+
+    // 성별 한글로 변환
+    public String translateGender(Gender gender) {
+        switch (gender) {
+            case F:
+                return "여아";
+            case M:
+                return "남아";
+            default:
+                throw new IllegalArgumentException("잘못된 성별입니다.");
+        }
     }
 }
