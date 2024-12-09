@@ -59,7 +59,6 @@ public class ShopServiceImpl implements ShopService {
         return shopRepository.findShopsWithSearch(search, lat, lon);
     }
 
-
     @Override
     public Long getShopIdByToken(String token) {
         token = jwtUtil.removeBearer(token);
