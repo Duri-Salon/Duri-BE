@@ -1,5 +1,6 @@
 package kr.com.duri.user.application.mapper;
 
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -76,6 +77,7 @@ public class UserHomeMapper {
 
     // Pet Entity to HomePetInfoResponse DTO
     public HomePetInfoResponse toHomePetInfoResponse(Pet pet, String gender) {
+        SimpleDateFormat dayTimeFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         return HomePetInfoResponse.builder()
                 .petId(pet.getId())
                 .imageURL(pet.getImage() != null ? pet.getImage() : "")
@@ -84,6 +86,10 @@ public class UserHomeMapper {
                 .gender(gender != null ? gender : "")
                 .age(pet.getAge())
                 .weight(pet.getWeight() != null ? pet.getWeight() : 0F)
+                .lastGrooming(
+                        pet.getLastGrooming() != null
+                                ? dayTimeFormatter.format(pet.getLastGrooming())
+                                : "")
                 .build();
     }
 
