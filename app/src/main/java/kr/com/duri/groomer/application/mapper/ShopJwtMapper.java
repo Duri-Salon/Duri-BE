@@ -13,6 +13,7 @@ public class ShopJwtMapper {
                 .token(token)
                 .client("authorization_shop")
                 .newUser(shop.getNewShop())
+                .entry(shop.getEntry())
                 .build();
     }
 }
