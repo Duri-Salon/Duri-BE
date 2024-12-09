@@ -80,4 +80,9 @@ public class Pet extends BaseEntity {
                 .diseases(diseases)
                 .build();
     }
+
+    // 시술 여부 수정 메서드
+    public void updateLastGromming(Date lastDate) {
+        this.lastGrooming = lastDate;
+    }
 }

@@ -10,8 +10,8 @@ public interface ReviewService {
     // 매장 리뷰 조회
     List<Review> getReviewsByShopId(Long shopId);
 
-    // 목록 조회
-    List<Review> getReviewList(Long petId);
+    // 내가 쓴 후기 목록 조회
+    List<Review> getReviewsByPetId(Long petId);
 
     // 단일 조회
     Review getReview(Long reviewId);

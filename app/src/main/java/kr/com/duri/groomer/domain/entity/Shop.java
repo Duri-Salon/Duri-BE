@@ -107,4 +107,8 @@ public class Shop extends BaseEntity {
         this.rating = 0.0f;
         return this;
     }
+
+    public void updateRating(Float rating) {
+        this.rating = rating;
+    }
 }

@@ -21,7 +21,11 @@ public interface ShopService {
 
     List<Object[]> findShopsWithSearch(String search, Double lat, Double lon);
 
+
     Long getShopIdByToken(String token);
 
     Shop updateDetail(Shop shop, ShopOnboardingInfo shopOnboardingInfo);
+
+    Shop updateShopRating(Long shopId, Float rating);
+
 }

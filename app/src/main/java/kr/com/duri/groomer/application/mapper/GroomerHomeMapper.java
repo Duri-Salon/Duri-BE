@@ -29,6 +29,7 @@ public class GroomerHomeMapper {
         return RecentProcedureResponse.builder()
                 .petId(pet.getId())
                 .petName(pet.getName())
+                .imageURL(pet.getImage())
                 .breed(pet.getBreed())
                 .gender(String.valueOf(pet.getGender()))
                 .age(pet.getAge())
@@ -53,6 +54,7 @@ public class GroomerHomeMapper {
             Pet pet, Quotation quotation, Groomer groomer) {
         return TodayScheduleResponse.builder()
                 .date(LocalDateTime.now().format(dayFormatter))
+                .quotationId(quotation.getId())
                 .startTime(quotation.getStartDateTime().format(timeFormatter))
                 .petId(pet.getId())
                 .petName(pet.getName())

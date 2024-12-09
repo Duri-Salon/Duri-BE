@@ -1,5 +1,6 @@
 package kr.com.duri.user.application.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import kr.com.duri.user.application.dto.request.NewPetRequest;
@@ -62,5 +63,13 @@ public class PetServiceImpl implements PetService {
     @Override
     public Pet save(Pet pet) {
         return petRepository.save(pet);
+    }
+
+    // 마지막 미용 일자 수정
+    @Override
+    public void updateLastGromming(Long petId, Date lastDate) {
+        Pet pet = findById(petId);
+        pet.updateLastGromming(lastDate);
+        petRepository.save(pet);
     }
 }

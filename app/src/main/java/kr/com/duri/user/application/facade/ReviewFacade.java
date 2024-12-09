@@ -8,15 +8,19 @@ import java.util.stream.Collectors;
 import kr.com.duri.groomer.application.dto.response.ShopReviewDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopReviewResponse;
 import kr.com.duri.groomer.application.service.GroomerService;
+import kr.com.duri.groomer.application.service.QuotationService;
 import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Groomer;
+import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.domain.entity.Shop;
+import kr.com.duri.groomer.exception.ShopNotFoundException;
 import kr.com.duri.user.application.dto.request.NewReviewRequest;
 import kr.com.duri.user.application.dto.request.UpdateReviewRequest;
 import kr.com.duri.user.application.dto.response.ReviewResponse;
+import kr.com.duri.user.application.dto.response.UserReviewResponse;
+import kr.com.duri.user.application.dto.response.UserReviewResponseList;
 import kr.com.duri.user.application.mapper.ReviewMapper;
 import kr.com.duri.user.application.service.PetService;
-import kr.com.duri.user.application.service.RequestService;
 import kr.com.duri.user.application.service.ReviewImageService;
 import kr.com.duri.user.application.service.ReviewService;
 import kr.com.duri.user.domain.entity.Pet;
@@ -27,6 +31,7 @@ import kr.com.duri.user.domain.entity.ReviewImage;
 import kr.com.duri.user.domain.entity.SiteUser;
 import kr.com.duri.user.exception.PetNotFoundException;
 import kr.com.duri.user.exception.QuotationReqNotFoundException;
+import kr.com.duri.user.exception.RequestNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
@@ -42,16 +47,11 @@ public class ReviewFacade {
     private final GroomerService groomerService;
     private final ShopService shopService;
     private final PetService petService;
-    private final RequestService requestService;
+    private final QuotationService quotationService;
 
     // 미용사 조회
     private Groomer getGroomer(Long shopId) {
         return groomerService.getGroomerByShopId(shopId);
-    }
-
-    // 펫 조회
-    private Pet getPet(Long userId) {
-        return petService.getPetByUserId(userId);
     }
 
     // 매장 조회
@@ -71,8 +71,26 @@ public class ReviewFacade {
                 .orElseThrow(() -> new QuotationReqNotFoundException("해당 견적 요청서를 찾을 수 없습니다."));
     }
 
-    // 매장 리뷰 리스트 조회
-    public List<ShopReviewResponse> getReviewByShop(Long shopId) {
+    // 리뷰로 매장 조회
+    private Shop getShopByReview(Review review) {
+        return Optional.ofNullable(review.getRequest().getShop())
+                .orElseThrow(() -> new ShopNotFoundException("해당 매장을 찾을 수 없습니다."));
+    }
+
+    // 견적으로 요청 조회
+    private Request getRequestByQuotation(Quotation quotation) {
+        return Optional.ofNullable(quotation.getRequest())
+                .orElseThrow(() -> new RequestNotFoundException("해당 요청을 찾을 수 없습니다."));
+    }
+
+    // 요청으로 매장 조회
+    private Shop getShopByRequest(Request request) {
+        return Optional.ofNullable(request.getShop())
+                .orElseThrow(() -> new ShopNotFoundException("해당 매장을 찾을 수 없습니다."));
+    }
+
+    // 매장 리뷰 리스트 조회 (매장)
+    public List<ShopReviewResponse> getReviewsByShopId(Long shopId) {
         getShop(shopId);
         // 1. 매장으로 리뷰 조회
         List<Review> reviewList = reviewService.getReviewsByShopId(shopId);
@@ -93,8 +111,8 @@ public class ReviewFacade {
                 .collect(Collectors.toList());
     }
 
-    // 매장 리뷰 상세 리스트 조회
-    public List<ShopReviewDetailResponse> getReviewDetailByShop(Long shopId) {
+    // 매장 리뷰 상세 리스트 조회 (매장)
+    public List<ShopReviewDetailResponse> getReviewsDetailByShopId(Long shopId) {
         List<Review> reviewDetailList = reviewService.getReviewsByShopId(shopId);
         if (reviewDetailList.isEmpty()) { // 해당 리뷰 없음
             return Collections.emptyList();
@@ -117,70 +135,100 @@ public class ReviewFacade {
                 .collect(Collectors.toList());
     }
 
-    /* TODO : 리뷰 엔티티 연관 변경에 따른 하단 코드 추후 리팩토링 필요 */
-    // [1] 리뷰 목록 조회
-    public List<ReviewResponse> getReviewList(Long userId) {
-        // 반려견 ID 조회
-        Long petId = getPet(userId).getId();
-        // Review 목록 조회
-        List<Review> reviewList = reviewService.getReviewList(petId);
-        if (reviewList.isEmpty()) {
-            // TODO : 리뷰 목록 비어있음
+    // 내가 쓴 후기 목록 조회 (고객)
+    public UserReviewResponseList getReviewsByUserId(Long userId) {
+        // 1. 반려견 조회
+        Pet pet = petService.getPetByUserId(userId);
+        // 2. 리뷰 목록 조회
+        List<Review> reviewList = reviewService.getReviewsByPetId(pet.getId());
+        if (reviewList.isEmpty()) { // 리뷰 없음
+            return reviewMapper.toUserReviewResponseList(0, Collections.emptyList());
         }
-        // ReviewImage 조회
-        return reviewList.stream()
-                .map(
-                        review -> {
-                            ReviewImage reviewImage =
-                                    reviewImageService.getReviewImageByReviewId(review.getId());
-                            Groomer groomer = getGroomer(review.getRequest().getShop().getId());
-                            return reviewMapper.toReviewResponse(groomer, review, reviewImage);
-                        })
-                .collect(Collectors.toList());
+        // 3. DTO 변환
+        List<UserReviewResponse> userReviewResponseList =
+                reviewList.stream()
+                        .map(
+                                review -> {
+                                    // 4. 리뷰 이미지 조회
+                                    ReviewImage reviewImage =
+                                            reviewImageService.getReviewImageByReviewId(
+                                                    review.getId());
+                                    // 5. 고객 조회
+                                    SiteUser user = getPetByReview(review).getUser();
+                                    // 6. 매장 조회
+                                    Shop shop = getShopByReview(review);
+                                    return reviewMapper.toUserReviewResponse(
+                                            user, review, reviewImage, shop);
+                                })
+                        .collect(Collectors.toList());
+        // 4. 목록 DTO 변환
+        int reviewCnt = reviewList.size();
+        return reviewMapper.toUserReviewResponseList(reviewCnt, userReviewResponseList);
     }
 
-    // [2] 단일 리뷰 조회
+    // 리뷰 작성 (고객)
+    public boolean createReview(
+            Long quotationId, NewReviewRequest newReviewRequest, MultipartFile img) {
+        // 요청 조회
+        Quotation quotation = quotationService.findQuotationById(quotationId);
+        Request request = getRequestByQuotation(quotation);
+        // Review 저장
+        Review review = reviewMapper.toReview(newReviewRequest, request);
+        if (review == null) {
+            return false;
+        }
+        reviewService.createReview(review);
+        // ReviewImage 저장
+        reviewImageService.saveReviewImage(img, review);
+        // 매장 평점 업데이트
+        updateEverageRating(request, newReviewRequest.getRating());
+        return true;
+    }
+
+    // 리뷰 추가에 따른 매장 평점 처리
+    private void updateEverageRating(Request request, Integer newRating) {
+        // 매장 조회
+        Shop shop = getShopByRequest(request);
+        Integer reviewCnt = reviewService.getReviewsByShopId(shop.getId()).size() - 1; // 매장 리뷰 수 확인
+        Float originRating = shop.getRating(); // 기존 매장 평점
+        // 새로운 평점 계산
+        Float totalRating;
+        if (reviewCnt == 0) { // 첫 평점이라면
+            totalRating = Float.valueOf(newRating);
+        } else {
+            String formatRating =
+                    String.format(
+                            "%.1f", ((originRating * reviewCnt) + newRating) / (reviewCnt + 1));
+            totalRating = Float.parseFloat(formatRating);
+        }
+        // 업데이트
+        shopService.updateShopRating(shop.getId(), totalRating);
+    }
+
+    /* TODO : 화면 확정 시 하단 코드 변경 필요 */
+    // 단일 리뷰 조회
     public ReviewResponse getReview(Long reviewId) {
         // Review 조회
         Review review = reviewService.getReview(reviewId);
-        if (review == null) {
-            // TODO : 해당하는 리뷰 없음
-        }
         // ReviewImage 조회
         ReviewImage reviewImage = reviewImageService.getReviewImageByReviewId(review.getId());
         Groomer groomer = getGroomer(review.getRequest().getShop().getId());
         return reviewMapper.toReviewResponse(groomer, review, reviewImage);
     }
 
-    // [3] 리뷰 추가
-    public boolean createReview(NewReviewRequest newReviewRequest, MultipartFile img) {
-        // Review 저장
-        // TODO : Review Entity 수정에 의한 리팩토링 필요
-        Request request = requestService.getRequestById(newReviewRequest.getRequestId());
-        Review review = reviewMapper.toReview(newReviewRequest, request);
-        if (review == null) {
-            // TODO : 리뷰 저장 안됨
-            return false;
-        }
-        // ReviewImage 저장
-        reviewImageService.saveReviewImage(img, review);
-        return true;
-    }
-
-    // [3] 리뷰 수정
+    // 리뷰 수정
     public boolean updateReview(
             Long reviewId, UpdateReviewRequest newReviewRequest, MultipartFile img) {
         // Review 수정
         Review afterReview = reviewService.updateReview(reviewId, newReviewRequest);
         if (afterReview == null) {
-            // TODO : 리뷰 수정 안됨
             return false;
         }
         reviewImageService.saveReviewImage(img, afterReview);
         return true;
     }
 
-    // [4] 리뷰 삭제
+    // 리뷰 삭제
     public boolean deleteReview(Long reviewId) {
         // ReviewImage 삭제
         reviewImageService.deleteReview(reviewId);

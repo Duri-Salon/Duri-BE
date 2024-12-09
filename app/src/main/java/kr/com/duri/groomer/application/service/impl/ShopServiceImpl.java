@@ -59,6 +59,7 @@ public class ShopServiceImpl implements ShopService {
         return shopRepository.findShopsWithSearch(search, lat, lon);
     }
 
+
     @Override
     public Long getShopIdByToken(String token) {
         token = jwtUtil.removeBearer(token);
@@ -76,5 +77,13 @@ public class ShopServiceImpl implements ShopService {
                         shopOnboardingInfo.getLon(),
                         shopOnboardingInfo.getBusinessRegistrationNumber(),
                         shopOnboardingInfo.getGroomerLicenseNumber()));
+    }
+
+    // 매장 평점 업데이트
+    @Override
+    public Shop updateShopRating(Long shopId, Float rating) {
+        Shop shop = findById(shopId);
+        shop.updateRating(Float.valueOf(rating));
+        return shopRepository.save(shop);
     }
 }
