@@ -82,6 +82,5 @@ public class Shop extends BaseEntity {
 
     public void updateRating(Float rating) {
         this.rating = rating;
-        this.setUpdatedAt(LocalDateTime.now());
     }
 }
