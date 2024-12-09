@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -34,24 +35,24 @@ public class ReviewController {
     private final ReviewFacade reviewFacade;
 
     // DURI-294 : 매장 리뷰 리스트 조회 (미용사)
-    @GetMapping("/shop/review/{shopId}")
+    @GetMapping("/shop/review")
     public CommonResponseEntity<List<ShopReviewResponse>> getShopReviewList(
-            @PathVariable Long shopId) {
-        return CommonResponseEntity.success(reviewFacade.getReviewsByShopId(shopId));
+            @RequestHeader("authorization_user") String token) {
+        return CommonResponseEntity.success(reviewFacade.getReviewsByShopId(token));
     }
 
     // DURI-324 : 매장 리뷰 상세 리스트 조회 (미용사)
-    @GetMapping("/shop/review-detail/{shopId}")
+    @GetMapping("/shop/review-detail")
     public CommonResponseEntity<List<ShopReviewDetailResponse>> getReviewDetailList(
-            @PathVariable Long shopId) {
-        return CommonResponseEntity.success(reviewFacade.getReviewsDetailByShopId(shopId));
+            @RequestHeader("authorization_user") String token) {
+        return CommonResponseEntity.success(reviewFacade.getReviewsDetailByShopId(token));
     }
 
     // DURI-288 : 내가 쓴 후기 목록 조회 (고객)
-    @GetMapping("/user/review/{userId}")
+    @GetMapping("/user/review")
     public CommonResponseEntity<UserReviewResponseList> getUserReviewList(
-            @PathVariable Long userId) {
-        return CommonResponseEntity.success(reviewFacade.getReviewsByUserId(userId));
+            @RequestHeader("authorization_user") String token) {
+        return CommonResponseEntity.success(reviewFacade.getReviewsByUserId(token));
     }
 
     // DURI-286 : 리뷰 작성 (고객)

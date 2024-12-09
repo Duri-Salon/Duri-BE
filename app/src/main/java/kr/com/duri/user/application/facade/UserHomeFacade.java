@@ -97,7 +97,8 @@ public class UserHomeFacade {
     }
 
     // 마지막 미용일자 및 최근 예약정보 조회
-    public RecentProcedureResponse getRecentProcedure(Long userId) {
+    public RecentProcedureResponse getRecentProcedure(String token) {
+        Long userId = siteUserService.getUserIdByToken(token);
         getUser(userId);
         // 1. 반려견, 마지막 미용일로부터 지난일
         Pet pet = petService.findById(userId);
@@ -124,10 +125,11 @@ public class UserHomeFacade {
     }
 
     // 단골샵 조회
-    public RegularShopResponse getRegularShops(Long userId) {
+    public RegularShopResponse getRegularShops(String token) {
+        Long userId = siteUserService.getUserIdByToken(token);
         getUser(userId);
         // 1. 사용자 아이디로 반려견 조회
-        Pet pet = petService.findById(userId);
+        Pet pet = petService.getPetByUserId(userId);
         Long petId = pet.getId();
         // 2. 반려견 아이디로 단골샵 매장 (3번 이상, 가장 많은 방문횟수) 조회
         List<Object[]> regularVisitInfo = quotationService.getRegularInfoByPetId(petId);
@@ -160,7 +162,8 @@ public class UserHomeFacade {
     }
 
     // 매장 추천
-    public List<RecommendShopResponse> getRecommendShops(Long userId, Double lat, Double lon) {
+    public List<RecommendShopResponse> getRecommendShops(String token, Double lat, Double lon) {
+        Long userId = siteUserService.getUserIdByToken(token);
         Pet pet = petService.findById(userId);
         // 1. 주변 매장 계산
         List<Shop> nearbyShops = getNearbyShops(lat, lon);
@@ -311,7 +314,8 @@ public class UserHomeFacade {
     }
 
     // 펫 간단 정보 조회
-    public HomePetInfoResponse getPetInfo(Long userId) {
+    public HomePetInfoResponse getPetInfo(String token) {
+        Long userId = siteUserService.getUserIdByToken(token);
         getUser(userId);
         Pet pet = petService.getPetByUserId(userId);
         String gender = userHomeMapper.translateGender(pet.getGender());
