@@ -21,7 +21,7 @@ public class Groomer extends BaseEntity {
     @Column(name = "groomer_id")
     private Long id; // 미용사 ID
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id")
     private Shop shop; // 매장 ID (FK)
 
@@ -70,5 +70,52 @@ public class Groomer extends BaseEntity {
                 .image(profileImage)
                 .license(license)
                 .build();
+    }
+
+    public static Groomer createNewGroomer(
+            Shop shop,
+            String name,
+            Integer age,
+            String gender,
+            String email,
+            String phone,
+            Integer history,
+            String image,
+            String info,
+            String license) {
+        return Groomer.builder()
+                .shop(shop)
+                .name(name)
+                .age(age)
+                .gender(Gender.valueOf(gender))
+                .email(email)
+                .phone(phone)
+                .history(history)
+                .image(image)
+                .info(info)
+                .license(license)
+                .build();
+    }
+
+    public Groomer updateGroomerProfile(
+            String name,
+            Integer age,
+            String gender,
+            String email,
+            String phone,
+            Integer history,
+            String image,
+            String info,
+            String stringJson) {
+        this.name = name;
+        this.age = age;
+        this.gender = Gender.valueOf(gender);
+        this.email = email;
+        this.phone = phone;
+        this.history = history;
+        this.image = image;
+        this.info = info;
+        this.license = stringJson;
+        return this;
     }
 }
