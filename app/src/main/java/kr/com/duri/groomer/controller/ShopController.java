@@ -25,7 +25,7 @@ public class ShopController {
     // DURI-260 : 매장 상세정보 조회
     @GetMapping
     public CommonResponseEntity<ShopDetailResponse> getShopDetail(
-            @RequestHeader("authorization_user") String token) {
+            @RequestHeader("authorization_shop") String token) {
         return CommonResponseEntity.success(shopFacade.getShopDetail(token));
     }
 
@@ -56,7 +56,7 @@ public class ShopController {
     // DURI-322 : 이번달 총 매출 조회
     @GetMapping("/income")
     public CommonResponseEntity<MonthIncomeResponse> getMonthIncome(
-            @RequestHeader("authorization_user") String token) {
+            @RequestHeader("authorization_shop") String token) {
         return CommonResponseEntity.success(shopFacade.getMonthIncome(token));
     }
 

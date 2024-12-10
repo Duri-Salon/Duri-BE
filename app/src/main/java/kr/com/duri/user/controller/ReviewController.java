@@ -37,14 +37,14 @@ public class ReviewController {
     // DURI-294 : 매장 리뷰 리스트 조회 (미용사)
     @GetMapping("/shop/review")
     public CommonResponseEntity<List<ShopReviewResponse>> getShopReviewList(
-            @RequestHeader("authorization_user") String token) {
+            @RequestHeader("authorization_shop") String token) {
         return CommonResponseEntity.success(reviewFacade.getReviewsByShopId(token));
     }
 
     // DURI-324 : 매장 리뷰 상세 리스트 조회 (미용사)
     @GetMapping("/shop/review-detail")
     public CommonResponseEntity<List<ShopReviewDetailResponse>> getReviewDetailList(
-            @RequestHeader("authorization_user") String token) {
+            @RequestHeader("authorization_shop") String token) {
         return CommonResponseEntity.success(reviewFacade.getReviewsDetailByShopId(token));
     }
 

@@ -28,14 +28,14 @@ public class GroomerHomeController {
     // DURI-221 : 가까운 시술정보 조회
     @GetMapping("/closet")
     public CommonResponseEntity<RecentProcedureResponse> getRecentProcedure(
-            @RequestHeader("authorization_user") String token) {
+            @RequestHeader("authorization_shop") String token) {
         return CommonResponseEntity.success(homeFacade.getRecentProcedure(token));
     }
 
     // DURI-265 : 당일 스케줄 조회
     @GetMapping("/schedule")
     public CommonResponseEntity<List<TodayScheduleResponse>> getTodaySchedule(
-            @RequestHeader("authorization_user") String token) {
+            @RequestHeader("authorization_shop") String token) {
         return CommonResponseEntity.success(homeFacade.getTodaySchedule(token));
     }
 
@@ -51,7 +51,7 @@ public class GroomerHomeController {
     // DURI-325 : 받은 견적요청서 리스트 조회
     @GetMapping("/request")
     public CommonResponseEntity<List<HomeQuotationReqResponse>> getRequestList(
-            @RequestHeader("authorization_user") String token) {
+            @RequestHeader("authorization_shop") String token) {
         return CommonResponseEntity.success(homeFacade.getRequestList(token));
     }
 }

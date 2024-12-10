@@ -48,7 +48,7 @@ public class UserHomeController {
     }
 
     // DURI-329 : 추천 매장 조회
-    @GetMapping("/recommend/{userId}")
+    @GetMapping("/recommend")
     public CommonResponseEntity<List<RecommendShopResponse>> getRecommendShops(
             @RequestHeader("authorization_user") String token,
             @RequestParam Double lat,
