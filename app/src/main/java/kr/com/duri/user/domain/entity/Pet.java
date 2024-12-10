@@ -23,7 +23,7 @@ public class Pet extends BaseEntity {
     @Column(name = "pet_id")
     private Long id; // 반려견 ID
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private SiteUser user; // 고객 ID (FK, 1:N 관계)
 
