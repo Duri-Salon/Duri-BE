@@ -75,4 +75,11 @@ public class QuotationReqController {
         QuotationReqDetailRequest request = new QuotationReqDetailRequest(quotationReqId, lat, lon);
         return CommonResponseEntity.success(quotationReqFacade.getQuotationReqDetail(request));
     }
+
+    // 지난 견적 요청 상세 정보(User)
+    @GetMapping("/last")
+    public CommonResponseEntity<LastQuotationReqResponse> getLastQuotationReq(
+            @RequestParam Long userId) {
+        return CommonResponseEntity.success(quotationReqFacade.getLastQuotationReqDetail(userId));
+    }
 }

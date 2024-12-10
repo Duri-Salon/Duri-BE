@@ -33,4 +33,11 @@ public class QuotationReqServiceImpl implements QuotationReqService {
     public List<QuotationReq> findByPetId(Long petId) {
         return quotationReqRepository.findByPetId(petId);
     }
+
+    @Override
+    public QuotationReq findLatestByPetId(Long petId) {
+        return quotationReqRepository
+                .findTopByPetIdOrderByCreatedAtDesc(petId)
+                .orElseThrow(() -> new QuotationReqNotFoundException("최근 작성한 견적 요청서가 없습니다."));
+    }
 }

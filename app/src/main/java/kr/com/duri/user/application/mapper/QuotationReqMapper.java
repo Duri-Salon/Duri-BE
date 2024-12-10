@@ -299,4 +299,39 @@ public class QuotationReqMapper {
                 .totalPrice(totalPrice)
                 .build();
     }
+
+    public LastQuotationReqResponse toLastQuotationReqResponse(Pet pet, QuotationReq quotationReq) {
+        // 반려견 상세 정보 매핑
+        PetDetailResponse petDetailResponse =
+                PetDetailResponse.builder()
+                        .image(pet.getImage()) // 강아지 이미지
+                        .name(pet.getName()) // 강아지 이름
+                        .age(pet.getAge()) // 강아지 나이
+                        .gender(pet.getGender()) // 강아지 성별
+                        .breed(pet.getBreed()) // 강아지 견종
+                        .weight(pet.getWeight()) // 강아지 몸무게
+                        .neutering(pet.getNeutering()) // 강아지 중성화
+                        .character(parseJsonArray(pet.getCharacter())) // 강아지 성격 정보
+                        .diseases(parseJsonArray(pet.getDiseases())) // 강아지 질환 정보
+                        .lastGrooming(pet.getLastGrooming()) // 강아지 마지막 미용일자
+                        .build();
+
+        // 견적 요청 사항 매핑
+        LastMenuDetailResponse lastMenuDetailResponse =
+                LastMenuDetailResponse.builder()
+                        .groomingMenu(quotationReq.getMenu()) // 미용 메뉴
+                        .additionalGrooming(quotationReq.getAddMenu()) // 추가 미용 메뉴
+                        .specialCare(quotationReq.getSpecialMenu()) // 스페셜케어
+                        .designCut(quotationReq.getDesign()) // 디자인컷
+                        .otherRequests(quotationReq.getEtc()) // 기타 요구사항
+                        .build();
+
+        // 최종 DTO 반환
+        return LastQuotationReqResponse.builder()
+                .userName(pet.getUser().getName()) // 요청 사용자 이름
+                .userPhone(pet.getUser().getPhone()) // 요청 사용자 전화번호
+                .pet(petDetailResponse) // 반려견 정보
+                .quotationDetails(lastMenuDetailResponse) // 견적 요청 사항
+                .build();
+    }
 }
