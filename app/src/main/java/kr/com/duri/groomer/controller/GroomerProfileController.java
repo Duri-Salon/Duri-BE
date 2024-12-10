@@ -16,8 +16,12 @@ public class GroomerProfileController {
     private final GroomerProfileFacade groomerProfileFacade;
 
     @GetMapping("/{groomerId}")
-    public CommonResponseEntity<?> getGroomerProfile(@RequestParam Long groomerId) {
-        return CommonResponseEntity.success("프로필 조회 성공");
+    public CommonResponseEntity<GroomerProfileDetailResponse> getGroomerProfile(@RequestParam Long groomerId) {
+        try {
+            return CommonResponseEntity.success(groomerProfileFacade.getGroomerProfile(groomerId));
+        } catch (Exception e) {
+            return CommonResponseEntity.error(HttpStatus.NOT_FOUND, "미용사 찾지 못했습니다.");
+        }
     }
 
     @PostMapping()

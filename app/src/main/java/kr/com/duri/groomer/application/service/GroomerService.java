@@ -11,4 +11,6 @@ public interface GroomerService {
     Groomer createNewGroomer(Shop shop, GroomerOnboardingInfo groomerOnboardingInfo);
 
     Groomer createNewGroomer(Shop shop, GroomerDetailRequest groomerDetailRequest);
+
+    Groomer findById(Long groomerId);
 }

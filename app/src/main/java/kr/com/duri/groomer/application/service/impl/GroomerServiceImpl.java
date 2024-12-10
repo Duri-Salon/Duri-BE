@@ -57,4 +57,10 @@ public class GroomerServiceImpl implements GroomerService {
                         groomerDetailRequest.getInfo(),
                         licenseStringJson));
     }
+
+    @Override
+    public Groomer findById(Long groomerId) {
+        return groomerRepository.findById(groomerId)
+                .orElseThrow(() -> new GroomerNotFoundException("해당 미용사를 찾을 수 없습니다."));
+    }
 }
