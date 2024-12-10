@@ -64,7 +64,7 @@ public class GroomerServiceImpl implements GroomerService {
 
     @Override
     public Groomer updateGroomer(Groomer groomer, GroomerDetailRequest groomerDetailRequest) {
-        return groomer.updateGroomerProfile(groomerDetailRequest.getName(),
+        return groomerRepository.save(groomer.updateGroomerProfile(groomerDetailRequest.getName(),
                 groomerDetailRequest.getAge(),
                 groomerDetailRequest.getGender(),
                 groomerDetailRequest.getEmail(),
@@ -72,6 +72,11 @@ public class GroomerServiceImpl implements GroomerService {
                 groomerDetailRequest.getHistory(),
                 groomerDetailRequest.getImage(),
                 groomerDetailRequest.getInfo(),
-                commonMapper.toStringJson(groomerDetailRequest.getLicense()));
+                commonMapper.toStringJson(groomerDetailRequest.getLicense())));
+    }
+
+    @Override
+    public void deleteGroomer(Groomer groomer) {
+        groomerRepository.delete(groomer);
     }
 }

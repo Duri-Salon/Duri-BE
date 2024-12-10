@@ -45,6 +45,7 @@ public class GroomerProfileFacade {
     }
 
     public void deleteGroomerProfile(Long groomerId) {
-        groomerService.deleteGroomer(groomerId);
+        Groomer groomer = groomerService.findById(groomerId);
+        groomerService.deleteGroomer(groomer);
     }
 }

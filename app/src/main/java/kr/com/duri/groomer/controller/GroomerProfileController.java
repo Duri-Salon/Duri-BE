@@ -20,7 +20,7 @@ public class GroomerProfileController {
         try {
             return CommonResponseEntity.success(groomerProfileFacade.getGroomerProfile(groomerId));
         } catch (Exception e) {
-            return CommonResponseEntity.error(HttpStatus.NOT_FOUND, "미용사 찾지 못했습니다.");
+            return CommonResponseEntity.error(HttpStatus.NOT_FOUND, "미용사를 찾지 못했습니다.");
         }
     }
 
@@ -44,8 +44,12 @@ public class GroomerProfileController {
 
     @DeleteMapping("/{groomerId}")
     public CommonResponseEntity<String> deleteGroomerProfile(@RequestParam Long groomerId) {
-        groomerProfileFacade.deleteGroomerProfile(groomerId);
-        return CommonResponseEntity.success("프로필 삭제 성공");
+        try {
+            groomerProfileFacade.deleteGroomerProfile(groomerId);
+            return CommonResponseEntity.success("미용사 프로필 삭제에 성공했습니다.");
+        } catch (Exception e) {
+            return CommonResponseEntity.error(HttpStatus.NOT_FOUND, "미용사를 찾지 못했습니다.");
+        }
     }
 
 }

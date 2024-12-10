@@ -16,5 +16,5 @@ public interface GroomerService {
 
     Groomer updateGroomer(Groomer groomer, GroomerDetailRequest groomerDetailRequest);
 
-    void deleteGroomer(Long groomerId);
+    void deleteGroomer(Groomer groomer);
 }
