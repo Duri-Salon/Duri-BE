@@ -4,10 +4,7 @@ import java.util.List;
 
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.user.application.dto.request.NewQuotationReqRequest;
-import kr.com.duri.user.application.dto.response.ApprovedQuotationReqResponse;
-import kr.com.duri.user.application.dto.response.NewQuotationReqDetailResponse;
-import kr.com.duri.user.application.dto.response.NewQuotationReqResponse;
-import kr.com.duri.user.application.dto.response.ReservationQuotationReqResponse;
+import kr.com.duri.user.application.dto.response.*;
 import kr.com.duri.user.application.facade.QuotationReqFacade;
 import lombok.RequiredArgsConstructor;
 
@@ -61,5 +58,12 @@ public class QuotationReqController {
             @RequestBody NewQuotationReqRequest newQuotationReqRequest) {
         return CommonResponseEntity.success(
                 quotationReqFacade.createQuotationRequest(newQuotationReqRequest));
+    }
+
+    //  견적 요청서 목록(User)
+    @GetMapping("/user/{userId}")
+    public CommonResponseEntity<List<QuotationListResponse>> getQuotationReqsByUserId(
+            @PathVariable Long userId) {
+        return CommonResponseEntity.success(quotationReqFacade.getQuotationReqsByUserId(userId));
     }
 }

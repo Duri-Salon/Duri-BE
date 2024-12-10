@@ -10,10 +10,7 @@ import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
 import kr.com.duri.user.application.dto.request.NewQuotationReqRequest;
-import kr.com.duri.user.application.dto.response.ApprovedQuotationReqResponse;
-import kr.com.duri.user.application.dto.response.NewQuotationReqDetailResponse;
-import kr.com.duri.user.application.dto.response.NewQuotationReqResponse;
-import kr.com.duri.user.application.dto.response.ReservationQuotationReqResponse;
+import kr.com.duri.user.application.dto.response.*;
 import kr.com.duri.user.application.mapper.QuotationReqMapper;
 import kr.com.duri.user.application.service.PetService;
 import kr.com.duri.user.application.service.QuotationReqService;
@@ -161,5 +158,25 @@ public class QuotationReqFacade {
 
         // 5. 견적 요청서 ID 출력
         return savedQuotationReq.getId();
+    }
+
+    // 견적 요청서 목록 조회
+    public List<QuotationListResponse> getQuotationReqsByUserId(Long userId) {
+        // 1. User의 Pet조회
+        Pet pet = petService.findById(userId);
+
+        // 2. Pet으로 QuotationReq 목록 조회
+        List<QuotationReq> quotationReqs = quotationReqService.findByPetId(pet.getId());
+
+        // 3. 각 QuotationReq에 대해 필요한 데이터 처리
+        return quotationReqs.stream()
+                .map(
+                        quotationReq -> {
+                            List<Request> requests =
+                                    requestService.findByQuotationId(quotationReq.getId());
+                            return quotationReqMapper.toQuotationReqListResponse(
+                                    quotationReq, requests);
+                        })
+                .collect(Collectors.toList());
     }
 }
