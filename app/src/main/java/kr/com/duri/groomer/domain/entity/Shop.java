@@ -72,11 +72,40 @@ public class Shop extends BaseEntity {
     @Column(name = "shop_provider")
     private String provider = "Naver"; // 제공자
 
+    @Column(name = "shop_business_registration_number")
+    private String businessRegistrationNumber; // 사업자 등록번호
+
+    @Column(name = "shop_groomer_license_number")
+    private String groomerLicenseNumber; // 미용사 면허번호
+
     public static Shop createNewShop(String socialId, String email) {
         if (socialId == null || socialId.isEmpty()) {
             throw new IllegalArgumentException("Social ID must not be null or empty");
         }
-        return Shop.builder().socialId(socialId).email(email).build();
+
+        return Shop.builder().socialId(socialId).email(email).entry("W").build();
+    }
+
+    public Shop updateDetailWithOnboarding(
+            String name,
+            String phone,
+            String address,
+            Double lat,
+            Double lon,
+            String businessRegistrationNumber,
+            String groomerLicenseNumber) {
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.lat = lat;
+        this.lon = lon;
+        this.businessRegistrationNumber = businessRegistrationNumber;
+        this.groomerLicenseNumber = groomerLicenseNumber;
+        this.newShop = false;
+        this.adtop = false;
+        this.entry = "W";
+        this.rating = 0.0f;
+        return this;
     }
 
     public void updateRating(Float rating) {
