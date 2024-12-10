@@ -60,12 +60,6 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public Long getShopIdByToken(String token) {
-        token = jwtUtil.removeBearer(token);
-        return jwtUtil.getId(token);
-    }
-
-    @Override
     public Shop updateDetail(Shop shop, ShopOnboardingInfo shopOnboardingInfo) {
         return shopRepository.save(
                 shop.updateDetailWithOnboarding(
