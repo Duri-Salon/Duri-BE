@@ -60,12 +60,6 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public Long getShopIdByToken(String token) {
-        token = jwtUtil.removeBearer(token);
-        return jwtUtil.getId(token);
-    }
-
-    @Override
     public Shop updateDetail(Shop shop, ShopOnboardingInfo shopOnboardingInfo) {
         return shopRepository.save(
                 shop.updateDetailWithOnboarding(
@@ -90,5 +84,12 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public List<Shop> findShopsByRadius(Double lat, Double lon, Double radians) {
         return shopRepository.findShopsByRadius(lat, lon, radians);
+    }
+
+    // 토큰으로 매장 아이디 찾기
+    @Override
+    public Long getShopIdByToken(String token) {
+        token = jwtUtil.removeBearer(token);
+        return jwtUtil.getId(token);
     }
 }

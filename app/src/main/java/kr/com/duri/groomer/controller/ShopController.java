@@ -10,7 +10,7 @@ import kr.com.duri.groomer.application.facade.ShopFacade;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,9 +23,10 @@ public class ShopController {
     private final ShopFacade shopFacade;
 
     // DURI-260 : 매장 상세정보 조회
-    @GetMapping("/{shopId}")
-    public CommonResponseEntity<ShopDetailResponse> getShopDetail(@PathVariable Long shopId) {
-        return CommonResponseEntity.success(shopFacade.getShopDetail(shopId));
+    @GetMapping
+    public CommonResponseEntity<ShopDetailResponse> getShopDetail(
+            @RequestHeader("authorization_shop") String token) {
+        return CommonResponseEntity.success(shopFacade.getShopDetail(token));
     }
 
     // 주변 매장 리스트 조회
@@ -53,9 +54,10 @@ public class ShopController {
     }
 
     // DURI-322 : 이번달 총 매출 조회
-    @GetMapping("/income/{shopId}")
-    public CommonResponseEntity<MonthIncomeResponse> getMonthIncome(@PathVariable Long shopId) {
-        return CommonResponseEntity.success(shopFacade.getMonthIncome(shopId));
+    @GetMapping("/income")
+    public CommonResponseEntity<MonthIncomeResponse> getMonthIncome(
+            @RequestHeader("authorization_shop") String token) {
+        return CommonResponseEntity.success(shopFacade.getMonthIncome(token));
     }
 
     // 주변 매장 검색

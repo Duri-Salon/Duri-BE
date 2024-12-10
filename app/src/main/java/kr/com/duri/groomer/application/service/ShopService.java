@@ -21,12 +21,13 @@ public interface ShopService {
 
     List<Object[]> findShopsWithSearch(String search, Double lat, Double lon);
 
-    Long getShopIdByToken(String token);
-
     Shop updateDetail(Shop shop, ShopOnboardingInfo shopOnboardingInfo);
 
     Shop updateShopRating(Long shopId, Float rating);
 
     // 반경 내 매장 목록 조회
     List<Shop> findShopsByRadius(Double lat, Double lon, Double radians);
+
+    // 토큰으로 매장 아이디 찾기
+    Long getShopIdByToken(String token);
 }

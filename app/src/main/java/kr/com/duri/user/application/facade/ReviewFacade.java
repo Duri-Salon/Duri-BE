@@ -41,13 +41,13 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class ReviewFacade {
 
-    private final ReviewImageService reviewImageService;
-    private final ReviewService reviewService;
-    private final ReviewMapper reviewMapper;
-    private final GroomerService groomerService;
-    private final ShopService shopService;
     private final PetService petService;
+    private final ShopService shopService;
+    private final GroomerService groomerService;
     private final QuotationService quotationService;
+    private final ReviewService reviewService;
+    private final ReviewImageService reviewImageService;
+    private final ReviewMapper reviewMapper;
 
     // 미용사 조회
     private Groomer getGroomer(Long shopId) {
@@ -90,7 +90,8 @@ public class ReviewFacade {
     }
 
     // 매장 리뷰 리스트 조회 (매장)
-    public List<ShopReviewResponse> getReviewsByShopId(Long shopId) {
+    public List<ShopReviewResponse> getReviewsByShopId(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
         getShop(shopId);
         // 1. 매장으로 리뷰 조회
         List<Review> reviewList = reviewService.getReviewsByShopId(shopId);
@@ -112,7 +113,8 @@ public class ReviewFacade {
     }
 
     // 매장 리뷰 상세 리스트 조회 (매장)
-    public List<ShopReviewDetailResponse> getReviewsDetailByShopId(Long shopId) {
+    public List<ShopReviewDetailResponse> getReviewsDetailByShopId(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
         List<Review> reviewDetailList = reviewService.getReviewsByShopId(shopId);
         if (reviewDetailList.isEmpty()) { // 해당 리뷰 없음
             return Collections.emptyList();
@@ -136,7 +138,8 @@ public class ReviewFacade {
     }
 
     // 내가 쓴 후기 목록 조회 (고객)
-    public UserReviewResponseList getReviewsByUserId(Long userId) {
+    public UserReviewResponseList getReviewsByUserId(String token) {
+        Long userId = shopService.getShopIdByToken(token);
         // 1. 반려견 조회
         Pet pet = petService.getPetByUserId(userId);
         // 2. 리뷰 목록 조회
