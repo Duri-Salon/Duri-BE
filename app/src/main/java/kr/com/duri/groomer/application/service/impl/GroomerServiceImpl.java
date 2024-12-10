@@ -29,7 +29,6 @@ public class GroomerServiceImpl implements GroomerService {
 
     @Override
     public Groomer createNewGroomer(Shop shop, GroomerOnboardingInfo groomerOnboardingInfo) {
-        String licenseStringJson = commonMapper.toStringJson(groomerOnboardingInfo.getLicense());
         return groomerRepository.save(
                 Groomer.createNewGroomerWithOnboarding(
                         shop,
@@ -38,12 +37,11 @@ public class GroomerServiceImpl implements GroomerService {
                         groomerOnboardingInfo.getGender(),
                         groomerOnboardingInfo.getHistory(),
                         groomerOnboardingInfo.getProfileImage(),
-                        licenseStringJson));
+                        commonMapper.toStringJson(groomerOnboardingInfo.getLicense())));
     }
 
     @Override
     public Groomer createNewGroomer(Shop shop, GroomerDetailRequest groomerDetailRequest) {
-        String licenseStringJson = commonMapper.toStringJson(groomerDetailRequest.getLicense());
         return groomerRepository.save(
                 Groomer.createNewGroomer(
                         shop,
@@ -55,12 +53,25 @@ public class GroomerServiceImpl implements GroomerService {
                         groomerDetailRequest.getHistory(),
                         groomerDetailRequest.getImage(),
                         groomerDetailRequest.getInfo(),
-                        licenseStringJson));
+                        commonMapper.toStringJson(groomerDetailRequest.getLicense())));
     }
 
     @Override
     public Groomer findById(Long groomerId) {
         return groomerRepository.findById(groomerId)
                 .orElseThrow(() -> new GroomerNotFoundException("해당 미용사를 찾을 수 없습니다."));
+    }
+
+    @Override
+    public Groomer updateGroomer(Groomer groomer, GroomerDetailRequest groomerDetailRequest) {
+        return groomer.updateGroomerProfile(groomerDetailRequest.getName(),
+                groomerDetailRequest.getAge(),
+                groomerDetailRequest.getGender(),
+                groomerDetailRequest.getEmail(),
+                groomerDetailRequest.getPhone(),
+                groomerDetailRequest.getHistory(),
+                groomerDetailRequest.getImage(),
+                groomerDetailRequest.getInfo(),
+                commonMapper.toStringJson(groomerDetailRequest.getLicense()));
     }
 }

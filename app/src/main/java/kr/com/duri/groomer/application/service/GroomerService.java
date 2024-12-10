@@ -13,4 +13,8 @@ public interface GroomerService {
     Groomer createNewGroomer(Shop shop, GroomerDetailRequest groomerDetailRequest);
 
     Groomer findById(Long groomerId);
+
+    Groomer updateGroomer(Groomer groomer, GroomerDetailRequest groomerDetailRequest);
+
+    void deleteGroomer(Long groomerId);
 }

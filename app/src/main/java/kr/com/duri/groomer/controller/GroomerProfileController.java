@@ -34,12 +34,17 @@ public class GroomerProfileController {
     }
 
     @PutMapping("/{groomerId}")
-    public CommonResponseEntity<?> updateGroomerProfile(@RequestParam Long groomerId) {
-        return CommonResponseEntity.success("프로필 수정 성공");
+    public CommonResponseEntity<GroomerProfileDetailResponse> updateGroomerProfile(@RequestParam Long groomerId, @RequestBody GroomerDetailRequest groomerDetailRequest) {
+        try {
+            return CommonResponseEntity.success(groomerProfileFacade.updateGroomerProfile(groomerId, groomerDetailRequest));
+        } catch (Exception e) {
+            return CommonResponseEntity.error(HttpStatus.BAD_REQUEST, "미용사 수정에 실패했습니다.");
+        }
     }
 
     @DeleteMapping("/{groomerId}")
-    public CommonResponseEntity<?> deleteGroomerProfile(@RequestParam Long groomerId) {
+    public CommonResponseEntity<String> deleteGroomerProfile(@RequestParam Long groomerId) {
+        groomerProfileFacade.deleteGroomerProfile(groomerId);
         return CommonResponseEntity.success("프로필 삭제 성공");
     }
 

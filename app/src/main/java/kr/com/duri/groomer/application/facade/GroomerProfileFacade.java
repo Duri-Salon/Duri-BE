@@ -35,4 +35,16 @@ public class GroomerProfileFacade {
 
         return groomerMapper.toGroomerProfileDetailResponse(groomer);
     }
+
+    public GroomerProfileDetailResponse updateGroomerProfile(Long groomerId, GroomerDetailRequest groomerDetailRequest) {
+        Groomer groomer = groomerService.findById(groomerId);
+
+        groomer = groomerService.updateGroomer(groomer, groomerDetailRequest);
+
+        return groomerMapper.toGroomerProfileDetailResponse(groomer);
+    }
+
+    public void deleteGroomerProfile(Long groomerId) {
+        groomerService.deleteGroomer(groomerId);
+    }
 }

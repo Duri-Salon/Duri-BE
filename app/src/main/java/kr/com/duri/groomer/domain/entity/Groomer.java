@@ -86,4 +86,17 @@ public class Groomer extends BaseEntity {
                 .license(license)
                 .build();
     }
+
+    public Groomer updateGroomerProfile(String name, Integer age, String gender, String email, String phone, Integer history, String image, String info, String stringJson) {
+        this.name = name;
+        this.age = age;
+        this.gender = Gender.valueOf(gender);
+        this.email = email;
+        this.phone = phone;
+        this.history = history;
+        this.image = image;
+        this.info = info;
+        this.license = stringJson;
+        return this;
+    }
 }
