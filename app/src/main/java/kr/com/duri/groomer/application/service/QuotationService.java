@@ -38,4 +38,6 @@ public interface QuotationService {
 
     // 사용자 ID로 견적서 조회
     List<Quotation> getHistoryByPetId(Long petId);
+
+    List<Quotation> findByRequestIdsOrderByPrice(List<Long> requestIds);
 }
