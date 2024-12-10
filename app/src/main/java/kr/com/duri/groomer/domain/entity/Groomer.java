@@ -72,7 +72,17 @@ public class Groomer extends BaseEntity {
                 .build();
     }
 
-    public static Groomer createNewGroomer(Shop shop, String name, Integer age, String gender, String email, String phone, Integer history, String image, String info, String license) {
+    public static Groomer createNewGroomer(
+            Shop shop,
+            String name,
+            Integer age,
+            String gender,
+            String email,
+            String phone,
+            Integer history,
+            String image,
+            String info,
+            String license) {
         return Groomer.builder()
                 .shop(shop)
                 .name(name)
@@ -87,7 +97,16 @@ public class Groomer extends BaseEntity {
                 .build();
     }
 
-    public Groomer updateGroomerProfile(String name, Integer age, String gender, String email, String phone, Integer history, String image, String info, String stringJson) {
+    public Groomer updateGroomerProfile(
+            String name,
+            Integer age,
+            String gender,
+            String email,
+            String phone,
+            Integer history,
+            String image,
+            String info,
+            String stringJson) {
         this.name = name;
         this.age = age;
         this.gender = Gender.valueOf(gender);

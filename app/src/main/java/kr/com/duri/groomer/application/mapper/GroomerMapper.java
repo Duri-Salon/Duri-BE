@@ -1,5 +1,7 @@
 package kr.com.duri.groomer.application.mapper;
 
+import java.util.List;
+
 import kr.com.duri.common.Mapper.CommonMapper;
 import kr.com.duri.groomer.application.dto.response.GroomerDetailResponse;
 import kr.com.duri.groomer.application.dto.response.GroomerProfileDetailResponse;
@@ -7,8 +9,6 @@ import kr.com.duri.groomer.domain.entity.Groomer;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor

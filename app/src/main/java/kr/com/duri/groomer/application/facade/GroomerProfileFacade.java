@@ -8,6 +8,7 @@ import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Shop;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,7 +21,8 @@ public class GroomerProfileFacade {
 
     private final GroomerMapper groomerMapper;
 
-    public GroomerProfileDetailResponse createGroomerProfile(String token, GroomerDetailRequest groomerDetailRequest) {
+    public GroomerProfileDetailResponse createGroomerProfile(
+            String token, GroomerDetailRequest groomerDetailRequest) {
         Long shopId = shopService.getShopIdByToken(token);
 
         Shop shop = shopService.findById(shopId);
@@ -36,7 +38,8 @@ public class GroomerProfileFacade {
         return groomerMapper.toGroomerProfileDetailResponse(groomer);
     }
 
-    public GroomerProfileDetailResponse updateGroomerProfile(Long groomerId, GroomerDetailRequest groomerDetailRequest) {
+    public GroomerProfileDetailResponse updateGroomerProfile(
+            Long groomerId, GroomerDetailRequest groomerDetailRequest) {
         Groomer groomer = groomerService.findById(groomerId);
 
         groomer = groomerService.updateGroomer(groomer, groomerDetailRequest);

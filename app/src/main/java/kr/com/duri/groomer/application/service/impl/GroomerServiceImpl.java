@@ -58,21 +58,24 @@ public class GroomerServiceImpl implements GroomerService {
 
     @Override
     public Groomer findById(Long groomerId) {
-        return groomerRepository.findById(groomerId)
+        return groomerRepository
+                .findById(groomerId)
                 .orElseThrow(() -> new GroomerNotFoundException("해당 미용사를 찾을 수 없습니다."));
     }
 
     @Override
     public Groomer updateGroomer(Groomer groomer, GroomerDetailRequest groomerDetailRequest) {
-        return groomerRepository.save(groomer.updateGroomerProfile(groomerDetailRequest.getName(),
-                groomerDetailRequest.getAge(),
-                groomerDetailRequest.getGender(),
-                groomerDetailRequest.getEmail(),
-                groomerDetailRequest.getPhone(),
-                groomerDetailRequest.getHistory(),
-                groomerDetailRequest.getImage(),
-                groomerDetailRequest.getInfo(),
-                commonMapper.toStringJson(groomerDetailRequest.getLicense())));
+        return groomerRepository.save(
+                groomer.updateGroomerProfile(
+                        groomerDetailRequest.getName(),
+                        groomerDetailRequest.getAge(),
+                        groomerDetailRequest.getGender(),
+                        groomerDetailRequest.getEmail(),
+                        groomerDetailRequest.getPhone(),
+                        groomerDetailRequest.getHistory(),
+                        groomerDetailRequest.getImage(),
+                        groomerDetailRequest.getInfo(),
+                        commonMapper.toStringJson(groomerDetailRequest.getLicense())));
     }
 
     @Override
