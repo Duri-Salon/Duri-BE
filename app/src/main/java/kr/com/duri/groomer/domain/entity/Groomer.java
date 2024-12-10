@@ -21,7 +21,7 @@ public class Groomer extends BaseEntity {
     @Column(name = "groomer_id")
     private Long id; // 미용사 ID
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id")
     private Shop shop; // 매장 ID (FK)
 
