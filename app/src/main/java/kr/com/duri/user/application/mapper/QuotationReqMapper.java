@@ -50,7 +50,7 @@ public class QuotationReqMapper {
     }
 
     // price에서 최종금액만 뽑아내기
-    private Integer extractTotalPriceFromJson(String priceJson) {
+    public Integer extractTotalPriceFromJson(String priceJson) {
         try {
             JsonNode jsonNode = objectMapper.readTree(priceJson);
             return jsonNode.path("totalPrice").asInt(); // "totalPrice" 추출
@@ -261,6 +261,42 @@ public class QuotationReqMapper {
                 .expiredAt(expiredAt)
                 .shops(shops)
                 .isExpired(isExpired)
+                .build();
+    }
+
+    public QuotationReqDetailResponse toResponse(
+            QuotationReq quotationReq,
+            ShopBestResponse bestDistanceShop,
+            ShopBestResponse bestPriceShop,
+            ShopBestResponse bestRatingShop,
+            ShopBestResponse bestOverallShop,
+            List<QuotationReqDetailRequestListResponse> requestQuotations) {
+        return QuotationReqDetailResponse.builder()
+                .createdAt(quotationReq.getCreatedAt())
+                .expiredAt(quotationReq.getCreatedAt().plusHours(24))
+                .bestDistanceShop(bestDistanceShop)
+                .bestPriceShop(bestPriceShop)
+                .bestRatingShop(bestRatingShop)
+                .bestShop(bestOverallShop)
+                .quotations(requestQuotations)
+                .build();
+    }
+
+    public QuotationReqDetailRequestListResponse toRequestListResponse(
+            Request request, Quotation quotation) {
+        if (quotation == null) {
+            return QuotationReqDetailRequestListResponse.builder()
+                    .requestId(request.getId())
+                    .shopName(request.getShop().getName())
+                    .totalPrice(null)
+                    .build();
+        }
+
+        Integer totalPrice = extractTotalPriceFromJson(quotation.getPrice());
+        return QuotationReqDetailRequestListResponse.builder()
+                .requestId(request.getId())
+                .shopName(request.getShop().getName())
+                .totalPrice(totalPrice)
                 .build();
     }
 }

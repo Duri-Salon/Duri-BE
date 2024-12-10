@@ -122,4 +122,9 @@ public class QuotationServiceImpl implements QuotationService {
         }
         return quotationList;
     }
+
+    @Override
+    public List<Quotation> findByRequestIdsOrderByPrice(List<Long> requestIds) {
+        return quotationRepository.findByRequestIdInOrderByPriceAsc(requestIds);
+    }
 }
