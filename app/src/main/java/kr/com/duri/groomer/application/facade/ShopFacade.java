@@ -33,7 +33,8 @@ public class ShopFacade {
     }
 
     // 매장 상세정보 조회
-    public ShopDetailResponse getShopDetail(Long shopId) {
+    public ShopDetailResponse getShopDetail(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
         Shop shop = getShop(shopId);
         // TODO : 매장 이미지 조회 구현 및 연결
         ShopImage shopImage = new ShopImage(); // shopImageService.?(shopId)
@@ -79,7 +80,8 @@ public class ShopFacade {
     }
 
     // 총 매출 통계 조회
-    public MonthIncomeResponse getMonthIncome(Long shopId) {
+    public MonthIncomeResponse getMonthIncome(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
         getShop(shopId);
         Long totalIncome = paymentService.getTotalPriceMonth(shopId);
         return shopMapper.toShopDetailResponse(totalIncome);

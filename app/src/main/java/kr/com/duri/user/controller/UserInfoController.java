@@ -33,10 +33,10 @@ public class UserInfoController {
     }
 
     // DURI-329 : 이용기록 조회
-    @GetMapping("/history/{userId}")
+    @GetMapping("/history")
     public CommonResponseEntity<List<MonthlyHistoryResponse>> getHistory(
-            @PathVariable Long userId) {
-        List<HistoryResponse> historyResponseList = userInfoFacade.getHistoryList(userId);
+            @RequestHeader("authorization_user") String token) {
+        List<HistoryResponse> historyResponseList = userInfoFacade.getHistoryList(token);
         List<MonthlyHistoryResponse> monthlyHistoryResponseList =
                 userInfoFacade.getMonthlyHistory(historyResponseList);
         return CommonResponseEntity.success(monthlyHistoryResponseList);

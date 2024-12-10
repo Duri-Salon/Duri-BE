@@ -68,8 +68,8 @@ public class UserInfoFacade {
     }
 
     // 고객의 이용기록 조회
-    public List<HistoryResponse> getHistoryList(Long userId) {
-        siteUserService.getSiteUserById(userId);
+    public List<HistoryResponse> getHistoryList(String token) {
+        Long userId = siteUserService.getUserIdByToken(token);
         Pet pet = petService.getPetByUserId(userId);
         // 1. 해당 유저의 이용 기록 가져오기
         List<Quotation> quotationList = quotationService.getHistoryByPetId(pet.getId());

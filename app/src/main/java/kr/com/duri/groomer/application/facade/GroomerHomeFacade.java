@@ -65,7 +65,8 @@ public class GroomerHomeFacade {
     }
 
     // 가까운 시술정보 조회
-    public RecentProcedureResponse getRecentProcedure(Long shopId) {
+    public RecentProcedureResponse getRecentProcedure(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
         getShop(shopId);
         // 1. 현재 일자로부터 가장 최근의 견적서 조회
         Quotation quotation = quotationService.getClosetQuoationByShopId(shopId);
@@ -84,7 +85,8 @@ public class GroomerHomeFacade {
     }
 
     // 당일 스케줄 조회
-    public List<TodayScheduleResponse> getTodaySchedule(Long shopId) {
+    public List<TodayScheduleResponse> getTodaySchedule(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
         getShop(shopId);
         // 1. 매장으로 디자이너 조회
         Groomer groomer = groomerService.getGroomerByShopId(shopId);
@@ -126,7 +128,8 @@ public class GroomerHomeFacade {
     }
 
     // 받은 견적요청서 리스트 조회
-    public List<HomeQuotationReqResponse> getRequestList(Long shopId) {
+    public List<HomeQuotationReqResponse> getRequestList(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
         getShop(shopId);
         // 1. 매장으로 받은 미승인 요청 리스트 조회
         List<Request> requestList = requestService.getNewRequestsByShopId(shopId);
