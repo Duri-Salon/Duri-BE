@@ -81,7 +81,12 @@ public class QuotationMapper {
     }
 
     public QuotationDetailResponse toQuotationDetailResponse(
-            Request request, Shop shop, Groomer groomer, Pet pet, Quotation quotation) {
+            Request request,
+            Shop shop,
+            Groomer groomer,
+            Pet pet,
+            Quotation quotation,
+            String status) {
 
         // ShopDetailResponse 생성
         QuotationShopDetailResponse quotationShopDetailResponse =
@@ -110,11 +115,22 @@ public class QuotationMapper {
         // MenuDetailResponse 생성
         MenuDetailResponse menuDetailResponse =
                 MenuDetailResponse.builder()
-                        .groomingMenu(request.getQuotation().getMenu())
-                        .additionalGrooming(request.getQuotation().getAddMenu())
-                        .specialCare(request.getQuotation().getSpecialMenu())
-                        .designCut(request.getQuotation().getDesign())
+                        .groomingMenu(parseJsonArray(request.getQuotation().getMenu()))
+                        .additionalGrooming(parseJsonArray(request.getQuotation().getAddMenu()))
+                        .specialCare(parseJsonArray(request.getQuotation().getSpecialMenu()))
+                        .designCut(parseJsonArray(request.getQuotation().getDesign()))
                         .otherRequests(request.getQuotation().getEtc())
+                        .day(request.getQuotation().getDay())
+                        .time9(request.getQuotation().getTime9())
+                        .time10(request.getQuotation().getTime10())
+                        .time11(request.getQuotation().getTime11())
+                        .time12(request.getQuotation().getTime12())
+                        .time13(request.getQuotation().getTime13())
+                        .time14(request.getQuotation().getTime14())
+                        .time15(request.getQuotation().getTime15())
+                        .time16(request.getQuotation().getTime16())
+                        .time17(request.getQuotation().getTime17())
+                        .time18(request.getQuotation().getTime18())
                         .build();
 
         // QuotationRequest 생성
@@ -134,6 +150,7 @@ public class QuotationMapper {
                 .petDetail(petDetailResponse)
                 .menuDetail(menuDetailResponse)
                 .quotation(quotationRequest)
+                .status(status)
                 .build();
     }
 

@@ -17,6 +17,7 @@ import kr.com.duri.user.application.mapper.QuotationReqMapper;
 import kr.com.duri.user.application.service.PetService;
 import kr.com.duri.user.application.service.QuotationReqService;
 import kr.com.duri.user.application.service.RequestService;
+import kr.com.duri.user.application.service.SiteUserService;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.QuotationReq;
 import kr.com.duri.user.domain.entity.Request;
@@ -34,10 +35,13 @@ public class QuotationReqFacade {
     private final GroomerService groomerService;
     private final ShopService shopService;
     private final PetService petService;
+    private final SiteUserService siteUserService;
     private final QuotationReqMapper quotationReqMapper;
 
     // 새로운 견적 요청서 리스트(Groomer)
-    public List<NewQuotationReqResponse> getNewRequests(Long shopId) {
+    public List<NewQuotationReqResponse> getNewRequests(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
+
         // 1. shopId 유효성 확인
         boolean shopExists = shopService.existsByShopId(shopId);
         if (!shopExists) {
@@ -67,7 +71,9 @@ public class QuotationReqFacade {
     }
 
     // 답장한 견적 요청서 리스트(Groomer)
-    public List<ApprovedQuotationReqResponse> getApprovedRequests(Long shopId) {
+    public List<ApprovedQuotationReqResponse> getApprovedRequests(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
+
         // 1. shopId 유효성 확인
         boolean shopExists = shopService.existsByShopId(shopId);
         if (!shopExists) {
@@ -88,7 +94,9 @@ public class QuotationReqFacade {
     }
 
     // 예약 확정한 견적 요청서 리스트(Groomer)
-    public List<ReservationQuotationReqResponse> getReservationRequests(Long shopId) {
+    public List<ReservationQuotationReqResponse> getReservationRequests(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
+
         // 1. shopId 유효성 확인
         boolean shopExists = shopService.existsByShopId(shopId);
         if (!shopExists) {
@@ -112,7 +120,8 @@ public class QuotationReqFacade {
     }
 
     // 시술 완료한 견적 요청서 리스트(Groomer)
-    public List<ReservationQuotationReqResponse> getCompleteRequests(Long shopId) {
+    public List<ReservationQuotationReqResponse> getCompleteRequests(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
         // 1. shopId 유효성 확인
         boolean shopExists = shopService.existsByShopId(shopId);
         if (!shopExists) {
@@ -163,7 +172,9 @@ public class QuotationReqFacade {
     }
 
     // 견적 요청서 목록 조회
-    public List<QuotationListResponse> getQuotationReqsByUserId(Long userId) {
+    public List<QuotationListResponse> getQuotationReqsByUserId(String token) {
+        Long userId = siteUserService.getUserIdByToken(token);
+
         // 1. User의 Pet조회
         Pet pet = petService.findById(userId);
 
@@ -183,7 +194,8 @@ public class QuotationReqFacade {
     }
 
     // 지난 견적 요청 상세 정보(User)
-    public LastQuotationReqResponse getLastQuotationReqDetail(Long userId) {
+    public LastQuotationReqResponse getLastQuotationReqDetail(String token) {
+        Long userId = siteUserService.getUserIdByToken(token);
         Pet pet = petService.findById(userId);
         QuotationReq quotationReq = quotationReqService.findLatestByPetId(pet.getId());
 

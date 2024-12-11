@@ -24,4 +24,6 @@ public interface ReviewService {
 
     // 삭제
     void deleteReview(Long reviewId);
+
+    Review findByRequestId(Long requestId);
 }

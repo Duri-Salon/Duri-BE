@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 public class NewQuotationReqRequest {
     private Long petId; // 반려견 ID
     private Integer maxPrice; // 최대 금액
-    private String menu; // 미용 메뉴
-    private String addMenu; // 추가 미용 메뉴
-    private String specialMenu; // 스페셜 케어
-    private String design; // 디자인 컷
+    private List<String> menu; // 미용 메뉴
+    private List<String> addMenu; // 추가 미용 메뉴
+    private List<String> specialMenu; // 스페셜 케어
+    private List<String> design; // 디자인 컷
     private String petSize; // 반려견 품종(소형/중형/대형)
     private String etc; // 기타 요구사항
     private LocalDate day; // 예약일

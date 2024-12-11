@@ -21,8 +21,8 @@ public class QuotationReqController {
     // 새로운 견적 요청서 리스트(Groomer)
     @GetMapping("/new")
     public CommonResponseEntity<List<NewQuotationReqResponse>> getNewRequests(
-            @RequestParam Long shopId) {
-        return CommonResponseEntity.success(quotationReqFacade.getNewRequests(shopId));
+            @RequestHeader("authorization_shop") String token) {
+        return CommonResponseEntity.success(quotationReqFacade.getNewRequests(token));
     }
 
     // 견적 요청 상세 정보(Groomer)
@@ -35,22 +35,22 @@ public class QuotationReqController {
     // 답장한 견적 요청서 리스트(Groomer)
     @GetMapping("/approved")
     public CommonResponseEntity<List<ApprovedQuotationReqResponse>> getApprovedRequests(
-            @RequestParam Long shopId) {
-        return CommonResponseEntity.success(quotationReqFacade.getApprovedRequests(shopId));
+            @RequestHeader("authorization_shop") String token) {
+        return CommonResponseEntity.success(quotationReqFacade.getApprovedRequests(token));
     }
 
     // 예약한 견적 요청서 리스트(Groomer)
     @GetMapping("/reservation")
     public CommonResponseEntity<List<ReservationQuotationReqResponse>> getReservationRequests(
-            @RequestParam Long shopId) {
-        return CommonResponseEntity.success(quotationReqFacade.getReservationRequests(shopId));
+            @RequestHeader("authorization_shop") String token) {
+        return CommonResponseEntity.success(quotationReqFacade.getReservationRequests(token));
     }
 
     // 시술 완료한 견적 요청서 리스트(Groomer)
     @GetMapping("/reservation/complete")
     public CommonResponseEntity<List<ReservationQuotationReqResponse>> getCompleteRequests(
-            @RequestParam Long shopId) {
-        return CommonResponseEntity.success(quotationReqFacade.getCompleteRequests(shopId));
+            @RequestHeader("authorization_shop") String token) {
+        return CommonResponseEntity.success(quotationReqFacade.getCompleteRequests(token));
     }
 
     // 견적 요청서 작성(User)
@@ -62,10 +62,10 @@ public class QuotationReqController {
     }
 
     //  견적 요청서 목록(User)
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user")
     public CommonResponseEntity<List<QuotationListResponse>> getQuotationReqsByUserId(
-            @PathVariable Long userId) {
-        return CommonResponseEntity.success(quotationReqFacade.getQuotationReqsByUserId(userId));
+            @RequestHeader("authorization_user") String token) {
+        return CommonResponseEntity.success(quotationReqFacade.getQuotationReqsByUserId(token));
     }
 
     // 견적 요청서 조회 및 견적서 순위
@@ -79,7 +79,7 @@ public class QuotationReqController {
     // 지난 견적 요청 상세 정보(User)
     @GetMapping("/last")
     public CommonResponseEntity<LastQuotationReqResponse> getLastQuotationReq(
-            @RequestParam Long userId) {
-        return CommonResponseEntity.success(quotationReqFacade.getLastQuotationReqDetail(userId));
+            @RequestHeader("authorization_user") String token) {
+        return CommonResponseEntity.success(quotationReqFacade.getLastQuotationReqDetail(token));
     }
 }

@@ -1,6 +1,7 @@
 package kr.com.duri.user.application.dto.response;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +14,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MenuDetailResponse {
 
-    private String groomingMenu; // 미용 메뉴
-    private String additionalGrooming; // 추가 미용
-    private String specialCare; // 스페셜 케어
-    private String designCut; // 디자인 컷
+    private List<String> groomingMenu; // 미용 메뉴
+    private List<String> additionalGrooming; // 추가 미용
+    private List<String> specialCare; // 스페셜 케어
+    private List<String> designCut; // 디자인 컷
     private String otherRequests; // 기타 요청 사항
     private LocalDate day; // 희망 날짜
     private Boolean time9; // 9시 희망 여부
