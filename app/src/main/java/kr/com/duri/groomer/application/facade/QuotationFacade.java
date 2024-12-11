@@ -9,9 +9,14 @@ import kr.com.duri.groomer.application.service.QuotationService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.domain.entity.Shop;
+import kr.com.duri.user.application.service.PaymentService;
 import kr.com.duri.user.application.service.RequestService;
+import kr.com.duri.user.application.service.ReviewService;
+import kr.com.duri.user.domain.Enum.PaymentStatus;
+import kr.com.duri.user.domain.entity.Payment;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.Request;
+import kr.com.duri.user.domain.entity.Review;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
@@ -23,6 +28,8 @@ public class QuotationFacade {
     private final RequestService requestService;
     private final QuotationService quotationService;
     private final GroomerService groomerService;
+    private final PaymentService paymentService;
+    private final ReviewService reviewService;
     private final QuotationMapper quotationMapper;
 
     public void createQuotation(QuotationRequest quotationRequest) {
@@ -53,7 +60,7 @@ public class QuotationFacade {
     }
 
     public QuotationDetailResponse getQuotationDetail(Long requestId) {
-        // 1. request조회
+        // 1. request 조회
         Request request = requestService.getRequestById(requestId);
 
         // 2. Shop 및 Groomer 조회
@@ -64,7 +71,28 @@ public class QuotationFacade {
         Pet pet = request.getQuotation().getPet();
         Quotation quotation = quotationService.findByRequestId(requestId);
 
-        // 4. DTO조합
-        return quotationMapper.toQuotationDetailResponse(request, shop, groomer, pet, quotation);
+        // 4. 결제 상태 확인 (null 처리 추가)
+        Payment payment = paymentService.findByQuotationId(quotation.getId());
+        String paymentStatus = null;
+        if (payment != null && payment.getStatus() == PaymentStatus.SUCCESS) {
+            paymentStatus = "결제 완료";
+        }
+
+        // 5. 리뷰 상태 확인 (null 처리 추가)
+        Review review = reviewService.findByRequestId(requestId);
+        String reviewStatus = review != null ? "리뷰 완료" : null;
+
+        // 6. 상태 결정 (null 처리 추가)
+        String status = "결제 전"; // 기본값은 "결제 전"
+        if (reviewStatus != null) {
+            status = reviewStatus; // 리뷰가 있으면 리뷰 상태
+        } else if (paymentStatus != null) {
+            status = paymentStatus; // 결제 상태가 있으면 결제 상태
+        }
+
+        // 7. QuotationDetailResponse 반환
+        return quotationMapper.toQuotationDetailResponse(request, shop, groomer, pet, quotation, status);
     }
+
+
 }

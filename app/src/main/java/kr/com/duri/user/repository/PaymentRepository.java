@@ -25,4 +25,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
             @Param("shopId") Long shopId,
             @Param("startOfMonth") LocalDateTime startOfMonth,
             @Param("endOfMonth") LocalDateTime endOfMonth);
+
+    Payment findByQuotationId(Long quotationId);
 }

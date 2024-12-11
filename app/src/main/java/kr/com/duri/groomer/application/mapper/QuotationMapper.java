@@ -81,7 +81,7 @@ public class QuotationMapper {
     }
 
     public QuotationDetailResponse toQuotationDetailResponse(
-            Request request, Shop shop, Groomer groomer, Pet pet, Quotation quotation) {
+            Request request, Shop shop, Groomer groomer, Pet pet, Quotation quotation, String status) {
 
         // ShopDetailResponse 생성
         QuotationShopDetailResponse quotationShopDetailResponse =
@@ -127,6 +127,8 @@ public class QuotationMapper {
                         .priceDetail(parsePriceDetail(quotation.getPrice()))
                         .build();
 
+
+
         // QuotationDetailResponse 통합 생성
         return QuotationDetailResponse.builder()
                 .shopDetail(quotationShopDetailResponse)
@@ -134,6 +136,7 @@ public class QuotationMapper {
                 .petDetail(petDetailResponse)
                 .menuDetail(menuDetailResponse)
                 .quotation(quotationRequest)
+                .status(status)
                 .build();
     }
 

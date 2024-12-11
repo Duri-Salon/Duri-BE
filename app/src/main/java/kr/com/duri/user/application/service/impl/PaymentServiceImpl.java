@@ -116,4 +116,9 @@ public class PaymentServiceImpl implements PaymentService {
         LocalDateTime endOfMonth = startOfMonth.plusMonths(1).minusSeconds(1); // 이번 달의 마지막 초
         return paymentRepository.findTotalPriceByShopId(shopId, startOfMonth, endOfMonth);
     }
+
+    @Override
+    public Payment findByQuotationId(Long id) {
+        return paymentRepository.findByQuotationId(id);
+    }
 }

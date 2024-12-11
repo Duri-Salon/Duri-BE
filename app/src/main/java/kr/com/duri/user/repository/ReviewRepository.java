@@ -33,4 +33,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     // 요청 ID에 리뷰가 존재하는지 확인
     boolean existsByRequestId(Long requestId);
+
+    Review findByRequestId(Long requestId);
 }

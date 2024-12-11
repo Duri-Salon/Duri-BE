@@ -63,4 +63,9 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = getReview(reviewId);
         reviewRepository.deleteById(review.getId());
     }
+
+    @Override
+    public Review findByRequestId(Long requestId) {
+        return reviewRepository.findByRequestId(requestId);
+    }
 }
