@@ -3,7 +3,6 @@ package kr.com.duri.common.s3;
 import java.io.IOException;
 import java.util.UUID;
 
-import kr.com.duri.user.domain.entity.ReviewImage;
 import kr.com.duri.user.exception.ReviewImageUploadException;
 import lombok.RequiredArgsConstructor;
 
