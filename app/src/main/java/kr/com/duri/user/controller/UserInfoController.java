@@ -34,8 +34,7 @@ public class UserInfoController {
     }
 
     @GetMapping("/pet/{petId}")
-    public CommonResponseEntity<PetProfileResponse> getPetDetail(
-            @PathVariable Long petId) {
+    public CommonResponseEntity<PetProfileResponse> getPetDetail(@PathVariable Long petId) {
         try {
             return CommonResponseEntity.success(userInfoFacade.getPetDetail(petId));
         } catch (UserNotFoundException e) {
@@ -59,7 +58,8 @@ public class UserInfoController {
             @RequestPart @Valid NewPetRequest newPetRequest,
             @RequestPart(value = "image", required = false) MultipartFile img) {
         try {
-            return CommonResponseEntity.success(userInfoFacade.updateNewPet(petId, newPetRequest, img));
+            return CommonResponseEntity.success(
+                    userInfoFacade.updateNewPet(petId, newPetRequest, img));
         } catch (UserNotFoundException e) {
             return CommonResponseEntity.error(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다.");
         }
