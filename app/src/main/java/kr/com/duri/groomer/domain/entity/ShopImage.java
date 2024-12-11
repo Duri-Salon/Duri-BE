@@ -3,6 +3,7 @@ package kr.com.duri.groomer.domain.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import kr.com.duri.common.entity.BaseEntity;
+import kr.com.duri.groomer.domain.Enum.ImageCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,14 +23,14 @@ public class ShopImage extends BaseEntity {
     private Long id; // 매장 이미지 ID
 
     @NotBlank
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id")
     private Shop shop; // 매장 ID FK
 
     @Column(name = "shop_image_url")
     private String shopImageUrl; // 매장 이미지 URL
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "category")
-    // TODO : ENUM 변경
-    private String category; // 카테고리 (매장이미지(MAIN), 가격표 이미지(PRICE), 사업자등록증(BUSINESS), 기타(ETC))
+    private ImageCategory category; // 이미지 카테고리
 }
