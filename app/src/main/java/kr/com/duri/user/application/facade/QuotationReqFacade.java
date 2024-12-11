@@ -187,7 +187,6 @@ public class QuotationReqFacade {
         Pet pet = petService.findById(userId);
         QuotationReq quotationReq = quotationReqService.findLatestByPetId(pet.getId());
 
-        // 3. Mapper를 사용하여 DTO 생성
         return quotationReqMapper.toLastQuotationReqResponse(pet, quotationReq);
     }
 
