@@ -18,43 +18,27 @@ public class GroomerProfileController {
 
     @GetMapping("/{groomerId}")
     public CommonResponseEntity<GroomerProfileDetailResponse> getGroomerProfile(
-            @RequestParam Long groomerId) {
-        try {
+            @PathVariable Long groomerId) {
             return CommonResponseEntity.success(groomerProfileFacade.getGroomerProfile(groomerId));
-        } catch (Exception e) {
-            return CommonResponseEntity.error(HttpStatus.NOT_FOUND, "미용사를 찾지 못했습니다.");
-        }
     }
 
-    @PostMapping()
+    @PostMapping
     public CommonResponseEntity<GroomerProfileDetailResponse> createGroomerProfile(
-            @RequestHeader String token, @RequestBody GroomerDetailRequest groomerDetailRequest) {
-        try {
+            @RequestHeader("authorization_shop") String token, @RequestBody GroomerDetailRequest groomerDetailRequest) {
             return CommonResponseEntity.success(
                     groomerProfileFacade.createGroomerProfile(token, groomerDetailRequest));
-        } catch (Exception e) {
-            return CommonResponseEntity.error(HttpStatus.BAD_REQUEST, "미용사 등록에 실패했습니다.");
-        }
     }
 
     @PutMapping("/{groomerId}")
     public CommonResponseEntity<GroomerProfileDetailResponse> updateGroomerProfile(
-            @RequestParam Long groomerId, @RequestBody GroomerDetailRequest groomerDetailRequest) {
-        try {
+            @PathVariable Long groomerId, @RequestBody GroomerDetailRequest groomerDetailRequest) {
             return CommonResponseEntity.success(
                     groomerProfileFacade.updateGroomerProfile(groomerId, groomerDetailRequest));
-        } catch (Exception e) {
-            return CommonResponseEntity.error(HttpStatus.BAD_REQUEST, "미용사 수정에 실패했습니다.");
-        }
     }
 
     @DeleteMapping("/{groomerId}")
-    public CommonResponseEntity<String> deleteGroomerProfile(@RequestParam Long groomerId) {
-        try {
+    public CommonResponseEntity<String> deleteGroomerProfile(@PathVariable Long groomerId) {
             groomerProfileFacade.deleteGroomerProfile(groomerId);
             return CommonResponseEntity.success("미용사 프로필 삭제에 성공했습니다.");
-        } catch (Exception e) {
-            return CommonResponseEntity.error(HttpStatus.NOT_FOUND, "미용사를 찾지 못했습니다.");
-        }
     }
 }
