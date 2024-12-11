@@ -40,5 +40,4 @@ public class QuotationReqServiceImpl implements QuotationReqService {
                 .findTopByPetIdOrderByCreatedAtDesc(petId)
                 .orElse(null); // 데이터가 없으면 null 반환
     }
-
 }

@@ -318,13 +318,15 @@ public class QuotationReqMapper {
 
         // 견적 요청 사항 매핑
         LastMenuDetailResponse lastMenuDetailResponse =
-                quotationReq == null ? null : LastMenuDetailResponse.builder()
-                        .groomingMenu(quotationReq.getMenu())
-                        .additionalGrooming(quotationReq.getAddMenu())
-                        .specialCare(quotationReq.getSpecialMenu())
-                        .designCut(quotationReq.getDesign())
-                        .otherRequests(quotationReq.getEtc())
-                        .build();
+                quotationReq == null
+                        ? null
+                        : LastMenuDetailResponse.builder()
+                                .groomingMenu(quotationReq.getMenu())
+                                .additionalGrooming(quotationReq.getAddMenu())
+                                .specialCare(quotationReq.getSpecialMenu())
+                                .designCut(quotationReq.getDesign())
+                                .otherRequests(quotationReq.getEtc())
+                                .build();
 
         // 최종 DTO 반환
         return LastQuotationReqResponse.builder()
