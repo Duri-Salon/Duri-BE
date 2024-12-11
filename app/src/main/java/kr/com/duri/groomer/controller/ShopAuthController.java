@@ -18,14 +18,6 @@ public class ShopAuthController {
     @GetMapping("/shop/token")
     public CommonResponseEntity<NewShopJwtResponse> requestNewShopToken(
             @RequestParam String providerId) {
-        NewShopJwtResponse newShopJwtResponse = null;
-
-        try {
-            newShopJwtResponse = shopAuthFacade.createNewShopJwt(providerId);
-        } catch (IllegalArgumentException e) {
-            return CommonResponseEntity.error(HttpStatus.BAD_REQUEST, "토큰 생성에 실패했습니다.");
-        }
-
-        return CommonResponseEntity.success(newShopJwtResponse);
+        return CommonResponseEntity.success(shopAuthFacade.createNewShopJwt(providerId));
     }
 }

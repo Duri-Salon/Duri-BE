@@ -20,11 +20,7 @@ public class ShopOnboardingController {
     public CommonResponseEntity<ShopOnboardingResponse> shopAndGroomerOnboarding(
             @RequestHeader("authorization_shop") String token,
             @RequestBody ShopOnboardingRequest shopOnboardingRequest) {
-        try {
-            return CommonResponseEntity.success(
+        return CommonResponseEntity.success(
                     shopOnboardingFacade.shopAndGroomerOnboarding(token, shopOnboardingRequest));
-        } catch (Exception e) {
-            return CommonResponseEntity.error(HttpStatus.BAD_REQUEST, "매장, 미용사 등록에 실패했습니다.");
-        }
     }
 }
