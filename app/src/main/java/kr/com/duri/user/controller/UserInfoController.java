@@ -2,6 +2,7 @@ package kr.com.duri.user.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.user.application.dto.request.NewPetRequest;
 import kr.com.duri.user.application.dto.response.*;
@@ -10,6 +11,7 @@ import kr.com.duri.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,7 +35,7 @@ public class UserInfoController {
 
     @GetMapping("/pet/{petId}")
     public CommonResponseEntity<PetProfileResponse> getPetDetail(
-            @RequestParam Long petId) {
+            @PathVariable Long petId) {
         try {
             return CommonResponseEntity.success(userInfoFacade.getPetDetail(petId));
         } catch (UserNotFoundException e) {
@@ -51,10 +53,10 @@ public class UserInfoController {
         }
     }
 
-    @PutMapping("/pet/{petId}")
+    @PutMapping(value = "/pet/{petId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public CommonResponseEntity<PetProfileResponse> updatePetDetail(
-            @RequestParam Long petId,
-            @RequestBody NewPetRequest newPetRequest,
+            @PathVariable Long petId,
+            @RequestPart @Valid NewPetRequest newPetRequest,
             @RequestPart(value = "image", required = false) MultipartFile img) {
         try {
             return CommonResponseEntity.success(userInfoFacade.updateNewPet(petId, newPetRequest, img));

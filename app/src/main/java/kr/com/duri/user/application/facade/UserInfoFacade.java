@@ -113,12 +113,6 @@ public class UserInfoFacade {
                 .collect(Collectors.toList());
     }
 
-    public String getUserInfo(String token) {
-        Long userId = siteUserService.getUserIdByToken(token);
-        SiteUser siteUser = siteUserService.getSiteUserById(userId);
-        return siteUser.getName();
-    }
-
     public PetProfileListResponse getPetList(String token) {
         Long userId = siteUserService.getUserIdByToken(token);
         List<Pet> petList = petService.getPetList(userId);
@@ -131,7 +125,9 @@ public class UserInfoFacade {
     }
 
     public PetProfileResponse updateNewPet(Long petId, NewPetRequest newPetRequest, MultipartFile img) {
+        Pet pet = petService.findById(petId);
         String imageUrl = petService.uploadToS3(img);
-        return null;
+        pet = petService.save(petService.updatePet(pet, newPetRequest, imageUrl));
+        return petMapper.toPetProfileResponse(pet);
     }
 }

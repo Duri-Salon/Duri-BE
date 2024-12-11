@@ -85,4 +85,19 @@ public class Pet extends BaseEntity {
     public void updateLastGromming(Date lastDate) {
         this.lastGrooming = lastDate;
     }
+
+    public Pet updatePet(String name, String breed, Integer age, Float weight, String gender, Boolean neutering, String character, String diseases, String imageUrl) {
+        this.name = name;
+        this.breed = breed;
+        this.age = age;
+        this.weight = weight;
+        this.gender = Gender.valueOf(gender);
+        this.neutering = neutering;
+        this.character = character;
+        this.diseases = diseases;
+        if (imageUrl != null) {
+            this.image = imageUrl;
+        }
+        return this;
+    }
 }

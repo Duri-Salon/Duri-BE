@@ -3,6 +3,7 @@ package kr.com.duri.user.application.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import kr.com.duri.common.s3.S3Util;
 import kr.com.duri.user.application.dto.request.NewPetRequest;
 import kr.com.duri.user.application.mapper.PetMapper;
 import kr.com.duri.user.application.service.PetService;
@@ -13,6 +14,7 @@ import kr.com.duri.user.repository.PetRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +23,8 @@ public class PetServiceImpl implements PetService {
     private final PetRepository petRepository;
 
     private final PetMapper petMapper;
+
+    private final S3Util s3Util;
 
     // [1] 목록 조회
     @Override
@@ -71,5 +75,21 @@ public class PetServiceImpl implements PetService {
         Pet pet = findById(petId);
         pet.updateLastGromming(lastDate);
         petRepository.save(pet);
+    }
+
+    @Override
+    public Pet updatePet(Pet pet, NewPetRequest newPetRequest, String imageUrl) {
+        return pet.updatePet(newPetRequest.getName(), newPetRequest.getBreed(), newPetRequest.getAge(),
+                newPetRequest.getWeight(), newPetRequest.getGender(), newPetRequest.getNeutering(),
+                petMapper.toStringJson(newPetRequest.getCharacter()),
+                petMapper.toStringJson(newPetRequest.getDiseases()), imageUrl);
+    }
+
+    @Override
+    public String uploadToS3(MultipartFile img) {
+        if (img == null || img.isEmpty()) {
+            return null;
+        }
+        return s3Util.uploadToS3(img);
     }
 }
