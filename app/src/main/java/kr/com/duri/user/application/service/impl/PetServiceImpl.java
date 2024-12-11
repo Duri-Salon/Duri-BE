@@ -79,10 +79,16 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public Pet updatePet(Pet pet, NewPetRequest newPetRequest, String imageUrl) {
-        return pet.updatePet(newPetRequest.getName(), newPetRequest.getBreed(), newPetRequest.getAge(),
-                newPetRequest.getWeight(), newPetRequest.getGender(), newPetRequest.getNeutering(),
+        return pet.updatePet(
+                newPetRequest.getName(),
+                newPetRequest.getBreed(),
+                newPetRequest.getAge(),
+                newPetRequest.getWeight(),
+                newPetRequest.getGender(),
+                newPetRequest.getNeutering(),
                 petMapper.toStringJson(newPetRequest.getCharacter()),
-                petMapper.toStringJson(newPetRequest.getDiseases()), imageUrl);
+                petMapper.toStringJson(newPetRequest.getDiseases()),
+                imageUrl);
     }
 
     @Override

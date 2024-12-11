@@ -66,7 +66,9 @@ public class PetMapper {
         return new PetProfileListResponse()
                 .builder()
                 .petProfileList(
-                        petList.stream().map(this::toPetProfileResponse).collect(Collectors.toList()))
+                        petList.stream()
+                                .map(this::toPetProfileResponse)
+                                .collect(Collectors.toList()))
                 .build();
     }
 

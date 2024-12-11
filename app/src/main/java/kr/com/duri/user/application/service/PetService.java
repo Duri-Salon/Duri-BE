@@ -6,6 +6,7 @@ import java.util.List;
 import kr.com.duri.user.application.dto.request.NewPetRequest;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.SiteUser;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public interface PetService {

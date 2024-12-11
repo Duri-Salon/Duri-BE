@@ -1,18 +1,20 @@
 package kr.com.duri.common.s3;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import java.io.IOException;
+import java.util.UUID;
+
 import kr.com.duri.user.domain.entity.ReviewImage;
 import kr.com.duri.user.exception.ReviewImageUploadException;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.UUID;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 
 @Component
 @RequiredArgsConstructor
@@ -55,5 +57,4 @@ public class S3Util {
         String deleteS3Key = originS3Url.substring(originS3Url.indexOf(".com/") + 5);
         amazonS3.deleteObject(new DeleteObjectRequest(bucket, deleteS3Key));
     }
-
 }

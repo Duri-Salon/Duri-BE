@@ -124,7 +124,8 @@ public class UserInfoFacade {
         return petMapper.toPetProfileResponse(pet);
     }
 
-    public PetProfileResponse updateNewPet(Long petId, NewPetRequest newPetRequest, MultipartFile img) {
+    public PetProfileResponse updateNewPet(
+            Long petId, NewPetRequest newPetRequest, MultipartFile img) {
         Pet pet = petService.findById(petId);
         String imageUrl = petService.uploadToS3(img);
         pet = petService.save(petService.updatePet(pet, newPetRequest, imageUrl));

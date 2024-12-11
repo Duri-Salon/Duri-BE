@@ -1,13 +1,13 @@
 package kr.com.duri.user.application.dto.response;
 
+import java.util.Date;
+import java.util.List;
+
 import kr.com.duri.user.domain.Enum.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
-import java.util.List;
 
 @Getter
 @AllArgsConstructor
