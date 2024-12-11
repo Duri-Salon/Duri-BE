@@ -8,8 +8,10 @@ import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.user.application.dto.response.HistoryResponse;
 import kr.com.duri.user.application.dto.response.MonthlyHistoryResponse;
+import kr.com.duri.user.application.dto.response.SiteUserProfileResponse;
 import kr.com.duri.user.domain.entity.Pet;
 
+import kr.com.duri.user.domain.entity.SiteUser;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -41,6 +43,18 @@ public class UserInfoMapper {
         return MonthlyHistoryResponse.builder()
                 .month(month)
                 .historyList(historyResponseList)
+                .build();
+    }
+
+    public SiteUserProfileResponse toSiteUserProfileResponse(SiteUser siteUser, Integer reservationCount, Integer noShowCount) {
+        return SiteUserProfileResponse.builder()
+                .name(siteUser.getName())
+                .email(siteUser.getEmail())
+                .phone(siteUser.getPhone())
+                .profileImg(siteUser.getImage())
+                .reservationCount(reservationCount)
+                .noShowCount(noShowCount)
+                .stamp(siteUser.getStamp())
                 .build();
     }
 }

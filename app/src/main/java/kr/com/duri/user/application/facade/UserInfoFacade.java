@@ -32,10 +32,10 @@ public class UserInfoFacade {
 
     private final SiteUserService siteUserService;
     private final PetService petService;
-    private final PetMapper petMapper;
     private final GroomerService groomerService;
     private final QuotationService quotationService;
     private final UserInfoMapper userInfoMapper;
+    private final PetMapper petMapper;
 
     // 요일
     public String getDay(DayOfWeek dayWeek) {
@@ -130,5 +130,19 @@ public class UserInfoFacade {
         String imageUrl = petService.uploadToS3(img);
         pet = petService.save(petService.updatePet(pet, newPetRequest, imageUrl));
         return petMapper.toPetProfileResponse(pet);
+    }
+
+    public SiteUserProfileResponse getUserProfile(String token) {
+        Long userId = siteUserService.getUserIdByToken(token);
+        SiteUser siteUser = siteUserService.getSiteUserById(userId);
+        Pet pet = petService.getPetByUserId(userId);
+        Integer reservationCount = quotationService.getHistoryByPetId(pet.getId()).size();
+        Integer noShowCount = quotationService.getNoShowHistoryByPetId(pet.getId()).size();
+        return userInfoMapper.toSiteUserProfileResponse(siteUser, reservationCount, noShowCount);
+    }
+
+    public SiteUserProfileResponse updateUserProfile(String token, MultipartFile img) {
+        Long userId = siteUserService.getUserIdByToken(token);
+        return null;
     }
 }

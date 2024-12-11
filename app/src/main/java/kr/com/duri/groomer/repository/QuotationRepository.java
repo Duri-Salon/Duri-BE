@@ -82,4 +82,14 @@ public interface QuotationRepository extends JpaRepository<Quotation, Long> {
     List<Quotation> findQuotationsByPetId(@Param("petId") Long petId);
 
     List<Quotation> findByRequestIdInOrderByPriceAsc(List<Long> requestIds);
+
+    // 사용자의 견적서 리스트 확인
+    @Query(
+            """
+      SELECT q FROM Quotation q
+      JOIN q.request r
+      JOIN r.quotation qr
+      WHERE qr.pet.id = :petId and q.noShow = true
+      """)
+    List<Quotation> findNoShowQuotationsByPetId(@Param("petId") Long petId);
 }

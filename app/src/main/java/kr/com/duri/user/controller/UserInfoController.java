@@ -74,4 +74,16 @@ public class UserInfoController {
                 userInfoFacade.getMonthlyHistory(historyResponseList);
         return CommonResponseEntity.success(monthlyHistoryResponseList);
     }
+
+    @GetMapping("/profile")
+    public CommonResponseEntity<SiteUserProfileResponse> getUserProfile(
+            @RequestHeader("authorization_user") String token) {
+        return CommonResponseEntity.success(userInfoFacade.getUserProfile(token));
+    }
+
+    @PutMapping("/profile")
+    public CommonResponseEntity<SiteUserProfileResponse> updateUserProfile(
+            @RequestHeader("authorization_user") String token, @RequestPart(value = "image", required = false) MultipartFile img) {
+        return CommonResponseEntity.success(userInfoFacade.updateUserProfile(token, img));
+    }
 }

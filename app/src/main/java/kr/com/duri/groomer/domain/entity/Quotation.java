@@ -47,6 +47,10 @@ public class Quotation extends BaseEntity {
     @Column(name = "complete")
     private boolean complete; // 미용 시술 여부 (True(완료), False(미완료))
 
+    @Column(name = "noshow")
+    @Builder.Default
+    private boolean noShow = false; // 노쇼 여부 (True(노쇼), False(노쇼 X))
+
     // 견적서 수정 메서드
     public Quotation update(
             String priceJson, String memo, LocalDateTime startDateTime, LocalDateTime endDateTime) {
@@ -60,6 +64,10 @@ public class Quotation extends BaseEntity {
     // 시술 여부 수정 메서드
     public void updateComplete(boolean complete) {
         this.complete = complete;
+    }
+
+    public void updateNoShow(boolean noShow) {
+        this.noShow = noShow;
     }
 
     // 상태 변경 메서드

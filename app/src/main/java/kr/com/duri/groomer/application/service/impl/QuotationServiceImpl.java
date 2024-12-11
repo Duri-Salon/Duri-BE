@@ -127,4 +127,13 @@ public class QuotationServiceImpl implements QuotationService {
     public List<Quotation> findByRequestIdsOrderByPrice(List<Long> requestIds) {
         return quotationRepository.findByRequestIdInOrderByPriceAsc(requestIds);
     }
+
+    @Override
+    public List<Quotation> getNoShowHistoryByPetId(Long petId) {
+        List<Quotation> quotationList = quotationRepository.findNoShowQuotationsByPetId(petId);
+        if (quotationList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return quotationList;
+    }
 }
