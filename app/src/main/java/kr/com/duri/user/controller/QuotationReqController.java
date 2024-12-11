@@ -62,10 +62,10 @@ public class QuotationReqController {
     }
 
     //  견적 요청서 목록(User)
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user")
     public CommonResponseEntity<List<QuotationListResponse>> getQuotationReqsByUserId(
-            @PathVariable Long userId) {
-        return CommonResponseEntity.success(quotationReqFacade.getQuotationReqsByUserId(userId));
+            @RequestHeader("authorization_user") String token) {
+        return CommonResponseEntity.success(quotationReqFacade.getQuotationReqsByUserId(token));
     }
 
     // 견적 요청서 조회 및 견적서 순위
@@ -79,7 +79,7 @@ public class QuotationReqController {
     // 지난 견적 요청 상세 정보(User)
     @GetMapping("/last")
     public CommonResponseEntity<LastQuotationReqResponse> getLastQuotationReq(
-            @RequestParam Long userId) {
-        return CommonResponseEntity.success(quotationReqFacade.getLastQuotationReqDetail(userId));
+            @RequestHeader("authorization_user") String token) {
+        return CommonResponseEntity.success(quotationReqFacade.getLastQuotationReqDetail(token));
     }
 }

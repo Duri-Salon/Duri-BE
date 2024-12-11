@@ -34,20 +34,28 @@ public class QuotationReqMapper {
         this.objectMapper = objectMapper;
     }
 
-    // JSON 문자열을 List<String>로 변환하는 메서드
+    // JSON 문자열 -> List<String>
     private List<String> parseJsonArray(String jsonString) {
         try {
-            // 문자열로 저장된 JSON 배열을 List<String>으로 변환
-            List<String> list =
-                    objectMapper.readValue(
-                            jsonString,
-                            TypeFactory.defaultInstance()
-                                    .constructCollectionType(List.class, String.class));
-            return list;
+            return objectMapper.readValue(
+                    jsonString,
+                    TypeFactory.defaultInstance()
+                            .constructCollectionType(List.class, String.class));
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("JSON 문자열을 리스트로 변환할 수 없습니다.", e);
+            return List.of(); // 빈 리스트 반환
         }
     }
+
+    // List<String> -> JSON 문자열
+    public String toJson(List<String> menuList) {
+        try {
+            return objectMapper.writeValueAsString(menuList);
+        } catch (JsonProcessingException e) {
+            return "[]";
+        }
+    }
+
+
 
     // price에서 최종금액만 뽑아내기
     public Integer extractTotalPriceFromJson(String priceJson) {
@@ -108,14 +116,14 @@ public class QuotationReqMapper {
         // 견적 요청 사항 매핑
         MenuDetailResponse quotationDetailResponse =
                 MenuDetailResponse.builder()
-                        .groomingMenu(request.getQuotation().getMenu()) // 미용 메뉴
-                        .additionalGrooming(request.getQuotation().getAddMenu()) // 추가 미용 메뉴
-                        .specialCare(request.getQuotation().getSpecialMenu()) // 스페셜케어
-                        .designCut(request.getQuotation().getDesign()) // 디자인컷
+                        .groomingMenu(parseJsonArray(request.getQuotation().getMenu()))// 미용 메뉴
+                        .additionalGrooming(parseJsonArray(request.getQuotation().getAddMenu())) // 추가 미용 메뉴
+                        .specialCare(parseJsonArray(request.getQuotation().getSpecialMenu())) // 스페셜케어
+                        .designCut(parseJsonArray(request.getQuotation().getDesign())) // 디자인컷
                         .otherRequests(request.getQuotation().getEtc()) // 기타 요구사항
                         .day(request.getQuotation().getDay())
                         .time9(request.getQuotation().getTime9())
-                        .time10(request.getQuotation().getTime10()) //
+                        .time10(request.getQuotation().getTime10())
                         .time11(request.getQuotation().getTime11())
                         .time12(request.getQuotation().getTime12())
                         .time13(request.getQuotation().getTime13())
@@ -201,10 +209,10 @@ public class QuotationReqMapper {
                 .pet(pet) // petId
                 .close(false) // 마감여부는 false로 기본 세팅
                 .maxPrice(newQuotationReqRequest.getMaxPrice()) // 희망 최대금액
-                .menu(newQuotationReqRequest.getMenu()) // 기본 미용메뉴
-                .addMenu(newQuotationReqRequest.getAddMenu()) // 추가 미용메뉴
-                .specialMenu(newQuotationReqRequest.getSpecialMenu()) // 스페셜 미용 메뉴
-                .design(newQuotationReqRequest.getDesign()) // 디자인 컷
+                .menu(toJson(newQuotationReqRequest.getMenu())) // 기본 미용메뉴
+                .addMenu(toJson(newQuotationReqRequest.getAddMenu())) // 추가 미용메뉴
+                .specialMenu(toJson(newQuotationReqRequest.getSpecialMenu())) // 스페셜 미용 메뉴
+                .design(toJson(newQuotationReqRequest.getDesign())) // 디자인 컷
                 .petSize(newQuotationReqRequest.getPetSize()) // 반려견 품종(소형/중형/대형)
                 .etc(newQuotationReqRequest.getEtc()) // 기타 요구사항
                 .day(newQuotationReqRequest.getDay()) // 미용희망 날짜
@@ -321,10 +329,10 @@ public class QuotationReqMapper {
                 quotationReq == null
                         ? null
                         : LastMenuDetailResponse.builder()
-                                .groomingMenu(quotationReq.getMenu())
-                                .additionalGrooming(quotationReq.getAddMenu())
-                                .specialCare(quotationReq.getSpecialMenu())
-                                .designCut(quotationReq.getDesign())
+                                .groomingMenu(parseJsonArray(quotationReq.getMenu()))
+                                .additionalGrooming(parseJsonArray(quotationReq.getAddMenu()))
+                                .specialCare(parseJsonArray(quotationReq.getSpecialMenu()))
+                                .designCut(parseJsonArray(quotationReq.getDesign()))
                                 .otherRequests(quotationReq.getEtc())
                                 .build();
 

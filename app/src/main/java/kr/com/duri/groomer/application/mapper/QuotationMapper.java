@@ -110,10 +110,10 @@ public class QuotationMapper {
         // MenuDetailResponse 생성
         MenuDetailResponse menuDetailResponse =
                 MenuDetailResponse.builder()
-                        .groomingMenu(request.getQuotation().getMenu())
-                        .additionalGrooming(request.getQuotation().getAddMenu())
-                        .specialCare(request.getQuotation().getSpecialMenu())
-                        .designCut(request.getQuotation().getDesign())
+                        .groomingMenu(parseJsonArray(request.getQuotation().getMenu()))
+                        .additionalGrooming(parseJsonArray(request.getQuotation().getAddMenu()))
+                        .specialCare(parseJsonArray(request.getQuotation().getSpecialMenu()))
+                        .designCut(parseJsonArray(request.getQuotation().getDesign()))
                         .otherRequests(request.getQuotation().getEtc())
                         .build();
 
