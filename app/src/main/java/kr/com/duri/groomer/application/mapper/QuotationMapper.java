@@ -120,6 +120,17 @@ public class QuotationMapper {
                         .specialCare(parseJsonArray(request.getQuotation().getSpecialMenu()))
                         .designCut(parseJsonArray(request.getQuotation().getDesign()))
                         .otherRequests(request.getQuotation().getEtc())
+                        .day(request.getQuotation().getDay())
+                        .time9(request.getQuotation().getTime9())
+                        .time10(request.getQuotation().getTime10())
+                        .time11(request.getQuotation().getTime11())
+                        .time12(request.getQuotation().getTime12())
+                        .time13(request.getQuotation().getTime13())
+                        .time14(request.getQuotation().getTime14())
+                        .time15(request.getQuotation().getTime15())
+                        .time16(request.getQuotation().getTime16())
+                        .time17(request.getQuotation().getTime17())
+                        .time18(request.getQuotation().getTime18())
                         .build();
 
         // QuotationRequest 생성
