@@ -33,4 +33,11 @@ public class QuotationReqServiceImpl implements QuotationReqService {
     public List<QuotationReq> findByPetId(Long petId) {
         return quotationReqRepository.findByPetId(petId);
     }
+
+    @Override
+    public QuotationReq findLatestByPetId(Long petId) {
+        return quotationReqRepository
+                .findTopByPetIdOrderByCreatedAtDesc(petId)
+                .orElse(null); // 데이터가 없으면 null 반환
+    }
 }

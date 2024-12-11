@@ -299,4 +299,41 @@ public class QuotationReqMapper {
                 .totalPrice(totalPrice)
                 .build();
     }
+
+    public LastQuotationReqResponse toLastQuotationReqResponse(Pet pet, QuotationReq quotationReq) {
+        // 반려견 상세 정보 매핑
+        PetDetailResponse petDetailResponse =
+                PetDetailResponse.builder()
+                        .image(pet.getImage())
+                        .name(pet.getName())
+                        .age(pet.getAge())
+                        .gender(pet.getGender())
+                        .breed(pet.getBreed())
+                        .weight(pet.getWeight())
+                        .neutering(pet.getNeutering())
+                        .character(parseJsonArray(pet.getCharacter()))
+                        .diseases(parseJsonArray(pet.getDiseases()))
+                        .lastGrooming(pet.getLastGrooming())
+                        .build();
+
+        // 견적 요청 사항 매핑
+        LastMenuDetailResponse lastMenuDetailResponse =
+                quotationReq == null
+                        ? null
+                        : LastMenuDetailResponse.builder()
+                                .groomingMenu(quotationReq.getMenu())
+                                .additionalGrooming(quotationReq.getAddMenu())
+                                .specialCare(quotationReq.getSpecialMenu())
+                                .designCut(quotationReq.getDesign())
+                                .otherRequests(quotationReq.getEtc())
+                                .build();
+
+        // 최종 DTO 반환
+        return LastQuotationReqResponse.builder()
+                .userName(pet.getUser().getName())
+                .userPhone(pet.getUser().getPhone())
+                .pet(petDetailResponse)
+                .quotationDetails(lastMenuDetailResponse) // 견적 요청이 없으면 null
+                .build();
+    }
 }

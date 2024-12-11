@@ -12,4 +12,6 @@ public interface QuotationReqService {
     QuotationReq getQuotationReqById(Long quotationReqId);
 
     List<QuotationReq> findByPetId(Long petId);
+
+    QuotationReq findLatestByPetId(Long petId);
 }

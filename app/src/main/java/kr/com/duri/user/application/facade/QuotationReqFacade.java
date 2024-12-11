@@ -182,6 +182,14 @@ public class QuotationReqFacade {
                 .collect(Collectors.toList());
     }
 
+    // 지난 견적 요청 상세 정보(User)
+    public LastQuotationReqResponse getLastQuotationReqDetail(Long userId) {
+        Pet pet = petService.findById(userId);
+        QuotationReq quotationReq = quotationReqService.findLatestByPetId(pet.getId());
+
+        return quotationReqMapper.toLastQuotationReqResponse(pet, quotationReq);
+    }
+
     // 견적 요청서 및 견적서 순위 조회
     public QuotationReqDetailResponse getQuotationReqDetail(
             QuotationReqDetailRequest quotationReqDetailRequest) {
