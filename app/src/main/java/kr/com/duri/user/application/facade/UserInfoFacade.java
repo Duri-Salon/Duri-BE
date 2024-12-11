@@ -13,9 +13,7 @@ import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.user.application.dto.request.NewPetRequest;
-import kr.com.duri.user.application.dto.response.HistoryResponse;
-import kr.com.duri.user.application.dto.response.MonthlyHistoryResponse;
-import kr.com.duri.user.application.dto.response.PetDetailResponse;
+import kr.com.duri.user.application.dto.response.*;
 import kr.com.duri.user.application.mapper.PetMapper;
 import kr.com.duri.user.application.mapper.UserInfoMapper;
 import kr.com.duri.user.application.service.PetService;
@@ -26,6 +24,7 @@ import kr.com.duri.user.domain.entity.SiteUser;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 @RequiredArgsConstructor
@@ -60,11 +59,11 @@ public class UserInfoFacade {
         }
     }
 
-    public PetDetailResponse createNewPet(String token, NewPetRequest newPetRequest) {
+    public PetProfileResponse createNewPet(String token, NewPetRequest newPetRequest) {
         Long userId = siteUserService.getUserIdByToken(token);
         SiteUser siteUser = siteUserService.getSiteUserById(userId);
         Pet pet = petService.save(petService.createNewPet(siteUser, newPetRequest));
-        return petMapper.toPetResponse(pet);
+        return petMapper.toPetProfileResponse(pet);
     }
 
     // 고객의 이용기록 조회
@@ -112,5 +111,24 @@ public class UserInfoFacade {
                                         entry.getKey(), entry.getValue()))
                 .sorted(Comparator.comparing(MonthlyHistoryResponse::getMonth).reversed())
                 .collect(Collectors.toList());
+    }
+
+    public PetProfileListResponse getPetList(String token) {
+        Long userId = siteUserService.getUserIdByToken(token);
+        List<Pet> petList = petService.getPetList(userId);
+        return petMapper.toPetProfileListResponse(petList);
+    }
+
+    public PetProfileResponse getPetDetail(Long petId) {
+        Pet pet = petService.findById(petId);
+        return petMapper.toPetProfileResponse(pet);
+    }
+
+    public PetProfileResponse updateNewPet(
+            Long petId, NewPetRequest newPetRequest, MultipartFile img) {
+        Pet pet = petService.findById(petId);
+        String imageUrl = petService.uploadToS3(img);
+        pet = petService.save(petService.updatePet(pet, newPetRequest, imageUrl));
+        return petMapper.toPetProfileResponse(pet);
     }
 }

@@ -23,7 +23,7 @@ public class Pet extends BaseEntity {
     @Column(name = "pet_id")
     private Long id; // 반려견 ID
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private SiteUser user; // 고객 ID (FK, 1:N 관계)
 
@@ -84,5 +84,29 @@ public class Pet extends BaseEntity {
     // 시술 여부 수정 메서드
     public void updateLastGromming(Date lastDate) {
         this.lastGrooming = lastDate;
+    }
+
+    public Pet updatePet(
+            String name,
+            String breed,
+            Integer age,
+            Float weight,
+            String gender,
+            Boolean neutering,
+            String character,
+            String diseases,
+            String imageUrl) {
+        this.name = name;
+        this.breed = breed;
+        this.age = age;
+        this.weight = weight;
+        this.gender = Gender.valueOf(gender);
+        this.neutering = neutering;
+        this.character = character;
+        this.diseases = diseases;
+        if (imageUrl != null) {
+            this.image = imageUrl;
+        }
+        return this;
     }
 }

@@ -7,6 +7,8 @@ import kr.com.duri.user.application.dto.request.NewPetRequest;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.SiteUser;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public interface PetService {
 
     // 목록 조회
@@ -24,4 +26,8 @@ public interface PetService {
 
     // 마지막 미용 일자 수정
     void updateLastGromming(Long petId, Date lastDate);
+
+    String uploadToS3(MultipartFile img);
+
+    Pet updatePet(Pet pet, NewPetRequest newPetRequest, String imageUrl);
 }

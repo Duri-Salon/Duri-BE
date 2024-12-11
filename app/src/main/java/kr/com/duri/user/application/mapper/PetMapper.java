@@ -1,8 +1,11 @@
 package kr.com.duri.user.application.mapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import kr.com.duri.user.application.dto.response.PetDetailResponse;
+import kr.com.duri.user.application.dto.response.PetProfileListResponse;
+import kr.com.duri.user.application.dto.response.PetProfileResponse;
 import kr.com.duri.user.domain.entity.Pet;
 import lombok.RequiredArgsConstructor;
 
@@ -57,5 +60,31 @@ public class PetMapper {
 
     public String toStringJson(List<String> list) {
         return convertListToJson(list);
+    }
+
+    public PetProfileListResponse toPetProfileListResponse(List<Pet> petList) {
+        return new PetProfileListResponse()
+                .builder()
+                .petProfileList(
+                        petList.stream()
+                                .map(this::toPetProfileResponse)
+                                .collect(Collectors.toList()))
+                .build();
+    }
+
+    public PetProfileResponse toPetProfileResponse(Pet pet) {
+        return PetProfileResponse.builder()
+                .id(pet.getId())
+                .image(pet.getImage())
+                .name(pet.getName())
+                .age(pet.getAge())
+                .gender(pet.getGender())
+                .breed(pet.getBreed())
+                .weight(pet.getWeight())
+                .neutering(pet.getNeutering())
+                .character(parseJsonArray(pet.getCharacter()))
+                .diseases(parseJsonArray(pet.getDiseases()))
+                .lastGrooming(pet.getLastGrooming())
+                .build();
     }
 }
