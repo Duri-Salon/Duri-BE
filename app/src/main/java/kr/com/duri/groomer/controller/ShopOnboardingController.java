@@ -6,7 +6,6 @@ import kr.com.duri.groomer.application.dto.response.ShopOnboardingResponse;
 import kr.com.duri.groomer.application.facade.ShopOnboardingFacade;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +20,6 @@ public class ShopOnboardingController {
             @RequestHeader("authorization_shop") String token,
             @RequestBody ShopOnboardingRequest shopOnboardingRequest) {
         return CommonResponseEntity.success(
-                    shopOnboardingFacade.shopAndGroomerOnboarding(token, shopOnboardingRequest));
+                shopOnboardingFacade.shopAndGroomerOnboarding(token, shopOnboardingRequest));
     }
 }

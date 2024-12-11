@@ -7,10 +7,8 @@ import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.user.application.dto.request.NewPetRequest;
 import kr.com.duri.user.application.dto.response.*;
 import kr.com.duri.user.application.facade.UserInfoFacade;
-import kr.com.duri.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +25,6 @@ public class UserInfoController {
             @RequestHeader("authorization_user") String token,
             @RequestBody NewPetRequest newPetRequest) {
         return CommonResponseEntity.success(userInfoFacade.createNewPet(token, newPetRequest));
-
     }
 
     @GetMapping("/pet/{petId}")

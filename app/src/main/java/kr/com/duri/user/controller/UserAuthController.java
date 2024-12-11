@@ -17,6 +17,6 @@ public class UserAuthController {
     @GetMapping("/user/token")
     public CommonResponseEntity<NewUserJwtResponse> requestNewUserToken(
             @RequestParam String providerId) {
-            return CommonResponseEntity.success(userAuthFacade.createNewUserJwt(providerId));
+        return CommonResponseEntity.success(userAuthFacade.createNewUserJwt(providerId));
     }
 }

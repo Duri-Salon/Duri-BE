@@ -5,7 +5,6 @@ import kr.com.duri.groomer.application.dto.response.NewShopJwtResponse;
 import kr.com.duri.groomer.application.facade.ShopAuthFacade;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
