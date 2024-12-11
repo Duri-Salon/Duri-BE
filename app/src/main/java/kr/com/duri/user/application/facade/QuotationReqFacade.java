@@ -39,7 +39,9 @@ public class QuotationReqFacade {
     private final QuotationReqMapper quotationReqMapper;
 
     // 새로운 견적 요청서 리스트(Groomer)
-    public List<NewQuotationReqResponse> getNewRequests(Long shopId) {
+    public List<NewQuotationReqResponse> getNewRequests(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
+
         // 1. shopId 유효성 확인
         boolean shopExists = shopService.existsByShopId(shopId);
         if (!shopExists) {
@@ -69,7 +71,9 @@ public class QuotationReqFacade {
     }
 
     // 답장한 견적 요청서 리스트(Groomer)
-    public List<ApprovedQuotationReqResponse> getApprovedRequests(Long shopId) {
+    public List<ApprovedQuotationReqResponse> getApprovedRequests(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
+
         // 1. shopId 유효성 확인
         boolean shopExists = shopService.existsByShopId(shopId);
         if (!shopExists) {
@@ -90,7 +94,9 @@ public class QuotationReqFacade {
     }
 
     // 예약 확정한 견적 요청서 리스트(Groomer)
-    public List<ReservationQuotationReqResponse> getReservationRequests(Long shopId) {
+    public List<ReservationQuotationReqResponse> getReservationRequests(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
+
         // 1. shopId 유효성 확인
         boolean shopExists = shopService.existsByShopId(shopId);
         if (!shopExists) {
@@ -114,7 +120,8 @@ public class QuotationReqFacade {
     }
 
     // 시술 완료한 견적 요청서 리스트(Groomer)
-    public List<ReservationQuotationReqResponse> getCompleteRequests(Long shopId) {
+    public List<ReservationQuotationReqResponse> getCompleteRequests(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
         // 1. shopId 유효성 확인
         boolean shopExists = shopService.existsByShopId(shopId);
         if (!shopExists) {
