@@ -136,4 +136,13 @@ public class QuotationServiceImpl implements QuotationService {
         }
         return quotationList;
     }
+
+    @Override
+    public List<Quotation> getApprovedHistoryByPetId(Long petId) {
+        List<Quotation> quotationList = quotationRepository.findApprovedQuotationsByPetId(petId);
+        if (quotationList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return quotationList;
+    }
 }

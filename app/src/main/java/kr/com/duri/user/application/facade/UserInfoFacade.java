@@ -136,7 +136,7 @@ public class UserInfoFacade {
         Long userId = siteUserService.getUserIdByToken(token);
         SiteUser siteUser = siteUserService.getSiteUserById(userId);
         Pet pet = petService.getPetByUserId(userId);
-        Integer reservationCount = quotationService.getHistoryByPetId(pet.getId()).size();
+        Integer reservationCount = quotationService.getApprovedHistoryByPetId(pet.getId()).size();
         Integer noShowCount = quotationService.getNoShowHistoryByPetId(pet.getId()).size();
         return userInfoMapper.toSiteUserProfileResponse(siteUser, reservationCount, noShowCount);
     }
