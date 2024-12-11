@@ -81,7 +81,12 @@ public class QuotationMapper {
     }
 
     public QuotationDetailResponse toQuotationDetailResponse(
-            Request request, Shop shop, Groomer groomer, Pet pet, Quotation quotation, String status) {
+            Request request,
+            Shop shop,
+            Groomer groomer,
+            Pet pet,
+            Quotation quotation,
+            String status) {
 
         // ShopDetailResponse 생성
         QuotationShopDetailResponse quotationShopDetailResponse =
@@ -126,8 +131,6 @@ public class QuotationMapper {
                         .endDateTime(quotation.getEndDateTime())
                         .priceDetail(parsePriceDetail(quotation.getPrice()))
                         .build();
-
-
 
         // QuotationDetailResponse 통합 생성
         return QuotationDetailResponse.builder()

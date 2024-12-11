@@ -55,8 +55,6 @@ public class QuotationReqMapper {
         }
     }
 
-
-
     // price에서 최종금액만 뽑아내기
     public Integer extractTotalPriceFromJson(String priceJson) {
         try {
@@ -116,9 +114,11 @@ public class QuotationReqMapper {
         // 견적 요청 사항 매핑
         MenuDetailResponse quotationDetailResponse =
                 MenuDetailResponse.builder()
-                        .groomingMenu(parseJsonArray(request.getQuotation().getMenu()))// 미용 메뉴
-                        .additionalGrooming(parseJsonArray(request.getQuotation().getAddMenu())) // 추가 미용 메뉴
-                        .specialCare(parseJsonArray(request.getQuotation().getSpecialMenu())) // 스페셜케어
+                        .groomingMenu(parseJsonArray(request.getQuotation().getMenu())) // 미용 메뉴
+                        .additionalGrooming(
+                                parseJsonArray(request.getQuotation().getAddMenu())) // 추가 미용 메뉴
+                        .specialCare(
+                                parseJsonArray(request.getQuotation().getSpecialMenu())) // 스페셜케어
                         .designCut(parseJsonArray(request.getQuotation().getDesign())) // 디자인컷
                         .otherRequests(request.getQuotation().getEtc()) // 기타 요구사항
                         .day(request.getQuotation().getDay())
