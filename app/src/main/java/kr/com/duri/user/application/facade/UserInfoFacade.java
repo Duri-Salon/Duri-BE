@@ -62,7 +62,10 @@ public class UserInfoFacade {
     public PetProfileResponse createNewPet(String token, NewPetRequest newPetRequest) {
         Long userId = siteUserService.getUserIdByToken(token);
         SiteUser siteUser = siteUserService.getSiteUserById(userId);
-        Pet pet = petService.save(petService.createNewPet(siteUserService.updateNewUser(siteUser, false), newPetRequest));
+        Pet pet =
+                petService.save(
+                        petService.createNewPet(
+                                siteUserService.updateNewUser(siteUser, false), newPetRequest));
         return petMapper.toPetProfileResponse(pet);
     }
 
