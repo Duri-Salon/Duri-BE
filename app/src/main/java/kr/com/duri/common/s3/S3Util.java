@@ -52,9 +52,8 @@ public class S3Util {
         }
     }
 
-    public void deleteFromS3(ReviewImage reviewImage) {
-        String originS3Url = reviewImage.getImage();
-        String deleteS3Key = originS3Url.substring(originS3Url.indexOf(".com/") + 5);
+    public void deleteFromS3(String imageUrl) {
+        String deleteS3Key = imageUrl.substring(imageUrl.indexOf(".com/") + 5);
         amazonS3.deleteObject(new DeleteObjectRequest(bucket, deleteS3Key));
     }
 }
