@@ -86,4 +86,9 @@ public class SiteUser extends BaseEntity {
                 .birthYear(birthYear)
                 .build();
     }
+
+    public SiteUser updateNewUser(Boolean newUser) {
+        this.newUser = newUser;
+        return this;
+    }
 }

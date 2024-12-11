@@ -55,4 +55,12 @@ public class SiteUserServiceImpl implements SiteUserService {
                 .findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다."));
     }
+
+    @Override
+    public SiteUser updateNewUser(SiteUser siteUser, Boolean newUser) {
+        if (!siteUser.getNewUser().equals(newUser)) {
+            return siteUserRepository.save(siteUser.updateNewUser(newUser));
+        }
+        return siteUser;
+    }
 }
