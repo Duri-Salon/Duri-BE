@@ -55,4 +55,18 @@ public class UserInfoController {
                 userInfoFacade.getMonthlyHistory(historyResponseList);
         return CommonResponseEntity.success(monthlyHistoryResponseList);
     }
+
+    @GetMapping("/profile")
+    public CommonResponseEntity<SiteUserProfileResponse> getUserProfile(
+            @RequestHeader("authorization_user") String token) {
+        return CommonResponseEntity.success(userInfoFacade.getUserProfile(token));
+    }
+
+    @PutMapping(value = "/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public CommonResponseEntity<String> updateUserProfile(
+            @RequestHeader("authorization_user") String token,
+            @RequestPart(value = "image", required = false) MultipartFile img) {
+        userInfoFacade.updateUserProfile(token, img);
+        return CommonResponseEntity.success("프로필 사진 수정이 완료되었습니다.");
+    }
 }

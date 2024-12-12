@@ -40,4 +40,8 @@ public interface QuotationService {
     List<Quotation> getHistoryByPetId(Long petId);
 
     List<Quotation> findByRequestIdsOrderByPrice(List<Long> requestIds);
+
+    List<Quotation> getNoShowHistoryByPetId(Long petId);
+
+    List<Quotation> getApprovedHistoryByPetId(Long petId);
 }

@@ -91,4 +91,11 @@ public class SiteUser extends BaseEntity {
         this.newUser = newUser;
         return this;
     }
+
+    public SiteUser updateProfile(String imageUrl) {
+        if (imageUrl != null) {
+            this.image = imageUrl;
+        }
+        return this;
+    }
 }
