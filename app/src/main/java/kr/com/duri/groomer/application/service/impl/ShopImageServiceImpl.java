@@ -51,4 +51,12 @@ public class ShopImageServiceImpl implements ShopImageService {
         shopImageRepository.save(ShopImage.createNewShopImage(shop, imageUrl, "MAIN"));
         return imageUrl;
     }
+
+    @Override
+    public void uploadShopImages(Shop shop, List<MultipartFile> images) {
+        for (MultipartFile img : images) {
+            String imageUrl = s3Util.uploadToS3(img);
+            shopImageRepository.save(ShopImage.createNewShopImage(shop, imageUrl, "ETC"));
+        }
+    }
 }

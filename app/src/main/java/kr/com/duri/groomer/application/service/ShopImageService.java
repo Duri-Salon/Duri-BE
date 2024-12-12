@@ -17,4 +17,6 @@ public interface ShopImageService {
     List<ShopImage> getShopImagesListWithCategoryNot(Shop shop, ImageCategory category);
 
     String uploadShopMainImage(Shop shop, MultipartFile img);
+
+    void uploadShopImages(Shop shop, List<MultipartFile> images);
 }

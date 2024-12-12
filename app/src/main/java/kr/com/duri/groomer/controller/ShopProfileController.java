@@ -40,13 +40,21 @@
                 shopProfileFacade.updateShopProfile(token, shopProfileDetailRequest, img));
     }
 
+     @PostMapping(value = "/profile/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+     public CommonResponseEntity<String> updateShopProfile(
+             @RequestHeader("authorization_shop") String token,
+             @RequestPart(value = "image", required = false) List<MultipartFile> images) {
+         shopProfileFacade.insertNewShopImage(token, images);
+         return CommonResponseEntity.success("이미지 업로드가 완료됐습니다.");
+     }
+
     @GetMapping("/groomers")
     public CommonResponseEntity<List<GroomerProfileDetailResponse>> getShopGroomerList(
             @RequestHeader("authorization_shop") String token) {
         return CommonResponseEntity.success(shopProfileFacade.getShopGroomerList(token));
     }
 
-    @GetMapping("/images")
+    @GetMapping("/profile/images")
     public CommonResponseEntity<List<String>> getShopImageList(
             @RequestHeader("authorization_shop") String token) {
         return null;

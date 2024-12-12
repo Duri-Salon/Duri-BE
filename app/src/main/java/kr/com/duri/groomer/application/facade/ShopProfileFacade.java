@@ -57,12 +57,16 @@
         Long shopId = shopService.getShopIdByToken(token);
         Shop shop = shopService.findById(shopId);
         String imageUrl = shopImageService.uploadShopMainImage(shop, img);
-
         shop = shopService.updateDetail(shop, shopProfileDetailRequest);
-
         return shopMapper.toShopProfileDetailResponse(shop, imageUrl);
     }
 
      public List<GroomerProfileDetailResponse> getShopGroomerList(String token) {
+     }
+
+     public void insertNewShopImage(String token, List<MultipartFile> images) {
+         Long shopId = shopService.getShopIdByToken(token);
+         Shop shop = shopService.findById(shopId);
+         shopImageService.uploadShopImages(shop, images);
      }
  }
