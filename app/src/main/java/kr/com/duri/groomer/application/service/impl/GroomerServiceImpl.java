@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class GroomerServiceImpl implements GroomerService {
@@ -81,5 +83,10 @@ public class GroomerServiceImpl implements GroomerService {
     @Override
     public void deleteGroomer(Groomer groomer) {
         groomerRepository.delete(groomer);
+    }
+
+    @Override
+    public List<Groomer> findGroomersByShop(Long shopId) {
+        return groomerRepository.findByShopId(shopId);
     }
 }

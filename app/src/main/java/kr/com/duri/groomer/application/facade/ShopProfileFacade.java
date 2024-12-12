@@ -62,6 +62,9 @@
     }
 
      public List<GroomerProfileDetailResponse> getShopGroomerList(String token) {
+         Long shopId = shopService.getShopIdByToken(token);
+         List<Groomer> groomers = groomerService.findGroomersByShop(shopId);
+         return groomerMapper.toGroomerProfileDetailResponseList(groomers);
      }
 
      public void insertNewShopImage(String token, List<MultipartFile> images) {

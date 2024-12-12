@@ -5,6 +5,8 @@ import kr.com.duri.groomer.application.dto.request.GroomerOnboardingInfo;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Shop;
 
+import java.util.List;
+
 public interface GroomerService {
     Groomer getGroomerByShopId(Long shopId);
 
@@ -17,4 +19,6 @@ public interface GroomerService {
     Groomer updateGroomer(Groomer groomer, GroomerDetailRequest groomerDetailRequest);
 
     void deleteGroomer(Groomer groomer);
+
+    List<Groomer> findGroomersByShop(Long shopId);
 }
