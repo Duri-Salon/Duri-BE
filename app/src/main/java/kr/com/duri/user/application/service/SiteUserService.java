@@ -21,4 +21,6 @@ public interface SiteUserService {
     Long getUserIdByToken(String token);
 
     SiteUser getSiteUserById(Long userId);
+
+    SiteUser updateNewUser(SiteUser siteUser, Boolean newUser);
 }
