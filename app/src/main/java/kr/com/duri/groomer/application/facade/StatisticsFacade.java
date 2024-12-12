@@ -2,12 +2,19 @@ package kr.com.duri.groomer.application.facade;
 
 import java.util.List;
 
+import kr.com.duri.groomer.application.dto.response.AgeStatisticsResponse;
+import kr.com.duri.groomer.application.dto.response.BestStatisticsResponse;
+import kr.com.duri.groomer.application.dto.response.CharacterStatisticsResponse;
+import kr.com.duri.groomer.application.dto.response.DiseaseStatisticsResponse;
 import kr.com.duri.groomer.application.dto.response.FiveMonthIncomeResponse;
 import kr.com.duri.groomer.application.dto.response.IncomeResponse;
 import kr.com.duri.groomer.application.dto.response.SelectMonthIncomeResponse;
+import kr.com.duri.groomer.application.dto.response.StatisticsResponse;
 import kr.com.duri.groomer.application.dto.response.WeekIncomeResponse;
 import kr.com.duri.groomer.application.mapper.StatisticsMapper;
+import kr.com.duri.groomer.application.service.QuotationService;
 import kr.com.duri.groomer.application.service.ShopService;
+import kr.com.duri.groomer.application.service.StatisticsService;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.user.application.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -16,15 +23,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class StastisticsFacade {
+public class StatisticsFacade {
 
     private static final Integer PREVIOUS_IDX = 0;
     private static final Integer SELECT_IDX = 1;
     private static final Integer NOW_IDX = 2;
 
     private final ShopService shopService;
+    private final QuotationService quotationService;
     private final PaymentService paymentService;
     private final StatisticsMapper statisticsMapper;
+    private final StatisticsService statisticsService;
 
     // 매장 조회
     private Shop getShop(Long shopId) {
@@ -79,5 +88,42 @@ public class StastisticsFacade {
         // 최근 7일 조회
         List<IncomeResponse> monthIncomeResponses = paymentService.getWeekIncomes(shopId);
         return statisticsMapper.toWeekIncomeResponse(shop, monthIncomeResponses);
+    }
+
+    // 반려견 나이별 누적 조회
+    public AgeStatisticsResponse getAgeStastistics(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
+        Shop shop = getShop(shopId);
+        // 나이별 조회
+        List<StatisticsResponse> ageResponses = statisticsService.getAgeStatistics(shopId);
+        return statisticsMapper.toAgeStastisticsResponse(shop, ageResponses);
+    }
+
+    // 반려견 질환별 누적 조회
+    public DiseaseStatisticsResponse getDiseaseStastistics(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
+        Shop shop = getShop(shopId);
+        // 질환별 조회
+        List<StatisticsResponse> diseaseResponses = statisticsService.getDiseaseStatistics(shopId);
+        return statisticsMapper.toDiseaseStastisticsResponse(shop, diseaseResponses);
+    }
+
+    // 반려견 성격별 누적 조회
+    public CharacterStatisticsResponse getCharacterStastistics(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
+        Shop shop = getShop(shopId);
+        // 성격별 조회
+        List<StatisticsResponse> characterResponses =
+                statisticsService.getCharacterStatistics(shopId);
+        return statisticsMapper.toCharacterStastisticsResponse(shop, characterResponses);
+    }
+
+    // 매장 최고 키워드별 조회
+    public BestStatisticsResponse getBestStastistics(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
+        Shop shop = getShop(shopId);
+        // 성격별 조회
+        List<StatisticsResponse> bestResponses = statisticsService.getBestStatistics(shopId);
+        return statisticsMapper.toBestStatisticsResponse(shop, bestResponses);
     }
 }

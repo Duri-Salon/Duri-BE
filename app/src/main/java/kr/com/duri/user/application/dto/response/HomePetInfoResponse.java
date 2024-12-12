@@ -18,5 +18,5 @@ public class HomePetInfoResponse {
     private Integer age; // 나이
     private Float weight; // 몸무게
     private String lastGrooming; // 마지막 미용일자
-    private boolean neutering; // 중성화 여부
+    private Boolean neutering; // 중성화 여부
 }
