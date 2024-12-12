@@ -4,11 +4,10 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 import kr.com.duri.common.response.CommonResponseEntity;
-import kr.com.duri.groomer.application.dto.response.ShopReviewDetailResponse;
-import kr.com.duri.groomer.application.dto.response.ShopReviewResponse;
 import kr.com.duri.user.application.dto.request.NewReviewRequest;
 import kr.com.duri.user.application.dto.request.UpdateReviewRequest;
 import kr.com.duri.user.application.dto.response.GetShopReviewDetailResponse;
+import kr.com.duri.user.application.dto.response.QuotationPetReviewResponse;
 import kr.com.duri.user.application.dto.response.ReviewResponse;
 import kr.com.duri.user.application.dto.response.UserReviewResponseList;
 import kr.com.duri.user.application.facade.ReviewFacade;
@@ -37,16 +36,9 @@ public class ReviewController {
 
     // DURI-294 : 매장 리뷰 리스트 조회 (미용사)
     @GetMapping("/shop/review")
-    public CommonResponseEntity<List<ShopReviewResponse>> getShopReviewList(
+    public CommonResponseEntity<List<ReviewResponse>> getShopReviewList(
             @RequestHeader("authorization_shop") String token) {
         return CommonResponseEntity.success(reviewFacade.getReviewsByShopId(token));
-    }
-
-    // DURI-324 : 매장 리뷰 상세 리스트 조회 (미용사)
-    @GetMapping("/shop/review-detail")
-    public CommonResponseEntity<List<ShopReviewDetailResponse>> getReviewDetailList(
-            @RequestHeader("authorization_shop") String token) {
-        return CommonResponseEntity.success(reviewFacade.getReviewsDetailByShopId(token));
     }
 
     // DURI-288 : 내가 쓴 후기 목록 조회 (고객)
@@ -54,6 +46,26 @@ public class ReviewController {
     public CommonResponseEntity<UserReviewResponseList> getUserReviewList(
             @RequestHeader("authorization_user") String token) {
         return CommonResponseEntity.success(reviewFacade.getReviewsByUserId(token));
+    }
+
+    // DURI-288 : 리뷰 상세 조회 (고객)
+    @GetMapping("/review/{reviewId}")
+    public CommonResponseEntity<ReviewResponse> getReview(@PathVariable Long reviewId) {
+        return CommonResponseEntity.success(reviewFacade.getReview(reviewId));
+    }
+
+    // 매장 상세정보 조회(유저용)
+    @GetMapping("/review/shop")
+    public CommonResponseEntity<List<GetShopReviewDetailResponse>> getShopReviewByShopId(
+            @RequestParam Long shopId) {
+        return CommonResponseEntity.success(reviewFacade.getShopReviewByShopId(shopId));
+    }
+
+    // 리뷰 작성시 : 견적서로 매장,반려견 조회 (고객)
+    @GetMapping("/user/review-new/{quotationId}")
+    public CommonResponseEntity<QuotationPetReviewResponse> getPetReviewByQuotationId(
+            @PathVariable Long quotationId) {
+        return CommonResponseEntity.success(reviewFacade.getPetReviewByQuotationId(quotationId));
     }
 
     // DURI-286 : 리뷰 작성 (고객)
@@ -69,15 +81,8 @@ public class ReviewController {
                         HttpStatus.BAD_REQUEST, "요청 데이터가 올바르지 않아 리뷰 작성에 실패하였습니다. 다시 시도해주세요.");
     }
 
-    /* 리팩토링 필요 */
-    // DURI-288 : 리뷰 상세 조회
-    @GetMapping("/{reviewId}")
-    public CommonResponseEntity<ReviewResponse> getReview(@PathVariable Long reviewId) {
-        return CommonResponseEntity.success(reviewFacade.getReview(reviewId));
-    }
-
     // DURI-289 : 리뷰 수정
-    @PutMapping(value = "/{reviewId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/review/{reviewId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public CommonResponseEntity<String> updateReview(
             @PathVariable Long reviewId,
             @RequestPart @Valid UpdateReviewRequest updateReviewRequest,
@@ -87,16 +92,16 @@ public class ReviewController {
     }
 
     // DURI-290 : 리뷰 삭제
-    @DeleteMapping("/{reviewId}")
+    @DeleteMapping("/review/{reviewId}")
     public CommonResponseEntity<String> deleteReview(@PathVariable Long reviewId) {
         reviewFacade.deleteReview(reviewId);
         return CommonResponseEntity.success("리뷰가 성공적으로 삭제되었습니다.");
     }
 
-    // 매장 상세정보 조회(유저용)
-    @GetMapping("/review/shop")
-    public CommonResponseEntity<List<GetShopReviewDetailResponse>> getShopReviewByShopId(
-            @RequestParam Long shopId) {
-        return CommonResponseEntity.success(reviewFacade.getShopReviewByShopId(shopId));
+    // 리뷰 이미지 삭제 (고객)
+    @DeleteMapping("/review-image/{reviewId}")
+    public CommonResponseEntity<String> deleteReviewImage(@PathVariable Long reviewId) {
+        reviewFacade.deleteReviewImage(reviewId);
+        return CommonResponseEntity.success("리뷰 이미지가 성공적으로 삭제되었습니다.");
     }
 }
