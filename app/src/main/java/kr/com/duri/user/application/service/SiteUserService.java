@@ -3,6 +3,7 @@ package kr.com.duri.user.application.service;
 import java.util.Optional;
 
 import kr.com.duri.user.domain.entity.SiteUser;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public interface SiteUserService {

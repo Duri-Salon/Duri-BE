@@ -10,8 +10,8 @@ import kr.com.duri.user.application.dto.response.HistoryResponse;
 import kr.com.duri.user.application.dto.response.MonthlyHistoryResponse;
 import kr.com.duri.user.application.dto.response.SiteUserProfileResponse;
 import kr.com.duri.user.domain.entity.Pet;
-
 import kr.com.duri.user.domain.entity.SiteUser;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -46,7 +46,8 @@ public class UserInfoMapper {
                 .build();
     }
 
-    public SiteUserProfileResponse toSiteUserProfileResponse(SiteUser siteUser, Integer reservationCount, Integer noShowCount) {
+    public SiteUserProfileResponse toSiteUserProfileResponse(
+            SiteUser siteUser, Integer reservationCount, Integer noShowCount) {
         return SiteUserProfileResponse.builder()
                 .name(siteUser.getName())
                 .email(siteUser.getEmail())
