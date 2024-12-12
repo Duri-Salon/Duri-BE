@@ -1,11 +1,8 @@
 package kr.com.duri.groomer.application.mapper;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import kr.com.duri.groomer.application.dto.response.MonthIncomeResponse;
 import kr.com.duri.groomer.application.dto.response.ShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopNearByResponse;
 import kr.com.duri.groomer.domain.entity.Shop;
@@ -65,15 +62,6 @@ public class ShopMapper {
                 .reviewCnt(reviewCnt)
                 .distance(distance) // 중심으로부터 거리
                 .tags(tags) // 태그들
-                .build();
-    }
-
-    // month, totalIncome to MonthIncomeResponse DTO
-    public MonthIncomeResponse toShopDetailResponse(Long totalIncome) {
-        DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MM");
-        return MonthIncomeResponse.builder()
-                .month(LocalDateTime.now().format(monthFormatter))
-                .income(totalIncome != null ? totalIncome : 0L)
                 .build();
     }
 }
