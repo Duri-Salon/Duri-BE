@@ -42,12 +42,11 @@ public class GroomerMapper {
                 .build();
     }
 
-    public List<GroomerProfileDetailResponse> toGroomerProfileDetailResponseList(List<Groomer> groomers) {
+    public List<GroomerProfileDetailResponse> toGroomerProfileDetailResponseList(
+            List<Groomer> groomers) {
         if (groomers == null) {
             return Collections.emptyList();
         }
-        return groomers.stream()
-                .map(this::toGroomerProfileDetailResponse)
-                .toList();
+        return groomers.stream().map(this::toGroomerProfileDetailResponse).toList();
     }
 }

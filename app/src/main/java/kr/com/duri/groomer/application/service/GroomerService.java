@@ -1,11 +1,11 @@
 package kr.com.duri.groomer.application.service;
 
+import java.util.List;
+
 import kr.com.duri.groomer.application.dto.request.GroomerDetailRequest;
 import kr.com.duri.groomer.application.dto.request.GroomerOnboardingInfo;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Shop;
-
-import java.util.List;
 
 public interface GroomerService {
     Groomer getGroomerByShopId(Long shopId);

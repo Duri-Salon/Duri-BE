@@ -7,8 +7,6 @@ import kr.com.duri.groomer.application.dto.request.ShopOnboardingInfo;
 import kr.com.duri.groomer.application.dto.request.ShopProfileDetailRequest;
 import kr.com.duri.groomer.domain.entity.Shop;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public interface ShopService {
     boolean existsByShopId(Long shopId);
 
@@ -34,6 +32,5 @@ public interface ShopService {
     // 토큰으로 매장 아이디 찾기
     Long getShopIdByToken(String token);
 
-    Shop updateDetail(
-            Shop shop, ShopProfileDetailRequest shopProfileDetailRequest);
+    Shop updateDetail(Shop shop, ShopProfileDetailRequest shopProfileDetailRequest);
 }

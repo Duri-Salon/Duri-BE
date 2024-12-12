@@ -1,7 +1,6 @@
 package kr.com.duri.groomer.domain.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import kr.com.duri.common.entity.BaseEntity;
 import kr.com.duri.groomer.domain.Enum.ImageCategory;
 import lombok.AllArgsConstructor;

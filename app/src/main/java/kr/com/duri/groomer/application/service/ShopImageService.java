@@ -5,6 +5,7 @@ import java.util.List;
 import kr.com.duri.groomer.domain.Enum.ImageCategory;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.domain.entity.ShopImage;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ShopImageService {

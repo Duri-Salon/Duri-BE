@@ -112,7 +112,13 @@ public class Shop extends BaseEntity {
         this.rating = rating;
     }
 
-    public Shop updateDetail(String name, String phone, LocalTime openTime, LocalTime closeTime, String info, String kakaoTalk) {
+    public Shop updateDetail(
+            String name,
+            String phone,
+            LocalTime openTime,
+            LocalTime closeTime,
+            String info,
+            String kakaoTalk) {
         this.name = name;
         this.phone = phone;
         this.openTime = openTime;

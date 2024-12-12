@@ -1,5 +1,7 @@
 package kr.com.duri.groomer.application.service.impl;
 
+import java.util.List;
+
 import kr.com.duri.common.Mapper.CommonMapper;
 import kr.com.duri.groomer.application.dto.request.GroomerDetailRequest;
 import kr.com.duri.groomer.application.dto.request.GroomerOnboardingInfo;
@@ -11,8 +13,6 @@ import kr.com.duri.groomer.repository.GroomerRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

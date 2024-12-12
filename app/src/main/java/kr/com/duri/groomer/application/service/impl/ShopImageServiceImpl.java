@@ -10,7 +10,6 @@ import kr.com.duri.groomer.domain.Enum.ImageCategory;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.domain.entity.ShopImage;
 import kr.com.duri.groomer.repository.ShopImageRepository;
-import kr.com.duri.groomer.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -67,12 +66,15 @@ public class ShopImageServiceImpl implements ShopImageService {
 
     @Override
     public List<String> findImagesByShop(Shop shop) {
-        List<ShopImage> shopImages = shopImageRepository.findShopImagesByShopAndCategoryNotOrderByCreatedAtDesc(shop, ImageCategory.MAIN);
-        return shopImages == null ? Collections.emptyList()
+        List<ShopImage> shopImages =
+                shopImageRepository.findShopImagesByShopAndCategoryNotOrderByCreatedAtDesc(
+                        shop, ImageCategory.MAIN);
+        return shopImages == null
+                ? Collections.emptyList()
                 : shopImages.stream()
-                .map(ShopImage::getShopImageUrl)
-                .filter(Objects::nonNull)
-                .toList();
+                        .map(ShopImage::getShopImageUrl)
+                        .filter(Objects::nonNull)
+                        .toList();
     }
 
     @Override
@@ -82,7 +84,8 @@ public class ShopImageServiceImpl implements ShopImageService {
 
     @Override
     public void deleteShopMainImage(Shop shop) {
-        ShopImage shopImage = shopImageRepository.findShopImageByShopAndCategory(shop, ImageCategory.MAIN);
+        ShopImage shopImage =
+                shopImageRepository.findShopImageByShopAndCategory(shop, ImageCategory.MAIN);
         if (shopImage != null) {
             s3Util.deleteFromS3(shopImage.getShopImageUrl());
             shopImageRepository.delete(shopImage);
