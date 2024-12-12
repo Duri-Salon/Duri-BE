@@ -1,5 +1,6 @@
 package kr.com.duri.common;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import kr.com.duri.common.exception.BadRequestException;
 import kr.com.duri.common.exception.IllegalParameterException;
 import kr.com.duri.common.exception.NotFoundException;
@@ -99,5 +100,10 @@ public class CommonControllerAdvice {
     @ExceptionHandler(ReviewImageUploadException.class)
     public ResponseEntity<?> handleReviewImageUploadException(ReviewImageUploadException e) {
         return response(e, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<?> JwtExpiredException(ExpiredJwtException e) {
+        return response(e, HttpStatus.UNAUTHORIZED);
     }
 }
