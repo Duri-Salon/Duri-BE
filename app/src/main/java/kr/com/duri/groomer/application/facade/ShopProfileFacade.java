@@ -48,7 +48,7 @@ public class ShopProfileFacade {
 
         return ShopOnboardingResponse.builder()
                 .shopDetailResponse(shopMapper.toShopDetailResponse(shop))
-                .groomerDetailResponse(groomerMapper.toGroomerDetailResponse(groomer))
+                .groomerProfileDetailResponse(groomerMapper.toGroomerProfileDetailResponse(groomer))
                 .build();
     }
 
