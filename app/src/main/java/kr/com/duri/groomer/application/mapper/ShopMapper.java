@@ -3,15 +3,22 @@ package kr.com.duri.groomer.application.mapper;
 import java.time.LocalTime;
 import java.util.List;
 
+import kr.com.duri.common.Mapper.CommonMapper;
+import kr.com.duri.groomer.application.dto.response.*;
 import kr.com.duri.groomer.application.dto.response.ShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopNearByResponse;
+import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.domain.entity.ShopImage;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ShopMapper {
+
+    private final CommonMapper commonMapper;
 
     // Shop Entity to ShopDetailResponse DTO
     public ShopDetailResponse toShopDetailResponse(Shop shop, ShopImage shopImage) {
@@ -62,6 +69,54 @@ public class ShopMapper {
                 .reviewCnt(reviewCnt)
                 .distance(distance) // 중심으로부터 거리
                 .tags(tags) // 태그들
+                .build();
+    }
+
+    public GetShopDetailResponse toGetShopDetailResponse(
+            Shop shop,
+            Groomer groomer,
+            ShopImage shopImage,
+            List<String> shopImageUrls,
+            List<String> tags,
+            Integer reviewCnt,
+            Integer distance) {
+
+        ShopNearByResponse shopDetail =
+                ShopNearByResponse.builder()
+                        .shopId(shop.getId())
+                        .shopImage(shopImage.getShopImageUrl())
+                        .shopName(shop.getName())
+                        .shopAddress(shop.getAddress())
+                        .shopLat(shop.getLat())
+                        .shopLon(shop.getLon())
+                        .shopPhone(shop.getPhone())
+                        .shopOpenTime(shop.getOpenTime())
+                        .shopCloseTime(shop.getCloseTime())
+                        .shopRating(shop.getRating())
+                        .reviewCnt(reviewCnt)
+                        .distance(distance)
+                        .tags(tags)
+                        .build();
+
+        List<String> licenseToString = commonMapper.toListString(groomer.getLicense());
+        GroomerProfileDetailResponse groomerProfileDetail =
+                GroomerProfileDetailResponse.builder()
+                        .id(groomer.getId())
+                        .email(groomer.getEmail())
+                        .phone(groomer.getPhone())
+                        .name(groomer.getName())
+                        .gender(groomer.getGender().toString())
+                        .age(groomer.getAge())
+                        .history(groomer.getHistory())
+                        .image(groomer.getImage())
+                        .info(groomer.getInfo())
+                        .license(licenseToString)
+                        .build();
+
+        return GetShopDetailResponse.builder()
+                .shopDetail(shopDetail)
+                .groomerProfileDetail(groomerProfileDetail)
+                .shopImages(shopImageUrls)
                 .build();
     }
 }

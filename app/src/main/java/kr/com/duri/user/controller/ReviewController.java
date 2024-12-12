@@ -8,6 +8,7 @@ import kr.com.duri.groomer.application.dto.response.ShopReviewDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopReviewResponse;
 import kr.com.duri.user.application.dto.request.NewReviewRequest;
 import kr.com.duri.user.application.dto.request.UpdateReviewRequest;
+import kr.com.duri.user.application.dto.response.GetShopReviewDetailResponse;
 import kr.com.duri.user.application.dto.response.ReviewResponse;
 import kr.com.duri.user.application.dto.response.UserReviewResponseList;
 import kr.com.duri.user.application.facade.ReviewFacade;
@@ -90,5 +91,12 @@ public class ReviewController {
     public CommonResponseEntity<String> deleteReview(@PathVariable Long reviewId) {
         reviewFacade.deleteReview(reviewId);
         return CommonResponseEntity.success("리뷰가 성공적으로 삭제되었습니다.");
+    }
+
+    // 매장 상세정보 조회(유저용)
+    @GetMapping("/review/shop")
+    public CommonResponseEntity<List<GetShopReviewDetailResponse>> getShopReviewByShopId(
+            @RequestParam Long shopId) {
+        return CommonResponseEntity.success(reviewFacade.getShopReviewByShopId(shopId));
     }
 }
