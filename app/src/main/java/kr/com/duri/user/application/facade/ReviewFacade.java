@@ -16,6 +16,7 @@ import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
 import kr.com.duri.user.application.dto.request.NewReviewRequest;
 import kr.com.duri.user.application.dto.request.UpdateReviewRequest;
+import kr.com.duri.user.application.dto.response.GetShopReviewDetailResponse;
 import kr.com.duri.user.application.dto.response.ReviewResponse;
 import kr.com.duri.user.application.dto.response.UserReviewResponse;
 import kr.com.duri.user.application.dto.response.UserReviewResponseList;
@@ -238,5 +239,29 @@ public class ReviewFacade {
         // Review 삭제
         reviewService.deleteReview(reviewId);
         return true;
+    }
+
+    // 매장 리뷰 상세 리스트 조회 (매장)
+    public List<GetShopReviewDetailResponse> getShopReviewByShopId(Long shopId) {
+        getShop(shopId);
+        // 1. 매장으로 리뷰 조회
+        List<Review> reviewList = reviewService.getReviewsByShopId(shopId);
+        if (reviewList.isEmpty()) { // 해당 리뷰 없음
+            return Collections.emptyList();
+        }
+        return reviewList.stream()
+                .map(
+                        review -> {
+                            // 2. 리뷰로 리뷰 이미지 조회
+                            ReviewImage reviewImage =
+                                    reviewImageService.getReviewImageByReviewId(review.getId());
+                            // 3. 리뷰로 사용자 조회 & 애완견 조회
+                            SiteUser user = getPetByReview(review).getUser();
+                            Pet pet = getPetByReview(review);
+                            // 4. DTO 변환
+                            return reviewMapper.toGetShopReviewDetailResponse(
+                                    review, reviewImage, user, pet);
+                        })
+                .collect(Collectors.toList());
     }
 }

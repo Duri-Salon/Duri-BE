@@ -3,6 +3,7 @@ package kr.com.duri.groomer.controller;
 import java.util.List;
 
 import kr.com.duri.common.response.CommonResponseEntity;
+import kr.com.duri.groomer.application.dto.response.GetShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.MonthIncomeResponse;
 import kr.com.duri.groomer.application.dto.response.ShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopNearByResponse;
@@ -67,5 +68,12 @@ public class ShopController {
 
         List<ShopNearByResponse> response = shopFacade.searchShops(search, lat, lon);
         return CommonResponseEntity.success(response);
+    }
+
+    // 매장 상세정보 조회(유저용)
+    @GetMapping("/detail")
+    public CommonResponseEntity<GetShopDetailResponse> getShopDetailByShopId(
+            @RequestParam Long shopId, @RequestParam double lat, @RequestParam double lon) {
+        return CommonResponseEntity.success(shopFacade.getShopDetailByShopId(shopId, lat, lon));
     }
 }
