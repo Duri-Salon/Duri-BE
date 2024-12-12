@@ -45,11 +45,11 @@ public class Quotation extends BaseEntity {
     private LocalDateTime endDateTime; // 미용 종료 시간 (YYYY-MM-DD HH:MM)
 
     @Column(name = "complete")
-    private boolean complete; // 미용 시술 여부 (True(완료), False(미완료))
+    private Boolean complete; // 미용 시술 여부 (True(완료), False(미완료))
 
     @Column(name = "noshow")
     @Builder.Default
-    private boolean noShow = false; // 노쇼 여부 (True(노쇼), False(노쇼 X))
+    private Boolean noShow = false; // 노쇼 여부 (True(노쇼), False(노쇼 X))
 
     // 견적서 수정 메서드
     public Quotation update(
@@ -62,11 +62,11 @@ public class Quotation extends BaseEntity {
     }
 
     // 시술 여부 수정 메서드
-    public void updateComplete(boolean complete) {
+    public void updateComplete(Boolean complete) {
         this.complete = complete;
     }
 
-    public void updateNoShow(boolean noShow) {
+    public void updateNoShow(Boolean noShow) {
         this.noShow = noShow;
     }
 

@@ -13,6 +13,7 @@ import kr.com.duri.user.application.service.PaymentService;
 import kr.com.duri.user.application.service.RequestService;
 import kr.com.duri.user.application.service.ReviewService;
 import kr.com.duri.user.domain.Enum.PaymentStatus;
+import kr.com.duri.user.domain.Enum.QuotationStatus;
 import kr.com.duri.user.domain.entity.Payment;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.Request;
@@ -36,15 +37,25 @@ public class QuotationFacade {
         // 1. 요청 ID로 Request 객체 조회
         Request request = requestService.getRequestById(quotationRequest.getRequestId());
 
-        // 2. Mapper를 사용하여 Quotation 엔티티 생성
-        Quotation quotation =
-                quotationMapper.toQuotationEntity(
-                        request, quotationRequest, quotationRequest.getPriceDetail());
+        Quotation existingQuotation = quotationService.getByRequestId(request.getId());
 
-        // 3. QuotationService를 사용하여 저장
+        // 3. Quotation 엔티티 생성 (존재하지 않으면 새로 생성)
+        Quotation quotation = null;
+        if (existingQuotation == null) {
+            // 기존 견적서가 없다면 새로 생성
+            quotation =
+                    quotationMapper.toQuotationEntity(
+                            request, quotationRequest, quotationRequest.getPriceDetail());
+        } else {
+            if (existingQuotation.getRequest().getStatus() == QuotationStatus.APPROVED) {
+                throw new IllegalStateException("이미 견적서가 작성되었습니다.");
+            }
+        }
+
+        // 4. QuotationService를 사용하여 저장
         quotationService.saveQuotation(quotation);
 
-        // 4. 요청 상태를 APPROVED로 업데이트
+        // 5. 요청 상태를 APPROVED로 업데이트
         requestService.updateRequestStatusToApproved(request.getId());
     }
 
