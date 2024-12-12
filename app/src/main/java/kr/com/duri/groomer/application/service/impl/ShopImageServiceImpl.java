@@ -49,6 +49,9 @@ public class ShopImageServiceImpl implements ShopImageService {
 
     @Override
     public String uploadShopMainImage(Shop shop, MultipartFile img) {
+        if (img == null) {
+            return null;
+        }
         String imageUrl = s3Util.uploadToS3(img);
         shopImageRepository.save(ShopImage.createNewShopImage(shop, imageUrl, "MAIN"));
         return imageUrl;
@@ -70,5 +73,19 @@ public class ShopImageServiceImpl implements ShopImageService {
                 .map(ShopImage::getShopImageUrl)
                 .filter(Objects::nonNull)
                 .toList();
+    }
+
+    @Override
+    public boolean existMainImage(Shop shop) {
+        return shopImageRepository.existsByShopAndCategory(shop, ImageCategory.MAIN);
+    }
+
+    @Override
+    public void deleteShopMainImage(Shop shop) {
+        ShopImage shopImage = shopImageRepository.findShopImageByShopAndCategory(shop, ImageCategory.MAIN);
+        if (shopImage != null) {
+            s3Util.deleteFromS3(shopImage.getShopImageUrl());
+            shopImageRepository.delete(shopImage);
+        }
     }
 }

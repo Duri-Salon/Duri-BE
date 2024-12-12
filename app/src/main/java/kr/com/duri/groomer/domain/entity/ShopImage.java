@@ -22,7 +22,6 @@ public class ShopImage extends BaseEntity {
     @Column(name = "shop_image_id")
     private Long id; // 매장 이미지 ID
 
-    @NotBlank
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id")
     private Shop shop; // 매장 ID FK

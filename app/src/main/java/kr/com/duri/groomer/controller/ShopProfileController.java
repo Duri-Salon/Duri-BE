@@ -34,14 +34,14 @@
     @PutMapping(value = "/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public CommonResponseEntity<ShopProfileDetailResponse> updateShopProfile(
             @RequestHeader("authorization_shop") String token,
-            @RequestBody ShopProfileDetailRequest shopProfileDetailRequest,
+            @RequestPart("shopProfileDetailRequest") ShopProfileDetailRequest shopProfileDetailRequest,
             @RequestPart(value = "image", required = false) MultipartFile img) {
         return CommonResponseEntity.success(
                 shopProfileFacade.updateShopProfile(token, shopProfileDetailRequest, img));
     }
 
      @PostMapping(value = "/profile/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-     public CommonResponseEntity<String> updateShopProfile(
+     public CommonResponseEntity<String> uploadShopProfile(
              @RequestHeader("authorization_shop") String token,
              @RequestPart(value = "image", required = false) List<MultipartFile> images) {
          shopProfileFacade.insertNewShopImage(token, images);

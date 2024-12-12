@@ -21,4 +21,8 @@ public interface ShopImageService {
     void uploadShopImages(Shop shop, List<MultipartFile> images);
 
     List<String> findImagesByShop(Shop shop);
+
+    boolean existMainImage(Shop shop);
+
+    void deleteShopMainImage(Shop shop);
 }

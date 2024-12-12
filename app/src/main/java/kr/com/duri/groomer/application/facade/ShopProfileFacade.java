@@ -1,5 +1,6 @@
  package kr.com.duri.groomer.application.facade;
 
+ import kr.com.duri.common.exception.IllegalParameterException;
  import kr.com.duri.groomer.application.dto.request.ShopOnboardingRequest;
  import kr.com.duri.groomer.application.dto.request.ShopProfileDetailRequest;
  import kr.com.duri.groomer.application.dto.response.GroomerProfileDetailResponse;
@@ -56,9 +57,20 @@
  shopProfileDetailRequest, MultipartFile img) {
         Long shopId = shopService.getShopIdByToken(token);
         Shop shop = shopService.findById(shopId);
-        String imageUrl = shopImageService.uploadShopMainImage(shop, img);
         shop = shopService.updateDetail(shop, shopProfileDetailRequest);
-        return shopMapper.toShopProfileDetailResponse(shop, imageUrl);
+        if (img == null || img.isEmpty()) {
+            if (shopImageService.existMainImage(shop)) {
+                String existingImageUrl = shopImageService.getMainShopImage(shop).getShopImageUrl();
+                return shopMapper.toShopProfileDetailResponse(shop, existingImageUrl);
+            } else {
+                return shopMapper.toShopProfileDetailResponse(shop, null);
+            }
+        }
+        if (shopImageService.existMainImage(shop)) {
+            shopImageService.deleteShopMainImage(shop);
+        }
+        String newImageUrl = shopImageService.uploadShopMainImage(shop, img);
+        return shopMapper.toShopProfileDetailResponse(shop, newImageUrl);
     }
 
      public List<GroomerProfileDetailResponse> getShopGroomerList(String token) {
@@ -68,6 +80,9 @@
      }
 
      public void insertNewShopImage(String token, List<MultipartFile> images) {
+        if (images == null || images.isEmpty()) {
+            throw new IllegalParameterException("이미지가 없습니다.");
+        }
          Long shopId = shopService.getShopIdByToken(token);
          Shop shop = shopService.findById(shopId);
          shopImageService.uploadShopImages(shop, images);
