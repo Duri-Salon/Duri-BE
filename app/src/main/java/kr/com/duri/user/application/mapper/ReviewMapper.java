@@ -3,24 +3,23 @@ package kr.com.duri.user.application.mapper;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import kr.com.duri.common.Mapper.CommonMapper;
 import kr.com.duri.groomer.application.dto.response.ShopReviewDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopReviewResponse;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.user.application.dto.request.NewReviewRequest;
-import kr.com.duri.user.application.dto.response.ReviewResponse;
-import kr.com.duri.user.application.dto.response.UserReviewResponse;
-import kr.com.duri.user.application.dto.response.UserReviewResponseList;
-import kr.com.duri.user.domain.entity.QuotationReq;
-import kr.com.duri.user.domain.entity.Request;
-import kr.com.duri.user.domain.entity.Review;
-import kr.com.duri.user.domain.entity.ReviewImage;
-import kr.com.duri.user.domain.entity.SiteUser;
+import kr.com.duri.user.application.dto.response.*;
+import kr.com.duri.user.domain.entity.*;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ReviewMapper {
+
+    private final CommonMapper commonMapper;
 
     // null 방지
     private String safeGet(String value) {
@@ -110,6 +109,35 @@ public class ReviewMapper {
                 .comment(safeGet(review.getComment()))
                 .imgUrl(safeGet(reviewImage.getImage()))
                 .createdAt(review.getCreatedAt())
+                .build();
+    }
+
+    // Review, ReviewImage, SiteUser Entity to ShopReviewResponse DTO
+    public GetShopReviewDetailResponse toGetShopReviewDetailResponse(
+            Review review, ReviewImage reviewImage, SiteUser user, Pet pet) {
+        PetDetailResponse petDetail =
+                PetDetailResponse.builder()
+                        .image(pet.getImage())
+                        .name(pet.getName())
+                        .age(pet.getAge())
+                        .gender(pet.getGender())
+                        .breed(pet.getBreed())
+                        .weight(pet.getWeight())
+                        .neutering(pet.getNeutering())
+                        .character(commonMapper.toListString(pet.getCharacter()))
+                        .diseases(commonMapper.toListString(pet.getDiseases()))
+                        .lastGrooming(pet.getLastGrooming())
+                        .build();
+        return GetShopReviewDetailResponse.builder()
+                .userId(user.getId())
+                .userName(user.getName())
+                .userImageURL(safeGet(user.getImage()))
+                .reviewId(review.getId())
+                .rating(review.getRating())
+                .reviewImageURL(safeGet(reviewImage.getImage()))
+                .comment(safeGet(review.getComment()))
+                .createdAt(review.getCreatedAt())
+                .petDetail(petDetail)
                 .build();
     }
 }

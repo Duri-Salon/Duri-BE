@@ -5,10 +5,12 @@ import java.util.stream.Collectors;
 
 import kr.com.duri.groomer.application.service.GroomerService;
 import kr.com.duri.groomer.application.service.QuotationService;
+import kr.com.duri.groomer.application.service.ShopImageService;
 import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.domain.entity.Shop;
+import kr.com.duri.groomer.domain.entity.ShopImage;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
 import kr.com.duri.user.application.dto.request.NewQuotationReqRequest;
 import kr.com.duri.user.application.dto.request.QuotationReqDetailRequest;
@@ -36,6 +38,7 @@ public class QuotationReqFacade {
     private final ShopService shopService;
     private final PetService petService;
     private final SiteUserService siteUserService;
+    private final ShopImageService shopImageService;
     private final QuotationReqMapper quotationReqMapper;
 
     // 새로운 견적 요청서 리스트(Groomer)
@@ -271,6 +274,7 @@ public class QuotationReqFacade {
 
         for (Quotation quotation : quotations) {
             Shop shop = quotation.getRequest().getShop();
+            ShopImage shopImage = shopImageService.getMainShopImage(shop);
             if (shop == null) {
                 continue;
             }
@@ -284,7 +288,7 @@ public class QuotationReqFacade {
             if (distance < minDistance) {
                 minDistance = distance;
                 bestDistanceShop =
-                        new ShopBestResponse(shop.getName(), "shop_image_url"); // 나중에 이미지 수정 필요!!!
+                        new ShopBestResponse(shop.getName(), shopImage.getShopImageUrl());
             }
         }
 
@@ -308,9 +312,10 @@ public class QuotationReqFacade {
         if (bestQuotation != null) {
             String shopName =
                     bestQuotation.getRequest().getShop().getName(); // Quotation의 Request에서 매장 이름 추출
-            String shopImage = "shop_image_url"; // 임시 이미지 URL (실제 구현 시 변경 필요)
+            ShopImage shopImage =
+                    shopImageService.getMainShopImage(bestQuotation.getRequest().getShop());
 
-            return new ShopBestResponse(shopName, shopImage);
+            return new ShopBestResponse(shopName, shopImage.getShopImageUrl());
         } else {
             return null;
         }
@@ -340,10 +345,11 @@ public class QuotationReqFacade {
         if (bestQuotation != null) {
             String shopName =
                     bestQuotation.getRequest().getShop().getName(); // Quotation의 Request에서 매장 이름 추출
-            String shopImage = "shop_image_url"; // 임시 이미지 URL (실제 구현 시 변경 필요)
+            ShopImage shopImage =
+                    shopImageService.getMainShopImage(bestQuotation.getRequest().getShop());
 
             // 가장 높은 평점을 가진 매장 정보로 ShopBestResponse 객체 반환
-            return new ShopBestResponse(shopName, shopImage);
+            return new ShopBestResponse(shopName, shopImage.getShopImageUrl());
         } else {
             // 매장이 없으면 null 반환
             return null;
@@ -361,6 +367,7 @@ public class QuotationReqFacade {
                 continue; // Shop 정보가 없으면 스킵
             }
             Shop shop = request.getShop();
+            ShopImage shopImage = shopImageService.getMainShopImage(shop);
             double shopPrice =
                     quotationReqMapper.extractTotalPriceFromJson(quotation.getPrice()); // 가격
             double shopRating = shop.getRating(); // 평점
@@ -377,7 +384,7 @@ public class QuotationReqFacade {
             // 최고 점수를 가진 매장 업데이트
             if (totalScore > bestScore) {
                 bestScore = totalScore;
-                bestShop = new ShopBestResponse(shop.getName(), "shop_image_url"); // 임시 이미지
+                bestShop = new ShopBestResponse(shop.getName(), shopImage.getShopImageUrl());
             }
         }
         return bestShop;

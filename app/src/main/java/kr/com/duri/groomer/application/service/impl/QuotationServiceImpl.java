@@ -53,6 +53,12 @@ public class QuotationServiceImpl implements QuotationService {
                 .orElseThrow(() -> new QuotationNotFoundException("해당 견적을 찾을 수 없습니다."));
     }
 
+    // 견적서 찾는 용(예외 미처리)
+    @Override
+    public Quotation getByRequestId(Long requestId) {
+        return quotationRepository.findByRequestId(requestId).orElse(null);
+    }
+
     // 가장 최근 시술 견적서 조회
     @Override
     public Quotation getClosetQuoationByShopId(Long shopId) {

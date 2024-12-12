@@ -42,7 +42,7 @@ public class GroomerHomeMapper {
                 .userPhone(user.getPhone())
                 .quotationId(quotation.getId())
                 .startTime(quotation.getStartDateTime().format(fullFormatter))
-                .complete(quotation.isComplete())
+                .complete(quotation.getComplete())
                 .isNow(
                         now.isAfter(quotation.getStartDateTime())
                                 && now.isBefore(quotation.getEndDateTime()))
