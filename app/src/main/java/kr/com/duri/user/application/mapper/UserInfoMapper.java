@@ -23,7 +23,7 @@ public class UserInfoMapper {
         DateTimeFormatter dateTimeformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return HistoryResponse.builder()
                 .quotationId(quotation.getId())
-                .complete(quotation.isComplete())
+                .complete(quotation.getComplete())
                 .groomerImageURL(groomer.getImage() != null ? groomer.getImage() : "")
                 .groomerName(groomer.getName() != null ? groomer.getName() : "")
                 .shopId(shop.getId())

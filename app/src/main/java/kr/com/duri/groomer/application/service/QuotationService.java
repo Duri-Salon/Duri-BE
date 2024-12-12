@@ -15,6 +15,9 @@ public interface QuotationService {
 
     Quotation findByRequestId(Long requestId);
 
+    // 견적서 찾는 용(예외 미처리)
+    Quotation getByRequestId(Long requestId);
+
     // 가장 최근 시술 견적서 조회
     Quotation getClosetQuoationByShopId(Long shopId);
 

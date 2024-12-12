@@ -75,6 +75,8 @@ public class QuotationReqMapper {
                 .petImage(pet.getImage()) // 애완견 사진
                 .petName(pet.getName()) // 애완견 이름
                 .petAge(pet.getAge()) // 애완견 나이
+                .petWeight(pet.getWeight()) // 애완견 몸무게
+                .petGender(pet.getGender()) // 애완견 성별
                 .petBreed(pet.getBreed()) // 애완견 견종
                 .petNeutering(pet.getNeutering()) // 특이사항1 - 중성화여부
                 .petCharacter(parseJsonArray(pet.getCharacter())) // 특이사항2 - 성격
@@ -157,6 +159,7 @@ public class QuotationReqMapper {
                 .petAge(pet.getAge()) // 강아지 나이
                 .petBreed(pet.getBreed()) // 강아지 견종
                 .petWeight(pet.getWeight()) // 강아지 무게
+                .petGender(pet.getGender()) // 강아지 성별
                 .petNeutering(pet.getNeutering()) // 특이사항1 - 강아지 중성화 여부
                 .petCharacter(parseJsonArray(pet.getCharacter())) // 강아지 성격 정보
                 .petDiseases(parseJsonArray(pet.getDiseases())) // 강아지 질환 정보

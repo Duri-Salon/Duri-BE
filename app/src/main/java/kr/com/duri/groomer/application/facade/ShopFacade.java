@@ -8,6 +8,7 @@ import kr.com.duri.groomer.application.dto.response.MonthIncomeResponse;
 import kr.com.duri.groomer.application.dto.response.ShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopNearByResponse;
 import kr.com.duri.groomer.application.mapper.ShopMapper;
+import kr.com.duri.groomer.application.service.ShopImageService;
 import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.application.service.ShopTagService;
 import kr.com.duri.groomer.domain.entity.Shop;
@@ -25,6 +26,7 @@ public class ShopFacade {
     private final ReviewService reviewService;
     private final ShopTagService shopTagService;
     private final PaymentService paymentService;
+    private final ShopImageService shopImageService;
     private final ShopMapper shopMapper;
 
     // 매장 조회
@@ -50,7 +52,8 @@ public class ShopFacade {
                             Integer reviewCnt = reviewService.getReviewsByShopId(shopId).size();
 
                             Shop shop = shopService.findById(shopId);
-                            String imageURL = new ShopImage().getShopImageUrl();
+                            String imageURL =
+                                    shopImageService.getMainShopImage(shop).getShopImageUrl();
                             return shopMapper.toShopNearByResponse(
                                     result, tags, reviewCnt, imageURL);
                         })
