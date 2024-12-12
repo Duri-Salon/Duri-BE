@@ -1,7 +1,6 @@
 package kr.com.duri.groomer.domain.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import kr.com.duri.common.entity.BaseEntity;
 import kr.com.duri.groomer.domain.Enum.ImageCategory;
 import lombok.AllArgsConstructor;
@@ -22,7 +21,6 @@ public class ShopImage extends BaseEntity {
     @Column(name = "shop_image_id")
     private Long id; // 매장 이미지 ID
 
-    @NotBlank
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id")
     private Shop shop; // 매장 ID FK
@@ -33,4 +31,12 @@ public class ShopImage extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
     private ImageCategory category; // 이미지 카테고리
+
+    public static ShopImage createNewShopImage(Shop shop, String shopImageUrl, String category) {
+        return ShopImage.builder()
+                .shop(shop)
+                .shopImageUrl(shopImageUrl)
+                .category(ImageCategory.valueOf(category))
+                .build();
+    }
 }

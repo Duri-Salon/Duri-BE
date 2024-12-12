@@ -7,6 +7,7 @@ import kr.com.duri.common.Mapper.CommonMapper;
 import kr.com.duri.groomer.application.dto.response.*;
 import kr.com.duri.groomer.application.dto.response.ShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopNearByResponse;
+import kr.com.duri.groomer.application.dto.response.ShopProfileDetailResponse;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.domain.entity.ShopImage;
@@ -117,6 +118,20 @@ public class ShopMapper {
                 .shopDetail(shopDetail)
                 .groomerProfileDetail(groomerProfileDetail)
                 .shopImages(shopImageUrls)
+                .build();
+    }
+
+    public ShopProfileDetailResponse toShopProfileDetailResponse(Shop shop, String imageUrl) {
+        return ShopProfileDetailResponse.builder()
+                .id(shop.getId())
+                .name(shop.getName())
+                .address(shop.getAddress())
+                .imageURL(imageUrl)
+                .phone(shop.getPhone())
+                .openTime(shop.getOpenTime().toString())
+                .closeTime(shop.getCloseTime().toString())
+                .info(shop.getInfo())
+                .kakaoTalk(shop.getKakaoTalk())
                 .build();
     }
 }

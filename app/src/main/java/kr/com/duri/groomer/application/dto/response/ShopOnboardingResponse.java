@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ShopOnboardingResponse {
     private ShopDetailResponse shopDetailResponse;
-    private GroomerDetailResponse groomerDetailResponse;
+    private GroomerProfileDetailResponse groomerProfileDetailResponse;
 }
