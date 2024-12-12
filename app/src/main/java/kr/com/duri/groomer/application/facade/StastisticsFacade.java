@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class StaticsFacade {
+public class StastisticsFacade {
 
     private static final Integer PREVIOUS_IDX = 0;
     private static final Integer SELECT_IDX = 1;

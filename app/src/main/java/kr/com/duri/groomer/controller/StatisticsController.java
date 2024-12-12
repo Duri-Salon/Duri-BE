@@ -4,7 +4,7 @@ import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.groomer.application.dto.response.FiveMonthIncomeResponse;
 import kr.com.duri.groomer.application.dto.response.SelectMonthIncomeResponse;
 import kr.com.duri.groomer.application.dto.response.WeekIncomeResponse;
-import kr.com.duri.groomer.application.facade.StaticsFacade;
+import kr.com.duri.groomer.application.facade.StastisticsFacade;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/statistics")
-public class StaticsController {
+public class StatisticsController {
 
-    private final StaticsFacade staticsFacade;
+    private final StastisticsFacade stastisticsFacade;
 
     // DURI-291 : 최근 5달 매출 조회
     @GetMapping("/income/five-month")
     public CommonResponseEntity<FiveMonthIncomeResponse> getFiveMonthIncomes(
             @RequestHeader("authorization_shop") String token) {
-        return CommonResponseEntity.success(staticsFacade.getFiveMonthIncomes(token));
+        return CommonResponseEntity.success(stastisticsFacade.getFiveMonthIncomes(token));
     }
 
     // DURI-292 : 원하는 달 매출 조회
@@ -32,14 +32,14 @@ public class StaticsController {
     public CommonResponseEntity<SelectMonthIncomeResponse> getMonthIncomes(
             @RequestHeader("authorization_shop") String token,
             @RequestParam("month") String month) {
-        return CommonResponseEntity.success(staticsFacade.getSelectMonthIncomes(token, month));
+        return CommonResponseEntity.success(stastisticsFacade.getSelectMonthIncomes(token, month));
     }
 
     // DURI-348 : 최근 7일 매출 조회
     @GetMapping("/income/week")
     public CommonResponseEntity<WeekIncomeResponse> getMonthIncomes(
             @RequestHeader("authorization_shop") String token) {
-        return CommonResponseEntity.success(staticsFacade.getWeekIncomes(token));
+        return CommonResponseEntity.success(stastisticsFacade.getWeekIncomes(token));
     }
 
     // DURI-349 : 반려견 나이별 누적 조회
