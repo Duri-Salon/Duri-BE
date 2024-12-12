@@ -99,5 +99,9 @@ subprojects {
         implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
         // Toss(JSONObject용)
         implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+        // Replicate (AI) request
+        implementation 'com.fasterxml.jackson.core:jackson-databind'
+        implementation 'org.apache.httpcomponents.client5:httpclient5'
+
     }
 }
