@@ -33,4 +33,12 @@ public class ShopImage extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
     private ImageCategory category; // 이미지 카테고리
+
+    public static ShopImage createNewShopImage(Shop shop, String shopImageUrl, String category) {
+        return ShopImage.builder()
+                .shop(shop)
+                .shopImageUrl(shopImageUrl)
+                .category(ImageCategory.valueOf(category))
+                .build();
+    }
 }

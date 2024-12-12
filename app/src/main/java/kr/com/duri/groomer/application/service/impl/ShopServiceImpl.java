@@ -3,8 +3,10 @@ package kr.com.duri.groomer.application.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import kr.com.duri.common.s3.S3Util;
 import kr.com.duri.common.security.jwt.JwtUtil;
 import kr.com.duri.groomer.application.dto.request.ShopOnboardingInfo;
+import kr.com.duri.groomer.application.dto.request.ShopProfileDetailRequest;
 import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
@@ -12,6 +14,7 @@ import kr.com.duri.groomer.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -91,5 +94,18 @@ public class ShopServiceImpl implements ShopService {
     public Long getShopIdByToken(String token) {
         token = jwtUtil.removeBearer(token);
         return jwtUtil.getId(token);
+    }
+
+    @Override
+    public Shop updateDetail(Shop shop, ShopProfileDetailRequest shopProfileDetailRequest) {
+        return shopRepository.save(
+                shop.updateDetail(
+                        shopProfileDetailRequest.getName(),
+                        shopProfileDetailRequest.getPhone(),
+                        shopProfileDetailRequest.getOpenTime(),
+                        shopProfileDetailRequest.getCloseTime(),
+                        shopProfileDetailRequest.getInfo(),
+                        shopProfileDetailRequest.getKakaoTalk()
+                ));
     }
 }

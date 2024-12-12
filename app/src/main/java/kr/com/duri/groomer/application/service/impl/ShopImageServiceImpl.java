@@ -2,20 +2,25 @@ package kr.com.duri.groomer.application.service.impl;
 
 import java.util.List;
 
+import kr.com.duri.common.s3.S3Util;
 import kr.com.duri.groomer.application.service.ShopImageService;
 import kr.com.duri.groomer.domain.Enum.ImageCategory;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.domain.entity.ShopImage;
 import kr.com.duri.groomer.repository.ShopImageRepository;
+import kr.com.duri.groomer.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
 public class ShopImageServiceImpl implements ShopImageService {
 
     private final ShopImageRepository shopImageRepository;
+
+    private final S3Util s3Util;
 
     @Override
     public ShopImage getMainShopImage(Shop shop) {
@@ -38,5 +43,12 @@ public class ShopImageServiceImpl implements ShopImageService {
     public List<ShopImage> getShopImagesListWithCategoryNot(Shop shop, ImageCategory category) {
         return shopImageRepository.findShopImagesByShopAndCategoryNotOrderByCreatedAtDesc(
                 shop, category);
+    }
+
+    @Override
+    public String uploadShopMainImage(Shop shop, MultipartFile img) {
+        String imageUrl = s3Util.uploadToS3(img);
+        shopImageRepository.save(ShopImage.createNewShopImage(shop, imageUrl, "MAIN"));
+        return imageUrl;
     }
 }
