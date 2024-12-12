@@ -4,7 +4,6 @@ import java.util.List;
 
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.groomer.application.dto.response.GetShopDetailResponse;
-import kr.com.duri.groomer.application.dto.response.MonthIncomeResponse;
 import kr.com.duri.groomer.application.dto.response.ShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopNearByResponse;
 import kr.com.duri.groomer.application.facade.ShopFacade;
@@ -52,13 +51,6 @@ public class ShopController {
             @RequestParam double lat, @RequestParam double lon, @RequestParam double radius) {
         List<ShopNearByResponse> response = shopFacade.getNearByShopsRating(lat, lon, radius);
         return CommonResponseEntity.success(response);
-    }
-
-    // DURI-322 : 이번달 총 매출 조회
-    @GetMapping("/income")
-    public CommonResponseEntity<MonthIncomeResponse> getMonthIncome(
-            @RequestHeader("authorization_shop") String token) {
-        return CommonResponseEntity.success(shopFacade.getMonthIncome(token));
     }
 
     // 주변 매장 검색

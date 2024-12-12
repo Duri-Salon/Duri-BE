@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import kr.com.duri.groomer.application.dto.response.GetShopDetailResponse;
-import kr.com.duri.groomer.application.dto.response.MonthIncomeResponse;
 import kr.com.duri.groomer.application.dto.response.ShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopNearByResponse;
 import kr.com.duri.groomer.application.mapper.ShopMapper;
@@ -87,14 +86,6 @@ public class ShopFacade {
         return mapToShopNearByResponses(shopResults).stream()
                 .sorted(Comparator.comparingDouble(ShopNearByResponse::getShopRating).reversed())
                 .collect(Collectors.toList());
-    }
-
-    // 총 매출 통계 조회
-    public MonthIncomeResponse getMonthIncome(String token) {
-        Long shopId = shopService.getShopIdByToken(token);
-        getShop(shopId);
-        Long totalIncome = paymentService.getTotalPriceMonth(shopId);
-        return shopMapper.toShopDetailResponse(totalIncome);
     }
 
     // 주변 매장 검색

@@ -1,5 +1,7 @@
 package kr.com.duri.groomer.application.dto.response;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MonthIncomeResponse {
-    private String month; // 이번달 (MM)
-    private Long income; // 매출액
+public class WeekIncomeResponse {
+    private Long shopId; // 매장 ID
+    private List<IncomeResponse> incomeMonthList; // 일별 매출액
 }
