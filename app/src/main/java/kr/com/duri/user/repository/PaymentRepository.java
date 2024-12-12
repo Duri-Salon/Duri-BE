@@ -10,21 +10,21 @@ import org.springframework.data.repository.query.Param;
 
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
-    // 이번달 총 매출액 조회
+    Payment findByQuotationId(Long quotationId);
+
+    // 원하는 기간 매출액 조회
     @Query(
             value =
                     """
-      SELECT SUM(p.price) FROM Payment p
-      JOIN p.quotation q
-      JOIN q.request r
-      WHERE r.shop.id = :shopId
-      AND p.status = 'SUCCESS'
-      AND q.startDateTime BETWEEN :startOfMonth AND :endOfMonth
-      """)
-    Long findTotalPriceByShopId(
+            SELECT SUM(p.price) FROM Payment p
+            JOIN p.quotation q
+            JOIN q.request r
+            WHERE r.shop.id = :shopId
+            AND p.status = 'SUCCESS'
+            AND q.startDateTime BETWEEN :startDate AND :endDate
+            """)
+    Long findIncomeByShopIdAndDate(
             @Param("shopId") Long shopId,
-            @Param("startOfMonth") LocalDateTime startOfMonth,
-            @Param("endOfMonth") LocalDateTime endOfMonth);
-
-    Payment findByQuotationId(Long quotationId);
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate);
 }
