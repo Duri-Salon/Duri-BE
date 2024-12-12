@@ -23,6 +23,8 @@ public interface SiteUserService {
 
     SiteUser getSiteUserById(Long userId);
 
+    SiteUser updateNewUser(SiteUser siteUser, Boolean newUser);
+
     String uploadToS3(MultipartFile img);
 
     SiteUser updateProfile(SiteUser siteUser, String imageUrl);

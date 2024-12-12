@@ -61,6 +61,14 @@ public class SiteUserServiceImpl implements SiteUserService {
     }
 
     @Override
+    public SiteUser updateNewUser(SiteUser siteUser, Boolean newUser) {
+        if (!siteUser.getNewUser().equals(newUser)) {
+            return siteUserRepository.save(siteUser.updateNewUser(newUser));
+        }
+        return siteUser;
+    }
+
+    @Override
     public String uploadToS3(MultipartFile img) {
         if (img == null || img.isEmpty()) {
             return null;

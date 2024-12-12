@@ -4,6 +4,7 @@ import kr.com.duri.groomer.application.dto.response.NewShopJwtResponse;
 import kr.com.duri.groomer.application.mapper.ShopJwtMapper;
 import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Shop;
+import kr.com.duri.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class ShopAuthFacade {
         Shop shop =
                 shopService
                         .findBySocialId(providerId)
-                        .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+                        .orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다."));
 
         String token = shopService.createNewShopJwt(shop);
 

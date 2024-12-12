@@ -7,10 +7,8 @@ import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.user.application.dto.request.NewPetRequest;
 import kr.com.duri.user.application.dto.response.*;
 import kr.com.duri.user.application.facade.UserInfoFacade;
-import kr.com.duri.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,30 +24,18 @@ public class UserInfoController {
     public CommonResponseEntity<PetProfileResponse> createNewPet(
             @RequestHeader("authorization_user") String token,
             @RequestBody NewPetRequest newPetRequest) {
-        try {
-            return CommonResponseEntity.success(userInfoFacade.createNewPet(token, newPetRequest));
-        } catch (UserNotFoundException e) {
-            return CommonResponseEntity.error(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다.");
-        }
+        return CommonResponseEntity.success(userInfoFacade.createNewPet(token, newPetRequest));
     }
 
     @GetMapping("/pet/{petId}")
     public CommonResponseEntity<PetProfileResponse> getPetDetail(@PathVariable Long petId) {
-        try {
-            return CommonResponseEntity.success(userInfoFacade.getPetDetail(petId));
-        } catch (UserNotFoundException e) {
-            return CommonResponseEntity.error(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다.");
-        }
+        return CommonResponseEntity.success(userInfoFacade.getPetDetail(petId));
     }
 
     @GetMapping("/pets")
     public CommonResponseEntity<PetProfileListResponse> getPetList(
             @RequestHeader("authorization_user") String token) {
-        try {
-            return CommonResponseEntity.success(userInfoFacade.getPetList(token));
-        } catch (UserNotFoundException e) {
-            return CommonResponseEntity.error(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다.");
-        }
+        return CommonResponseEntity.success(userInfoFacade.getPetList(token));
     }
 
     @PutMapping(value = "/pet/{petId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -57,12 +43,7 @@ public class UserInfoController {
             @PathVariable Long petId,
             @RequestPart @Valid NewPetRequest newPetRequest,
             @RequestPart(value = "image", required = false) MultipartFile img) {
-        try {
-            return CommonResponseEntity.success(
-                    userInfoFacade.updateNewPet(petId, newPetRequest, img));
-        } catch (UserNotFoundException e) {
-            return CommonResponseEntity.error(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다.");
-        }
+        return CommonResponseEntity.success(userInfoFacade.updateNewPet(petId, newPetRequest, img));
     }
 
     // DURI-329 : 이용기록 조회
