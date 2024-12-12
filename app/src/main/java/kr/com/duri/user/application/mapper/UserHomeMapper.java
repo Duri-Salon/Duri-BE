@@ -90,6 +90,7 @@ public class UserHomeMapper {
                         pet.getLastGrooming() != null
                                 ? dayTimeFormatter.format(pet.getLastGrooming())
                                 : "")
+                .neutering(pet.getNeutering())
                 .build();
     }
 

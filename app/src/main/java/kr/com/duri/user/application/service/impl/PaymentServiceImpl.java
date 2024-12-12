@@ -9,9 +9,14 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
+import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
+import kr.com.duri.groomer.application.dto.response.IncomeResponse;
 import kr.com.duri.user.application.dto.request.ConfirmPaymentRequest;
 import kr.com.duri.user.application.dto.request.SaveAmountRequest;
 import kr.com.duri.user.application.service.PaymentService;
@@ -110,15 +115,75 @@ public class PaymentServiceImpl implements PaymentService {
         return (JSONObject) parser.parse(new InputStreamReader(is, StandardCharsets.UTF_8));
     }
 
-    // 월별 총 매출액 조회
-    public Long getTotalPriceMonth(Long shopId) {
-        LocalDateTime startOfMonth = LocalDate.now().withDayOfMonth(1).atStartOfDay(); // 이번 달의 첫 초
-        LocalDateTime endOfMonth = startOfMonth.plusMonths(1).minusSeconds(1); // 이번 달의 마지막 초
-        return paymentRepository.findTotalPriceByShopId(shopId, startOfMonth, endOfMonth);
-    }
-
     @Override
     public Payment findByQuotationId(Long id) {
         return paymentRepository.findByQuotationId(id);
+    }
+
+    // 최근 5달 매출액 조회
+    @Override
+    public List<IncomeResponse> getFiveMonthIncomes(Long shopId) {
+        List<IncomeResponse> incomeResponses = new ArrayList<>();
+        LocalDate currentMonth = LocalDate.now().withDayOfMonth(1); // 이번 달의 첫 날
+        for (int i = 0; i < 5; i++) {
+            LocalDateTime startOfMonth = currentMonth.atStartOfDay(); // 달의 첫초
+            LocalDateTime endOfMonth = startOfMonth.plusMonths(1).minusSeconds(1); // 달의  마지막초
+            Long income =
+                    paymentRepository.findIncomeByShopIdAndDate(shopId, startOfMonth, endOfMonth);
+            incomeResponses.add(
+                    IncomeResponse.createResponse(
+                            currentMonth.format(DateTimeFormatter.ofPattern("MM")), income));
+            currentMonth = currentMonth.minusMonths(1); // 이전 달로 이동
+        }
+        Collections.reverse(incomeResponses);
+        return incomeResponses;
+    }
+
+    // 원하는 달, 그 전달, 이번달 매출액 조회
+    @Override
+    public List<IncomeResponse> getIncomeByMonth(Long shopId, String selectedMonth) {
+        List<IncomeResponse> incomeResponses = new ArrayList<>();
+        LocalDate selectedDate;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        // LocalDate 파싱
+        try {
+            selectedDate =
+                    LocalDate.parse(
+                            selectedMonth.trim() + "-01",
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            selectedDate = selectedDate.withDayOfMonth(1); // 선택한 달의 첫날
+        } catch (Exception e) {
+            throw new IllegalArgumentException("잘못된 날짜가 입력되었습니다.");
+        }
+        LocalDate[] months = {
+            selectedDate.minusMonths(1), selectedDate, LocalDate.now().withDayOfMonth(1)
+        }; // 이전 달, 선택한 달, 이번 달
+        for (LocalDate month : months) {
+            LocalDateTime startOfMonth = month.atStartOfDay(); // 시작 시점
+            LocalDateTime endOfMonth = startOfMonth.plusMonths(1).minusSeconds(1); // 종료 시점
+            Long income =
+                    paymentRepository.findIncomeByShopIdAndDate(shopId, startOfMonth, endOfMonth);
+
+            incomeResponses.add(IncomeResponse.createResponse(month.format(formatter), income));
+        }
+        return incomeResponses;
+    }
+
+    // 최근 7일 매출액 조회
+    @Override
+    public List<IncomeResponse> getWeekIncomes(Long shopId) {
+        List<IncomeResponse> incomeResponses = new ArrayList<>();
+        LocalDate currentDate = LocalDate.now(); // 이번 달의 첫 날
+        for (int i = 0; i < 7; i++) {
+            LocalDateTime startOfDay = currentDate.atStartOfDay(); // 일의 첫초
+            LocalDateTime endOfDay = startOfDay.plusDays(1).minusSeconds(1); // 일의 마지막초
+            Long income = paymentRepository.findIncomeByShopIdAndDate(shopId, startOfDay, endOfDay);
+            incomeResponses.add(
+                    IncomeResponse.createResponse(
+                            currentDate.format(DateTimeFormatter.ofPattern("dd")), income));
+            currentDate = currentDate.minusDays(1); // 이전 날로 이동
+        }
+        Collections.reverse(incomeResponses);
+        return incomeResponses;
     }
 }
