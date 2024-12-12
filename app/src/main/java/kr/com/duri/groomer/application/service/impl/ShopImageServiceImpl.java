@@ -1,6 +1,8 @@
 package kr.com.duri.groomer.application.service.impl;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import kr.com.duri.common.s3.S3Util;
 import kr.com.duri.groomer.application.service.ShopImageService;
@@ -58,5 +60,15 @@ public class ShopImageServiceImpl implements ShopImageService {
             String imageUrl = s3Util.uploadToS3(img);
             shopImageRepository.save(ShopImage.createNewShopImage(shop, imageUrl, "ETC"));
         }
+    }
+
+    @Override
+    public List<String> findImagesByShop(Shop shop) {
+        List<ShopImage> shopImages = shopImageRepository.findShopImagesByShopAndCategoryNotOrderByCreatedAtDesc(shop, ImageCategory.MAIN);
+        return shopImages == null ? Collections.emptyList()
+                : shopImages.stream()
+                .map(ShopImage::getShopImageUrl)
+                .filter(Objects::nonNull)
+                .toList();
     }
 }

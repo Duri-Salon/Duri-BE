@@ -72,4 +72,10 @@
          Shop shop = shopService.findById(shopId);
          shopImageService.uploadShopImages(shop, images);
      }
+
+     public List<String> getShopImageList(String token) {
+         Long shopId = shopService.getShopIdByToken(token);
+         Shop shop = shopService.findById(shopId);
+         return shopImageService.findImagesByShop(shop);
+     }
  }

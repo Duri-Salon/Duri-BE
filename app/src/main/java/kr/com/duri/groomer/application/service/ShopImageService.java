@@ -19,4 +19,6 @@ public interface ShopImageService {
     String uploadShopMainImage(Shop shop, MultipartFile img);
 
     void uploadShopImages(Shop shop, List<MultipartFile> images);
+
+    List<String> findImagesByShop(Shop shop);
 }

@@ -57,6 +57,6 @@
     @GetMapping("/profile/images")
     public CommonResponseEntity<List<String>> getShopImageList(
             @RequestHeader("authorization_shop") String token) {
-        return null;
+        return CommonResponseEntity.success(shopProfileFacade.getShopImageList(token));
     }
  }
