@@ -6,7 +6,7 @@ import kr.com.duri.groomer.application.dto.response.FiveMonthIncomeResponse;
 import kr.com.duri.groomer.application.dto.response.IncomeResponse;
 import kr.com.duri.groomer.application.dto.response.SelectMonthIncomeResponse;
 import kr.com.duri.groomer.application.dto.response.WeekIncomeResponse;
-import kr.com.duri.groomer.application.mapper.StaticsMapper;
+import kr.com.duri.groomer.application.mapper.StatisticsMapper;
 import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.user.application.service.PaymentService;
@@ -24,7 +24,7 @@ public class StastisticsFacade {
 
     private final ShopService shopService;
     private final PaymentService paymentService;
-    private final StaticsMapper staticsMapper;
+    private final StatisticsMapper statisticsMapper;
 
     // 매장 조회
     private Shop getShop(Long shopId) {
@@ -52,7 +52,7 @@ public class StastisticsFacade {
         Shop shop = getShop(shopId);
         // 최근 5달 조회
         List<IncomeResponse> monthIncomeResponses = paymentService.getFiveMonthIncomes(shopId);
-        return staticsMapper.toFiveMonthIncomeResponse(shop, monthIncomeResponses);
+        return statisticsMapper.toFiveMonthIncomeResponse(shop, monthIncomeResponses);
     }
 
     // 원하는 달 매출 조회
@@ -68,7 +68,7 @@ public class StastisticsFacade {
         Float beforeRatio = calculateRatio(selected, previous);
         // 이번달 기준 상승/하락 비율
         Float nowRatio = calculateRatio(selected, current);
-        return staticsMapper.toSelectMonthIncomeResponse(
+        return statisticsMapper.toSelectMonthIncomeResponse(
                 shop, monthIncomeResponses, beforeRatio, nowRatio);
     }
 
@@ -78,6 +78,6 @@ public class StastisticsFacade {
         Shop shop = getShop(shopId);
         // 최근 7일 조회
         List<IncomeResponse> monthIncomeResponses = paymentService.getWeekIncomes(shopId);
-        return staticsMapper.toWeekIncomeResponse(shop, monthIncomeResponses);
+        return statisticsMapper.toWeekIncomeResponse(shop, monthIncomeResponses);
     }
 }

@@ -11,7 +11,7 @@ import kr.com.duri.groomer.domain.entity.Shop;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StaticsMapper {
+public class StatisticsMapper {
 
     // Shop Entity, List<IncomeResponse> to FiveMonthIncomeResponse DTO
     public FiveMonthIncomeResponse toFiveMonthIncomeResponse(
