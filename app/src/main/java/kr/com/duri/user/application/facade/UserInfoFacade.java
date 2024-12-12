@@ -141,8 +141,10 @@ public class UserInfoFacade {
         return userInfoMapper.toSiteUserProfileResponse(siteUser, reservationCount, noShowCount);
     }
 
-    public SiteUserProfileResponse updateUserProfile(String token, MultipartFile img) {
+    public void updateUserProfile(String token, MultipartFile img) {
         Long userId = siteUserService.getUserIdByToken(token);
-        return null;
+        SiteUser siteUser = siteUserService.getSiteUserById(userId);
+        String imageUrl = siteUserService.uploadToS3(img);
+        siteUserService.save(siteUserService.updateProfile(siteUser, imageUrl));
     }
 }

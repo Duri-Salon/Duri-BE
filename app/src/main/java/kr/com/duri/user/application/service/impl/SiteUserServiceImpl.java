@@ -2,6 +2,7 @@ package kr.com.duri.user.application.service.impl;
 
 import java.util.Optional;
 
+import kr.com.duri.common.s3.S3Util;
 import kr.com.duri.common.security.jwt.JwtUtil;
 import kr.com.duri.user.application.service.SiteUserService;
 import kr.com.duri.user.domain.entity.SiteUser;
@@ -10,6 +11,7 @@ import kr.com.duri.user.repository.SiteUserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +20,8 @@ public class SiteUserServiceImpl implements SiteUserService {
     private final SiteUserRepository siteUserRepository;
 
     private final JwtUtil jwtUtil;
+
+    private final S3Util s3Util;
 
     @Override
     public Optional<SiteUser> findBySocialId(String socialId) {
@@ -54,5 +58,23 @@ public class SiteUserServiceImpl implements SiteUserService {
         return siteUserRepository
                 .findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다."));
+    }
+
+    @Override
+    public String uploadToS3(MultipartFile img) {
+        if (img == null || img.isEmpty()) {
+            return null;
+        }
+        return s3Util.uploadToS3(img);
+    }
+
+    @Override
+    public SiteUser updateProfile(SiteUser siteUser, String imageUrl) {
+        return siteUser.updateProfile(imageUrl);
+    }
+
+    @Override
+    public SiteUser save(SiteUser siteUser) {
+        return siteUserRepository.save(siteUser);
     }
 }

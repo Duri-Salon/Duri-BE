@@ -86,4 +86,11 @@ public class SiteUser extends BaseEntity {
                 .birthYear(birthYear)
                 .build();
     }
+
+    public SiteUser updateProfile(String imageUrl) {
+        if (imageUrl != null) {
+            this.image = imageUrl;
+        }
+        return this;
+    }
 }
