@@ -10,11 +10,16 @@ import kr.com.duri.user.application.dto.response.RegularShopResponse;
 import kr.com.duri.user.application.facade.UserHomeFacade;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -59,5 +64,19 @@ public class UserHomeController {
         List<RecommendShopResponse> recommendShopResponses =
                 userHomeFacade.getRecommendShops(token, lat, lon);
         return CommonResponseEntity.success(recommendShopResponses);
+    }
+
+    // DURI-281 : AI 스타일링
+    @PostMapping(value = "/ai-styling", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public CommonResponseEntity<String> applyGroomingStyle(
+            @RequestParam String styleText,
+            @RequestPart(value = "image", required = true) MultipartFile image) {
+        try {
+            return CommonResponseEntity.success(userHomeFacade.getPetAiStyling(styleText, image));
+        } catch (Exception e) {
+            return CommonResponseEntity.error(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "반려견 스타일링 이미지 생성 과정에 에러가 발생하였습니다. (" + e.getMessage() + ")");
+        }
     }
 }
