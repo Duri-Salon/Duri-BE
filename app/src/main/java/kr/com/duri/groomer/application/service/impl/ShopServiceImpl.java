@@ -7,6 +7,7 @@ import kr.com.duri.common.security.jwt.JwtUtil;
 import kr.com.duri.groomer.application.dto.request.ShopOnboardingInfo;
 import kr.com.duri.groomer.application.dto.request.ShopProfileDetailRequest;
 import kr.com.duri.groomer.application.service.ShopService;
+import kr.com.duri.groomer.domain.Enum.EntryStatus;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
 import kr.com.duri.groomer.repository.ShopRepository;
@@ -104,5 +105,33 @@ public class ShopServiceImpl implements ShopService {
                         shopProfileDetailRequest.getCloseTime(),
                         shopProfileDetailRequest.getInfo(),
                         shopProfileDetailRequest.getKakaoTalk()));
+    }
+
+    // 입점 대기 목록
+    @Override
+    public List<Shop> getEntryWaitingShops() {
+        return shopRepository.findByEntry(EntryStatus.WAITING);
+    }
+
+    // 입점 승인 목록
+    @Override
+    public List<Shop> getEntryApprovedShops() {
+        return shopRepository.findByEntry(EntryStatus.APPROVED);
+    }
+
+    // 입점 승인 처리
+    @Override
+    public void approveEntry(Long shopId) {
+        Shop shop = findById(shopId);
+        shop.updateEntry(EntryStatus.APPROVED);
+        shopRepository.save(shop);
+    }
+
+    // 입점 거절 처리
+    @Override
+    public void rejectEntry(Long shopId) {
+        Shop shop = findById(shopId);
+        shop.updateEntry(EntryStatus.REJECTED);
+        shopRepository.save(shop);
     }
 }

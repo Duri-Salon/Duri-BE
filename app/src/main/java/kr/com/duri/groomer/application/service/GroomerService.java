@@ -1,6 +1,7 @@
 package kr.com.duri.groomer.application.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import kr.com.duri.groomer.application.dto.request.GroomerDetailRequest;
 import kr.com.duri.groomer.application.dto.request.GroomerOnboardingInfo;
@@ -21,4 +22,6 @@ public interface GroomerService {
     void deleteGroomer(Groomer groomer);
 
     List<Groomer> findGroomersByShop(Long shopId);
+
+    Optional<Groomer> findGroomerByShopId(Long shopId);
 }

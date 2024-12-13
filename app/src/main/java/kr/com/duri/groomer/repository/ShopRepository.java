@@ -3,6 +3,7 @@ package kr.com.duri.groomer.repository;
 import java.util.List;
 import java.util.Optional;
 
+import kr.com.duri.groomer.domain.Enum.EntryStatus;
 import kr.com.duri.groomer.domain.entity.Shop;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -54,4 +55,6 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
         """)
     List<Shop> findShopsByRadius(
             @Param("lat") Double lat, @Param("lon") Double lon, @Param("radians") Double radians);
+
+    List<Shop> findByEntry(EntryStatus entry);
 }

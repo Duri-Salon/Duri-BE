@@ -1,6 +1,7 @@
 package kr.com.duri.groomer.application.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import kr.com.duri.common.Mapper.CommonMapper;
 import kr.com.duri.groomer.application.dto.request.GroomerDetailRequest;
@@ -88,5 +89,10 @@ public class GroomerServiceImpl implements GroomerService {
     @Override
     public List<Groomer> findGroomersByShop(Long shopId) {
         return groomerRepository.findByShopId(shopId);
+    }
+
+    @Override
+    public Optional<Groomer> findGroomerByShopId(Long shopId) {
+        return groomerRepository.findByShopId(shopId).stream().findFirst();
     }
 }

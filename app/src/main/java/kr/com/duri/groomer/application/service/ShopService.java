@@ -33,4 +33,16 @@ public interface ShopService {
     Long getShopIdByToken(String token);
 
     Shop updateDetail(Shop shop, ShopProfileDetailRequest shopProfileDetailRequest);
+
+    // 입점 대기 목록
+    List<Shop> getEntryWaitingShops();
+
+    // 입점 승인 목록
+    List<Shop> getEntryApprovedShops();
+
+    // 입점 승인 처리
+    void approveEntry(Long shopId);
+
+    // 입점 거절 처리
+    void rejectEntry(Long shopId);
 }
