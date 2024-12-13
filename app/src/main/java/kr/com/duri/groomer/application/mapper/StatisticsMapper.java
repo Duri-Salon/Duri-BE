@@ -56,7 +56,7 @@ public class StatisticsMapper {
     }
 
     // Shop Entity, List<StatisticsResponse> to AgeStatisticsResponse DTO
-    public AgeStatisticsResponse toAgeStastisticsResponse(
+    public AgeStatisticsResponse toAgeStatisticsResponse(
             Shop shop, List<StatisticsResponse> statisticsResponse) {
         return AgeStatisticsResponse.builder()
                 .shopId(shop.getId())
@@ -65,7 +65,7 @@ public class StatisticsMapper {
     }
 
     // Shop Entity, List<StatisticsResponse> to DiseaseStatisticsResponse DTO
-    public DiseaseStatisticsResponse toDiseaseStastisticsResponse(
+    public DiseaseStatisticsResponse toDiseaseStatisticsResponse(
             Shop shop, List<StatisticsResponse> statisticsResponse) {
         return DiseaseStatisticsResponse.builder()
                 .shopId(shop.getId())
@@ -74,7 +74,7 @@ public class StatisticsMapper {
     }
 
     // Shop Entity, List<StatisticsResponse> to CharacterStatisticsResponse DTO
-    public CharacterStatisticsResponse toCharacterStastisticsResponse(
+    public CharacterStatisticsResponse toCharacterStatisticsResponse(
             Shop shop, List<StatisticsResponse> statisticsResponse) {
         return CharacterStatisticsResponse.builder()
                 .shopId(shop.getId())

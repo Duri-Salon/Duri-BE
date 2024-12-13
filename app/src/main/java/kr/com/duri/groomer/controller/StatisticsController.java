@@ -50,27 +50,27 @@ public class StatisticsController {
     @GetMapping("/age")
     public CommonResponseEntity<AgeStatisticsResponse> getAgeStastistics(
             @RequestHeader("authorization_shop") String token) {
-        return CommonResponseEntity.success(statisticsFacade.getAgeStastistics(token));
+        return CommonResponseEntity.success(statisticsFacade.getAgeStatistics(token));
     }
 
     // DURI-350 : 반려견 질환별 누적 조회
     @GetMapping("/disease")
     public CommonResponseEntity<DiseaseStatisticsResponse> getDiseaseStastistics(
             @RequestHeader("authorization_shop") String token) {
-        return CommonResponseEntity.success(statisticsFacade.getDiseaseStastistics(token));
+        return CommonResponseEntity.success(statisticsFacade.getDiseaseStatistics(token));
     }
 
     // DURI-351 : 반려견 성격별 누적 조회
     @GetMapping("/character")
-    public CommonResponseEntity<CharacterStatisticsResponse> getCharacterStastistics(
+    public CommonResponseEntity<CharacterStatisticsResponse> getCharacterStatistics(
             @RequestHeader("authorization_shop") String token) {
-        return CommonResponseEntity.success(statisticsFacade.getCharacterStastistics(token));
+        return CommonResponseEntity.success(statisticsFacade.getCharacterStatistics(token));
     }
 
     // DURI-352 : 매장 베스트 키워드 조회
     @GetMapping("/keyword")
-    public CommonResponseEntity<BestStatisticsResponse> getBestStastistics(
+    public CommonResponseEntity<BestStatisticsResponse> getBestStatistics(
             @RequestHeader("authorization_shop") String token) {
-        return CommonResponseEntity.success(statisticsFacade.getBestStastistics(token));
+        return CommonResponseEntity.success(statisticsFacade.getBestStatistics(token));
     }
 }
