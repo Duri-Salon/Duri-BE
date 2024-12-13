@@ -36,4 +36,10 @@ public interface ShopService {
 
     // 입점 승인 목록
     List<Shop> getEntryApprovedShops();
+
+    // 입점 승인 처리
+    void approveEntry(Long shopId);
+
+    // 입점 거절 처리
+    void rejectEntry(Long shopId);
 }

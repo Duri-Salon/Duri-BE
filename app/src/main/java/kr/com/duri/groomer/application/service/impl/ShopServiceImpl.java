@@ -94,15 +94,31 @@ public class ShopServiceImpl implements ShopService {
         return jwtUtil.getId(token);
     }
 
-    // 입점 대기
+    // 입점 대기 목록
     @Override
     public List<Shop> getEntryWaitingShops() {
         return shopRepository.findByEntry(EntryStatus.WAITING);
     }
 
-    // 입점 승인
+    // 입점 승인 목록
     @Override
     public List<Shop> getEntryApprovedShops() {
         return shopRepository.findByEntry(EntryStatus.APPROVED);
+    }
+
+    // 입점 승인 처리
+    @Override
+    public void approveEntry(Long shopId){
+        Shop shop = findById(shopId);
+        shop.updateEntry(EntryStatus.APPROVED);
+        shopRepository.save(shop);
+    }
+
+    // 입점 거절 처리
+    @Override
+    public void rejectEntry(Long shopId){
+        Shop shop = findById(shopId);
+        shop.updateEntry(EntryStatus.REJECTED);
+        shopRepository.save(shop);
     }
 }

@@ -113,4 +113,9 @@ public class Shop extends BaseEntity {
     public void updateRating(Float rating) {
         this.rating = rating;
     }
+
+    public void updateEntry(EntryStatus entry) {
+        this.entry = entry;
+    }
+
 }

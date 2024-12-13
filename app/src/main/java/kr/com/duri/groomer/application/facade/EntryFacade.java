@@ -21,6 +21,7 @@ public class EntryFacade {
     private final GroomerService groomerService;
     private final EntryMapper entryMapper;
 
+    // 입점 대기 목록
     public List<EntryResponse> getWaitingEntries() {
         return shopService.getEntryWaitingShops().stream()
                 .map(
@@ -32,6 +33,7 @@ public class EntryFacade {
                 .collect(Collectors.toList());
     }
 
+    // 입점 승인 목록
     public List<EntryResponse> getApprovedEntries() {
         return shopService.getEntryApprovedShops().stream()
                 .map(
@@ -41,5 +43,15 @@ public class EntryFacade {
                             return entryMapper.toEntryResponse(shop, groomerOpt.orElse(null));
                         })
                 .collect(Collectors.toList());
+    }
+
+    // 입점 승인 처리
+    public void approveEntry(Long shopId){
+        shopService.approveEntry(shopId);
+    }
+
+    // 입점 거절 처리
+    public void rejectEntry(Long shopId){
+        shopService.rejectEntry(shopId);
     }
 }
