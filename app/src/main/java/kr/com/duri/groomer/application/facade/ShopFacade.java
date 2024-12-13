@@ -59,7 +59,8 @@ public class ShopFacade {
 
                             Shop shop = shopService.findById(shopId);
                             ShopImage mainImage = shopImageService.getMainShopImage(shop);
-                            String imageURL = (mainImage != null) ? mainImage.getShopImageUrl() : null;
+                            String imageURL =
+                                    (mainImage != null) ? mainImage.getShopImageUrl() : null;
                             return shopMapper.toShopNearByResponse(
                                     result, tags, reviewCnt, imageURL);
                         })
