@@ -29,12 +29,16 @@ public class QuotationReqScheduler {
                 quotationReqService.findExpiredQuotationReqs(thresholdTime);
 
         for (QuotationReq quotationReq : expiredQuotationReqs) {
-            quotationReqService.closeQuotationReq(quotationReq);
-            List<Request> relatedRequests = requestService.findRequestsByQuotation(quotationReq);
-            relatedRequests.forEach(
-                    request -> {
-                        requestService.updateRequestStatusToExpired(request);
-                    });
+            if (quotationReq.getCreatedAt().isBefore(thresholdTime) && quotationReq.getClose() == false) {
+                // QuotationReq의 close 상태를 true로 설정
+                quotationReqService.closeQuotationReq(quotationReq);
+
+                // 해당 QuotationReq와 연관된 Request의 상태를 'EXPIRED'로 변경
+                List<Request> relatedRequests = requestService.findRequestsByQuotation(quotationReq);
+                relatedRequests.forEach(request -> {
+                    requestService.updateRequestStatusToExpired(request); // 'EXPIRED' 상태로 변경
+                });
+            }
         }
     }
 }

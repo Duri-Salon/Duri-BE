@@ -179,7 +179,7 @@ public class QuotationReqFacade {
         Long userId = siteUserService.getUserIdByToken(token);
 
         // 1. User의 Pet조회
-        Pet pet = petService.findById(userId);
+        Pet pet = petService.getPetByUserId(userId);
 
         // 2. Pet으로 QuotationReq 목록 조회
         List<QuotationReq> quotationReqs = quotationReqService.findByPetId(pet.getId());
