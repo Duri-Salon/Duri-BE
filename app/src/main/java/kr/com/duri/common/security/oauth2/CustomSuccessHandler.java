@@ -103,23 +103,21 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             //                response.sendRedirect(redirectUrl);
             //            }
             // 개발 URL
-            if (tokenName.equals("authorization_user")) {
-                String redirectUrl = USER_DEV_URL + "/auth?providerId=" + providerId;
-                response.sendRedirect(redirectUrl);
-            } else {
-                String redirectUrl = SHOP_DEV_URL + "/auth?providerId=" + providerId;
-                response.sendRedirect(redirectUrl);
-            }
-            // 로컬 환경
             //            if (tokenName.equals("authorization_user")) {
-            //                String redirectUrl = LOCAL_USER_DEV_URL + "/auth?providerId=" +
-            // providerId;
+            //                String redirectUrl = USER_DEV_URL + "/auth?providerId=" + providerId;
             //                response.sendRedirect(redirectUrl);
             //            } else {
-            //                String redirectUrl = LOCAL_SHOP_DEV_URL + "/auth?providerId=" +
-            // providerId;
+            //                String redirectUrl = SHOP_DEV_URL + "/auth?providerId=" + providerId;
             //                response.sendRedirect(redirectUrl);
             //            }
+            // 로컬 환경
+            if (tokenName.equals("authorization_user")) {
+                String redirectUrl = LOCAL_USER_DEV_URL + "/auth?providerId=" + providerId;
+                response.sendRedirect(redirectUrl);
+            } else {
+                String redirectUrl = LOCAL_SHOP_DEV_URL + "/auth?providerId=" + providerId;
+                response.sendRedirect(redirectUrl);
+            }
         }
     }
 
