@@ -28,11 +28,11 @@ public class S3Util {
     private static final String S3_BASIC_URL = "https://%s.s3.%s.amazonaws.com/%s";
 
     // S3 사진 업로드
-    public String uploadToS3(MultipartFile image, String S3_folder_name) {
+    public String uploadToS3(MultipartFile image, String s3FolderName) {
         try {
             // 고유 파일명
             String fileName =
-                    S3_folder_name
+                    s3FolderName
                             + "/"
                             + UUID.randomUUID()
                             + "_"
