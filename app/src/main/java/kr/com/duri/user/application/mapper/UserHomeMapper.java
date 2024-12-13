@@ -20,6 +20,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserHomeMapper {
 
+    private String safeGet(String value) {
+        return value == null ? "" : value;
+    }
+
     // create Empty RecentProcedureResponse DTO
     public RecentProcedureResponse createEmpty(Long petId, Integer lastSinceDay) {
         return RecentProcedureResponse.builder().petId(petId).lastSinceDay(lastSinceDay).build();
@@ -38,11 +42,11 @@ public class UserHomeMapper {
                 .petId(pet.getId())
                 .lastSinceDay(lastSinceDay)
                 .shopId(shop.getId())
-                .imageURL(shopImage.getShopImageUrl() != null ? shopImage.getShopImageUrl() : "")
+                .imageURL(shopImage != null ? safeGet(shopImage.getShopImageUrl()) : "")
                 .name(shop.getName())
-                .address(shop.getAddress())
-                .phone(shop.getPhone())
-                .kakaoURL(shop.getKakaoTalk() != null ? shop.getKakaoTalk() : "")
+                .address(safeGet(shop.getAddress()))
+                .phone(safeGet(shop.getPhone()))
+                .kakaoURL(safeGet(shop.getKakaoTalk()))
                 .quotationId(quotation.getId())
                 .reserveDday(reserveDday)
                 .reservationDate(
@@ -58,7 +62,7 @@ public class UserHomeMapper {
             Shop shop, ShopImage shopImage, Integer reviewCnt, Integer visitCnt) {
         return HomeShopResponse.builder()
                 .shopId(shop.getId())
-                .imageURL(shopImage.getShopImageUrl() != null ? shopImage.getShopImageUrl() : "")
+                .imageURL(shopImage != null ? safeGet(shopImage.getShopImageUrl()) : "")
                 .shopName(shop.getName())
                 .rating(shop.getRating())
                 .reviewCnt(reviewCnt)
@@ -80,10 +84,10 @@ public class UserHomeMapper {
         SimpleDateFormat dayTimeFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         return HomePetInfoResponse.builder()
                 .petId(pet.getId())
-                .imageURL(pet.getImage() != null ? pet.getImage() : "")
+                .imageURL(safeGet(pet.getImage()))
                 .name(pet.getName())
-                .breed(pet.getBreed() != null ? pet.getBreed() : "")
-                .gender(gender != null ? gender : "")
+                .breed(pet.getBreed())
+                .gender(gender)
                 .age(pet.getAge())
                 .weight(pet.getWeight() != null ? pet.getWeight() : 0F)
                 .lastGrooming(
@@ -106,10 +110,10 @@ public class UserHomeMapper {
                 .petId(pet.getId())
                 .recommendFeature(feature)
                 .shopId(shop.getId())
-                .imageURL(shopImage.getShopImageUrl() != null ? shopImage.getShopImageUrl() : "")
+                .imageURL(shopImage != null ? safeGet(shopImage.getShopImageUrl()) : "")
                 .shopName(shop.getName())
-                .address(shop.getAddress())
-                .phone(shop.getPhone() != null ? shop.getPhone() : "")
+                .address(safeGet(shop.getAddress()))
+                .phone(safeGet(shop.getPhone()))
                 .shopTag1(shopTagsStr.size() > 0 ? shopTagsStr.get(0) : "")
                 .shopTag2(shopTagsStr.size() > 1 ? shopTagsStr.get(1) : "")
                 .score(score != null ? score : 0F)

@@ -96,6 +96,6 @@ public class PetServiceImpl implements PetService {
         if (img == null || img.isEmpty()) {
             return null;
         }
-        return s3Util.uploadToS3(img);
+        return s3Util.uploadToS3(img, "info");
     }
 }

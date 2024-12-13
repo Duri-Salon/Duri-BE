@@ -3,6 +3,7 @@ package kr.com.duri.user.application.service.impl;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import kr.com.duri.groomer.application.service.ShopService;
@@ -24,6 +25,25 @@ public class RecommendServiceImpl implements RecommendService {
     private static final Double RADIUS_40KM = 40000d;
     private static final Double RADIUS_60KM = 60000d;
 
+    // 성격 Map
+    private static final Map<String, String> CHARACTER_MAP =
+            Map.of(
+                    "character1", "예민해요",
+                    "character2", "낯가려요",
+                    "character3", "입질이 있어요",
+                    "character4", "사람을 좋아해요",
+                    "character5", "얌전해요",
+                    "character6", "낯선 손길은 무서워요");
+
+    // 질환 Map
+    private static final Map<String, String> DISEASE_MAP =
+            Map.of(
+                    "disease1", "피부 질환",
+                    "disease2", "귀 염증",
+                    "disease3", "관절 질환",
+                    "disease4", "기저 질환",
+                    "disease5", "딱히 없어요");
+
     // 주변 매장 리스트 조회
     public List<Shop> getNearbyShops(Double lat, Double lon) {
         // 1. 지역 기반 필터링 (20km -> 40km -> 60km)
@@ -37,7 +57,6 @@ public class RecommendServiceImpl implements RecommendService {
         return shops;
     }
 
-    // TODO : 매장 태그 키워드 디자인 후 변경 시 수정 필요
     // 반려견 - 매장 매칭 점수 계산
     public AbstractMap.SimpleEntry<Integer, String> calculateMatchingScore(
             Pet pet, List<String> shopTags) {
@@ -46,7 +65,11 @@ public class RecommendServiceImpl implements RecommendService {
         List<String> feature = new ArrayList<>();
         // 1. 성격 매칭
         for (String character : petMapper.parseJsonArray(pet.getCharacter())) {
-            switch (character) {
+            String mappedCharacter = CHARACTER_MAP.get(character);
+            if (mappedCharacter == null) {
+                continue; // 매핑되지 않은 경우 스킵
+            }
+            switch (mappedCharacter) {
                 case "예민해요":
                     score += getTagMatchScore(shopTags, "예민한 반려견", 10);
                     score += getTagMatchScore(shopTags, "스트레스", 9);
@@ -78,7 +101,11 @@ public class RecommendServiceImpl implements RecommendService {
         }
         // 2. 질환 매칭
         for (String disease : petMapper.parseJsonArray(pet.getDiseases())) {
-            switch (disease) {
+            String mappedDisease = DISEASE_MAP.get(disease);
+            if (mappedDisease == null) {
+                continue; // 매핑되지 않은 경우 스킵
+            }
+            switch (mappedDisease) {
                 case "피부 질환":
                 case "귀 염증":
                     score += getTagMatchScore(shopTags, "예민한 반려견", 8);

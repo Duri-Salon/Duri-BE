@@ -58,9 +58,6 @@ public class UserHomeController {
             @RequestHeader("authorization_user") String token,
             @RequestParam Double lat,
             @RequestParam Double lon) {
-        // TODO : 매장 추천 조회 연결되는지 확인 후, 안되면 수도권 기준
-        lat = (lat != null) ? 37.510257428761 : lat;
-        lon = (lon != null) ? 127.04391561527 : lon;
         List<RecommendShopResponse> recommendShopResponses =
                 userHomeFacade.getRecommendShops(token, lat, lon);
         return CommonResponseEntity.success(recommendShopResponses);

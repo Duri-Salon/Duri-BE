@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import kr.com.duri.common.s3.S3Util;
 import kr.com.duri.groomer.application.service.QuotationService;
+import kr.com.duri.groomer.application.service.ShopImageService;
 import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.application.service.ShopTagService;
 import kr.com.duri.groomer.domain.entity.Quotation;
@@ -53,9 +55,8 @@ public class UserHomeFacade {
     private final ShopTagService shopTagService;
     private final AiService aiService;
     private final RecommendService recommendService;
-
-    // TODO : 매장 이미지 조회 서비스 연결
-    // private final ShopImageService shopImageService;
+    private final ShopImageService shopImageService;
+    private final S3Util s3Util;
 
     // 사용자 조회
     private SiteUser getUser(Long userId) {
@@ -77,34 +78,34 @@ public class UserHomeFacade {
     // 오늘로부터 지난일자 계산
     private Integer calculateDateDiff(Object date, boolean isFuture) {
         LocalDate targetDate, today = LocalDate.now();
-        // 1. 형식 변환
-        if (date instanceof Date) { // Date 형식일 경우
+        // 1) 형식 변환
+        if (date instanceof Date) { // Date 경우
             targetDate = ((Date) date).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        } else if (date instanceof LocalDateTime) { // LocalDateTime 형식일 경우
+        } else if (date instanceof LocalDateTime) { // LocalDateTime 경우
             targetDate = ((LocalDateTime) date).toLocalDate();
         } else {
             throw new IllegalArgumentException("잘못된 형식의 날짜가 입력되었습니다.");
         }
-        // 2. 일수 계산
+        // 2) 일수 계산
         int dayDifference =
                 (int)
                         (isFuture
                                 ? targetDate.toEpochDay() - today.toEpochDay()
                                 : targetDate.toEpochDay() - today.toEpochDay());
-        return dayDifference >= 0 ? dayDifference : -1;
+        return dayDifference;
     }
 
     // 마지막 미용일자 및 최근 예약정보 조회
     public RecentProcedureResponse getRecentProcedure(String token) {
         Long userId = siteUserService.getUserIdByToken(token);
         getUser(userId);
-        // 1. 반려견, 마지막 미용일로부터 지난일
+        // 1) 반려견, 마지막 미용일로부터 지난일
         Pet pet = petService.findById(userId);
         Integer lastSinceDay =
                 (pet.getLastGrooming() != null)
-                        ? calculateDateDiff(pet.getLastGrooming(), false)
+                        ? Math.abs(calculateDateDiff(pet.getLastGrooming(), false))
                         : -1;
-        // 2. 견적서, 예약일 디데이
+        // 2) 견적서, 예약일 디데이
         Quotation quotation = quotationService.getClosetQuoationByUserId(userId);
         if (quotation == null) { // 해당 견적서 없음
             return userHomeMapper.createEmpty(pet.getId(), lastSinceDay);
@@ -113,11 +114,11 @@ public class UserHomeFacade {
                 (quotation.getStartDateTime() != null)
                         ? calculateDateDiff(quotation.getStartDateTime(), true)
                         : -1;
-        // 3. 매장
+        // 3) 매장
         Request request = getRequestByQuotation(quotation); // 견적서로 요청 조회
         Shop shop = getShopByRequest(request); // 요청으로 매장 조회
-        // 4. TODO : 매장 이미지 조회 함수 호출
-        ShopImage shopImage = new ShopImage();
+        // 4) 매장 이미지
+        ShopImage shopImage = shopImageService.getMainShopImage(shop);
         return userHomeMapper.toRecentProcedureResponse(
                 quotation, pet, shop, shopImage, lastSinceDay, reserveDday);
     }
@@ -126,25 +127,23 @@ public class UserHomeFacade {
     public RegularShopResponse getRegularShops(String token) {
         Long userId = siteUserService.getUserIdByToken(token);
         getUser(userId);
-        // 1. 사용자 아이디로 반려견 조회
+        // 1) 반려견 조회
         Pet pet = petService.getPetByUserId(userId);
         Long petId = pet.getId();
-        // 2. 반려견 아이디로 단골샵 매장 (3번 이상, 가장 많은 방문횟수) 조회
+        // 2) 반려견 아이디로 단골샵 매장 (3번 이상, 가장 많은 방문횟수) 조회
         List<Object[]> regularVisitInfo = quotationService.getRegularInfoByPetId(petId);
         if (regularVisitInfo.isEmpty()) { // 단골샵 없음
             return userHomeMapper.toRegularShopResponse(pet, Collections.emptyList());
         }
-        // 3. HomeShopResponse 리스트 생성
         List<HomeShopResponse> homeShopList =
                 regularVisitInfo.stream()
                         .map(
                                 info -> {
-                                    // 매장
+                                    // 3) 매장
                                     Long shopId = (Long) info[0];
                                     Shop shop = shopService.findById(shopId);
-                                    // 4. TODO : 매장 이미지
-                                    ShopImage shopImage =
-                                            new ShopImage(); // shopImageService.getByShopId(shop.getId());
+                                    // 4) 매장 이미지
+                                    ShopImage shopImage = shopImageService.getMainShopImage(shop);
                                     Integer reviewCnt =
                                             reviewService
                                                     .getReviewsByShopId(shop.getId())
@@ -154,8 +153,6 @@ public class UserHomeFacade {
                                             shop, shopImage, reviewCnt, visitCnt);
                                 })
                         .collect(Collectors.toList());
-
-        // 4. RegularShopResponse 변환
         return userHomeMapper.toRegularShopResponse(pet, homeShopList);
     }
 
@@ -163,37 +160,35 @@ public class UserHomeFacade {
     public List<RecommendShopResponse> getRecommendShops(String token, Double lat, Double lon) {
         Long userId = siteUserService.getUserIdByToken(token);
         Pet pet = petService.findById(userId);
-        // 1. 주변 매장 계산
+        // 1) 주변 매장 계산
         List<Shop> nearbyShops = recommendService.getNearbyShops(lat, lon);
         if (nearbyShops.isEmpty()) {
             return Collections.emptyList();
         }
-        // 2. 반려견-매장 매칭 점수
+        // 2) 반려견-매장 매칭 점수
         List<RecommendShopResponse> recommendations =
                 nearbyShops.stream()
                         .map(
                                 shop -> {
-                                    // 1) 매장 태그 가져오기
+                                    // 3) 매장 태그
                                     List<String> shopTags =
                                             shopTagService.findTagsByShopId(shop.getId());
-                                    // 2) 성격, 질환, 나이, 크기 기준 매칭 점수 및 기준 도출
+                                    // 4) 성격, 질환, 나이, 크기 기준 매칭 점수 및 기준 도출
                                     AbstractMap.SimpleEntry<Integer, String> scoreMap =
                                             recommendService.calculateMatchingScore(pet, shopTags);
                                     Integer score = scoreMap.getKey();
                                     String feature = scoreMap.getValue();
-                                    // 3) 평점 보정
+                                    // 5) 평점 보정
                                     Float adjustScore =
                                             recommendService.adjustScoreWithRating(
                                                     score, shop.getRating());
-                                    // 4) TODO : 매장 이미지 조회 연결
-                                    ShopImage shopImage =
-                                            new ShopImage(); // shopImageService.getImagesByShopId(shopId);
+                                    // 6) 매장 이미지
+                                    ShopImage shopImage = shopImageService.getMainShopImage(shop);
                                     return userHomeMapper.toRecommendShopResponse(
                                             pet, feature, shop, shopImage, shopTags, adjustScore);
                                 })
                         .collect(Collectors.toList());
-
-        // 3. 매칭 점수 기준 정렬해 상위 2개 반환
+        // 7) 매칭 점수 기준 정렬해 상위 4개 반환
         return recommendations.stream()
                 .sorted(Comparator.comparingDouble(RecommendShopResponse::getScore).reversed())
                 .limit(MAX_RECOMMEND)
@@ -215,19 +210,17 @@ public class UserHomeFacade {
             throw new RuntimeException("이미지 입력 누락");
         }
         try {
-            // 1. S3 사진 업로드 URL 가져오기
-            String imageURL = aiService.uploadS3(image);
-            // 2. 프롬프트 생성
+            // 1) S3 사진 업로드 URL
+            String imageURL = s3Util.uploadToS3(image, "ai");
+            // 2) 프롬프트, 네거티브, 모델 생성
             String prompt = aiService.generatePrompt(styleText); // 테디베어, 베이비, 라이언
-            // 3. 네거티브 프롬프트 생성
             String negativePrompt = aiService.generateNegativePrompt(styleText);
-            // 4. 모델 선택
             String version = aiService.generateModel(styleText);
-            // 4. 결과 반환
+            // 3) 결과 반환
             String resultImageURL =
                     aiService.callReplicateApi(imageURL, prompt, negativePrompt, version);
-            // 5. S3 업로드 삭제
-            aiService.deleteFromS3(imageURL);
+            // 4) S3 업로드 삭제
+            s3Util.deleteFromS3(imageURL);
             return resultImageURL;
         } catch (Exception e) {
             throw new InternalException(e.getMessage());

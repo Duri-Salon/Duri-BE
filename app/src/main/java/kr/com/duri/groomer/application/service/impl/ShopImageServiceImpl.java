@@ -51,7 +51,7 @@ public class ShopImageServiceImpl implements ShopImageService {
         if (img == null) {
             return null;
         }
-        String imageUrl = s3Util.uploadToS3(img);
+        String imageUrl = s3Util.uploadToS3(img, "info");
         shopImageRepository.save(ShopImage.createNewShopImage(shop, imageUrl, "MAIN"));
         return imageUrl;
     }
@@ -59,7 +59,7 @@ public class ShopImageServiceImpl implements ShopImageService {
     @Override
     public void uploadShopImages(Shop shop, List<MultipartFile> images) {
         for (MultipartFile img : images) {
-            String imageUrl = s3Util.uploadToS3(img);
+            String imageUrl = s3Util.uploadToS3(img, "info");
             shopImageRepository.save(ShopImage.createNewShopImage(shop, imageUrl, "ETC"));
         }
     }

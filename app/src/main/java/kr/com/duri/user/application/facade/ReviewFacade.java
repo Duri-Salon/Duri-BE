@@ -228,6 +228,7 @@ public class ReviewFacade {
     // 리뷰 수정
     public void updateReview(
             Long reviewId, UpdateReviewRequest newReviewRequest, MultipartFile img) {
+        reviewService.getReview(reviewId);
         // Review 수정
         Review afterReview = reviewService.updateReview(reviewId, newReviewRequest);
         reviewImageService.saveReviewImage(img, afterReview);
@@ -235,12 +236,14 @@ public class ReviewFacade {
 
     // 리뷰 삭제
     public void deleteReview(Long reviewId) {
+        reviewService.getReview(reviewId);
         reviewImageService.deleteReview(reviewId); // ReviewImage 삭제
         reviewService.deleteReview(reviewId); // Review 삭제
     }
 
     // 리뷰 이미지 삭제
     public void deleteReviewImage(Long reviewId) {
+        reviewService.getReview(reviewId);
         reviewImageService.deleteReview(reviewId); // ReviewImage 삭제
     }
 
