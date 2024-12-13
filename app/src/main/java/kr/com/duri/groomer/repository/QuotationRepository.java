@@ -2,6 +2,7 @@ package kr.com.duri.groomer.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import kr.com.duri.groomer.domain.entity.Quotation;
@@ -100,4 +101,67 @@ public interface QuotationRepository extends JpaRepository<Quotation, Long> {
       WHERE qr.pet.id = :petId and r.status = 'APPROVED'
       """)
     List<Quotation> findApprovedQuotationsByPetId(@Param("petId") Long petId);
+
+    // 나이별 통계 : List<기준, 개수>
+    @Query(
+            """
+            SELECT
+                CASE
+                    WHEN p.age <= 3 THEN '~3세'
+                    WHEN p.age BETWEEN 4 AND 7 THEN '3세~7세'
+                    ELSE '7세~'
+                END AS ageGroup,
+                COUNT(p) AS count
+            FROM Quotation q
+            JOIN q.request r
+            JOIN r.quotation qr
+            JOIN qr.pet p
+            WHERE r.shop.id = :shopId
+            GROUP BY
+                CASE
+                    WHEN p.age <= 3 THEN '~3세'
+                    WHEN p.age BETWEEN 4 AND 7 THEN '3세~7세'
+                    ELSE '7세~'
+                END
+    """)
+    List<Object[]> getPetAgeStatistics(@Param("shopId") Long shopId);
+
+    // 질환별 통계 : List<기준, 개수>
+    @Query(
+            value =
+                    """
+        SELECT
+           SUM(CASE WHEN p.pet_diseases LIKE '%disease1%' THEN 1 ELSE 0 END) AS 피부질환,
+           SUM(CASE WHEN p.pet_diseases LIKE '%disease2%' THEN 1 ELSE 0 END) AS 귀질환,
+           SUM(CASE WHEN p.pet_diseases LIKE '%disease3%' THEN 1 ELSE 0 END) AS 관절질환,
+           SUM(CASE WHEN p.pet_diseases LIKE '%disease4%' THEN 1 ELSE 0 END) AS 기저질환,
+           SUM(CASE WHEN p.pet_diseases LIKE '%disease5%' THEN 1 ELSE 0 END) AS 해당없음
+        FROM quotation q
+        JOIN request r ON q.request_id = r.request_id
+        JOIN quotation_req qr ON r.quotation_req_id = qr.quotation_req_id
+        JOIN pet p ON qr.pet_id = p.pet_id
+        WHERE r.shop_id = :shopId
+    """,
+            nativeQuery = true)
+    List<Map<String, Object>> getPetDiseaseCharacterStatistics(@Param("shopId") Long shopId);
+
+    // 성격별 통계 : List<기준, 개수>
+    @Query(
+            value =
+                    """
+        SELECT
+           SUM(CASE WHEN p.pet_character LIKE '%character1%' THEN 1 ELSE 0 END) AS 예민한,
+           SUM(CASE WHEN p.pet_character LIKE '%character2%' THEN 1 ELSE 0 END) AS 낯가리는,
+           SUM(CASE WHEN p.pet_character LIKE '%character3%' THEN 1 ELSE 0 END) AS 입질,
+           SUM(CASE WHEN p.pet_character LIKE '%character4%' THEN 1 ELSE 0 END) AS 친화적,
+           SUM(CASE WHEN p.pet_character LIKE '%character5%' THEN 1 ELSE 0 END) AS 얌전한,
+           SUM(CASE WHEN p.pet_character LIKE '%character6%' THEN 1 ELSE 0 END) AS 겁많은
+        FROM quotation q
+        JOIN request r ON q.request_id = r.request_id
+        JOIN quotation_req qr ON r.quotation_req_id = qr.quotation_req_id
+        JOIN pet p ON qr.pet_id = p.pet_id
+        WHERE r.shop_id = :shopId
+    """,
+            nativeQuery = true)
+    List<Map<String, Object>> getPetCharacterStatistics(@Param("shopId") Long shopId);
 }
