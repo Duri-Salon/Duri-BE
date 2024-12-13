@@ -20,6 +20,7 @@ import kr.com.duri.user.application.mapper.PetMapper;
 import kr.com.duri.user.application.mapper.UserInfoMapper;
 import kr.com.duri.user.application.service.PetService;
 import kr.com.duri.user.application.service.SiteUserService;
+import kr.com.duri.user.domain.Enum.Day;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.SiteUser;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +69,8 @@ public class UserInfoFacade {
                         quotation -> {
                             // 2) 요일
                             DayOfWeek dayWeek = quotation.getStartDateTime().getDayOfWeek();
-                            String day = userInfoMapper.getDay(dayWeek);
+                            Day dayMap = Day.from(dayWeek);
+                            String day = dayMap.getDay();
                             // 3) 미용사
                             Shop shop = getShopByQuotation(quotation);
                             Groomer groomer = groomerService.getGroomerByShopId(shop.getId());

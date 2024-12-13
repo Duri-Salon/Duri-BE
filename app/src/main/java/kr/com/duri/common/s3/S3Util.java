@@ -58,11 +58,4 @@ public class S3Util {
         String deleteS3Key = imageURL.substring(imageURL.indexOf(".com/") + 5);
         amazonS3.deleteObject(new DeleteObjectRequest(bucket, deleteS3Key));
     }
-
-    // S3 삭제
-    public void deleteFromS3ByReviewImage(ReviewImage reviewImage) {
-        String originS3Url = reviewImage.getImage();
-        String deleteS3Key = originS3Url.substring(originS3Url.indexOf(".com/") + 5);
-        amazonS3.deleteObject(new DeleteObjectRequest(bucket, deleteS3Key));
-    }
 }

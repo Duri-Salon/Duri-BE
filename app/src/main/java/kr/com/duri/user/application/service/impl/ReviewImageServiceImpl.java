@@ -52,7 +52,8 @@ public class ReviewImageServiceImpl implements ReviewImageService {
         // 2) 기존 리뷰 이미지 있다면 S3 삭제 후 수정
         ReviewImage reviewImage = getReviewImageByReviewId(review.getId());
         if (reviewImage.getId() != null) {
-            s3Util.deleteFromS3ByReviewImage(reviewImage);
+            String originS3Url = reviewImage.getImage();
+            s3Util.deleteFromS3(originS3Url);
             reviewImage.update(imageS3Url, review);
         } else { // 기존 이미지가 없다면 새로 생성
             reviewImage = ReviewImage.create(imageS3Url, review);
@@ -70,7 +71,9 @@ public class ReviewImageServiceImpl implements ReviewImageService {
             return false;
         }
         // 2) 삭제
-        s3Util.deleteFromS3ByReviewImage(reviewImage); // S3 삭제
+        String originS3Url = reviewImage.getImage();
+        s3Util.deleteFromS3(originS3Url); // S3 삭제
+
         reviewImageRepository.delete(reviewImage); // DB 삭제
         return true;
     }
