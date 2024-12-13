@@ -1,5 +1,6 @@
 package kr.com.duri.user.application.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import kr.com.duri.user.application.service.QuotationReqService;
@@ -39,5 +40,17 @@ public class QuotationReqServiceImpl implements QuotationReqService {
         return quotationReqRepository
                 .findTopByPetIdOrderByCreatedAtDesc(petId)
                 .orElse(null); // 데이터가 없으면 null 반환
+    }
+
+    // 24시간 지난 요청서 중 close가 false인 것들을 찾는 메서드
+    @Override
+    public List<QuotationReq> findExpiredQuotationReqs(LocalDateTime thresholdTime) {
+        return quotationReqRepository.findByCreatedAtBeforeAndCloseIsFalse(thresholdTime);
+    }
+
+    // close를 true로 업데이트
+    @Override
+    public void closeQuotationReq(QuotationReq quotationReq) {
+        quotationReq.updateCloseStatus(true);
     }
 }

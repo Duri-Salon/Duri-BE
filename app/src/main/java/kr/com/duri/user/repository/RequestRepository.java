@@ -3,6 +3,7 @@ package kr.com.duri.user.repository;
 import java.util.List;
 import java.util.Optional;
 
+import kr.com.duri.user.domain.entity.QuotationReq;
 import kr.com.duri.user.domain.entity.Request;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -45,4 +46,6 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     List<Request> findCompleteQuotationsByShopId(@Param("shopId") Long shopId);
 
     List<Request> findByQuotationId(Long quotationId);
+
+    List<Request> findByQuotation(QuotationReq quotationReq);
 }

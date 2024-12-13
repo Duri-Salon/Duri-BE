@@ -1,5 +1,6 @@
 package kr.com.duri.user.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,4 +12,6 @@ public interface QuotationReqRepository extends JpaRepository<QuotationReq, Long
     List<QuotationReq> findByPetId(Long petId);
 
     Optional<QuotationReq> findTopByPetIdOrderByCreatedAtDesc(Long petId);
+
+    List<QuotationReq> findByCreatedAtBeforeAndCloseIsFalse(LocalDateTime thresholdTime);
 }

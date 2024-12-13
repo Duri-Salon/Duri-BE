@@ -82,4 +82,9 @@ public class QuotationReq extends BaseEntity {
 
     @Column(name = "quotation_req_time18") // 컬럼 이름 변경
     private Boolean time18; // 18시 희망 여부 (T: 희망, F: 비희망)
+
+    // 마감여부 업데이트
+    public void updateCloseStatus(Boolean closeStatus) {
+        this.close = closeStatus;
+    }
 }
