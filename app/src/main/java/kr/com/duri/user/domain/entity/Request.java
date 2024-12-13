@@ -43,4 +43,9 @@ public class Request extends BaseEntity {
                 .status(QuotationStatus.APPROVED) // 상태 변경
                 .build();
     }
+
+    // 상태 업데이트
+    public void updateStatus(QuotationStatus status) {
+        this.status = status;
+    }
 }

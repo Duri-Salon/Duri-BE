@@ -3,6 +3,8 @@ package kr.com.duri.user.application.service.impl;
 import java.util.List;
 
 import kr.com.duri.user.application.service.RequestService;
+import kr.com.duri.user.domain.Enum.QuotationStatus;
+import kr.com.duri.user.domain.entity.QuotationReq;
 import kr.com.duri.user.domain.entity.Request;
 import kr.com.duri.user.exception.RequestNotFoundException;
 import kr.com.duri.user.repository.RequestRepository;
@@ -58,5 +60,17 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public List<Request> findByQuotationId(Long quotationId) {
         return requestRepository.findByQuotationId(quotationId);
+    }
+
+    // QuotationReq와 관련된 Request들을 가져옴
+    @Override
+    public List<Request> findRequestsByQuotation(QuotationReq quotationReq) {
+        return requestRepository.findByQuotation(quotationReq);
+    }
+
+    // Request상태를 EXPIRED로 업데이트
+    @Override
+    public void updateRequestStatusToExpired(Request request) {
+        request.updateStatus(QuotationStatus.EXPIRED);
     }
 }
