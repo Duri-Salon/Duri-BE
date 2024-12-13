@@ -103,5 +103,8 @@ subprojects {
         implementation 'com.fasterxml.jackson.core:jackson-databind'
         implementation 'org.apache.httpcomponents.client5:httpclient5'
 
+        implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
+        implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.7.0'
+
     }
 }
