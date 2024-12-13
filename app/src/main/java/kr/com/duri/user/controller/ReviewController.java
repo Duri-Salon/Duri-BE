@@ -62,9 +62,9 @@ public class ReviewController {
     }
 
     // 리뷰 작성시 : 견적서로 매장,반려견 조회 (고객)
-    @GetMapping("/user/review-new/{quotationId}")
+    @GetMapping("/user/review-new")
     public CommonResponseEntity<QuotationPetReviewResponse> getPetReviewByQuotationId(
-            @PathVariable Long quotationId) {
+            @RequestParam Long quotationId) {
         return CommonResponseEntity.success(reviewFacade.getPetReviewByQuotationId(quotationId));
     }
 
