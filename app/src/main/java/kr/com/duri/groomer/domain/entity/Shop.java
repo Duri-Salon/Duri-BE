@@ -114,6 +114,22 @@ public class Shop extends BaseEntity {
         this.rating = rating;
     }
 
+    public Shop updateDetail(
+            String name,
+            String phone,
+            LocalTime openTime,
+            LocalTime closeTime,
+            String info,
+            String kakaoTalk) {
+        this.name = name;
+        this.phone = phone;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.info = info;
+        this.kakaoTalk = kakaoTalk;
+        return this;
+    }
+
     public void updateEntry(EntryStatus entry) {
         this.entry = entry;
     }

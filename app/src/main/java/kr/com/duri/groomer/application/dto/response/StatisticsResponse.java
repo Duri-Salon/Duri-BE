@@ -6,10 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class ShopOnboardingResponse {
-    private ShopDetailResponse shopDetailResponse;
-    private GroomerProfileDetailResponse groomerProfileDetailResponse;
+public class StatisticsResponse {
+    private String standard; // 기준
+    private Float ratio; // 비율
+    private Long count; // 방문수
 }

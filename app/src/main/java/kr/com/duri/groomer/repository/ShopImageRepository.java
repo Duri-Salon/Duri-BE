@@ -18,4 +18,6 @@ public interface ShopImageRepository extends JpaRepository<ShopImage, Long> {
     // 해당 매장의 이미지들을 선택 카테고리별 제외한 리스트 조회
     List<ShopImage> findShopImagesByShopAndCategoryNotOrderByCreatedAtDesc(
             Shop shop, ImageCategory category);
+
+    boolean existsByShopAndCategory(Shop shop, ImageCategory imageCategory);
 }
