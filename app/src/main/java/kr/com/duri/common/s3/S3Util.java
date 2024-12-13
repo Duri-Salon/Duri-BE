@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import kr.com.duri.user.domain.entity.ReviewImage;
 import kr.com.duri.user.exception.ReviewImageUploadException;
 import lombok.RequiredArgsConstructor;
 

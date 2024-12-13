@@ -17,10 +17,12 @@ public enum Day {
     Day(String day) {
         this.day = day;
     }
+
     // 한글 요일 반환
     public String getDay() {
         return day;
     }
+
     // 변환
     public static Day from(DayOfWeek dayOfWeek) {
         switch (dayOfWeek) {
