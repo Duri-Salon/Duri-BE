@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import kr.com.duri.groomer.application.service.GroomerService;
@@ -12,6 +13,7 @@ import kr.com.duri.groomer.application.service.QuotationService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.domain.entity.Shop;
+import kr.com.duri.groomer.exception.ShopNotFoundException;
 import kr.com.duri.user.application.dto.request.NewPetRequest;
 import kr.com.duri.user.application.dto.response.*;
 import kr.com.duri.user.application.mapper.PetMapper;
@@ -19,7 +21,6 @@ import kr.com.duri.user.application.mapper.UserInfoMapper;
 import kr.com.duri.user.application.service.PetService;
 import kr.com.duri.user.application.service.SiteUserService;
 import kr.com.duri.user.domain.entity.Pet;
-import kr.com.duri.user.domain.entity.Request;
 import kr.com.duri.user.domain.entity.SiteUser;
 import lombok.RequiredArgsConstructor;
 
@@ -37,26 +38,10 @@ public class UserInfoFacade {
     private final UserInfoMapper userInfoMapper;
     private final PetMapper petMapper;
 
-    // 요일
-    public String getDay(DayOfWeek dayWeek) {
-        switch (dayWeek) {
-            case MONDAY:
-                return "월";
-            case TUESDAY:
-                return "화";
-            case WEDNESDAY:
-                return "수";
-            case THURSDAY:
-                return "목";
-            case FRIDAY:
-                return "금";
-            case SATURDAY:
-                return "토";
-            case SUNDAY:
-                return "일";
-            default:
-                throw new IllegalArgumentException("잘못된 요일입니다.");
-        }
+    // 견적서로 매장 조회
+    private Shop getShopByQuotation(Quotation quotation) {
+        return Optional.ofNullable(quotation.getRequest().getShop())
+                .orElseThrow(() -> new ShopNotFoundException("해당 매장을 찾을 수 없습니다."));
     }
 
     public PetProfileResponse createNewPet(String token, NewPetRequest newPetRequest) {
@@ -73,7 +58,7 @@ public class UserInfoFacade {
     public List<HistoryResponse> getHistoryList(String token) {
         Long userId = siteUserService.getUserIdByToken(token);
         Pet pet = petService.getPetByUserId(userId);
-        // 1. 해당 유저의 이용 기록 가져오기
+        // 1) 이용 기록
         List<Quotation> quotationList = quotationService.getHistoryByPetId(pet.getId());
         if (quotationList.isEmpty()) { // 해당 견적서 없음
             return Collections.emptyList();
@@ -81,12 +66,11 @@ public class UserInfoFacade {
         return quotationList.stream()
                 .map(
                         quotation -> {
-                            // 요일
+                            // 2) 요일
                             DayOfWeek dayWeek = quotation.getStartDateTime().getDayOfWeek();
-                            String day = getDay(dayWeek);
-                            // 미용사
-                            Request request = quotation.getRequest();
-                            Shop shop = request.getShop();
+                            String day = userInfoMapper.getDay(dayWeek);
+                            // 3) 미용사
+                            Shop shop = getShopByQuotation(quotation);
                             Groomer groomer = groomerService.getGroomerByShopId(shop.getId());
                             // DTO 변환
                             return userInfoMapper.toHistoryResponse(
@@ -101,7 +85,6 @@ public class UserInfoFacade {
         if (historyResponseList.isEmpty()) { // 기록 없음
             return Collections.emptyList();
         }
-        // 월별로 그룹화
         Map<String, List<HistoryResponse>> groupByMonth =
                 historyResponseList.stream()
                         .collect(

@@ -1,5 +1,6 @@
 package kr.com.duri.user.application.mapper;
 
+import java.time.DayOfWeek;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserInfoMapper {
+    private String safeGet(String value) {
+        return value == null ? "" : value;
+    }
 
     // Entity to HistoryResponse DTO
     public HistoryResponse toHistoryResponse(
@@ -24,12 +28,12 @@ public class UserInfoMapper {
         return HistoryResponse.builder()
                 .quotationId(quotation.getId())
                 .complete(quotation.getComplete())
-                .groomerImageURL(groomer.getImage() != null ? groomer.getImage() : "")
-                .groomerName(groomer.getName() != null ? groomer.getName() : "")
+                .groomerImageURL(safeGet(groomer.getImage()))
+                .groomerName(groomer.getName())
                 .shopId(shop.getId())
                 .shopName(shop.getName())
                 .petName(pet.getName())
-                .day(day != null ? day : "")
+                .day(safeGet(day))
                 .startDate(
                         quotation.getStartDateTime() != null
                                 ? quotation.getStartDateTime().format(dateTimeformatter)
@@ -57,5 +61,27 @@ public class UserInfoMapper {
                 .noShowCount(noShowCount)
                 .stamp(siteUser.getStamp())
                 .build();
+    }
+
+    // 날짜 변환
+    public String getDay(DayOfWeek dayWeek) {
+        switch (dayWeek) {
+            case MONDAY:
+                return "월";
+            case TUESDAY:
+                return "화";
+            case WEDNESDAY:
+                return "수";
+            case THURSDAY:
+                return "목";
+            case FRIDAY:
+                return "금";
+            case SATURDAY:
+                return "토";
+            case SUNDAY:
+                return "일";
+            default:
+                throw new IllegalArgumentException("잘못된 요일입니다.");
+        }
     }
 }
