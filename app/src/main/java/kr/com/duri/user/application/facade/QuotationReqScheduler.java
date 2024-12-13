@@ -30,18 +30,16 @@ public class QuotationReqScheduler {
 
         for (QuotationReq quotationReq : expiredQuotationReqs) {
             if (quotationReq.getCreatedAt().isBefore(thresholdTime)
-                    && quotationReq.getClose() == false) {
+                    && !quotationReq.getClose()) {
                 // QuotationReq의 close 상태를 true로 설정
                 quotationReqService.closeQuotationReq(quotationReq);
 
                 // 해당 QuotationReq와 연관된 Request의 상태를 'EXPIRED'로 변경
                 List<Request> relatedRequests =
                         requestService.findRequestsByQuotation(quotationReq);
+                // 'EXPIRED' 상태로 변경
                 relatedRequests.forEach(
-                        request -> {
-                            requestService.updateRequestStatusToExpired(
-                                    request); // 'EXPIRED' 상태로 변경
-                        });
+                        requestService::updateRequestStatusToExpired);
             }
         }
     }
