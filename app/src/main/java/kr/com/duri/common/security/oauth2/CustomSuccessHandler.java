@@ -26,6 +26,12 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Value("${client.local.shop.dev.url}")
     private String LOCAL_SHOP_DEV_URL;
 
+    @Value("${client.user.dev.url}")
+    private String USER_DEV_URL;
+
+    @Value("${client.shop.dev.url}")
+    private String SHOP_DEV_URL;
+
     @Value("${client.user.url}")
     private String Client_USER_URL;
 
@@ -86,13 +92,25 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             response.getWriter().flush();
 
         } else {
+            // 메인 URL
+            //            if (tokenName.equals("authorization_user")) {
+            //                String redirectUrl = Client_USER_URL + "/auth?providerId=" +
+            // providerId;
+            //                response.sendRedirect(redirectUrl);
+            //            } else {
+            //                String redirectUrl = Client_SHOP_URL + "/auth?providerId=" +
+            // providerId;
+            //                response.sendRedirect(redirectUrl);
+            //            }
+            // 개발 URL
             if (tokenName.equals("authorization_user")) {
-                String redirectUrl = Client_USER_URL + "/auth?providerId=" + providerId;
+                String redirectUrl = USER_DEV_URL + "/auth?providerId=" + providerId;
                 response.sendRedirect(redirectUrl);
             } else {
-                String redirectUrl = Client_SHOP_URL + "/auth?providerId=" + providerId;
+                String redirectUrl = SHOP_DEV_URL + "/auth?providerId=" + providerId;
                 response.sendRedirect(redirectUrl);
             }
+            // 로컬 환경
             //            if (tokenName.equals("authorization_user")) {
             //                String redirectUrl = LOCAL_USER_DEV_URL + "/auth?providerId=" +
             // providerId;

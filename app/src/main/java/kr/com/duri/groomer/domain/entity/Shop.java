@@ -4,6 +4,7 @@ import java.time.LocalTime;
 
 import jakarta.persistence.*;
 import kr.com.duri.common.entity.BaseEntity;
+import kr.com.duri.groomer.domain.Enum.EntryStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -49,8 +50,9 @@ public class Shop extends BaseEntity {
     @Column(name = "shop_adtop")
     private Boolean adtop; // 광고 상단 노출 여부
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "shop_entry")
-    private String entry; // 입점 승인 여부
+    private EntryStatus entry; // 입점 승인 여부
 
     @Column(name = "shop_open_time")
     private LocalTime openTime; // 오픈시간
@@ -83,7 +85,7 @@ public class Shop extends BaseEntity {
             throw new IllegalArgumentException("Social ID must not be null or empty");
         }
 
-        return Shop.builder().socialId(socialId).email(email).entry("W").build();
+        return Shop.builder().socialId(socialId).email(email).entry(EntryStatus.WAITING).build();
     }
 
     public Shop updateDetailWithOnboarding(
@@ -103,12 +105,32 @@ public class Shop extends BaseEntity {
         this.groomerLicenseNumber = groomerLicenseNumber;
         this.newShop = false;
         this.adtop = false;
-        this.entry = "W";
+        this.entry = EntryStatus.WAITING;
         this.rating = 0.0f;
         return this;
     }
 
     public void updateRating(Float rating) {
         this.rating = rating;
+    }
+
+    public Shop updateDetail(
+            String name,
+            String phone,
+            LocalTime openTime,
+            LocalTime closeTime,
+            String info,
+            String kakaoTalk) {
+        this.name = name;
+        this.phone = phone;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.info = info;
+        this.kakaoTalk = kakaoTalk;
+        return this;
+    }
+
+    public void updateEntry(EntryStatus entry) {
+        this.entry = entry;
     }
 }

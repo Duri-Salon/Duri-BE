@@ -1,5 +1,6 @@
 package kr.com.duri.groomer.application.mapper;
 
+import java.util.Collections;
 import java.util.List;
 
 import kr.com.duri.common.Mapper.CommonMapper;
@@ -39,5 +40,13 @@ public class GroomerMapper {
                 .info(newGroomer.getInfo()) // 미용사 자기소개
                 .license(licenseToString) // 자격증
                 .build();
+    }
+
+    public List<GroomerProfileDetailResponse> toGroomerProfileDetailResponseList(
+            List<Groomer> groomers) {
+        if (groomers == null) {
+            return Collections.emptyList();
+        }
+        return groomers.stream().map(this::toGroomerProfileDetailResponse).toList();
     }
 }

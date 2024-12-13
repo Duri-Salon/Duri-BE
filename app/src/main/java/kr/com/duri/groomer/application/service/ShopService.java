@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import kr.com.duri.groomer.application.dto.request.ShopOnboardingInfo;
+import kr.com.duri.groomer.application.dto.request.ShopProfileDetailRequest;
 import kr.com.duri.groomer.domain.entity.Shop;
 
 public interface ShopService {
@@ -30,4 +31,18 @@ public interface ShopService {
 
     // 토큰으로 매장 아이디 찾기
     Long getShopIdByToken(String token);
+
+    Shop updateDetail(Shop shop, ShopProfileDetailRequest shopProfileDetailRequest);
+
+    // 입점 대기 목록
+    List<Shop> getEntryWaitingShops();
+
+    // 입점 승인 목록
+    List<Shop> getEntryApprovedShops();
+
+    // 입점 승인 처리
+    void approveEntry(Long shopId);
+
+    // 입점 거절 처리
+    void rejectEntry(Long shopId);
 }
