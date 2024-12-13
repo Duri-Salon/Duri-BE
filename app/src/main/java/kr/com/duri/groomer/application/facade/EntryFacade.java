@@ -46,12 +46,12 @@ public class EntryFacade {
     }
 
     // 입점 승인 처리
-    public void approveEntry(Long shopId){
+    public void approveEntry(Long shopId) {
         shopService.approveEntry(shopId);
     }
 
     // 입점 거절 처리
-    public void rejectEntry(Long shopId){
+    public void rejectEntry(Long shopId) {
         shopService.rejectEntry(shopId);
     }
 }

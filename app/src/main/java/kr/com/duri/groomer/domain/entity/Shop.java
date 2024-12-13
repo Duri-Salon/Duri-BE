@@ -117,5 +117,4 @@ public class Shop extends BaseEntity {
     public void updateEntry(EntryStatus entry) {
         this.entry = entry;
     }
-
 }

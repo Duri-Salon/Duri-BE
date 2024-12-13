@@ -108,7 +108,7 @@ public class ShopServiceImpl implements ShopService {
 
     // 입점 승인 처리
     @Override
-    public void approveEntry(Long shopId){
+    public void approveEntry(Long shopId) {
         Shop shop = findById(shopId);
         shop.updateEntry(EntryStatus.APPROVED);
         shopRepository.save(shop);
@@ -116,7 +116,7 @@ public class ShopServiceImpl implements ShopService {
 
     // 입점 거절 처리
     @Override
-    public void rejectEntry(Long shopId){
+    public void rejectEntry(Long shopId) {
         Shop shop = findById(shopId);
         shop.updateEntry(EntryStatus.REJECTED);
         shopRepository.save(shop);
