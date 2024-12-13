@@ -92,15 +92,17 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             response.getWriter().flush();
 
         } else {
-//            메인 URL
-//            if (tokenName.equals("authorization_user")) {
-//                String redirectUrl = Client_USER_URL + "/auth?providerId=" + providerId;
-//                response.sendRedirect(redirectUrl);
-//            } else {
-//                String redirectUrl = Client_SHOP_URL + "/auth?providerId=" + providerId;
-//                response.sendRedirect(redirectUrl);
-//            }
-//                        개발 URL
+            // 메인 URL
+            //            if (tokenName.equals("authorization_user")) {
+            //                String redirectUrl = Client_USER_URL + "/auth?providerId=" +
+            // providerId;
+            //                response.sendRedirect(redirectUrl);
+            //            } else {
+            //                String redirectUrl = Client_SHOP_URL + "/auth?providerId=" +
+            // providerId;
+            //                response.sendRedirect(redirectUrl);
+            //            }
+            // 개발 URL
             if (tokenName.equals("authorization_user")) {
                 String redirectUrl = USER_DEV_URL + "/auth?providerId=" + providerId;
                 response.sendRedirect(redirectUrl);
