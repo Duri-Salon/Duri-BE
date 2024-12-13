@@ -34,13 +34,14 @@ public class CorsMvcConfig implements WebMvcConfigurer {
                 .exposedHeaders(
                         "Set-Cookie", "authorization_user", "authorization_shop", "Content-Type")
                 .allowedHeaders("authorization_user", "authorization_shop", "Content-Type")
-                .allowedOrigins(
-                        LOCAL_USER_DEV_URL,
-                        LOCAL_SHOP_DEV_URL,
-                        CLIENT_USER_URL,
-                        CLIENT_SHOP_URL,
-                        CLIENT_USER_DEV_URL,
-                        CLIENT_SHOP_DEV_URL)
+                //                .allowedOrigins(
+                //                        LOCAL_USER_DEV_URL,
+                //                        LOCAL_SHOP_DEV_URL,
+                //                        CLIENT_USER_URL,
+                //                        CLIENT_SHOP_URL,
+                //                        CLIENT_USER_DEV_URL,
+                //                        CLIENT_SHOP_DEV_URL)
+                .allowedOrigins("*")
                 .allowCredentials(true); // 인증 정보 허용
     }
 }
