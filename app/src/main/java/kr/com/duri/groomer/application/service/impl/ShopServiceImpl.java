@@ -6,6 +6,7 @@ import java.util.Optional;
 import kr.com.duri.common.security.jwt.JwtUtil;
 import kr.com.duri.groomer.application.dto.request.ShopOnboardingInfo;
 import kr.com.duri.groomer.application.service.ShopService;
+import kr.com.duri.groomer.domain.Enum.EntryStatus;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.exception.ShopNotFoundException;
 import kr.com.duri.groomer.repository.ShopRepository;
@@ -91,5 +92,11 @@ public class ShopServiceImpl implements ShopService {
     public Long getShopIdByToken(String token) {
         token = jwtUtil.removeBearer(token);
         return jwtUtil.getId(token);
+    }
+
+    // 입점 대기
+    @Override
+    public List<Shop> getEntryWaitingShops() {
+        return shopRepository.findByEntry(EntryStatus.WAITING);
     }
 }
