@@ -21,4 +21,9 @@ public class EntryController {
     public CommonResponseEntity<List<EntryResponse>> getWaitingEntries() {
         return CommonResponseEntity.success(entryFacade.getWaitingEntries());
     }
+
+    @GetMapping("/approved")
+    public CommonResponseEntity<List<EntryResponse>> getApprovedEntries() {
+        return CommonResponseEntity.success(entryFacade.getApprovedEntries());
+    }
 }

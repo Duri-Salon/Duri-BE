@@ -99,4 +99,10 @@ public class ShopServiceImpl implements ShopService {
     public List<Shop> getEntryWaitingShops() {
         return shopRepository.findByEntry(EntryStatus.WAITING);
     }
+
+    // 입점 승인
+    @Override
+    public List<Shop> getEntryApprovedShops() {
+        return shopRepository.findByEntry(EntryStatus.APPROVED);
+    }
 }

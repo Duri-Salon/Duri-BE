@@ -31,4 +31,15 @@ public class EntryFacade {
                         })
                 .collect(Collectors.toList());
     }
+
+    public List<EntryResponse> getApprovedEntries() {
+        return shopService.getEntryApprovedShops().stream()
+                .map(
+                        shop -> {
+                            Optional<Groomer> groomerOpt =
+                                    groomerService.findGroomerByShopId(shop.getId());
+                            return entryMapper.toEntryResponse(shop, groomerOpt.orElse(null));
+                        })
+                .collect(Collectors.toList());
+    }
 }

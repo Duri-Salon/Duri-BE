@@ -31,6 +31,9 @@ public interface ShopService {
     // 토큰으로 매장 아이디 찾기
     Long getShopIdByToken(String token);
 
-    // 입점 대기
+    // 입점 대기 목록
     List<Shop> getEntryWaitingShops();
+
+    // 입점 승인 목록
+    List<Shop> getEntryApprovedShops();
 }
