@@ -91,35 +91,35 @@ public class StatisticsFacade {
     }
 
     // 반려견 나이별 누적 조회
-    public AgeStatisticsResponse getAgeStastistics(String token) {
+    public AgeStatisticsResponse getAgeStatistics(String token) {
         Long shopId = shopService.getShopIdByToken(token);
         Shop shop = getShop(shopId);
         // 나이별 조회
         List<StatisticsResponse> ageResponses = statisticsService.getAgeStatistics(shopId);
-        return statisticsMapper.toAgeStastisticsResponse(shop, ageResponses);
+        return statisticsMapper.toAgeStatisticsResponse(shop, ageResponses);
     }
 
     // 반려견 질환별 누적 조회
-    public DiseaseStatisticsResponse getDiseaseStastistics(String token) {
+    public DiseaseStatisticsResponse getDiseaseStatistics(String token) {
         Long shopId = shopService.getShopIdByToken(token);
         Shop shop = getShop(shopId);
         // 질환별 조회
         List<StatisticsResponse> diseaseResponses = statisticsService.getDiseaseStatistics(shopId);
-        return statisticsMapper.toDiseaseStastisticsResponse(shop, diseaseResponses);
+        return statisticsMapper.toDiseaseStatisticsResponse(shop, diseaseResponses);
     }
 
     // 반려견 성격별 누적 조회
-    public CharacterStatisticsResponse getCharacterStastistics(String token) {
+    public CharacterStatisticsResponse getCharacterStatistics(String token) {
         Long shopId = shopService.getShopIdByToken(token);
         Shop shop = getShop(shopId);
         // 성격별 조회
         List<StatisticsResponse> characterResponses =
                 statisticsService.getCharacterStatistics(shopId);
-        return statisticsMapper.toCharacterStastisticsResponse(shop, characterResponses);
+        return statisticsMapper.toCharacterStatisticsResponse(shop, characterResponses);
     }
 
     // 매장 최고 키워드별 조회
-    public BestStatisticsResponse getBestStastistics(String token) {
+    public BestStatisticsResponse getBestStatistics(String token) {
         Long shopId = shopService.getShopIdByToken(token);
         Shop shop = getShop(shopId);
         // 성격별 조회

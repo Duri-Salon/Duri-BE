@@ -4,10 +4,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import kr.com.duri.common.Mapper.CommonMapper;
-import kr.com.duri.groomer.application.dto.response.ShopReviewDetailResponse;
-import kr.com.duri.groomer.application.dto.response.ShopReviewResponse;
-import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Shop;
+import kr.com.duri.groomer.domain.entity.ShopImage;
 import kr.com.duri.user.application.dto.request.NewReviewRequest;
 import kr.com.duri.user.application.dto.response.*;
 import kr.com.duri.user.domain.entity.*;
@@ -26,38 +24,6 @@ public class ReviewMapper {
         return value == null ? "" : value;
     }
 
-    // Review, ReviewImage, SiteUser Entity to ShopReviewResponse DTO
-    public ShopReviewResponse toShopReviewResponse(
-            Review review, ReviewImage reviewImage, SiteUser user) {
-        return ShopReviewResponse.builder()
-                .reviewId(review.getId())
-                .reviewImageURL(safeGet(reviewImage.getImage()))
-                .comment(safeGet(review.getComment()))
-                .rating(review.getRating())
-                .userId(user.getId())
-                .userImageURL(safeGet(user.getImage()))
-                .build();
-    }
-
-    // Review, ReviewImage, SiteUser Entity to ShopReviewDetailResponse DTO
-    public ShopReviewDetailResponse toShopReviewDetailResponse(
-            Review review, ReviewImage reviewImage, QuotationReq quotationReq, SiteUser user) {
-        return ShopReviewDetailResponse.builder()
-                .userId(user.getId())
-                .userName(safeGet(user.getName()))
-                .userImageURL(safeGet(user.getImage()))
-                .reviewId(review.getId())
-                .rating(review.getRating())
-                .comment(safeGet(review.getComment()))
-                .reviewImageURL(safeGet(reviewImage.getImage()))
-                .quotationReqId(quotationReq.getId())
-                .menu(safeGet(quotationReq.getMenu()))
-                .addMenu(safeGet(quotationReq.getAddMenu()))
-                .specailMenu(safeGet(quotationReq.getSpecialMenu()))
-                .design(safeGet(quotationReq.getDesign()))
-                .build();
-    }
-
     // userReviewResponses Dto to toUserReviewResponseList DTO
     public UserReviewResponseList toUserReviewResponseList(
             Integer reviewCnt, List<UserReviewResponse> userReviewResponses) {
@@ -73,17 +39,13 @@ public class ReviewMapper {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return UserReviewResponse.builder()
                 .userId(user.getId())
-                .userImageURL(safeGet(user.getImage()))
-                .userName(safeGet(user.getName()))
                 .reviewId(review.getId())
                 .createdAt(
                         review.getCreatedAt() != null
                                 ? review.getCreatedAt().format(dateFormatter)
                                 : "")
-                .rating(review.getRating())
                 .shopId(shop.getId())
                 .shopName(shop.getName())
-                .comment(safeGet(review.getComment()))
                 .reviewImageURL(safeGet(reviewImage.getImage()))
                 .build();
     }
@@ -97,18 +59,49 @@ public class ReviewMapper {
                 .build();
     }
 
-    /* 리팩토링 필요 */
     // Review Entity to Response DTO
     public ReviewResponse toReviewResponse(
-            Groomer groomer, Review review, ReviewImage reviewImage) {
+            SiteUser user,
+            Shop shop,
+            Review review,
+            ReviewImage reviewImage,
+            HomePetInfoResponse homePetInfoResponse) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return ReviewResponse.builder()
+                .userId(user.getId())
+                .userImageURL(safeGet(user.getImage()))
+                .userName(user.getName())
                 .reviewId(review.getId())
-                .shopName(safeGet(groomer.getShop().getName()))
-                .groomerName(safeGet(groomer.getName()))
                 .rating(review.getRating())
+                .createdAt(
+                        review.getCreatedAt() != null
+                                ? review.getCreatedAt().format(dateFormatter)
+                                : "")
+                .shopId(shop.getId())
+                .shopName(shop.getName())
                 .comment(safeGet(review.getComment()))
                 .imgUrl(safeGet(reviewImage.getImage()))
-                .createdAt(review.getCreatedAt())
+                .petInfo(homePetInfoResponse)
+                .build();
+    }
+
+    // to QuotationPetReviewResponse DTO
+    public QuotationPetReviewResponse toQuotationPetReviewResponse(
+            ShopInfoResponse shopInfo, HomePetInfoResponse petInfo) {
+        return QuotationPetReviewResponse.builder().shopInfo(shopInfo).petInfo(petInfo).build();
+    }
+
+    // to ShopInfoResponse DTO
+    public ShopInfoResponse toShopInfoResponse(
+            Shop shop, ShopImage shopImage, List<String> shopTagsStr) {
+        return ShopInfoResponse.builder()
+                .shopId(shop.getId())
+                .imageURL(shopImage != null ? shopImage.getShopImageUrl() : "")
+                .shopName(shop.getName())
+                .address(safeGet(shop.getAddress()))
+                .shopTag1(shopTagsStr.size() > 0 ? shopTagsStr.get(0) : "")
+                .shopTag2(shopTagsStr.size() > 1 ? shopTagsStr.get(1) : "")
+                .shopTag3(shopTagsStr.size() > 2 ? shopTagsStr.get(2) : "")
                 .build();
     }
 
