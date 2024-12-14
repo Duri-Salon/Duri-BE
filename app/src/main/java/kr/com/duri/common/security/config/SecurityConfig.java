@@ -47,11 +47,8 @@ public class SecurityConfig {
     @Value("${client.shop.dev.url}")
     private String CLIENT_SHOP_DEV_URL;
 
-    @Value("${client.domain.user.url}")
-    private String CLIENT_DOMAIN_USER_URL;
-
-    @Value("${client.domain.shop.url}")
-    private String CLIENT_DOMAIN_SHOP_URL;
+    @Value("${client.domain.url}")
+    private String CLIENT_DOMAIN_URL;
 
     public SecurityConfig(
             CustomOAuth2UserService customOAuth2UserService,
@@ -88,8 +85,7 @@ public class SecurityConfig {
                                                         CLIENT_SHOP_URL,
                                                         CLIENT_USER_DEV_URL,
                                                         CLIENT_SHOP_DEV_URL,
-                                                        CLIENT_DOMAIN_USER_URL,
-                                                        CLIENT_DOMAIN_SHOP_URL));
+                                                        CLIENT_DOMAIN_URL));
 
                                         // configuration.setAllowedHeaders( - 기존
                                         //        Collections.singletonList("*"));
