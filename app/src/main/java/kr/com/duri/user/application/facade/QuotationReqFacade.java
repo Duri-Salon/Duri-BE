@@ -274,9 +274,16 @@ public class QuotationReqFacade {
 
         for (Quotation quotation : quotations) {
             Shop shop = quotation.getRequest().getShop();
-            ShopImage shopImage = shopImageService.getMainShopImage(shop);
+
             if (shop == null) {
                 continue;
+            }
+
+            ShopImage shopImage;
+            try {
+                shopImage = shopImageService.getMainShopImage(shop);
+            } catch (Exception e) {
+                shopImage = null; // 이미지가 없으면 null로 처리
             }
 
             double shopLat = shop.getLat();
@@ -285,11 +292,10 @@ public class QuotationReqFacade {
             // 현재 매장과 요청된 위치(lat, lon) 간의 거리 계산
             double distance = calculateDistance(shopLat, shopLon, lat, lon);
 
-            if (distance < minDistance) {
-                minDistance = distance;
-                bestDistanceShop =
-                        new ShopBestResponse(shop.getName(), shopImage.getShopImageUrl());
-            }
+            if (distance < minDistance) minDistance = distance;
+            bestDistanceShop =
+                    new ShopBestResponse(
+                            shop.getName(), shopImage != null ? shopImage.getShopImageUrl() : null);
         }
 
         return bestDistanceShop;
@@ -310,12 +316,21 @@ public class QuotationReqFacade {
         }
 
         if (bestQuotation != null) {
-            String shopName =
-                    bestQuotation.getRequest().getShop().getName(); // Quotation의 Request에서 매장 이름 추출
-            ShopImage shopImage =
-                    shopImageService.getMainShopImage(bestQuotation.getRequest().getShop());
+            Shop shop = bestQuotation.getRequest().getShop();
+            if (shop == null) {
+                return null; // Shop 정보가 없는 경우 null 반환
+            }
 
-            return new ShopBestResponse(shopName, shopImage.getShopImageUrl());
+            // shopImage가 없으면 null로 처리
+            ShopImage shopImage;
+            try {
+                shopImage = shopImageService.getMainShopImage(shop);
+            } catch (Exception e) {
+                shopImage = null; // 이미지가 없으면 null로 처리
+            }
+
+            return new ShopBestResponse(
+                    shop.getName(), shopImage != null ? shopImage.getShopImageUrl() : null);
         } else {
             return null;
         }
@@ -323,17 +338,11 @@ public class QuotationReqFacade {
 
     // 평점순 1등
     private ShopBestResponse calculateBestRatingShop(List<Quotation> quotations) {
-        // 1. 가장 높은 평점을 가진 매장 계산
         Quotation bestQuotation = null;
         Float maxRating = (float) -1.0; // 최대 평점 초기화 (평점이 0 이상이므로 -1로 초기화)
 
-        // 2. Quotation 리스트 순회하면서 가장 높은 평점 찾기
         for (Quotation quotation : quotations) {
-            Float rating =
-                    quotation
-                            .getRequest()
-                            .getShop()
-                            .getRating(); // Quotation의 Request에서 연결된 Shop의 평점 가져오기
+            Float rating = quotation.getRequest().getShop().getRating();
 
             if (rating != null && rating > maxRating) {
                 maxRating = rating; // 가장 높은 평점 갱신
@@ -341,22 +350,29 @@ public class QuotationReqFacade {
             }
         }
 
-        // 3. 가장 높은 평점을 가진 매장 정보 반환
         if (bestQuotation != null) {
-            String shopName =
-                    bestQuotation.getRequest().getShop().getName(); // Quotation의 Request에서 매장 이름 추출
-            ShopImage shopImage =
-                    shopImageService.getMainShopImage(bestQuotation.getRequest().getShop());
+            Shop shop = bestQuotation.getRequest().getShop();
+            if (shop == null) {
+                return null; // Shop 정보가 없는 경우 null 반환
+            }
 
-            // 가장 높은 평점을 가진 매장 정보로 ShopBestResponse 객체 반환
-            return new ShopBestResponse(shopName, shopImage.getShopImageUrl());
+            // shopImage가 없으면 null로 처리
+            ShopImage shopImage;
+            try {
+                shopImage = shopImageService.getMainShopImage(shop);
+            } catch (Exception e) {
+                shopImage = null; // 이미지가 없으면 null로 처리
+            }
+
+            return new ShopBestResponse(
+                    shop.getName(), shopImage != null ? shopImage.getShopImageUrl() : null);
         } else {
-            // 매장이 없으면 null 반환
             return null;
         }
     }
 
     // 총합 1등
+    // 종합 1등
     private ShopBestResponse calculateBestShop(List<Quotation> quotations, Double lat, Double lon) {
         ShopBestResponse bestShop = null;
         double bestScore = Double.NEGATIVE_INFINITY; // 가장 높은 점수로 설정
@@ -366,25 +382,36 @@ public class QuotationReqFacade {
             if (request == null || request.getShop() == null) {
                 continue; // Shop 정보가 없으면 스킵
             }
+
             Shop shop = request.getShop();
-            ShopImage shopImage = shopImageService.getMainShopImage(shop);
-            double shopPrice =
-                    quotationReqMapper.extractTotalPriceFromJson(quotation.getPrice()); // 가격
-            double shopRating = shop.getRating(); // 평점
-            double shopDistance = calculateDistance(shop.getLat(), shop.getLon(), lat, lon); // 거리
+
+            // shopImage가 없으면 null로 처리
+            ShopImage shopImage;
+            try {
+                shopImage = shopImageService.getMainShopImage(shop);
+            } catch (Exception e) {
+                shopImage = null; // 이미지가 없으면 null로 처리
+            }
+
+            double shopPrice = quotationReqMapper.extractTotalPriceFromJson(quotation.getPrice());
+            double shopRating = shop.getRating();
+            double shopDistance = calculateDistance(shop.getLat(), shop.getLon(), lat, lon);
 
             // 각 요소를 기반으로 점수 계산
             double priceScore = calculatePriceScore(shopPrice);
             double ratingScore = calculateRatingScore(shopRating);
             double distanceScore = calculateDistanceScore(shopDistance);
 
-            // 가중치 적용 (가중치는 조정 가능)
+            // 가중치 적용
             double totalScore = priceScore * 0.4 + ratingScore * 0.3 + distanceScore * 0.3;
 
             // 최고 점수를 가진 매장 업데이트
             if (totalScore > bestScore) {
                 bestScore = totalScore;
-                bestShop = new ShopBestResponse(shop.getName(), shopImage.getShopImageUrl());
+                bestShop =
+                        new ShopBestResponse(
+                                shop.getName(),
+                                shopImage != null ? shopImage.getShopImageUrl() : null);
             }
         }
         return bestShop;
