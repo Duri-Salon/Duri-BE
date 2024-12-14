@@ -54,4 +54,10 @@ public class FeedbackFacade {
             return null;
         }).filter(Objects::nonNull).collect(Collectors.toList());
     }
+
+    public Object getPortfolioDetail(Long feedbackId) {
+        Feedback feedback = feedbackService.getFeedbackById(feedbackId);
+        List<String> imageUrls = feedbackImageService.findFeedbackImagesByFeedback(feedback);
+        return feedbackMapper.toFeedbackDetailResponse(feedback, imageUrls);
+    }
 }

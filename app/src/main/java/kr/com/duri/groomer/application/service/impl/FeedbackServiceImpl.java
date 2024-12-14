@@ -1,5 +1,6 @@
 package kr.com.duri.groomer.application.service.impl;
 
+import kr.com.duri.common.exception.NotFoundException;
 import kr.com.duri.groomer.application.dto.request.NewFeedbackRequest;
 import kr.com.duri.groomer.application.service.FeedbackService;
 import kr.com.duri.groomer.domain.entity.Feedback;
@@ -16,6 +17,11 @@ import java.util.List;
 public class FeedbackServiceImpl implements FeedbackService {
 
     private final FeedbackReopsitory feedbackReopsitory;
+
+    @Override
+    public Feedback getFeedbackById(Long feedbackId) {
+        return feedbackReopsitory.findById(feedbackId).orElseThrow(() -> new NotFoundException("피드백이 존재하지 않습니다."));
+    }
 
     @Override
     public Feedback saveNewFeedback(Quotation quotation, Groomer groomer, NewFeedbackRequest newFeedbackRequest) {

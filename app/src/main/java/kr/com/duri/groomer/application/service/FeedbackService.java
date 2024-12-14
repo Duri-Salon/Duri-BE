@@ -11,4 +11,6 @@ public interface FeedbackService {
     Feedback saveNewFeedback(Quotation quotation, Groomer groomer, NewFeedbackRequest newFeedbackRequest);
 
     List<Feedback> getPortfolioList(Long groomerId);
+
+    Feedback getFeedbackById(Long feedbackId);
 }

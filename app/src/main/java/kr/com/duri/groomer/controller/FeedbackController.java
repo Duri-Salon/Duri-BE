@@ -34,8 +34,8 @@ public class FeedbackController {
     }
 
     @GetMapping("/detail/{feedbackId}") // 매장, 사용자 모두 사용
-    public void getFeedbackDetail(@PathVariable Long feedbackId) {
-        // get feedback detail logic
+    public CommonResponseEntity<?> getFeedbackDetail(@PathVariable Long feedbackId) {
+        return CommonResponseEntity.success(feedbackFacade.getPortfolioDetail(feedbackId));
     }
 
 }
