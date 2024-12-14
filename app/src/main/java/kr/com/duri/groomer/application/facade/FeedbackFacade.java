@@ -1,5 +1,6 @@
 package kr.com.duri.groomer.application.facade;
 
+import kr.com.duri.groomer.application.dto.PortfolioDetailResponse;
 import kr.com.duri.groomer.application.dto.request.NewFeedbackRequest;
 import kr.com.duri.groomer.application.dto.response.FeedbackDetailResponse;
 import kr.com.duri.groomer.application.dto.response.PortfolioListResponse;
@@ -55,9 +56,9 @@ public class FeedbackFacade {
         }).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
-    public Object getPortfolioDetail(Long feedbackId) {
+    public PortfolioDetailResponse getPortfolioDetail(Long feedbackId) {
         Feedback feedback = feedbackService.getFeedbackById(feedbackId);
         List<String> imageUrls = feedbackImageService.findFeedbackImagesByFeedback(feedback);
-        return feedbackMapper.toFeedbackDetailResponse(feedback, imageUrls);
+        return feedbackMapper.toPortfolioDetailResponse(feedback, imageUrls);
     }
 }

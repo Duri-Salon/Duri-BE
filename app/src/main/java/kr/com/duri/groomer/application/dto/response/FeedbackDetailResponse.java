@@ -20,5 +20,6 @@ public class FeedbackDetailResponse {
     private String noticeContent; // 사용자에게 전달되는 내용
     private String portfolioContent; // 포트폴리오 문구
     private Boolean expose; // 포트폴리오 노출 여부 (T: 노출, F: 비노출)
+    private Boolean deleted; // 삭제 여부
     private List<String> feedbackImages; // 피드백 이미지 URL
 }

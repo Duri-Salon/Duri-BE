@@ -2,6 +2,7 @@ package kr.com.duri.groomer.controller;
 
 import jakarta.validation.Valid;
 import kr.com.duri.common.response.CommonResponseEntity;
+import kr.com.duri.groomer.application.dto.PortfolioDetailResponse;
 import kr.com.duri.groomer.application.dto.request.NewFeedbackRequest;
 import kr.com.duri.groomer.application.dto.response.FeedbackDetailResponse;
 import kr.com.duri.groomer.application.dto.response.PortfolioListResponse;
@@ -34,7 +35,7 @@ public class FeedbackController {
     }
 
     @GetMapping("/detail/{feedbackId}") // 매장, 사용자 모두 사용
-    public CommonResponseEntity<?> getFeedbackDetail(@PathVariable Long feedbackId) {
+    public CommonResponseEntity<PortfolioDetailResponse> getFeedbackDetail(@PathVariable Long feedbackId) {
         return CommonResponseEntity.success(feedbackFacade.getPortfolioDetail(feedbackId));
     }
 
