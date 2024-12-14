@@ -1,5 +1,6 @@
 package kr.com.duri.common.security.config;
 
+import com.amazonaws.HttpMethod;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -30,7 +31,13 @@ public class CorsMvcConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry
                 .addMapping("/**")
-                .allowedMethods("*")
+                // .allowedMethods("*") - 기존
+                .allowedMethods(
+                    HttpMethod.GET.name(),
+                    HttpMethod.HEAD.name(),
+                    HttpMethod.POST.name(),
+                    HttpMethod.PUT.name(),
+                    HttpMethod.DELETE.name())
                 .exposedHeaders(
                         "Set-Cookie", "authorization_user", "authorization_shop", "Content-Type")
                 .allowedHeaders("authorization_user", "authorization_shop", "Content-Type")
