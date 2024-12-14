@@ -84,6 +84,8 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         // Swagger
         implementation 'com.github.Swaggy-Swagger:swagger-custom-java:1.0.1'
+        // Springdoc
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
         // AWS Starter
         implementation 'io.awspring.cloud:spring-cloud-aws-starter:3.1.1'
         // Amazon S3
@@ -102,6 +104,5 @@ subprojects {
         // Replicate (AI) request
         implementation 'com.fasterxml.jackson.core:jackson-databind'
         implementation 'org.apache.httpcomponents.client5:httpclient5'
-
     }
 }
