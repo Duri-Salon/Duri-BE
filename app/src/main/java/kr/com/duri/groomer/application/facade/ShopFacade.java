@@ -44,8 +44,7 @@ public class ShopFacade {
     public ShopDetailResponse getShopDetail(String token) {
         Long shopId = shopService.getShopIdByToken(token);
         Shop shop = getShop(shopId);
-        // TODO : 매장 이미지 조회 구현 및 연결
-        ShopImage shopImage = new ShopImage(); // shopImageService.?(shopId)
+        ShopImage shopImage = shopImageService.getMainShopImage(shop);
         return shopMapper.toShopDetailResponse(shop, shopImage);
     }
 
