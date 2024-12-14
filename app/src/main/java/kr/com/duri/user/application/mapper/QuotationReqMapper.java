@@ -264,10 +264,13 @@ public class QuotationReqMapper {
                         .collect(Collectors.toList());
 
         boolean isExpired = LocalDateTime.now().isAfter(expiredAt);
+        // Request ID가 없을 경우 기본값 처리
+        Long requestId = requests.isEmpty() ? 0L : requests.get(0).getId();
 
         // QuotationListResponse 빌드
         return QuotationListResponse.builder()
                 .quotationReqId(quotationReq.getId())
+                .requestId(requestId)
                 .createdAt(createdAt)
                 .expiredAt(expiredAt)
                 .shops(shops)
