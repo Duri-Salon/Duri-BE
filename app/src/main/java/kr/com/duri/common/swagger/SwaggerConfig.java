@@ -21,13 +21,13 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
-                .addServersItem(new Server().url("/"))
+                .addServersItem(new Server().url("/").description("http"))
                 .addServersItem(new Server().url(protocol + "://" + host).description("https"))
                 .components(new Components())
                 .info(apiInfo());
     }
 
     private Info apiInfo() {
-        return new Info().title("Duri-Salon").description("Swaggey UI").version("1.0.1");
+        return new Info().title("Duri-Salon").description("Swaggey UI").version("v1.0.1");
     }
 }
