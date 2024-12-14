@@ -38,7 +38,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public List<Feedback> getPortfolioList(Long groomerId) {
-        return feedbackReopsitory.findByGroomerIdOrderByCreatedAtDesc(groomerId);
+        return feedbackReopsitory.findByGroomerIdAndExposeTrueAndDeletedFalseOrderByCreatedAtDesc(groomerId);
     }
 
 }

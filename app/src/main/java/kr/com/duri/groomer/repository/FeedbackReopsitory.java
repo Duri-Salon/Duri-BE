@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface FeedbackReopsitory extends JpaRepository<Feedback, Long> {
-    List<Feedback> findByGroomerIdOrderByCreatedAtDesc(Long groomerId);
+    List<Feedback> findByGroomerIdAndExposeTrueAndDeletedFalseOrderByCreatedAtDesc(Long groomerId);
 }

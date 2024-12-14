@@ -73,6 +73,7 @@ public class Feedback extends BaseEntity {
                 .noticeContent(noticeContent)
                 .portfolioContent(portfolioContent)
                 .expose(expose)
+                .deleted(false)
                 .build();
     }
 }
