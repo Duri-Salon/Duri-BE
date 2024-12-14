@@ -27,7 +27,7 @@ public class ShopMapper {
                 .id(shop.getId())
                 .name(shop.getName())
                 .address(shop.getAddress())
-                .imageURL(shopImage != null? shopImage.getShopImageUrl() : "")
+                .imageURL(shopImage != null ? shopImage.getShopImageUrl() : "")
                 .phone(shop.getPhone())
                 .build();
     }

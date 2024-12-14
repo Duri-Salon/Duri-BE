@@ -71,7 +71,9 @@ public class SecurityConfig {
                                         CorsConfiguration configuration = new CorsConfiguration();
 
                                         // configuration.setAllowedMethods(Arrays.asList("*")); - 기존
-                                        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                                        configuration.setAllowedMethods(
+                                                Arrays.asList(
+                                                        "GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
                                         configuration.setAllowedOrigins(
                                                 Arrays.asList(
