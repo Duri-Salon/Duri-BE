@@ -1,7 +1,6 @@
 package kr.com.duri.common.security.config;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import jakarta.servlet.http.HttpServletRequest;
 import kr.com.duri.common.security.jwt.JwtFilter;
@@ -83,10 +82,17 @@ public class SecurityConfig {
                                                         CLIENT_SHOP_URL,
                                                         CLIENT_USER_DEV_URL,
                                                         CLIENT_SHOP_DEV_URL));
-                                        configuration.setAllowCredentials(true);
+
+                                        // configuration.setAllowedHeaders( - 기존
+                                        //        Collections.singletonList("*"));
 
                                         configuration.setAllowedHeaders(
-                                                Collections.singletonList("*"));
+                                                Arrays.asList(
+                                                        "Authorization",
+                                                        "Content-Type",
+                                                        "X-Requested-With",
+                                                        "Origin",
+                                                        "Accept"));
 
                                         configuration.setExposedHeaders(
                                                 Arrays.asList(
@@ -96,6 +102,7 @@ public class SecurityConfig {
                                                         "Content-Type"));
 
                                         configuration.setMaxAge(3600L);
+                                        configuration.setAllowCredentials(true);
                                         return configuration;
                                     }
                                 }));
