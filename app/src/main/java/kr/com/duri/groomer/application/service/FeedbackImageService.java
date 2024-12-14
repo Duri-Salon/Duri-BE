@@ -9,7 +9,7 @@ import java.util.List;
 public interface FeedbackImageService {
     void saveFeedbackImages(Feedback feedback, List<MultipartFile> images);
 
-    FeedbackImage findFirstFeedbackImageByFeedback(Feedback feedback);
+    FeedbackImage findFirstFeedbackImageByFeedback(Long feedbackId);
 
     List<String> findFeedbackImagesByFeedback(Feedback feedback);
 }

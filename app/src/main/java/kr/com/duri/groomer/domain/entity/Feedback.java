@@ -57,6 +57,11 @@ public class Feedback extends BaseEntity {
     @Column(name = "expose")
     private Boolean expose; // 포트폴리오 노출 여부 (T: 노출, F: 비노출)
 
+    @Column(name = "deleted")
+    private Boolean deleted; // 논리 삭제 여부 (T: 삭제, F: 비삭제)
+
+    // todo : 논리 삭제 추가, Matter 없애기
+
     public static Feedback createNewFeedback(Quotation quotation, Groomer groomer, String friendly, String reaction, String matter, String behavior, String noticeContent, String portfolioContent, Boolean expose) {
         return Feedback.builder()
                 .quotation(quotation)

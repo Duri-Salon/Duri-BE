@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.groomer.application.dto.request.NewFeedbackRequest;
 import kr.com.duri.groomer.application.dto.response.FeedbackDetailResponse;
+import kr.com.duri.groomer.application.dto.response.PortfolioListResponse;
 import kr.com.duri.groomer.application.facade.FeedbackFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -28,8 +29,8 @@ public class FeedbackController {
     }
 
     @GetMapping("/{groomerId}") // 매장, 사용자 모두 사용
-    public void getPortfolioList() {
-        // get feedback logic
+    public CommonResponseEntity<List<PortfolioListResponse>> getPortfolioList(@PathVariable Long groomerId) {
+        return CommonResponseEntity.success(feedbackFacade.getPortfolioList(groomerId));
     }
 
     @GetMapping("/detail/{feedbackId}") // 매장, 사용자 모두 사용

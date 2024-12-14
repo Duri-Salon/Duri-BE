@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface FeedbackImageRepository extends JpaRepository<FeedbackImage, Long> {
     List<FeedbackImage> findFeedbackImagesByFeedback(Feedback feedback);
+
+    List<FeedbackImage> findFeedbackImagesByFeedbackIdOrderByCreatedAt(Long feedbackId);
 }

@@ -32,8 +32,9 @@ public class FeedbackImageServiceImpl implements FeedbackImageService {
     }
 
     @Override
-    public FeedbackImage findFirstFeedbackImageByFeedback(Feedback feedback) {
-        return null;
+    public FeedbackImage findFirstFeedbackImageByFeedback(Long feedbackId) {
+        return feedbackImageRepository.findFeedbackImagesByFeedbackIdOrderByCreatedAt(feedbackId)
+                .stream().map(feedbackImage -> feedbackImage).findFirst().orElse(null);
     }
 
     @Override

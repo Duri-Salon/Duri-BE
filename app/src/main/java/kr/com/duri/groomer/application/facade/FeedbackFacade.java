@@ -2,9 +2,11 @@ package kr.com.duri.groomer.application.facade;
 
 import kr.com.duri.groomer.application.dto.request.NewFeedbackRequest;
 import kr.com.duri.groomer.application.dto.response.FeedbackDetailResponse;
+import kr.com.duri.groomer.application.dto.response.PortfolioListResponse;
 import kr.com.duri.groomer.application.mapper.FeedbackMapper;
 import kr.com.duri.groomer.application.service.*;
 import kr.com.duri.groomer.domain.entity.Feedback;
+import kr.com.duri.groomer.domain.entity.FeedbackImage;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -38,5 +42,16 @@ public class FeedbackFacade {
         feedbackImageService.saveFeedbackImages(feedback, images);
         List<String> imageUrls = feedbackImageService.findFeedbackImagesByFeedback(feedback);
         return feedbackMapper.toFeedbackDetailResponse(feedback, imageUrls);
+    }
+
+    public List<PortfolioListResponse> getPortfolioList(Long groomerId) {
+        List<Feedback> feedbackList = feedbackService.getPortfolioList(groomerId);
+        return feedbackList.stream().map(feedback -> {
+            FeedbackImage image = feedbackImageService.findFirstFeedbackImageByFeedback(feedback.getId());
+            if (image != null) {
+                return feedbackMapper.toPortfolioListResponse(feedback, image);
+            }
+            return null;
+        }).filter(Objects::nonNull).collect(Collectors.toList());
     }
 }

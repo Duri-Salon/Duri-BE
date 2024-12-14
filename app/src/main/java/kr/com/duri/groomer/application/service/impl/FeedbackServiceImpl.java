@@ -9,6 +9,8 @@ import kr.com.duri.groomer.repository.FeedbackReopsitory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class FeedbackServiceImpl implements FeedbackService {
@@ -26,6 +28,11 @@ public class FeedbackServiceImpl implements FeedbackService {
                 newFeedbackRequest.getNoticeContent(),
                 newFeedbackRequest.getPortfolioContent(),
                 newFeedbackRequest.getExpose()));
+    }
+
+    @Override
+    public List<Feedback> getPortfolioList(Long groomerId) {
+        return feedbackReopsitory.findByGroomerIdOrderByCreatedAtDesc(groomerId);
     }
 
 }
