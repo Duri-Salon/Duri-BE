@@ -1,13 +1,14 @@
 package kr.com.duri.groomer.application.mapper;
 
+import java.util.List;
+
 import kr.com.duri.common.Mapper.CommonMapper;
 import kr.com.duri.groomer.application.dto.response.*;
 import kr.com.duri.groomer.domain.entity.Feedback;
 import kr.com.duri.groomer.domain.entity.FeedbackImage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
@@ -37,7 +38,8 @@ public class FeedbackMapper {
                 .build();
     }
 
-    public PortfolioDetailResponse toPortfolioDetailResponse(Feedback feedback, List<String> images) {
+    public PortfolioDetailResponse toPortfolioDetailResponse(
+            Feedback feedback, List<String> images) {
         return PortfolioDetailResponse.builder()
                 .feedbackId(feedback.getId())
                 .friendly(feedback.getFriendly().getDescription())
@@ -61,7 +63,8 @@ public class FeedbackMapper {
                 .build();
     }
 
-    public FeedbackDataResponse toFeedbackDataResponse(String friendly, String reaction, String behavior) {
+    public FeedbackDataResponse toFeedbackDataResponse(
+            String friendly, String reaction, String behavior) {
         return FeedbackDataResponse.builder()
                 .friendly(friendly)
                 .reaction(reaction)

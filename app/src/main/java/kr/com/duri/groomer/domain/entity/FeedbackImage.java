@@ -1,7 +1,6 @@
 package kr.com.duri.groomer.domain.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import kr.com.duri.common.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,11 +27,7 @@ public class FeedbackImage extends BaseEntity {
     @Column(name = "image_url")
     private String imageUrl; // 이미지 URL
 
-    public static FeedbackImage createNewFeedbackImage(
-            Feedback feedback, String imageUrl) {
-        return FeedbackImage.builder()
-                .feedback(feedback)
-                .imageUrl(imageUrl)
-                .build();
+    public static FeedbackImage createNewFeedbackImage(Feedback feedback, String imageUrl) {
+        return FeedbackImage.builder().feedback(feedback).imageUrl(imageUrl).build();
     }
 }

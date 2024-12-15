@@ -47,6 +47,7 @@ public class Feedback extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "matter")
     private Matter matter; // 스트레스 및 질환 여부 (스트레스가 있어요/질환이 있는 친구에요)
+
     @Column(name = "notice_content")
     private String noticeContent; // 사용자에게 전달되는 내용
 
@@ -61,7 +62,16 @@ public class Feedback extends BaseEntity {
 
     // todo : 논리 삭제 추가, Matter 없애기
 
-    public static Feedback createNewFeedback(Quotation quotation, Groomer groomer, String friendly, String reaction, String matter, String behavior, String noticeContent, String portfolioContent, Boolean expose) {
+    public static Feedback createNewFeedback(
+            Quotation quotation,
+            Groomer groomer,
+            String friendly,
+            String reaction,
+            String matter,
+            String behavior,
+            String noticeContent,
+            String portfolioContent,
+            Boolean expose) {
         return Feedback.builder()
                 .quotation(quotation)
                 .groomer(groomer)

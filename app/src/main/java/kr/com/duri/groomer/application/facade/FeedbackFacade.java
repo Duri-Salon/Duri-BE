@@ -1,9 +1,16 @@
 package kr.com.duri.groomer.application.facade;
 
-import kr.com.duri.groomer.application.dto.response.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import kr.com.duri.groomer.application.dto.request.NewFeedbackRequest;
+import kr.com.duri.groomer.application.dto.response.*;
 import kr.com.duri.groomer.application.mapper.FeedbackMapper;
 import kr.com.duri.groomer.application.service.*;
+import kr.com.duri.groomer.domain.Enum.Behavior;
+import kr.com.duri.groomer.domain.Enum.Friendly;
+import kr.com.duri.groomer.domain.Enum.Reaction;
 import kr.com.duri.groomer.domain.entity.Feedback;
 import kr.com.duri.groomer.domain.entity.FeedbackImage;
 import kr.com.duri.groomer.domain.entity.Groomer;
@@ -12,15 +19,9 @@ import kr.com.duri.user.application.service.PetService;
 import kr.com.duri.user.application.service.SiteUserService;
 import kr.com.duri.user.domain.entity.Pet;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import kr.com.duri.groomer.domain.Enum.Behavior;
-import kr.com.duri.groomer.domain.Enum.Friendly;
-import kr.com.duri.groomer.domain.Enum.Reaction;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -43,7 +44,10 @@ public class FeedbackFacade {
     private final FeedbackMapper feedbackMapper;
 
     public FeedbackDetailResponse createNewFeedback(
-            String token, Long quotationId, NewFeedbackRequest newFeedbackRequest, List<MultipartFile> images) {
+            String token,
+            Long quotationId,
+            NewFeedbackRequest newFeedbackRequest,
+            List<MultipartFile> images) {
         Long shopId = shopService.getShopIdByToken(token);
         Groomer groomer = groomerService.getGroomerByShopId(shopId);
         Quotation quotation = quotationService.findQuotationById(quotationId);
@@ -55,13 +59,19 @@ public class FeedbackFacade {
 
     public List<PortfolioListResponse> getPortfolioList(Long groomerId) {
         List<Feedback> feedbackList = feedbackService.getPortfolioList(groomerId);
-        return feedbackList.stream().map(feedback -> {
-            FeedbackImage image = feedbackImageService.findFirstFeedbackImageByFeedback(feedback.getId());
-            if (image != null) {
-                return feedbackMapper.toPortfolioListResponse(feedback, image);
-            }
-            return null;
-        }).filter(Objects::nonNull).collect(Collectors.toList());
+        return feedbackList.stream()
+                .map(
+                        feedback -> {
+                            FeedbackImage image =
+                                    feedbackImageService.findFirstFeedbackImageByFeedback(
+                                            feedback.getId());
+                            if (image != null) {
+                                return feedbackMapper.toPortfolioListResponse(feedback, image);
+                            }
+                            return null;
+                        })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     public PortfolioDetailResponse getPortfolioDetail(Long feedbackId) {
@@ -85,12 +95,15 @@ public class FeedbackFacade {
             throw new IllegalArgumentException("해당 반려견에 대한 피드백 데이터가 없습니다.");
         }
 
-        String mostFriendly = feedbackService.getMostSelected(
-                feedbackList, Feedback::getFriendly, Friendly::getDescription);
-        String mostReaction = feedbackService.getMostSelected(
-                feedbackList, Feedback::getReaction, Reaction::getDescription);
-        String mostBehavior = feedbackService.getMostSelected(
-                feedbackList, Feedback::getBehavior, Behavior::getDescription);
+        String mostFriendly =
+                feedbackService.getMostSelected(
+                        feedbackList, Feedback::getFriendly, Friendly::getDescription);
+        String mostReaction =
+                feedbackService.getMostSelected(
+                        feedbackList, Feedback::getReaction, Reaction::getDescription);
+        String mostBehavior =
+                feedbackService.getMostSelected(
+                        feedbackList, Feedback::getBehavior, Behavior::getDescription);
 
         return feedbackMapper.toFeedbackDataResponse(mostFriendly, mostReaction, mostBehavior);
     }
