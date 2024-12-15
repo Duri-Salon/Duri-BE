@@ -22,7 +22,7 @@ public class ShopProfileController {
 
     private final ShopProfileFacade shopProfileFacade;
 
-    @PostMapping("/onboarding")
+    @PostMapping("/onboarding") // todo : 미용사 사진 입력 받기
     public CommonResponseEntity<ShopOnboardingResponse> shopAndGroomerOnboarding(
             @RequestHeader("authorization_shop") String token,
             @RequestBody ShopOnboardingRequest shopOnboardingRequest) {

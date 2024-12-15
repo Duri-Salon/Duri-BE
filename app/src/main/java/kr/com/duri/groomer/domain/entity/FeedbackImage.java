@@ -1,7 +1,6 @@
 package kr.com.duri.groomer.domain.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import kr.com.duri.common.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,25 +9,25 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "feedback_condition")
+@Table(name = "feedback_image")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FeedbackCondition extends BaseEntity {
+public class FeedbackImage extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "condition_id")
-    private Long id; // 컨디션 ID
+    @Column(name = "image_id")
+    private Long id; // 이미지 ID
 
-    @NotBlank
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "feedback_id")
     private Feedback feedback; // 피드백 ID (FK)
 
-    @Column(name = "condition_type")
-    private String conditionType; // 스트레스/질환
+    @Column(name = "image_url")
+    private String imageUrl; // 이미지 URL
 
-    @Column(name = "content")
-    private String content; // 내용 (피하려는 행동, 과도한 짖음 등)
+    public static FeedbackImage createNewFeedbackImage(Feedback feedback, String imageUrl) {
+        return FeedbackImage.builder().feedback(feedback).imageUrl(imageUrl).build();
+    }
 }
