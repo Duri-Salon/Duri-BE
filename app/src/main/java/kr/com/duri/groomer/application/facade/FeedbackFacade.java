@@ -77,7 +77,7 @@ public class FeedbackFacade {
     public PortfolioDetailResponse getPortfolioDetail(Long feedbackId) {
         Feedback feedback = feedbackService.getFeedbackById(feedbackId);
         List<String> imageUrls = feedbackImageService.findFeedbackImagesByFeedback(feedback);
-        Pet pet = petService.getPetByQuotationId(feedback.getQuotation().getId());
+        //        Pet pet = petService.getPetByQuotationId(feedback.getQuotation().getId());
         return feedbackMapper.toPortfolioDetailResponse(feedback, imageUrls);
     }
 

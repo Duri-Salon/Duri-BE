@@ -31,5 +31,5 @@ public interface PetService {
 
     Pet updatePet(Pet pet, NewPetRequest newPetRequest, String imageUrl);
 
-    Pet getPetByQuotationId(Long id);
+    //    Pet getPetByQuotationId(Long id);
 }
