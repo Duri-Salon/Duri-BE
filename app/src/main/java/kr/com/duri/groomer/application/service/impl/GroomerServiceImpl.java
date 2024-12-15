@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import kr.com.duri.common.Mapper.CommonMapper;
+import kr.com.duri.common.s3.S3Util;
 import kr.com.duri.groomer.application.dto.request.GroomerDetailRequest;
 import kr.com.duri.groomer.application.dto.request.GroomerOnboardingInfo;
 import kr.com.duri.groomer.application.service.GroomerService;
@@ -14,6 +15,7 @@ import kr.com.duri.groomer.repository.GroomerRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,8 @@ public class GroomerServiceImpl implements GroomerService {
 
     private final CommonMapper commonMapper;
 
+    private final S3Util s3Util;
+
     @Override
     public Groomer getGroomerByShopId(Long shopId) {
         return groomerRepository.findByShopId(shopId).stream()
@@ -31,7 +35,8 @@ public class GroomerServiceImpl implements GroomerService {
     }
 
     @Override
-    public Groomer createNewGroomer(Shop shop, GroomerOnboardingInfo groomerOnboardingInfo) {
+    public Groomer createNewGroomer(
+            Shop shop, GroomerOnboardingInfo groomerOnboardingInfo, String groomerImageUrl) {
         return groomerRepository.save(
                 Groomer.createNewGroomerWithOnboarding(
                         shop,
@@ -39,12 +44,13 @@ public class GroomerServiceImpl implements GroomerService {
                         groomerOnboardingInfo.getAge(),
                         groomerOnboardingInfo.getGender(),
                         groomerOnboardingInfo.getHistory(),
-                        groomerOnboardingInfo.getProfileImage(),
+                        groomerImageUrl,
                         commonMapper.toStringJson(groomerOnboardingInfo.getLicense())));
     }
 
     @Override
-    public Groomer createNewGroomer(Shop shop, GroomerDetailRequest groomerDetailRequest) {
+    public Groomer createNewGroomer(
+            Shop shop, GroomerDetailRequest groomerDetailRequest, String groomerImageUrl) {
         return groomerRepository.save(
                 Groomer.createNewGroomer(
                         shop,
@@ -54,7 +60,7 @@ public class GroomerServiceImpl implements GroomerService {
                         groomerDetailRequest.getEmail(),
                         groomerDetailRequest.getPhone(),
                         groomerDetailRequest.getHistory(),
-                        groomerDetailRequest.getImage(),
+                        groomerImageUrl,
                         groomerDetailRequest.getInfo(),
                         commonMapper.toStringJson(groomerDetailRequest.getLicense())));
     }
@@ -67,7 +73,12 @@ public class GroomerServiceImpl implements GroomerService {
     }
 
     @Override
-    public Groomer updateGroomer(Groomer groomer, GroomerDetailRequest groomerDetailRequest) {
+    public Groomer updateGroomer(
+            Groomer groomer, GroomerDetailRequest groomerDetailRequest, String groomerImageUrl) {
+        String imageUrl =
+                groomerImageUrl == null || groomerImageUrl.isEmpty()
+                        ? groomer.getImage()
+                        : groomerImageUrl;
         return groomerRepository.save(
                 groomer.updateGroomerProfile(
                         groomerDetailRequest.getName(),
@@ -76,7 +87,7 @@ public class GroomerServiceImpl implements GroomerService {
                         groomerDetailRequest.getEmail(),
                         groomerDetailRequest.getPhone(),
                         groomerDetailRequest.getHistory(),
-                        groomerDetailRequest.getImage(),
+                        imageUrl,
                         groomerDetailRequest.getInfo(),
                         commonMapper.toStringJson(groomerDetailRequest.getLicense())));
     }
@@ -94,5 +105,13 @@ public class GroomerServiceImpl implements GroomerService {
     @Override
     public Optional<Groomer> findGroomerByShopId(Long shopId) {
         return groomerRepository.findByShopId(shopId).stream().findFirst();
+    }
+
+    @Override
+    public String uploadGroomerImage(MultipartFile img) {
+        if (img == null || img.isEmpty()) {
+            return null;
+        }
+        return s3Util.uploadToS3(img, "info");
     }
 }

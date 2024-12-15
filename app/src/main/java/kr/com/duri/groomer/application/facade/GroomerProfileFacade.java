@@ -10,6 +10,7 @@ import kr.com.duri.groomer.domain.entity.Shop;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 @RequiredArgsConstructor
@@ -22,28 +23,24 @@ public class GroomerProfileFacade {
     private final GroomerMapper groomerMapper;
 
     public GroomerProfileDetailResponse createGroomerProfile(
-            String token, GroomerDetailRequest groomerDetailRequest) {
+            String token, GroomerDetailRequest groomerDetailRequest, MultipartFile img) {
         Long shopId = shopService.getShopIdByToken(token);
-
         Shop shop = shopService.findById(shopId);
-
-        Groomer newGroomer = groomerService.createNewGroomer(shop, groomerDetailRequest);
-
+        String imageUrl = groomerService.uploadGroomerImage(img);
+        Groomer newGroomer = groomerService.createNewGroomer(shop, groomerDetailRequest, imageUrl);
         return groomerMapper.toGroomerProfileDetailResponse(newGroomer);
     }
 
     public GroomerProfileDetailResponse getGroomerProfile(Long groomerId) {
         Groomer groomer = groomerService.findById(groomerId);
-
         return groomerMapper.toGroomerProfileDetailResponse(groomer);
     }
 
     public GroomerProfileDetailResponse updateGroomerProfile(
-            Long groomerId, GroomerDetailRequest groomerDetailRequest) {
+            Long groomerId, GroomerDetailRequest groomerDetailRequest, MultipartFile img) {
         Groomer groomer = groomerService.findById(groomerId);
-
-        groomer = groomerService.updateGroomer(groomer, groomerDetailRequest);
-
+        String imageUrl = groomerService.uploadGroomerImage(img);
+        groomer = groomerService.updateGroomer(groomer, groomerDetailRequest, imageUrl);
         return groomerMapper.toGroomerProfileDetailResponse(groomer);
     }
 

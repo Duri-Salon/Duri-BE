@@ -35,16 +35,14 @@ public class ShopProfileFacade {
     private final GroomerMapper groomerMapper;
 
     public ShopOnboardingResponse shopAndGroomerOnboarding(
-            String token, ShopOnboardingRequest shopOnboardingRequest) {
+            String token, ShopOnboardingRequest shopOnboardingRequest, MultipartFile img) {
         Long shopId = shopService.getShopIdByToken(token);
-
         Shop shop = shopService.findById(shopId);
-
         shop = shopService.updateDetail(shop, shopOnboardingRequest.getShopOnboardingInfo());
-
+        String groomerImageUrl = groomerService.uploadGroomerImage(img);
         Groomer groomer =
                 groomerService.createNewGroomer(
-                        shop, shopOnboardingRequest.getGroomerOnboardingInfo());
+                        shop, shopOnboardingRequest.getGroomerOnboardingInfo(), groomerImageUrl);
 
         return ShopOnboardingResponse.builder()
                 .shopDetailResponse(shopMapper.toShopDetailResponse(shop))

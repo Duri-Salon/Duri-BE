@@ -2,6 +2,7 @@ package kr.com.duri.groomer.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.groomer.application.dto.request.ShopOnboardingRequest;
 import kr.com.duri.groomer.application.dto.request.ShopProfileDetailRequest;
@@ -22,12 +23,13 @@ public class ShopProfileController {
 
     private final ShopProfileFacade shopProfileFacade;
 
-    @PostMapping("/onboarding") // todo : 미용사 사진 입력 받기
+    @PostMapping(value = "/onboarding", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public CommonResponseEntity<ShopOnboardingResponse> shopAndGroomerOnboarding(
             @RequestHeader("authorization_shop") String token,
-            @RequestBody ShopOnboardingRequest shopOnboardingRequest) {
+            @RequestPart @Valid ShopOnboardingRequest shopOnboardingRequest,
+            @RequestPart(value = "image", required = false) MultipartFile img) {
         return CommonResponseEntity.success(
-                shopProfileFacade.shopAndGroomerOnboarding(token, shopOnboardingRequest));
+                shopProfileFacade.shopAndGroomerOnboarding(token, shopOnboardingRequest, img));
     }
 
     @PutMapping(value = "/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
