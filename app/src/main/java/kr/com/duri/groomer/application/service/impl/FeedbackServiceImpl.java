@@ -71,7 +71,6 @@ public class FeedbackServiceImpl implements FeedbackService {
                         groomer,
                         newFeedbackRequest.getFriendly(),
                         newFeedbackRequest.getReaction(),
-                        newFeedbackRequest.getMatter(),
                         newFeedbackRequest.getBehavior(),
                         newFeedbackRequest.getNoticeContent(),
                         newFeedbackRequest.getPortfolioContent(),
