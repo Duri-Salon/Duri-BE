@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.amazonaws.HttpMethod;
+
 @Configuration
 public class CorsMvcConfig implements WebMvcConfigurer {
 
@@ -30,7 +32,13 @@ public class CorsMvcConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry
                 .addMapping("/**")
-                .allowedMethods("*")
+                // .allowedMethods("*") - 기존
+                .allowedMethods(
+                        HttpMethod.GET.name(),
+                        HttpMethod.HEAD.name(),
+                        HttpMethod.POST.name(),
+                        HttpMethod.PUT.name(),
+                        HttpMethod.DELETE.name())
                 .exposedHeaders(
                         "Set-Cookie", "authorization_user", "authorization_shop", "Content-Type")
                 .allowedHeaders("authorization_user", "authorization_shop", "Content-Type")

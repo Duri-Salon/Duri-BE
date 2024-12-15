@@ -68,18 +68,18 @@ public class GroomerHomeFacade {
     public RecentProcedureResponse getRecentProcedure(String token) {
         Long shopId = shopService.getShopIdByToken(token);
         getShop(shopId);
-        // 1. 현재 일자로부터 가장 최근의 견적서 조회
+        // 1) 현재 일자로부터 가장 최근의 견적서 조회
         Quotation quotation = quotationService.getClosetQuoationByShopId(shopId);
         if (quotation == null) { // 예약 시술 내역 없음
             return RecentProcedureResponse.createEmpty();
         }
-        // 2. 견적서의 요청 ID로 요청 객체 불러오기
+        // 2) 요청
         Request request = getRequestByQuotation(quotation);
-        // 3. 요청으로 견적요청서 조회
+        // 3) 견적요청서
         QuotationReq quotationReq = getQuotationReqByRequest(request);
-        // 4. 견적요청서로 반려견 조회
+        // 4) 반려견
         Pet pet = getPetByQuotationReq(quotationReq);
-        // 5. 반려견으로 사용자 조회
+        // 5) 사용자
         SiteUser user = pet.getUser();
         return groomerHomeMapper.toRecentProcedureResponse(pet, user, quotation);
     }
@@ -88,9 +88,9 @@ public class GroomerHomeFacade {
     public List<TodayScheduleResponse> getTodaySchedule(String token) {
         Long shopId = shopService.getShopIdByToken(token);
         getShop(shopId);
-        // 1. 매장으로 디자이너 조회
+        // 1) 매장으로 디자이너 조회
         Groomer groomer = groomerService.getGroomerByShopId(shopId);
-        // 2. 오늘 날짜인 해당 매장의 견적서 조회
+        // 2) 오늘 날짜인 해당 매장의 견적서 조회
         List<Quotation> quotationList = quotationService.getTodayQuotations(shopId);
         if (quotationList.isEmpty()) { // 해당 견적서 없음
             return Collections.emptyList();
@@ -98,13 +98,13 @@ public class GroomerHomeFacade {
         return quotationList.stream()
                 .map(
                         quotation -> {
-                            // 3. 견적서로 요청 조회
+                            // 3) 견적서로 요청 조회
                             Request request = getRequestByQuotation(quotation);
-                            // 4. 요청으로 견적 요청서 조회
+                            // 4) 요청으로 견적 요청서 조회
                             QuotationReq quotationReq = getQuotationReqByRequest(request);
-                            // 5. 견적 요청서로 반려견 조회
+                            // 5) 견적 요청서로 반려견 조회
                             Pet pet = getPetByQuotationReq(quotationReq);
-                            // 6. DTO 변환
+                            // 6) DTO 변환
                             return groomerHomeMapper.toTodayScheduleResponse(
                                     pet, quotation, groomer);
                         })
@@ -114,14 +114,14 @@ public class GroomerHomeFacade {
     // 미용 완료 여부 수정
     public void updateComplete(
             Long quotationId, QuotationUpdateCompleteRequest quotationUpdateCompleteRequest) {
-        // 1. 미용 완료 여부 수정
+        // 1) 미용 완료 여부 수정
         quotationService.updateComplete(quotationId, quotationUpdateCompleteRequest);
-        // 2. 반려견 조회
+        // 2) 반려견 조회
         Quotation quotation = quotationService.findById(quotationId);
         Request request = getRequestByQuotation(quotation);
         QuotationReq quotationReq = getQuotationReqByRequest(request);
         Pet pet = getPetByQuotationReq(quotationReq);
-        // 3. 마지막 미용일 업데이트
+        // 3) 마지막 미용일 업데이트
         Date lastDate =
                 Date.from(quotation.getEndDateTime().atZone(ZoneId.systemDefault()).toInstant());
         petService.updateLastGromming(pet.getId(), lastDate);
@@ -131,7 +131,7 @@ public class GroomerHomeFacade {
     public List<HomeQuotationReqResponse> getRequestList(String token) {
         Long shopId = shopService.getShopIdByToken(token);
         getShop(shopId);
-        // 1. 매장으로 받은 미승인 요청 리스트 조회
+        // 1) 매장으로 받은 미승인 요청 리스트 조회
         List<Request> requestList = requestService.getNewRequestsByShopId(shopId);
         if (requestList.isEmpty()) { // 해당 요청 리스트 없음
             return Collections.emptyList();
@@ -139,9 +139,9 @@ public class GroomerHomeFacade {
         return requestList.stream()
                 .map(
                         request -> {
-                            // 2. 요청으로 견적 요청서 조회
+                            // 2) 요청으로 견적 요청서 조회
                             QuotationReq quotationReq = getQuotationReqByRequest(request);
-                            // 3. 견적 요청서로 반려견 조회
+                            // 3) 견적 요청서로 반려견 조회
                             Pet pet = getPetByQuotationReq(quotationReq);
                             return groomerHomeMapper.toHomeQuotationReqResponse(
                                     request, quotationReq, pet);

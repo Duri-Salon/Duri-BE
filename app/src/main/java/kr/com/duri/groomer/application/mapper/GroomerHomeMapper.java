@@ -17,6 +17,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GroomerHomeMapper {
+
+    private String safeGet(String value) {
+        return value == null ? "" : value;
+    }
+
     // DateTime Format
     DateTimeFormatter fullFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("MM-dd");
@@ -29,7 +34,7 @@ public class GroomerHomeMapper {
         return RecentProcedureResponse.builder()
                 .petId(pet.getId())
                 .petName(pet.getName())
-                .imageURL(pet.getImage())
+                .imageURL(safeGet(pet.getImage()))
                 .breed(pet.getBreed())
                 .gender(String.valueOf(pet.getGender()))
                 .age(pet.getAge())
@@ -39,7 +44,7 @@ public class GroomerHomeMapper {
                                 ? ""
                                 : quotation.getRequest().getQuotation().getEtc())
                 .userId(user.getId())
-                .userPhone(user.getPhone())
+                .userPhone(safeGet(user.getPhone()))
                 .quotationId(quotation.getId())
                 .startTime(quotation.getStartDateTime().format(fullFormatter))
                 .complete(quotation.getComplete())
@@ -71,7 +76,7 @@ public class GroomerHomeMapper {
         return HomeQuotationReqResponse.builder()
                 .requestId(request.getId())
                 .petId(pet.getId())
-                .imageURL(pet.getImage() == null ? "" : pet.getImage())
+                .imageURL(safeGet(pet.getImage()))
                 .name(pet.getName())
                 .breed(pet.getBreed())
                 .gender(String.valueOf(pet.getGender()))
@@ -79,7 +84,7 @@ public class GroomerHomeMapper {
                 .weight(pet.getWeight())
                 .neutering(pet.getNeutering())
                 .quotationReqId(quotationReq.getId())
-                .memo(quotationReq.getEtc() == null ? "" : quotationReq.getEtc())
+                .memo(safeGet(quotationReq.getEtc()))
                 .build();
     }
 }

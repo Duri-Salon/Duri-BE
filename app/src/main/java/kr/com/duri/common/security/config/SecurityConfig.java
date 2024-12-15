@@ -1,7 +1,6 @@
 package kr.com.duri.common.security.config;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import jakarta.servlet.http.HttpServletRequest;
 import kr.com.duri.common.security.jwt.JwtFilter;
@@ -48,6 +47,9 @@ public class SecurityConfig {
     @Value("${client.shop.dev.url}")
     private String CLIENT_SHOP_DEV_URL;
 
+    @Value("${client.domain.url}")
+    private String CLIENT_DOMAIN_URL;
+
     public SecurityConfig(
             CustomOAuth2UserService customOAuth2UserService,
             CustomSuccessHandler customSuccessHandler,
@@ -70,7 +72,10 @@ public class SecurityConfig {
                                             HttpServletRequest request) {
                                         CorsConfiguration configuration = new CorsConfiguration();
 
-                                        configuration.setAllowedMethods(Arrays.asList("*"));
+                                        // configuration.setAllowedMethods(Arrays.asList("*")); - 기존
+                                        configuration.setAllowedMethods(
+                                                Arrays.asList(
+                                                        "GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
                                         configuration.setAllowedOrigins(
                                                 Arrays.asList(
@@ -79,11 +84,19 @@ public class SecurityConfig {
                                                         CLIENT_USER_URL,
                                                         CLIENT_SHOP_URL,
                                                         CLIENT_USER_DEV_URL,
-                                                        CLIENT_SHOP_DEV_URL));
-                                        configuration.setAllowCredentials(true);
+                                                        CLIENT_SHOP_DEV_URL,
+                                                        CLIENT_DOMAIN_URL));
+
+                                        // configuration.setAllowedHeaders( - 기존
+                                        //        Collections.singletonList("*"));
 
                                         configuration.setAllowedHeaders(
-                                                Collections.singletonList("*"));
+                                                Arrays.asList(
+                                                        "Authorization",
+                                                        "Content-Type",
+                                                        "X-Requested-With",
+                                                        "Origin",
+                                                        "Accept"));
 
                                         configuration.setExposedHeaders(
                                                 Arrays.asList(
@@ -93,6 +106,7 @@ public class SecurityConfig {
                                                         "Content-Type"));
 
                                         configuration.setMaxAge(3600L);
+                                        configuration.setAllowCredentials(true);
                                         return configuration;
                                     }
                                 }));
