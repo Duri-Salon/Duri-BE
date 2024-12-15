@@ -1,12 +1,15 @@
 package kr.com.duri.groomer.controller;
 
+import jakarta.validation.Valid;
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.groomer.application.dto.request.GroomerDetailRequest;
 import kr.com.duri.groomer.application.dto.response.GroomerProfileDetailResponse;
 import kr.com.duri.groomer.application.facade.GroomerProfileFacade;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,19 +24,22 @@ public class GroomerProfileController {
         return CommonResponseEntity.success(groomerProfileFacade.getGroomerProfile(groomerId));
     }
 
-    @PostMapping
+    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public CommonResponseEntity<GroomerProfileDetailResponse> createGroomerProfile(
             @RequestHeader("authorization_shop") String token,
-            @RequestBody GroomerDetailRequest groomerDetailRequest) {
+            @RequestPart @Valid GroomerDetailRequest groomerDetailRequest,
+            @RequestPart(value = "image", required = false) MultipartFile img) {
         return CommonResponseEntity.success(
-                groomerProfileFacade.createGroomerProfile(token, groomerDetailRequest));
+                groomerProfileFacade.createGroomerProfile(token, groomerDetailRequest, img));
     }
 
-    @PutMapping("/{groomerId}")
+    @PutMapping(value = "/{groomerId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public CommonResponseEntity<GroomerProfileDetailResponse> updateGroomerProfile(
-            @PathVariable Long groomerId, @RequestBody GroomerDetailRequest groomerDetailRequest) {
+            @PathVariable Long groomerId,
+            @RequestPart @Valid GroomerDetailRequest groomerDetailRequest,
+            @RequestPart(value = "image", required = false) MultipartFile img) {
         return CommonResponseEntity.success(
-                groomerProfileFacade.updateGroomerProfile(groomerId, groomerDetailRequest));
+                groomerProfileFacade.updateGroomerProfile(groomerId, groomerDetailRequest, img));
     }
 
     @DeleteMapping("/{groomerId}")

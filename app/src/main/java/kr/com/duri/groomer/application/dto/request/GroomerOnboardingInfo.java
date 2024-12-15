@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class GroomerOnboardingInfo {
     private String name;
-    private String profileImage;
     private String gender;
     private Integer age;
     private Integer history; // 미용사 경력 (월수)

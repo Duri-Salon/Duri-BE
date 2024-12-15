@@ -8,20 +8,27 @@ import kr.com.duri.groomer.application.dto.request.GroomerOnboardingInfo;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Shop;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public interface GroomerService {
     Groomer getGroomerByShopId(Long shopId);
 
-    Groomer createNewGroomer(Shop shop, GroomerOnboardingInfo groomerOnboardingInfo);
+    Groomer createNewGroomer(
+            Shop shop, GroomerOnboardingInfo groomerOnboardingInfo, String groomerImageUrl);
 
-    Groomer createNewGroomer(Shop shop, GroomerDetailRequest groomerDetailRequest);
+    Groomer createNewGroomer(
+            Shop shop, GroomerDetailRequest groomerDetailRequest, String groomerImageUrl);
 
     Groomer findById(Long groomerId);
 
-    Groomer updateGroomer(Groomer groomer, GroomerDetailRequest groomerDetailRequest);
+    Groomer updateGroomer(
+            Groomer groomer, GroomerDetailRequest groomerDetailRequest, String groomerImageUrl);
 
     void deleteGroomer(Groomer groomer);
 
     List<Groomer> findGroomersByShop(Long shopId);
 
     Optional<Groomer> findGroomerByShopId(Long shopId);
+
+    String uploadGroomerImage(MultipartFile img);
 }

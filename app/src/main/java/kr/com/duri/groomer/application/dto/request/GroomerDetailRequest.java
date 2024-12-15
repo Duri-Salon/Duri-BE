@@ -18,7 +18,6 @@ public class GroomerDetailRequest {
     private String gender; // 미용사 성별
     private Integer age; // 미용사 나이
     private Integer history; // 미용사 경력 (월수)
-    private String image; // 프로필 이미지
     private String info; // 미용사 자기소개
     private List<String> license; // 자격증
 }
