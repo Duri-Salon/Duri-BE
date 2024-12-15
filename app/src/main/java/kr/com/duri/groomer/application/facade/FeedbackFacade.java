@@ -107,4 +107,14 @@ public class FeedbackFacade {
 
         return feedbackMapper.toFeedbackDataResponse(mostFriendly, mostReaction, mostBehavior);
     }
+
+    public void removePortfolio(String token, Long feedbackId) {
+        Long shopId = shopService.getShopIdByToken(token);
+        Feedback feedback = feedbackService.getFeedbackById(feedbackId);
+        Long feedbackShopId = feedback.getGroomer().getShop().getId();
+        if (!shopId.equals(feedbackShopId)) {
+            throw new IllegalArgumentException("해당 매장의 피드백이 아닙니다.");
+        }
+        feedbackService.removePortfolio(feedback);
+    }
 }

@@ -76,4 +76,9 @@ public class Feedback extends BaseEntity {
                 .deleted(false)
                 .build();
     }
+
+    public Feedback removed() {
+        this.deleted = true;
+        return this;
+    }
 }

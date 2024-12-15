@@ -30,6 +30,23 @@ public class FeedbackController {
                 feedbackFacade.createNewFeedback(token, quotationId, newFeedbackRequest, images));
     }
 
+    @PutMapping("/{feedbackId}") // 해당 매장만 사용
+    public CommonResponseEntity<?> updatePortfolio(
+            @RequestHeader("authorization_shop") String token,
+            @PathVariable Long feedbackId,
+            @RequestBody NewFeedbackRequest newFeedbackRequest) {
+        feedbackFacade.updatePortfolio(token, feedbackId, newFeedbackRequest);
+        return CommonResponseEntity.success();
+    }
+
+    @PutMapping("/remove/{feedbackId}") // 해당 매장만 사용
+    public CommonResponseEntity<String> deletePortfolio(
+            @RequestHeader("authorization_shop") String token,
+            @PathVariable Long feedbackId) {
+        feedbackFacade.removePortfolio(token, feedbackId);
+        return CommonResponseEntity.success("포트폴리오가 삭제되었습니다.");
+    }
+
     @GetMapping("/{groomerId}") // 매장, 사용자 모두 사용
     public CommonResponseEntity<List<PortfolioListResponse>> getPortfolioList(
             @PathVariable Long groomerId) {
