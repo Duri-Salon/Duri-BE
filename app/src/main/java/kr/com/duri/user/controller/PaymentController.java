@@ -1,9 +1,12 @@
 package kr.com.duri.user.controller;
 
+import java.util.UUID;
+
 import jakarta.servlet.http.HttpSession;
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.user.application.dto.request.ConfirmPaymentRequest;
 import kr.com.duri.user.application.dto.request.SaveAmountRequest;
+import kr.com.duri.user.application.dto.response.GenerateKeyResponse;
 import kr.com.duri.user.application.dto.response.PaymentResponse;
 import kr.com.duri.user.application.facade.PaymentFacade;
 import lombok.RequiredArgsConstructor;
@@ -57,5 +60,17 @@ public class PaymentController {
             return CommonResponseEntity.error(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error: " + e.getMessage());
         }
+    }
+
+    // 서버에서 orderId 및 customerKey 생성 및 반환
+    @GetMapping("/keys")
+    public CommonResponseEntity<GenerateKeyResponse> generateKeys() {
+        // UUID 생성
+        String orderId = UUID.randomUUID().toString();
+        String customerKey = UUID.randomUUID().toString();
+
+        // 응답 구성
+        GenerateKeyResponse response = new GenerateKeyResponse(orderId, customerKey);
+        return CommonResponseEntity.success(response);
     }
 }
