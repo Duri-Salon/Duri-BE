@@ -41,13 +41,12 @@ public class Feedback extends BaseEntity {
     private Reaction reaction; // 미용도구 반응 (공격적 행동, 도구를 피함, 거부반응 없음)
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "matter")
-    private Matter matter; // 스트레스 및 질환 여부 (스트레스가 있어요/질환이 있는 친구에요)
-
-    @Enumerated(EnumType.STRING)
     @Column(name = "behavior")
     private Behavior behavior; // 반려견 행동 (미용중 경험한 내용/주의사항)
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "matter")
+    private Matter matter; // 스트레스 및 질환 여부 (스트레스가 있어요/질환이 있는 친구에요)
     @Column(name = "notice_content")
     private String noticeContent; // 사용자에게 전달되는 내용
 

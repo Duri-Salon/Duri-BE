@@ -1,10 +1,7 @@
 package kr.com.duri.groomer.application.mapper;
 
 import kr.com.duri.common.Mapper.CommonMapper;
-import kr.com.duri.groomer.application.dto.response.DiaryDetailResponse;
-import kr.com.duri.groomer.application.dto.response.PortfolioDetailResponse;
-import kr.com.duri.groomer.application.dto.response.FeedbackDetailResponse;
-import kr.com.duri.groomer.application.dto.response.PortfolioListResponse;
+import kr.com.duri.groomer.application.dto.response.*;
 import kr.com.duri.groomer.domain.entity.Feedback;
 import kr.com.duri.groomer.domain.entity.FeedbackImage;
 import lombok.RequiredArgsConstructor;
@@ -61,6 +58,14 @@ public class FeedbackMapper {
                 .behavior(feedback.getBehavior().getDescription())
                 .noticeContent(feedback.getNoticeContent())
                 .feedbackImages(images)
+                .build();
+    }
+
+    public FeedbackDataResponse toFeedbackDataResponse(String friendly, String reaction, String behavior) {
+        return FeedbackDataResponse.builder()
+                .friendly(friendly)
+                .reaction(reaction)
+                .behavior(behavior)
                 .build();
     }
 }

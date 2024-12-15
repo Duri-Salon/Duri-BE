@@ -2,11 +2,8 @@ package kr.com.duri.groomer.controller;
 
 import jakarta.validation.Valid;
 import kr.com.duri.common.response.CommonResponseEntity;
-import kr.com.duri.groomer.application.dto.response.DiaryDetailResponse;
-import kr.com.duri.groomer.application.dto.response.PortfolioDetailResponse;
+import kr.com.duri.groomer.application.dto.response.*;
 import kr.com.duri.groomer.application.dto.request.NewFeedbackRequest;
-import kr.com.duri.groomer.application.dto.response.FeedbackDetailResponse;
-import kr.com.duri.groomer.application.dto.response.PortfolioListResponse;
 import kr.com.duri.groomer.application.facade.FeedbackFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -46,7 +43,7 @@ public class FeedbackController {
     }
 
     @GetMapping("/data") // 사용자 사용
-    public CommonResponseEntity<?> getFeedbackData(@RequestHeader("authorization_shop") String token) {
+    public CommonResponseEntity<FeedbackDataResponse> getFeedbackData(@RequestHeader("authorization_user") String token) {
         return CommonResponseEntity.success(feedbackFacade.getFeedbackData(token));
     }
 

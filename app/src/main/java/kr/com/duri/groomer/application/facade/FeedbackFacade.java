@@ -1,19 +1,22 @@
 package kr.com.duri.groomer.application.facade;
 
-import kr.com.duri.groomer.application.dto.response.DiaryDetailResponse;
-import kr.com.duri.groomer.application.dto.response.PortfolioDetailResponse;
+import kr.com.duri.groomer.application.dto.response.*;
 import kr.com.duri.groomer.application.dto.request.NewFeedbackRequest;
-import kr.com.duri.groomer.application.dto.response.FeedbackDetailResponse;
-import kr.com.duri.groomer.application.dto.response.PortfolioListResponse;
 import kr.com.duri.groomer.application.mapper.FeedbackMapper;
 import kr.com.duri.groomer.application.service.*;
 import kr.com.duri.groomer.domain.entity.Feedback;
 import kr.com.duri.groomer.domain.entity.FeedbackImage;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
+import kr.com.duri.user.application.service.PetService;
+import kr.com.duri.user.application.service.SiteUserService;
+import kr.com.duri.user.domain.entity.Pet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import kr.com.duri.groomer.domain.Enum.Behavior;
+import kr.com.duri.groomer.domain.Enum.Friendly;
+import kr.com.duri.groomer.domain.Enum.Reaction;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +29,10 @@ public class FeedbackFacade {
     private final ShopService shopService;
 
     private final GroomerService groomerService;
+
+    private final SiteUserService siteUserService;
+
+    private final PetService petService;
 
     private final QuotationService quotationService;
 
@@ -69,7 +76,22 @@ public class FeedbackFacade {
         return feedbackMapper.toDiaryDetailResponse(feedback, imageUrls);
     }
 
-    public Object getFeedbackData(String token) {
-        return null;
+    public FeedbackDataResponse getFeedbackData(String token) {
+        Long siteuserId = siteUserService.getUserIdByToken(token);
+        Pet pet = petService.getPetByUserId(siteuserId);
+        List<Feedback> feedbackList = feedbackService.findAllByPet(pet.getId());
+
+        if (feedbackList.isEmpty()) {
+            throw new IllegalArgumentException("해당 반려견에 대한 피드백 데이터가 없습니다.");
+        }
+
+        String mostFriendly = feedbackService.getMostSelected(
+                feedbackList, Feedback::getFriendly, Friendly::getDescription);
+        String mostReaction = feedbackService.getMostSelected(
+                feedbackList, Feedback::getReaction, Reaction::getDescription);
+        String mostBehavior = feedbackService.getMostSelected(
+                feedbackList, Feedback::getBehavior, Behavior::getDescription);
+
+        return feedbackMapper.toFeedbackDataResponse(mostFriendly, mostReaction, mostBehavior);
     }
 }
