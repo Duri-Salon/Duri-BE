@@ -24,6 +24,11 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
+    public Feedback getFeedbackByQuotationId(Long quotationId) {
+        return feedbackReopsitory.findByQuotationId(quotationId).orElseThrow(() -> new NotFoundException("피드백이 존재하지 않습니다."));
+    }
+
+    @Override
     public Feedback saveNewFeedback(Quotation quotation, Groomer groomer, NewFeedbackRequest newFeedbackRequest) {
         return feedbackReopsitory.save(Feedback.createNewFeedback(
                 quotation, groomer,

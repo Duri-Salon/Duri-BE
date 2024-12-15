@@ -13,4 +13,6 @@ public interface FeedbackService {
     List<Feedback> getPortfolioList(Long groomerId);
 
     Feedback getFeedbackById(Long feedbackId);
+
+    Feedback getFeedbackByQuotationId(Long quotationId);
 }

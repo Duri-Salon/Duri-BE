@@ -1,6 +1,7 @@
 package kr.com.duri.groomer.application.facade;
 
-import kr.com.duri.groomer.application.dto.PortfolioDetailResponse;
+import kr.com.duri.groomer.application.dto.response.DiaryDetailResponse;
+import kr.com.duri.groomer.application.dto.response.PortfolioDetailResponse;
 import kr.com.duri.groomer.application.dto.request.NewFeedbackRequest;
 import kr.com.duri.groomer.application.dto.response.FeedbackDetailResponse;
 import kr.com.duri.groomer.application.dto.response.PortfolioListResponse;
@@ -60,5 +61,15 @@ public class FeedbackFacade {
         Feedback feedback = feedbackService.getFeedbackById(feedbackId);
         List<String> imageUrls = feedbackImageService.findFeedbackImagesByFeedback(feedback);
         return feedbackMapper.toPortfolioDetailResponse(feedback, imageUrls);
+    }
+
+    public DiaryDetailResponse getDiaryDetail(Long quotationId) { // todo : 펫 프로필, 디자이너 프로필 같이 조회?
+        Feedback feedback = feedbackService.getFeedbackByQuotationId(quotationId);
+        List<String> imageUrls = feedbackImageService.findFeedbackImagesByFeedback(feedback);
+        return feedbackMapper.toDiaryDetailResponse(feedback, imageUrls);
+    }
+
+    public Object getFeedbackData(String token) {
+        return null;
     }
 }
