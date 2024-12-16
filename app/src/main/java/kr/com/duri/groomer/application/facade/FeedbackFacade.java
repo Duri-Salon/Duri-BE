@@ -78,8 +78,8 @@ public class FeedbackFacade {
     public PortfolioDetailResponse getPortfolioDetail(Long feedbackId) {
         Feedback feedback = feedbackService.getFeedbackById(feedbackId);
         List<String> imageUrls = feedbackImageService.findFeedbackImagesByFeedback(feedback);
-        //        Pet pet = petService.getPetByQuotationId(feedback.getQuotation().getId());
-        return feedbackMapper.toPortfolioDetailResponse(feedback, imageUrls);
+        Pet pet = petService.getPetByFeedbackId(feedbackId);
+        return feedbackMapper.toPortfolioDetailResponse(feedback, imageUrls, feedback.getGroomer(), pet);
     }
 
     public DiaryDetailResponse getDiaryDetail(Long quotationId) { // todo : 펫 프로필, 디자이너 프로필 같이 조회?

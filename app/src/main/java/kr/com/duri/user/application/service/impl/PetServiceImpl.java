@@ -91,10 +91,10 @@ public class PetServiceImpl implements PetService {
                 imageUrl);
     }
 
-    //    @Override
-    //    public Pet getPetByQuotationId(Long quotationId) {
-    //        return petRepository.findByQuotationId(quotationId);
-    //    }
+    @Override
+    public Pet getPetByFeedbackId(Long feedbackId) {
+        return petRepository.findByfeedbackId(feedbackId);
+    }
 
     @Override
     public String uploadToS3(MultipartFile img) {
