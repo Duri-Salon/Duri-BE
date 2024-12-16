@@ -64,7 +64,7 @@ public class StatisticsFacade {
         // 이번달 기준 이전달 상승/하락
         Long nowMonthIncome = monthIncomeResponses.get(monthIncomeResponses.size() - 1).getIncome();
         Long beforeMonthIncome =
-            monthIncomeResponses.get(monthIncomeResponses.size() - 2).getIncome();
+                monthIncomeResponses.get(monthIncomeResponses.size() - 2).getIncome();
         Float beforeRatio = calculateRatio(beforeMonthIncome, nowMonthIncome);
         return statisticsMapper.toFiveMonthIncomeResponse(shop, monthIncomeResponses, beforeRatio);
     }
