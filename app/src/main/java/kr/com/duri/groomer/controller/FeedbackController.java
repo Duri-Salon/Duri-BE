@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.validation.Valid;
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.groomer.application.dto.request.NewFeedbackRequest;
+import kr.com.duri.groomer.application.dto.request.PortfolioUpdateRequest;
 import kr.com.duri.groomer.application.dto.response.*;
 import kr.com.duri.groomer.application.facade.FeedbackFacade;
 import lombok.RequiredArgsConstructor;
@@ -30,14 +31,14 @@ public class FeedbackController {
                 feedbackFacade.createNewFeedback(token, quotationId, newFeedbackRequest, images));
     }
 
-    //    @PutMapping("/{feedbackId}") // 해당 매장만 사용
-    //    public CommonResponseEntity<?> updatePortfolio(
-    //            @RequestHeader("authorization_shop") String token,
-    //            @PathVariable Long feedbackId,
-    //            @RequestBody NewFeedbackRequest newFeedbackRequest) {
-    //        feedbackFacade.updatePortfolio(token, feedbackId, newFeedbackRequest);
-    //        return CommonResponseEntity.success();
-    //    }
+    @PutMapping("/{feedbackId}") // 해당 매장만 사용
+    public CommonResponseEntity<String> updatePortfolio(
+            @RequestHeader("authorization_shop") String token,
+            @PathVariable Long feedbackId,
+            @RequestBody PortfolioUpdateRequest updatePortfolioContent) {
+        feedbackFacade.updatePortfolio(token, feedbackId, updatePortfolioContent);
+        return CommonResponseEntity.success("포트폴리오가 수정되었습니다.");
+    }
 
     @PutMapping("/remove/{feedbackId}") // 해당 매장만 사용
     public CommonResponseEntity<String> deletePortfolio(

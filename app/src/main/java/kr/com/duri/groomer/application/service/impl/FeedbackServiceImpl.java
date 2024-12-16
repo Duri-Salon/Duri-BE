@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import kr.com.duri.common.exception.NotFoundException;
 import kr.com.duri.groomer.application.dto.request.NewFeedbackRequest;
+import kr.com.duri.groomer.application.dto.request.PortfolioUpdateRequest;
 import kr.com.duri.groomer.application.service.FeedbackService;
 import kr.com.duri.groomer.domain.entity.Feedback;
 import kr.com.duri.groomer.domain.entity.Groomer;
@@ -65,6 +66,12 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public void removePortfolio(Feedback feedback) {
         feedbackReopsitory.save(feedback.removed());
+    }
+
+    @Override
+    public void updatePortfolio(Feedback feedback, PortfolioUpdateRequest updatePortfolioContent) {
+        feedbackReopsitory.save(
+                feedback.updatePortfolio(updatePortfolioContent.getPortfolioContent()));
     }
 
     @Override
