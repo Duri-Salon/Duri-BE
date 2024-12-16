@@ -1,6 +1,5 @@
 package kr.com.duri.user.application.service;
 
-import java.util.Collection;
 import java.util.List;
 
 import kr.com.duri.user.domain.entity.QuotationReq;

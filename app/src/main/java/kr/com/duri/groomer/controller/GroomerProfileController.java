@@ -51,7 +51,8 @@ public class GroomerProfileController {
     }
 
     @GetMapping
-    public CommonResponseEntity<GroomerMyPageResponse> getGroomerProfile(@RequestHeader("authorization_shop") String token) {
+    public CommonResponseEntity<GroomerMyPageResponse> getGroomerProfile(
+            @RequestHeader("authorization_shop") String token) {
         return CommonResponseEntity.success(groomerProfileFacade.getMyPageInfo(token));
     }
 }

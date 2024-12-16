@@ -82,7 +82,8 @@ public class GroomerProfileFacade {
         Integer reservationCount = requestService.getApprovedHistoryByShopId(shopId).size();
         Integer noShowCount = quotationService.getNoShowHistoryByShopId(shopId).size();
         return GroomerMyPageResponse.builder()
-                .shopProfileDetailResponse(shopMapper.toShopProfileDetailResponse(shop, imageUrl, shopTags))
+                .shopProfileDetailResponse(
+                        shopMapper.toShopProfileDetailResponse(shop, imageUrl, shopTags))
                 .groomerProfileDetailResponse(groomerMapper.toGroomerProfileDetailResponse(groomer))
                 .reservationCount(reservationCount)
                 .noShowCount(noShowCount)

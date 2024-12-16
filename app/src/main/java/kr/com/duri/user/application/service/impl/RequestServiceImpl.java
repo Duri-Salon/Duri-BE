@@ -3,7 +3,6 @@ package kr.com.duri.user.application.service.impl;
 import java.util.Collections;
 import java.util.List;
 
-import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.user.application.service.RequestService;
 import kr.com.duri.user.domain.Enum.QuotationStatus;
 import kr.com.duri.user.domain.entity.QuotationReq;
