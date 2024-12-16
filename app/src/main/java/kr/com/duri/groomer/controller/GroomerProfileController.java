@@ -3,6 +3,7 @@ package kr.com.duri.groomer.controller;
 import jakarta.validation.Valid;
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.groomer.application.dto.request.GroomerDetailRequest;
+import kr.com.duri.groomer.application.dto.response.GroomerAndShopProfileRespnse;
 import kr.com.duri.groomer.application.dto.response.GroomerProfileDetailResponse;
 import kr.com.duri.groomer.application.facade.GroomerProfileFacade;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class GroomerProfileController {
     private final GroomerProfileFacade groomerProfileFacade;
 
     @GetMapping("/{groomerId}")
-    public CommonResponseEntity<GroomerProfileDetailResponse> getGroomerProfile(
+    public CommonResponseEntity<GroomerAndShopProfileRespnse> getGroomerProfile(
             @PathVariable Long groomerId) {
         return CommonResponseEntity.success(groomerProfileFacade.getGroomerProfile(groomerId));
     }
