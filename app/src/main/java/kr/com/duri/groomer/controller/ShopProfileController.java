@@ -67,4 +67,16 @@ public class ShopProfileController {
             @RequestHeader("authorization_shop") String token) {
         return CommonResponseEntity.success(shopProfileFacade.getShopImageList(token));
     }
+
+    @GetMapping("/groomers/{shopId}")
+    public CommonResponseEntity<List<GroomerProfileDetailResponse>> getShopGroomerList(
+            @PathVariable Long shopId) {
+        return CommonResponseEntity.success(shopProfileFacade.getShopGroomerList(shopId));
+    }
+
+    @GetMapping("/profile/images/{shopId}")
+    public CommonResponseEntity<List<String>> getShopImageList(
+            @PathVariable Long shopId) {
+        return CommonResponseEntity.success(shopProfileFacade.getShopImageList(shopId));
+    }
 }

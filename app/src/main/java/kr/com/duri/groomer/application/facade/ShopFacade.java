@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import kr.com.duri.groomer.application.dto.response.GetShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopNearByResponse;
+import kr.com.duri.groomer.application.dto.response.ShopProfileDetailResponse;
 import kr.com.duri.groomer.application.mapper.ShopMapper;
 import kr.com.duri.groomer.application.service.GroomerService;
 import kr.com.duri.groomer.application.service.ShopImageService;
@@ -41,11 +42,13 @@ public class ShopFacade {
     }
 
     // 매장 상세정보 조회
-    public ShopDetailResponse getShopDetail(String token) {
+    public ShopProfileDetailResponse getShopDetail(String token) {
         Long shopId = shopService.getShopIdByToken(token);
         Shop shop = getShop(shopId);
         ShopImage shopImage = shopImageService.getMainShopImage(shop);
-        return shopMapper.toShopDetailResponse(shop, shopImage);
+        String imageURL = shopImage == null ? null : shopImage.getShopImageUrl();
+        List<String> shopTags = shopTagService.findTagsByShopId(shopId);
+        return shopMapper.toShopProfileDetailResponse(shop, imageURL, shopTags);
     }
 
     private List<ShopNearByResponse> mapToShopNearByResponses(List<Object[]> shopResults) {

@@ -86,12 +86,6 @@ public class ShopProfileFacade {
         return shopMapper.toShopProfileDetailResponse(shop, newImageUrl, shopTags);
     }
 
-    public List<GroomerProfileDetailResponse> getShopGroomerList(String token) {
-        Long shopId = shopService.getShopIdByToken(token);
-        List<Groomer> groomers = groomerService.findGroomersByShop(shopId);
-        return groomerMapper.toGroomerProfileDetailResponseList(groomers);
-    }
-
     public void insertNewShopImage(String token, List<MultipartFile> images) {
         if (images == null || images.isEmpty()) {
             throw new IllegalParameterException("이미지가 없습니다.");
@@ -101,11 +95,25 @@ public class ShopProfileFacade {
         shopImageService.uploadShopImages(shop, images);
     }
 
+    public List<GroomerProfileDetailResponse> getShopGroomerList(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
+        List<Groomer> groomers = groomerService.findGroomersByShop(shopId);
+        return groomerMapper.toGroomerProfileDetailResponseList(groomers);
+    }
+
+    public List<GroomerProfileDetailResponse> getShopGroomerList(Long shopId) {
+        List<Groomer> groomers = groomerService.findGroomersByShop(shopId);
+        return groomerMapper.toGroomerProfileDetailResponseList(groomers);
+    }
+
     public List<String> getShopImageList(String token) {
         Long shopId = shopService.getShopIdByToken(token);
         Shop shop = shopService.findById(shopId);
         return shopImageService.findImagesByShop(shop);
     }
 
-
+    public List<String> getShopImageList(Long shopId) {
+        Shop shop = shopService.findById(shopId);
+        return shopImageService.findImagesByShop(shop);
+    }
 }
