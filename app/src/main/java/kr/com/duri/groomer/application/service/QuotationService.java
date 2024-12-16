@@ -1,5 +1,6 @@
 package kr.com.duri.groomer.application.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import kr.com.duri.groomer.application.dto.request.QuotationUpdateCompleteRequest;
@@ -52,4 +53,6 @@ public interface QuotationService {
     List<Quotation> getNoShowHistoryByPetId(Long petId);
 
     List<Quotation> getApprovedHistoryByPetId(Long petId);
+
+    List<Quotation> getNoShowHistoryByShopId(Long shopId);
 }

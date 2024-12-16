@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.groomer.application.dto.request.GroomerDetailRequest;
 import kr.com.duri.groomer.application.dto.response.GroomerAndShopProfileRespnse;
+import kr.com.duri.groomer.application.dto.response.GroomerMyPageResponse;
 import kr.com.duri.groomer.application.dto.response.GroomerProfileDetailResponse;
 import kr.com.duri.groomer.application.facade.GroomerProfileFacade;
 import lombok.RequiredArgsConstructor;
@@ -47,5 +48,10 @@ public class GroomerProfileController {
     public CommonResponseEntity<String> deleteGroomerProfile(@PathVariable Long groomerId) {
         groomerProfileFacade.deleteGroomerProfile(groomerId);
         return CommonResponseEntity.success("미용사 프로필 삭제에 성공했습니다.");
+    }
+
+    @GetMapping
+    public CommonResponseEntity<GroomerMyPageResponse> getGroomerProfile(@RequestHeader("authorization_shop") String token) {
+        return CommonResponseEntity.success(groomerProfileFacade.getMyPageInfo(token));
     }
 }

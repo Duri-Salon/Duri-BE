@@ -1,5 +1,6 @@
 package kr.com.duri.user.application.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import kr.com.duri.user.domain.entity.QuotationReq;
@@ -27,4 +28,6 @@ public interface RequestService {
 
     // Request상태를 EXPIRED로 업데이트
     void updateRequestStatusToExpired(Request request);
+
+    List<Request> getApprovedHistoryByShopId(Long shopId);
 }

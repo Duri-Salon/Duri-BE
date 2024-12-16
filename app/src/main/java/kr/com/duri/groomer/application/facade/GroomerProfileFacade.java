@@ -4,16 +4,15 @@ import java.util.List;
 
 import kr.com.duri.groomer.application.dto.request.GroomerDetailRequest;
 import kr.com.duri.groomer.application.dto.response.GroomerAndShopProfileRespnse;
+import kr.com.duri.groomer.application.dto.response.GroomerMyPageResponse;
 import kr.com.duri.groomer.application.dto.response.GroomerProfileDetailResponse;
 import kr.com.duri.groomer.application.mapper.GroomerMapper;
 import kr.com.duri.groomer.application.mapper.ShopMapper;
-import kr.com.duri.groomer.application.service.GroomerService;
-import kr.com.duri.groomer.application.service.ShopImageService;
-import kr.com.duri.groomer.application.service.ShopService;
-import kr.com.duri.groomer.application.service.ShopTagService;
+import kr.com.duri.groomer.application.service.*;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.domain.entity.ShopImage;
+import kr.com.duri.user.application.service.RequestService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
@@ -30,6 +29,10 @@ public class GroomerProfileFacade {
     private final ShopTagService shopTagService;
 
     private final GroomerService groomerService;
+
+    private final RequestService requestService;
+
+    private final QuotationService quotationService;
 
     private final GroomerMapper groomerMapper;
 
@@ -67,5 +70,22 @@ public class GroomerProfileFacade {
     public void deleteGroomerProfile(Long groomerId) {
         Groomer groomer = groomerService.findById(groomerId);
         groomerService.deleteGroomer(groomer);
+    }
+
+    public GroomerMyPageResponse getMyPageInfo(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
+        Shop shop = shopService.findById(shopId);
+        ShopImage shopImage = shopImageService.getMainShopImage(shop);
+        String imageUrl = shopImage == null ? null : shopImage.getShopImageUrl();
+        List<String> shopTags = shopTagService.findTagsByShopId(shop.getId());
+        Groomer groomer = groomerService.getGroomerByShopId(shop.getId());
+        Integer reservationCount = requestService.getApprovedHistoryByShopId(shopId).size();
+        Integer noShowCount = quotationService.getNoShowHistoryByShopId(shopId).size();
+        return GroomerMyPageResponse.builder()
+                .shopProfileDetailResponse(shopMapper.toShopProfileDetailResponse(shop, imageUrl, shopTags))
+                .groomerProfileDetailResponse(groomerMapper.toGroomerProfileDetailResponse(groomer))
+                .reservationCount(reservationCount)
+                .noShowCount(noShowCount)
+                .build();
     }
 }
