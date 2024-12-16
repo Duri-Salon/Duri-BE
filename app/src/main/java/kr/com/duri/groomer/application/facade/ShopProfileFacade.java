@@ -15,6 +15,7 @@ import kr.com.duri.groomer.application.service.ShopImageService;
 import kr.com.duri.groomer.application.service.ShopService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Shop;
+import kr.com.duri.groomer.domain.entity.ShopImage;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
@@ -51,10 +52,18 @@ public class ShopProfileFacade {
     }
 
     public ShopProfileDetailResponse updateShopProfile(
-            String token, ShopProfileDetailRequest shopProfileDetailRequest, MultipartFile img) {
+            String token, ShopProfileDetailRequest shopProfileDetailRequest) {
         Long shopId = shopService.getShopIdByToken(token);
         Shop shop = shopService.findById(shopId);
         shop = shopService.updateDetail(shop, shopProfileDetailRequest);
+        ShopImage shopImage = shopImageService.getMainShopImage(shop);
+        String imageUrl = shopImage == null || shopImage.getShopImageUrl() == null ? null : shopImage.getShopImageUrl();
+        return shopMapper.toShopProfileDetailResponse(shop, imageUrl);
+    }
+
+    public ShopProfileDetailResponse updateShopProfileImage(String token, MultipartFile img) {
+        Long shopId = shopService.getShopIdByToken(token);
+        Shop shop = shopService.findById(shopId);
         if (img == null || img.isEmpty()) {
             if (shopImageService.existMainImage(shop)) {
                 String existingImageUrl = shopImageService.getMainShopImage(shop).getShopImageUrl();
@@ -90,4 +99,6 @@ public class ShopProfileFacade {
         Shop shop = shopService.findById(shopId);
         return shopImageService.findImagesByShop(shop);
     }
+
+
 }

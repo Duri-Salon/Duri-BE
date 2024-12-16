@@ -32,18 +32,24 @@ public class ShopProfileController {
                 shopProfileFacade.shopAndGroomerOnboarding(token, shopOnboardingRequest, img));
     }
 
-    @PutMapping(value = "/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping("/profile")
     public CommonResponseEntity<ShopProfileDetailResponse> updateShopProfile(
             @RequestHeader("authorization_shop") String token,
-            @RequestPart("shopProfileDetailRequest")
-                    ShopProfileDetailRequest shopProfileDetailRequest,
+            @RequestBody ShopProfileDetailRequest shopProfileDetailRequest) {
+        return CommonResponseEntity.success(
+                shopProfileFacade.updateShopProfile(token, shopProfileDetailRequest));
+    }
+
+    @PutMapping(value = "/profile/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public CommonResponseEntity<ShopProfileDetailResponse> updateShopProfileImage(
+            @RequestHeader("authorization_shop") String token,
             @RequestPart(value = "image", required = false) MultipartFile img) {
         return CommonResponseEntity.success(
-                shopProfileFacade.updateShopProfile(token, shopProfileDetailRequest, img));
+                shopProfileFacade.updateShopProfileImage(token, img));
     }
 
     @PostMapping(value = "/profile/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public CommonResponseEntity<String> uploadShopProfile(
+    public CommonResponseEntity<String> uploadShopInsideImages(
             @RequestHeader("authorization_shop") String token,
             @RequestPart(value = "image", required = false) List<MultipartFile> images) {
         shopProfileFacade.insertNewShopImage(token, images);
