@@ -83,7 +83,7 @@ public class QuotationServiceImpl implements QuotationService {
     public Quotation updateComplete(
             Long quotationId, QuotationUpdateCompleteRequest quotationUpdateCompleteRequest) {
         Quotation quotation = findQuotationById(quotationId);
-        quotation.updateComplete(quotationUpdateCompleteRequest.isComplete());
+        quotation.updateComplete(quotationUpdateCompleteRequest.getComplete());
         return quotationRepository.save(quotation);
     }
 
@@ -92,7 +92,7 @@ public class QuotationServiceImpl implements QuotationService {
     public Quotation updateNoshow(
             Long quotationId, QuotationUpdateNoshowRequest quotationUpdateNoshowRequest) {
         Quotation quotation = findQuotationById(quotationId);
-        quotation.updateNoShow(quotationUpdateNoshowRequest.isNoshow());
+        quotation.updateNoShow(quotationUpdateNoshowRequest.getNoshow());
         return quotationRepository.save(quotation);
     }
 
