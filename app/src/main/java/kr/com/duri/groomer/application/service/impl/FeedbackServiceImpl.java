@@ -63,6 +63,11 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
+    public void removePortfolio(Feedback feedback) {
+        feedbackReopsitory.save(feedback.removed());
+    }
+
+    @Override
     public Feedback saveNewFeedback(
             Quotation quotation, Groomer groomer, NewFeedbackRequest newFeedbackRequest) {
         return feedbackReopsitory.save(
@@ -71,7 +76,6 @@ public class FeedbackServiceImpl implements FeedbackService {
                         groomer,
                         newFeedbackRequest.getFriendly(),
                         newFeedbackRequest.getReaction(),
-                        newFeedbackRequest.getMatter(),
                         newFeedbackRequest.getBehavior(),
                         newFeedbackRequest.getNoticeContent(),
                         newFeedbackRequest.getPortfolioContent(),

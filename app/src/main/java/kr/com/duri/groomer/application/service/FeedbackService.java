@@ -24,4 +24,6 @@ public interface FeedbackService {
             List<Feedback> feedbackList,
             Function<Feedback, T> categoryMapper,
             Function<T, String> descriptionMapper);
+
+    void removePortfolio(Feedback feedback);
 }

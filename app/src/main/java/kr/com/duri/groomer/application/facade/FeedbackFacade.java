@@ -77,6 +77,7 @@ public class FeedbackFacade {
     public PortfolioDetailResponse getPortfolioDetail(Long feedbackId) {
         Feedback feedback = feedbackService.getFeedbackById(feedbackId);
         List<String> imageUrls = feedbackImageService.findFeedbackImagesByFeedback(feedback);
+        //        Pet pet = petService.getPetByQuotationId(feedback.getQuotation().getId());
         return feedbackMapper.toPortfolioDetailResponse(feedback, imageUrls);
     }
 
@@ -106,5 +107,15 @@ public class FeedbackFacade {
                         feedbackList, Feedback::getBehavior, Behavior::getDescription);
 
         return feedbackMapper.toFeedbackDataResponse(mostFriendly, mostReaction, mostBehavior);
+    }
+
+    public void removePortfolio(String token, Long feedbackId) {
+        Long shopId = shopService.getShopIdByToken(token);
+        Feedback feedback = feedbackService.getFeedbackById(feedbackId);
+        Long feedbackShopId = feedback.getGroomer().getShop().getId();
+        if (!shopId.equals(feedbackShopId)) {
+            throw new IllegalArgumentException("해당 매장의 피드백이 아닙니다.");
+        }
+        feedbackService.removePortfolio(feedback);
     }
 }
