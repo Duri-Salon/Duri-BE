@@ -5,16 +5,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.servlet.http.HttpSession;
 import kr.com.duri.groomer.application.dto.response.IncomeResponse;
 import kr.com.duri.user.application.dto.request.ConfirmPaymentRequest;
@@ -35,6 +34,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository; // 결제 데이터 관리
+    private static final String CIRCUIT_BREAKER_NAME = "confirmPaymentCircuitBreaker";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     // 결제 금액 임시 저장
@@ -60,10 +60,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     // 결제 승인 요청 처리
     @Override
+    @CircuitBreaker(name = CIRCUIT_BREAKER_NAME, fallbackMethod = "fallbackConfirmPayment")
     public JSONObject confirmPayment(
             ConfirmPaymentRequest confirmPaymentRequest,
             String tossApiUrl,
             String widgetSecretKey) {
+        JSONObject response = new JSONObject();
         try {
             // 결제 요청 정보 JSON 형식으로 변환
             JSONObject requestData = new JSONObject();
@@ -77,14 +79,44 @@ public class PaymentServiceImpl implements PaymentService {
             logger.info("Request Data: {}", requestData.toJSONString());
 
             // Toss API 호출
-            JSONObject response = callTossApi(requestData, authorization, tossApiUrl);
-            logger.info("Toss API Response: {}", response.toJSONString());
+            response = callTossApi(requestData, authorization, tossApiUrl);
 
-            return response;
+        } catch (SocketTimeoutException e) {
+            logger.error("Timeout occurred while waiting for Toss API response", e);
+            response.put("status", "FAILED");
+            response.put("message", "Timeout occurred");
+        } catch (IOException e) {
+            logger.error("IO error occurred during Toss API call", e);
+            response.put("status", "FAILED");
+            response.put("message", "IO error occurred");
         } catch (Exception e) {
             logger.error("Error during payment confirmation", e);
-            throw new RuntimeException("Payment confirmation failed: " + e.getMessage(), e);
+            response.put("status", "FAILED");
+            response.put("message", "Unexpected error: " + e.getMessage());
         }
+
+        // 기본값 확인 (Null-safe)
+        if (!response.containsKey("status")) {
+            response.put("status", "FAILED");
+            response.put("message", "Invalid API response");
+        }
+
+        logger.info("Toss API Response: {}", response.toJSONString());
+        return response;
+    }
+
+    // 서킷 브레이커 Open
+    public JSONObject fallbackConfirmPayment(
+            ConfirmPaymentRequest confirmPaymentRequest,
+            String tossApiUrl,
+            String widgetSecretKey,
+            Throwable t) {
+        System.out.println("Fallback method triggered dut to error");
+        JSONObject fallbackResponse = new JSONObject();
+        fallbackResponse.put("status", "FAILED");
+        fallbackResponse.put(
+                "message", "Service is temporarily unavailable, please try again later.");
+        return fallbackResponse;
     }
 
     // 인증 헤더 생성
@@ -99,6 +131,9 @@ public class PaymentServiceImpl implements PaymentService {
             throws IOException, ParseException {
         URL url = new URL(tossApiUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+        connection.setConnectTimeout(5000); // 연결 타임아웃
+        connection.setReadTimeout(5000); // 응답 타임아웃
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Authorization", authorization);
         connection.setRequestProperty("Content-Type", "application/json");

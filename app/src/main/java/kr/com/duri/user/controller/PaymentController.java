@@ -49,6 +49,12 @@ public class PaymentController {
             PaymentResponse paymentResponse = paymentFacade.confirmPayment(confirmPaymentRequest);
 
             // 상태 확인 및 응답 구성
+            if (paymentResponse == null || paymentResponse.getStatus() == null) {
+                return CommonResponseEntity.error(
+                        HttpStatus.BAD_REQUEST,
+                        "Invalid response from Toss API. Please try again.");
+            }
+
             if ("DONE".equals(paymentResponse.getStatus())) {
                 return CommonResponseEntity.success(paymentResponse);
             } else {
