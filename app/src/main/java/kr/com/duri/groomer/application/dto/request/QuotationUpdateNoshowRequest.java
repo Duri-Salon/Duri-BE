@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class QuotationUpdateNoshowRequest {
-    private boolean noshow; // 노쇼 여부
+    private Boolean noshow; // 노쇼 여부
 }

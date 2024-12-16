@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class QuotationUpdateCompleteRequest {
-    private boolean complete; // 시술 완료 여부
+    private Boolean complete; // 시술 완료 여부
 }
