@@ -21,5 +21,5 @@ public class RecentProcedureResponse {
     @Builder.Default private Long quotationId = 0L; // 견적서 ID
     @Builder.Default private Integer reserveDday = -1; // 예약일 디데이
     @Builder.Default private String reservationDate = ""; // 예약일자
-    @Builder.Default private String price = ""; // 가격
+    @Builder.Default private Integer price = 0; // 가격
 }
