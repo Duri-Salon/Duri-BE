@@ -25,4 +25,11 @@ public class ShopTag extends BaseEntity {
 
     @Column(name = "tag_name")
     private String tagName; // 태그명
+
+    public static ShopTag insertShopTag(Long shopId, String tagName) {
+        return ShopTag.builder()
+                .shopId(shopId)
+                .tagName(tagName)
+                .build();
+    }
 }

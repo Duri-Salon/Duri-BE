@@ -13,9 +13,11 @@ import kr.com.duri.groomer.application.mapper.ShopMapper;
 import kr.com.duri.groomer.application.service.GroomerService;
 import kr.com.duri.groomer.application.service.ShopImageService;
 import kr.com.duri.groomer.application.service.ShopService;
+import kr.com.duri.groomer.application.service.ShopTagService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.domain.entity.ShopImage;
+import kr.com.duri.groomer.domain.entity.ShopTag;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
@@ -28,6 +30,8 @@ public class ShopProfileFacade {
     private final ShopService shopService;
 
     private final ShopImageService shopImageService;
+
+    private final ShopTagService shopTagService;
 
     private final GroomerService groomerService;
 
@@ -56,27 +60,30 @@ public class ShopProfileFacade {
         Long shopId = shopService.getShopIdByToken(token);
         Shop shop = shopService.findById(shopId);
         shop = shopService.updateDetail(shop, shopProfileDetailRequest);
+        shopTagService.removeAllTags(shop); // 기존에 있던 모든 태그를 삭제
+        List<String> shopTags = shopTagService.updateShopTags(shop, shopProfileDetailRequest.getTags()); // 새로운 태그를 추가 (최대 3개)
         ShopImage shopImage = shopImageService.getMainShopImage(shop);
         String imageUrl = shopImage == null || shopImage.getShopImageUrl() == null ? null : shopImage.getShopImageUrl();
-        return shopMapper.toShopProfileDetailResponse(shop, imageUrl);
+        return shopMapper.toShopProfileDetailResponse(shop, imageUrl, shopTags);
     }
 
     public ShopProfileDetailResponse updateShopProfileImage(String token, MultipartFile img) {
         Long shopId = shopService.getShopIdByToken(token);
         Shop shop = shopService.findById(shopId);
+        List<String> shopTags = shopTagService.findTagsByShopId(shop.getId());
         if (img == null || img.isEmpty()) {
             if (shopImageService.existMainImage(shop)) {
                 String existingImageUrl = shopImageService.getMainShopImage(shop).getShopImageUrl();
-                return shopMapper.toShopProfileDetailResponse(shop, existingImageUrl);
+                return shopMapper.toShopProfileDetailResponse(shop, existingImageUrl, shopTags);
             } else {
-                return shopMapper.toShopProfileDetailResponse(shop, null);
+                return shopMapper.toShopProfileDetailResponse(shop, null, shopTags);
             }
         }
         if (shopImageService.existMainImage(shop)) {
             shopImageService.deleteShopMainImage(shop);
         }
         String newImageUrl = shopImageService.uploadShopMainImage(shop, img);
-        return shopMapper.toShopProfileDetailResponse(shop, newImageUrl);
+        return shopMapper.toShopProfileDetailResponse(shop, newImageUrl, shopTags);
     }
 
     public List<GroomerProfileDetailResponse> getShopGroomerList(String token) {
