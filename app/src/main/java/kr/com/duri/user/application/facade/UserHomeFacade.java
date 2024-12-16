@@ -41,6 +41,9 @@ import org.apache.logging.log4j.util.InternalException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Component
 @RequiredArgsConstructor
 public class UserHomeFacade {
@@ -95,6 +98,17 @@ public class UserHomeFacade {
         return dayDifference;
     }
 
+    // JSON 내 totalPrice 추출
+    private Integer extractTotalPrice(String priceJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(priceJson);
+            return jsonNode.get("totalPrice").asInt();
+        } catch (Exception e) { // 형식이 잘못되었을 경우
+            throw new IllegalArgumentException("잘못된 형식입니다 - " + priceJson, e);
+        }
+    }
+
     // 마지막 미용일자 및 최근 예약정보 조회
     public RecentProcedureResponse getRecentProcedure(String token) {
         Long userId = siteUserService.getUserIdByToken(token);
@@ -114,13 +128,14 @@ public class UserHomeFacade {
                 (quotation.getStartDateTime() != null)
                         ? calculateDateDiff(quotation.getStartDateTime(), true)
                         : -1;
+        Integer totalPrice = extractTotalPrice(quotation.getPrice());
         // 3) 매장
         Request request = getRequestByQuotation(quotation); // 견적서로 요청 조회
         Shop shop = getShopByRequest(request); // 요청으로 매장 조회
         // 4) 매장 이미지
         ShopImage shopImage = shopImageService.getMainShopImage(shop);
         return userHomeMapper.toRecentProcedureResponse(
-                quotation, pet, shop, shopImage, lastSinceDay, reserveDday);
+                quotation, pet, shop, shopImage, lastSinceDay, reserveDday, totalPrice);
     }
 
     // 단골샵 조회
