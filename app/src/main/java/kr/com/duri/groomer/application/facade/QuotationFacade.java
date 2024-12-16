@@ -6,9 +6,11 @@ import kr.com.duri.groomer.application.dto.response.QuotationDetailResponse;
 import kr.com.duri.groomer.application.mapper.QuotationMapper;
 import kr.com.duri.groomer.application.service.GroomerService;
 import kr.com.duri.groomer.application.service.QuotationService;
+import kr.com.duri.groomer.application.service.ShopImageService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.domain.entity.Shop;
+import kr.com.duri.groomer.domain.entity.ShopImage;
 import kr.com.duri.user.application.service.PaymentService;
 import kr.com.duri.user.application.service.RequestService;
 import kr.com.duri.user.application.service.ReviewService;
@@ -28,6 +30,7 @@ public class QuotationFacade {
 
     private final RequestService requestService;
     private final QuotationService quotationService;
+    private final ShopImageService shopImageService;
     private final GroomerService groomerService;
     private final PaymentService paymentService;
     private final ReviewService reviewService;
@@ -76,6 +79,7 @@ public class QuotationFacade {
 
         // 2. Shop 및 Groomer 조회
         Shop shop = request.getShop();
+        ShopImage shopImage = shopImageService.getMainShopImage(shop);
         Groomer groomer = groomerService.getGroomerByShopId(shop.getId());
 
         // 3. Pet 및 Quotation 조회
@@ -103,6 +107,6 @@ public class QuotationFacade {
 
         // 7. QuotationDetailResponse 반환
         return quotationMapper.toQuotationDetailResponse(
-                request, shop, groomer, pet, quotation, status);
+                request, shop, shopImage, groomer, pet, quotation, status);
     }
 }

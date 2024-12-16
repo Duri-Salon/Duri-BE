@@ -10,6 +10,7 @@ import kr.com.duri.groomer.application.dto.response.QuotationShopDetailResponse;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.domain.entity.Shop;
+import kr.com.duri.groomer.domain.entity.ShopImage;
 import kr.com.duri.user.application.dto.response.MenuDetailResponse;
 import kr.com.duri.user.application.dto.response.PetDetailResponse;
 import kr.com.duri.user.domain.Enum.QuotationStatus;
@@ -83,11 +84,13 @@ public class QuotationMapper {
     public QuotationDetailResponse toQuotationDetailResponse(
             Request request,
             Shop shop,
+            ShopImage shopImage,
             Groomer groomer,
             Pet pet,
             Quotation quotation,
             String status) {
 
+        String imageURL = (shopImage != null) ? shopImage.getShopImageUrl() : null;
         // ShopDetailResponse 생성
         QuotationShopDetailResponse quotationShopDetailResponse =
                 QuotationShopDetailResponse.builder()
@@ -95,6 +98,7 @@ public class QuotationMapper {
                         .shopAddress(shop.getAddress())
                         .shopPhone(shop.getPhone())
                         .groomerName(groomer.getName())
+                        .shopImage(imageURL)
                         .build();
 
         // PetDetailResponse 생성
