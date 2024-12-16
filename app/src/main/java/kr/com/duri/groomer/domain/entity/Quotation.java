@@ -66,6 +66,7 @@ public class Quotation extends BaseEntity {
         this.complete = complete;
     }
 
+    // 노쇼 여부 수정 메서드
     public void updateNoShow(Boolean noShow) {
         this.noShow = noShow;
     }
