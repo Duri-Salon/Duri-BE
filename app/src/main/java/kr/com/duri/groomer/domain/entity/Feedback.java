@@ -81,4 +81,9 @@ public class Feedback extends BaseEntity {
         this.deleted = true;
         return this;
     }
+
+    public Feedback updatePortfolio(String updatePortfolioContent) {
+        this.portfolioContent = updatePortfolioContent;
+        return this;
+    }
 }

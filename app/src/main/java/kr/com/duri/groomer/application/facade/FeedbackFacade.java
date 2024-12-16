@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import kr.com.duri.groomer.application.dto.request.NewFeedbackRequest;
+import kr.com.duri.groomer.application.dto.request.PortfolioUpdateRequest;
 import kr.com.duri.groomer.application.dto.response.*;
 import kr.com.duri.groomer.application.mapper.FeedbackMapper;
 import kr.com.duri.groomer.application.service.*;
@@ -117,5 +118,15 @@ public class FeedbackFacade {
             throw new IllegalArgumentException("해당 매장의 피드백이 아닙니다.");
         }
         feedbackService.removePortfolio(feedback);
+    }
+
+    public void updatePortfolio(String token, Long feedbackId, PortfolioUpdateRequest updatePortfolioContent) {
+        Long shopId = shopService.getShopIdByToken(token);
+        Feedback feedback = feedbackService.getFeedbackById(feedbackId);
+        Long feedbackShopId = feedback.getGroomer().getShop().getId();
+        if (!shopId.equals(feedbackShopId)) {
+            throw new IllegalArgumentException("해당 매장의 피드백이 아닙니다.");
+        }
+        feedbackService.updatePortfolio(feedback, updatePortfolioContent);
     }
 }
