@@ -41,14 +41,14 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void saveAmount(HttpSession session, SaveAmountRequest saveAmountRequest) {
         session.setAttribute(
-                String.valueOf(saveAmountRequest.getQuotationId()), saveAmountRequest.getAmount());
+                String.valueOf(saveAmountRequest.getOrderId()), saveAmountRequest.getAmount());
     }
 
     // 결제 금액 검증
     @Override
     public boolean verifyAmount(HttpSession session, SaveAmountRequest saveAmountRequest) {
         Integer amount =
-                (Integer) session.getAttribute(String.valueOf(saveAmountRequest.getQuotationId()));
+                (Integer) session.getAttribute(String.valueOf(saveAmountRequest.getOrderId()));
         return amount != null && amount.equals(saveAmountRequest.getAmount());
     }
 
