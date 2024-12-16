@@ -15,6 +15,8 @@ import kr.com.duri.user.domain.entity.Payment;
 import lombok.RequiredArgsConstructor;
 
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +27,7 @@ public class PaymentFacade {
     private final PaymentService paymentService;
     private final QuotationService quotationService;
     private final PaymentMapper paymentMapper;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Value("${toss.widget.secret.key}")
     private String widgetSecretKey;
@@ -47,6 +50,9 @@ public class PaymentFacade {
         // Toss API 호출
         JSONObject response =
                 paymentService.confirmPayment(confirmPaymentRequest, tossApiUrl, widgetSecretKey);
+        if (response == null || !response.containsKey("status")) {
+            throw new RuntimeException("Invalid response from Toss API.");
+        }
         Object status = response.get("status");
 
         // Quotation 조회
@@ -74,7 +80,10 @@ public class PaymentFacade {
 
             Payment payment = paymentMapper.toPayment(confirmPaymentRequest, approvedQuotation);
             paymentService.save(payment);
+        } else {
+            logger.info("Payment failed: {}", response.toJSONString());
         }
+
         return paymentMapper.toPaymentResponse(response);
     }
 }

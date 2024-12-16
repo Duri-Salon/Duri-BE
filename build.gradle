@@ -101,8 +101,19 @@ subprojects {
         implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
         // Toss(JSONObject용)
         implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+        // Toss(CircuitBreaker)
+        implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j")
+        implementation("org.springframework.boot:spring-boot-starter-aop")
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
         // Replicate (AI) request
         implementation 'com.fasterxml.jackson.core:jackson-databind'
         implementation 'org.apache.httpcomponents.client5:httpclient5'
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:2023.0.3")
+        }
     }
 }
