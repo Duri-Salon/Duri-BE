@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import kr.com.duri.groomer.application.dto.request.QuotationUpdateCompleteRequest;
+import kr.com.duri.groomer.application.dto.request.QuotationUpdateNoshowRequest;
 import kr.com.duri.groomer.application.dto.response.HomeQuotationReqResponse;
 import kr.com.duri.groomer.application.dto.response.RecentProcedureResponse;
 import kr.com.duri.groomer.application.dto.response.TodayScheduleResponse;
@@ -125,6 +126,12 @@ public class GroomerHomeFacade {
         Date lastDate =
                 Date.from(quotation.getEndDateTime().atZone(ZoneId.systemDefault()).toInstant());
         petService.updateLastGromming(pet.getId(), lastDate);
+    }
+
+    // 노쇼 여부 수정
+    public void updateNoshow(
+            Long quotationId, QuotationUpdateNoshowRequest quotationUpdateNoshowRequest) {
+        quotationService.updateNoshow(quotationId, quotationUpdateNoshowRequest);
     }
 
     // 받은 견적요청서 리스트 조회

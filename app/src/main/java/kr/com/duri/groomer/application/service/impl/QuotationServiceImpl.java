@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import kr.com.duri.groomer.application.dto.request.QuotationUpdateCompleteRequest;
+import kr.com.duri.groomer.application.dto.request.QuotationUpdateNoshowRequest;
 import kr.com.duri.groomer.application.service.QuotationService;
 import kr.com.duri.groomer.domain.entity.Quotation;
 import kr.com.duri.groomer.exception.QuotationExistsException;
@@ -82,7 +83,16 @@ public class QuotationServiceImpl implements QuotationService {
     public Quotation updateComplete(
             Long quotationId, QuotationUpdateCompleteRequest quotationUpdateCompleteRequest) {
         Quotation quotation = findQuotationById(quotationId);
-        quotation.updateComplete(quotationUpdateCompleteRequest.isComplete());
+        quotation.updateComplete(quotationUpdateCompleteRequest.getComplete());
+        return quotationRepository.save(quotation);
+    }
+
+    // 노쇼 여부 업데이트
+    @Override
+    public Quotation updateNoshow(
+            Long quotationId, QuotationUpdateNoshowRequest quotationUpdateNoshowRequest) {
+        Quotation quotation = findQuotationById(quotationId);
+        quotation.updateNoShow(quotationUpdateNoshowRequest.getNoshow());
         return quotationRepository.save(quotation);
     }
 

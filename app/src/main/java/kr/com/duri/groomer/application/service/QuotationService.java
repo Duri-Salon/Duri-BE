@@ -3,6 +3,7 @@ package kr.com.duri.groomer.application.service;
 import java.util.List;
 
 import kr.com.duri.groomer.application.dto.request.QuotationUpdateCompleteRequest;
+import kr.com.duri.groomer.application.dto.request.QuotationUpdateNoshowRequest;
 import kr.com.duri.groomer.domain.entity.Quotation;
 
 public interface QuotationService {
@@ -27,6 +28,10 @@ public interface QuotationService {
     // 시술 완료 여부 수정
     Quotation updateComplete(
             Long quotationId, QuotationUpdateCompleteRequest quotationUpdateCompleteRequest);
+
+    // 노쇼 여부 수정
+    Quotation updateNoshow(
+            Long quotationId, QuotationUpdateNoshowRequest quotationUpdateNoshowRequest);
 
     // QuotationId로 Quotation 조회
     Quotation findById(Long quotationId);

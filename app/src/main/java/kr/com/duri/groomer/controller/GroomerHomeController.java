@@ -4,6 +4,7 @@ import java.util.List;
 
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.groomer.application.dto.request.QuotationUpdateCompleteRequest;
+import kr.com.duri.groomer.application.dto.request.QuotationUpdateNoshowRequest;
 import kr.com.duri.groomer.application.dto.response.HomeQuotationReqResponse;
 import kr.com.duri.groomer.application.dto.response.RecentProcedureResponse;
 import kr.com.duri.groomer.application.dto.response.TodayScheduleResponse;
@@ -46,6 +47,15 @@ public class GroomerHomeController {
             @RequestBody QuotationUpdateCompleteRequest quotationUpdateCompleteRequest) {
         homeFacade.updateComplete(quotationId, quotationUpdateCompleteRequest);
         return CommonResponseEntity.success("미용 완료 여부가 성공적으로 수정되었습니다.");
+    }
+
+    // DURI-266 : 노쇼 여부 수정
+    @PutMapping("/no-show/{quotationId}")
+    public CommonResponseEntity<String> updateNoshow(
+            @PathVariable Long quotationId,
+            @RequestBody QuotationUpdateNoshowRequest quotationUpdateNoshowRequest) {
+        homeFacade.updateNoshow(quotationId, quotationUpdateNoshowRequest);
+        return CommonResponseEntity.success("노쇼 여부가 성공적으로 수정되었습니다.");
     }
 
     // DURI-325 : 받은 견적요청서 리스트 조회
