@@ -26,15 +26,14 @@ public class ShopTagServiceImpl implements ShopTagService {
 
     @Override
     public List<String> updateShopTags(Shop shop, List<String> tags) {
-        List<ShopTag> shopTags = tags.stream()
-                .map(tag -> ShopTag.insertShopTag(shop.getId(), tag))
-                .collect(Collectors.toList());
+        List<ShopTag> shopTags =
+                tags.stream()
+                        .map(tag -> ShopTag.insertShopTag(shop.getId(), tag))
+                        .collect(Collectors.toList());
 
         shopTagRepository.saveAll(shopTags);
 
-        return shopTags.stream()
-                .map(ShopTag::getTagName)
-                .collect(Collectors.toList());
+        return shopTags.stream().map(ShopTag::getTagName).collect(Collectors.toList());
     }
 
     @Override

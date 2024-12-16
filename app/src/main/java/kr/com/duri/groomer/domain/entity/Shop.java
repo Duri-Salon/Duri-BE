@@ -115,11 +115,7 @@ public class Shop extends BaseEntity {
     }
 
     public Shop updateDetail(
-            String phone,
-            LocalTime openTime,
-            LocalTime closeTime,
-            String info,
-            String kakaoTalk) {
+            String phone, LocalTime openTime, LocalTime closeTime, String info, String kakaoTalk) {
         this.name = name;
         this.phone = phone;
         this.openTime = openTime;

@@ -27,9 +27,6 @@ public class ShopTag extends BaseEntity {
     private String tagName; // 태그명
 
     public static ShopTag insertShopTag(Long shopId, String tagName) {
-        return ShopTag.builder()
-                .shopId(shopId)
-                .tagName(tagName)
-                .build();
+        return ShopTag.builder().shopId(shopId).tagName(tagName).build();
     }
 }

@@ -1,6 +1,7 @@
 package kr.com.duri.groomer.application.dto.request;
 
 import java.time.LocalTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,8 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.util.List;
 
 @Getter
 @AllArgsConstructor

@@ -17,7 +17,6 @@ import kr.com.duri.groomer.application.service.ShopTagService;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Shop;
 import kr.com.duri.groomer.domain.entity.ShopImage;
-import kr.com.duri.groomer.domain.entity.ShopTag;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
@@ -61,9 +60,14 @@ public class ShopProfileFacade {
         Shop shop = shopService.findById(shopId);
         shop = shopService.updateDetail(shop, shopProfileDetailRequest);
         shopTagService.removeAllTags(shop); // 기존에 있던 모든 태그를 삭제
-        List<String> shopTags = shopTagService.updateShopTags(shop, shopProfileDetailRequest.getTags()); // 새로운 태그를 추가 (최대 3개)
+        List<String> shopTags =
+                shopTagService.updateShopTags(
+                        shop, shopProfileDetailRequest.getTags()); // 새로운 태그를 추가 (최대 3개)
         ShopImage shopImage = shopImageService.getMainShopImage(shop);
-        String imageUrl = shopImage == null || shopImage.getShopImageUrl() == null ? null : shopImage.getShopImageUrl();
+        String imageUrl =
+                shopImage == null || shopImage.getShopImageUrl() == null
+                        ? null
+                        : shopImage.getShopImageUrl();
         return shopMapper.toShopProfileDetailResponse(shop, imageUrl, shopTags);
     }
 

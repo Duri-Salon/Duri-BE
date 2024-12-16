@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import kr.com.duri.groomer.application.dto.response.GetShopDetailResponse;
-import kr.com.duri.groomer.application.dto.response.ShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopNearByResponse;
 import kr.com.duri.groomer.application.dto.response.ShopProfileDetailResponse;
 import kr.com.duri.groomer.application.mapper.ShopMapper;

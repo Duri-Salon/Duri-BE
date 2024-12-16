@@ -1,8 +1,8 @@
 package kr.com.duri.groomer.application.service;
 
-import kr.com.duri.groomer.domain.entity.Shop;
-
 import java.util.List;
+
+import kr.com.duri.groomer.domain.entity.Shop;
 
 public interface ShopTagService {
     List<String> findTagsByShopId(Long shopId);

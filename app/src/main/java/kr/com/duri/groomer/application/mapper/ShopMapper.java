@@ -121,7 +121,8 @@ public class ShopMapper {
                 .build();
     }
 
-    public ShopProfileDetailResponse toShopProfileDetailResponse(Shop shop, String imageUrl, List<String> tags) {
+    public ShopProfileDetailResponse toShopProfileDetailResponse(
+            Shop shop, String imageUrl, List<String> tags) {
         return ShopProfileDetailResponse.builder()
                 .id(shop.getId())
                 .name(shop.getName())

@@ -44,8 +44,7 @@ public class ShopProfileController {
     public CommonResponseEntity<ShopProfileDetailResponse> updateShopProfileImage(
             @RequestHeader("authorization_shop") String token,
             @RequestPart(value = "image", required = false) MultipartFile img) {
-        return CommonResponseEntity.success(
-                shopProfileFacade.updateShopProfileImage(token, img));
+        return CommonResponseEntity.success(shopProfileFacade.updateShopProfileImage(token, img));
     }
 
     @PostMapping(value = "/profile/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -75,8 +74,7 @@ public class ShopProfileController {
     }
 
     @GetMapping("/profile/images/{shopId}")
-    public CommonResponseEntity<List<String>> getShopImageList(
-            @PathVariable Long shopId) {
+    public CommonResponseEntity<List<String>> getShopImageList(@PathVariable Long shopId) {
         return CommonResponseEntity.success(shopProfileFacade.getShopImageList(shopId));
     }
 }
