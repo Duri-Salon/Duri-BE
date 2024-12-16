@@ -79,7 +79,8 @@ public class FeedbackFacade {
         Feedback feedback = feedbackService.getFeedbackById(feedbackId);
         List<String> imageUrls = feedbackImageService.findFeedbackImagesByFeedback(feedback);
         Pet pet = petService.getPetByFeedbackId(feedbackId);
-        return feedbackMapper.toPortfolioDetailResponse(feedback, imageUrls, feedback.getGroomer(), pet);
+        return feedbackMapper.toPortfolioDetailResponse(
+                feedback, imageUrls, feedback.getGroomer(), pet);
     }
 
     public DiaryDetailResponse getDiaryDetail(Long quotationId) { // todo : 펫 프로필, 디자이너 프로필 같이 조회?
@@ -120,7 +121,8 @@ public class FeedbackFacade {
         feedbackService.removePortfolio(feedback);
     }
 
-    public void updatePortfolio(String token, Long feedbackId, PortfolioUpdateRequest updatePortfolioContent) {
+    public void updatePortfolio(
+            String token, Long feedbackId, PortfolioUpdateRequest updatePortfolioContent) {
         Long shopId = shopService.getShopIdByToken(token);
         Feedback feedback = feedbackService.getFeedbackById(feedbackId);
         Long feedbackShopId = feedback.getGroomer().getShop().getId();

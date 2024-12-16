@@ -70,7 +70,8 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public void updatePortfolio(Feedback feedback, PortfolioUpdateRequest updatePortfolioContent) {
-        feedbackReopsitory.save(feedback.updatePortfolio(updatePortfolioContent.getPortfolioContent()));
+        feedbackReopsitory.save(
+                feedback.updatePortfolio(updatePortfolioContent.getPortfolioContent()));
     }
 
     @Override
