@@ -141,7 +141,6 @@ public class QuotationMapper {
         QuotationRequest quotationRequest =
                 QuotationRequest.builder()
                         .requestId(quotation.getRequest().getId())
-                        .quotationId(quotation.getId())
                         .memo(quotation.getMemo())
                         .startDateTime(quotation.getStartDateTime())
                         .endDateTime(quotation.getEndDateTime())
@@ -154,6 +153,7 @@ public class QuotationMapper {
                 .quotationCreatedAt(quotation.getCreatedAt())
                 .petDetail(petDetailResponse)
                 .menuDetail(menuDetailResponse)
+                .quotationId(quotation.getId())
                 .quotation(quotationRequest)
                 .status(status)
                 .build();

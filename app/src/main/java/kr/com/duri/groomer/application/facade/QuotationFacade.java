@@ -14,9 +14,7 @@ import kr.com.duri.groomer.domain.entity.ShopImage;
 import kr.com.duri.user.application.service.PaymentService;
 import kr.com.duri.user.application.service.RequestService;
 import kr.com.duri.user.application.service.ReviewService;
-import kr.com.duri.user.domain.Enum.PaymentStatus;
 import kr.com.duri.user.domain.Enum.QuotationStatus;
-import kr.com.duri.user.domain.entity.Payment;
 import kr.com.duri.user.domain.entity.Pet;
 import kr.com.duri.user.domain.entity.Request;
 import kr.com.duri.user.domain.entity.Review;
@@ -87,22 +85,28 @@ public class QuotationFacade {
         Quotation quotation = quotationService.findByRequestId(requestId);
 
         // 4. 결제 상태 확인 (null 처리 추가)
-        Payment payment = paymentService.findByQuotationId(quotation.getId());
-        String paymentStatus = null;
-        if (payment != null && payment.getStatus() == PaymentStatus.SUCCESS) {
-            paymentStatus = "결제 완료";
+        String quotationStatus = null;
+
+        if (quotation.getComplete() != null && quotation.getComplete()) {
+            quotationStatus = "리뷰 작성 가능";
+        } else {
+            if (quotation.getStatus() == QuotationStatus.APPROVED) {
+                quotationStatus = "결제 완료";
+            } else if (quotation.getStatus() == QuotationStatus.EXPIRED) {
+                quotationStatus = "만료됨";
+            }
         }
 
         // 5. 리뷰 상태 확인 (null 처리 추가)
         Review review = reviewService.findByRequestId(requestId);
-        String reviewStatus = review != null ? "리뷰 완료" : null;
+        String reviewStatus = review != null ? "리뷰 작성 완료" : null;
 
         // 6. 상태 결정 (null 처리 추가)
         String status = "결제 전"; // 기본값은 "결제 전"
-        if (reviewStatus != null) {
+        if (quotation.getStatus() == QuotationStatus.APPROVED && reviewStatus != null) {
             status = reviewStatus; // 리뷰가 있으면 리뷰 상태
-        } else if (paymentStatus != null) {
-            status = paymentStatus; // 결제 상태가 있으면 결제 상태
+        } else if (quotationStatus != null) {
+            status = quotationStatus; // 결제 상태가 있으면 결제 상태
         }
 
         // 7. QuotationDetailResponse 반환
