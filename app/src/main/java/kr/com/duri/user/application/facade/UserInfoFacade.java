@@ -22,6 +22,7 @@ import kr.com.duri.user.application.service.PetService;
 import kr.com.duri.user.application.service.SiteUserService;
 import kr.com.duri.user.domain.Enum.Day;
 import kr.com.duri.user.domain.entity.Pet;
+import kr.com.duri.user.domain.entity.QuotationReq;
 import kr.com.duri.user.domain.entity.Request;
 import kr.com.duri.user.domain.entity.SiteUser;
 import kr.com.duri.user.exception.RequestNotFoundException;
@@ -143,5 +144,16 @@ public class UserInfoFacade {
         SiteUser siteUser = siteUserService.getSiteUserById(userId);
         String imageUrl = siteUserService.uploadToS3(img);
         siteUserService.save(siteUserService.updateProfile(siteUser, imageUrl));
+    }
+
+    public CustomerInfoResponse getCustomerInfo(Long quotationId) {
+        Quotation quotation = quotationService.findById(quotationId);
+        Pet pet = quotation.getRequest().getQuotation().getPet();
+        SiteUser siteUser = pet.getUser();
+        return CustomerInfoResponse.builder()
+                .petProfileResponse(petMapper.toPetProfileResponse(pet))
+                .customerName(siteUser.getName())
+                .customerPhone(siteUser.getPhone())
+                .build();
     }
 }

@@ -69,4 +69,9 @@ public class UserInfoController {
         userInfoFacade.updateUserProfile(token, img);
         return CommonResponseEntity.success("프로필 사진 수정이 완료되었습니다.");
     }
+
+    @GetMapping(("/pet/info/{quotationId}"))
+    public CommonResponseEntity<CustomerInfoResponse> getCustomerInfo(@PathVariable Long quotationId) {
+        return CommonResponseEntity.success(userInfoFacade.getCustomerInfo(quotationId));
+    }
 }
