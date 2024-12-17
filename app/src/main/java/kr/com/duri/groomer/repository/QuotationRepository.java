@@ -79,6 +79,7 @@ public interface QuotationRepository extends JpaRepository<Quotation, Long> {
       JOIN q.request r
       JOIN r.quotation qr
       WHERE qr.pet.id = :petId
+      AND q.status = 'APPROVED'
       """)
     List<Quotation> findQuotationsByPetId(@Param("petId") Long petId);
 
