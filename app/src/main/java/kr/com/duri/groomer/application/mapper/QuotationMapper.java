@@ -65,6 +65,7 @@ public class QuotationMapper {
                 .status(QuotationStatus.WAITING)
                 .startDateTime(quotationRequest.getStartDateTime())
                 .endDateTime(quotationRequest.getEndDateTime())
+                .complete(false)
                 .build();
     }
 
