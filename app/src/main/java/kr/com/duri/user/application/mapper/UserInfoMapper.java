@@ -11,6 +11,7 @@ import kr.com.duri.user.application.dto.response.HistoryResponse;
 import kr.com.duri.user.application.dto.response.MonthlyHistoryResponse;
 import kr.com.duri.user.application.dto.response.SiteUserProfileResponse;
 import kr.com.duri.user.domain.entity.Pet;
+import kr.com.duri.user.domain.entity.Request;
 import kr.com.duri.user.domain.entity.SiteUser;
 
 import org.springframework.stereotype.Component;
@@ -23,9 +24,10 @@ public class UserInfoMapper {
 
     // Entity to HistoryResponse DTO
     public HistoryResponse toHistoryResponse(
-            Quotation quotation, Groomer groomer, Shop shop, Pet pet, String day) {
+            Request request, Quotation quotation, Groomer groomer, Shop shop, Pet pet, String day) {
         DateTimeFormatter dateTimeformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return HistoryResponse.builder()
+                .requestId(request.getId())
                 .quotationId(quotation.getId())
                 .complete(quotation.getComplete())
                 .groomerImageURL(safeGet(groomer.getImage()))

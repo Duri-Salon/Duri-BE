@@ -71,29 +71,29 @@ public class RecommendServiceImpl implements RecommendService {
             }
             switch (mappedCharacter) {
                 case "예민해요":
-                    score += getTagMatchScore(shopTags, "예민한 반려견", 10);
-                    score += getTagMatchScore(shopTags, "스트레스", 9);
+                    score += getTagMatchScore(shopTags, "예민한", 10);
+                    score += getTagMatchScore(shopTags, "스트레스케어", 9);
                     feature.add("예민한");
                     break;
                 case "입질이 있어요":
-                    score += getTagMatchScore(shopTags, "예민한 반려견", 8);
-                    score += getTagMatchScore(shopTags, "스트레스", 6);
+                    score += getTagMatchScore(shopTags, "예민한", 8);
+                    score += getTagMatchScore(shopTags, "스트레스케어", 6);
                     feature.add("입질이 있는");
                     break;
                 case "낯가려요":
                 case "낯선 손길은 무서워요":
-                    score += getTagMatchScore(shopTags, "예민한 반려견", 5);
-                    score += getTagMatchScore(shopTags, "스트레스", 10);
+                    score += getTagMatchScore(shopTags, "예민한", 5);
+                    score += getTagMatchScore(shopTags, "스트레스케어", 10);
                     feature.add("낯 가리는");
                     break;
                 case "얌전해요":
-                    score += getTagMatchScore(shopTags, "예민한 반려견", 1);
-                    score += getTagMatchScore(shopTags, "활발", 2);
-                    score += getTagMatchScore(shopTags, "스트레스", 1);
+                    score += getTagMatchScore(shopTags, "예민한", 1);
+                    score += getTagMatchScore(shopTags, "활발한", 2);
+                    score += getTagMatchScore(shopTags, "스트레스케어", 1);
                     feature.add("얌전한");
                     break;
                 case "사람을 좋아해요":
-                    score += getTagMatchScore(shopTags, "활발", 10);
+                    score += getTagMatchScore(shopTags, "활발한", 10);
                     feature.add("활발한");
                 default:
                     break;
@@ -108,16 +108,16 @@ public class RecommendServiceImpl implements RecommendService {
             switch (mappedDisease) {
                 case "피부 질환":
                 case "귀 염증":
-                    score += getTagMatchScore(shopTags, "예민한 반려견", 8);
-                    score += getTagMatchScore(shopTags, "피부", 2);
-                    score += getTagMatchScore(shopTags, "스트레스", 2);
+                    score += getTagMatchScore(shopTags, "예민한", 8);
+                    score += getTagMatchScore(shopTags, "민감피부", 2);
+                    score += getTagMatchScore(shopTags, "스트레스케어", 2);
                     feature.add("피부가 예민한");
                     break;
                 case "관절 질환":
                 case "기저 질환":
-                    score += getTagMatchScore(shopTags, "예민", 3);
-                    score += getTagMatchScore(shopTags, "스트레스", 3);
-                    feature.add("질환이 있는");
+                    score += getTagMatchScore(shopTags, "예민한", 3);
+                    score += getTagMatchScore(shopTags, "스트레스케어", 3);
+                    feature.add("관절 및 기저질환이 있는");
                     break;
                 default:
                     break;
@@ -132,16 +132,16 @@ public class RecommendServiceImpl implements RecommendService {
         // 4. 크기
         Float weight = pet.getWeight();
         if (weight <= 9) {
-            score += getTagMatchScore(shopTags, "소형", 5);
+            score += getTagMatchScore(shopTags, "소형견", 5);
             feature.add("소형견인");
         } else if (weight <= 24) {
-            score += getTagMatchScore(shopTags, "중형", 5);
+            score += getTagMatchScore(shopTags, "중형견", 5);
             feature.add("중형견인");
         } else if (weight <= 44) {
-            score += getTagMatchScore(shopTags, "대형", 5);
+            score += getTagMatchScore(shopTags, "대형견", 5);
             feature.add("대형견인");
         } else {
-            score += getTagMatchScore(shopTags, "대형", 7);
+            score += getTagMatchScore(shopTags, "대형견", 7);
         }
         // 5. 특성 계산
         if (!feature.isEmpty()) {

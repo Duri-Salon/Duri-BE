@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class HistoryResponse {
+    private Long requestId; // 요청 ID
     private Long quotationId; // 견적서 ID
     private boolean complete; // 미용 완료 여부
     private String groomerImageURL; // 디자이너 이미지
