@@ -29,7 +29,7 @@ public class UserInfoMapper {
         return HistoryResponse.builder()
                 .requestId(request.getId())
                 .quotationId(quotation.getId())
-                .complete(quotation.getComplete())
+                .complete(quotation.getComplete() != null ? quotation.getComplete() : false)
                 .groomerImageURL(safeGet(groomer.getImage()))
                 .groomerName(groomer.getName())
                 .shopId(shop.getId())
