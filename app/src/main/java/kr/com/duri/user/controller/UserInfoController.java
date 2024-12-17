@@ -71,7 +71,8 @@ public class UserInfoController {
     }
 
     @GetMapping(("/pet/info/{quotationId}"))
-    public CommonResponseEntity<CustomerInfoResponse> getCustomerInfo(@PathVariable Long quotationId) {
+    public CommonResponseEntity<CustomerInfoResponse> getCustomerInfo(
+            @PathVariable Long quotationId) {
         return CommonResponseEntity.success(userInfoFacade.getCustomerInfo(quotationId));
     }
 }

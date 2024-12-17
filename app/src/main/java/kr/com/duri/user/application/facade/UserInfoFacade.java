@@ -22,7 +22,6 @@ import kr.com.duri.user.application.service.PetService;
 import kr.com.duri.user.application.service.SiteUserService;
 import kr.com.duri.user.domain.Enum.Day;
 import kr.com.duri.user.domain.entity.Pet;
-import kr.com.duri.user.domain.entity.QuotationReq;
 import kr.com.duri.user.domain.entity.Request;
 import kr.com.duri.user.domain.entity.SiteUser;
 import kr.com.duri.user.exception.RequestNotFoundException;
