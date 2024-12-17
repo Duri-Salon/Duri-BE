@@ -50,7 +50,7 @@ public class UserInfoFacade {
     // 견적서로 요청 조회
     private Request getRequestByQuotation(Quotation quotation) {
         return Optional.ofNullable(quotation.getRequest())
-            .orElseThrow(() -> new RequestNotFoundException("해당 요청을 찾을 수 없습니다."));
+                .orElseThrow(() -> new RequestNotFoundException("해당 요청을 찾을 수 없습니다."));
     }
 
     public PetProfileResponse createNewPet(String token, NewPetRequest newPetRequest) {
