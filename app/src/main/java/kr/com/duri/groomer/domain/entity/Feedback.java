@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import kr.com.duri.common.entity.BaseEntity;
 import kr.com.duri.groomer.domain.Enum.Behavior;
 import kr.com.duri.groomer.domain.Enum.Friendly;
-import kr.com.duri.groomer.domain.Enum.Matter;
 import kr.com.duri.groomer.domain.Enum.Reaction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,10 +43,6 @@ public class Feedback extends BaseEntity {
     @Column(name = "behavior")
     private Behavior behavior; // 반려견 행동 (미용중 경험한 내용/주의사항)
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "matter")
-    private Matter matter; // 스트레스 및 질환 여부 (스트레스가 있어요/질환이 있는 친구에요)
-
     @Column(name = "notice_content")
     private String noticeContent; // 사용자에게 전달되는 내용
 
@@ -60,14 +55,11 @@ public class Feedback extends BaseEntity {
     @Column(name = "deleted")
     private Boolean deleted; // 논리 삭제 여부 (T: 삭제, F: 비삭제)
 
-    // todo : 논리 삭제 추가, Matter 없애기
-
     public static Feedback createNewFeedback(
             Quotation quotation,
             Groomer groomer,
             String friendly,
             String reaction,
-            String matter,
             String behavior,
             String noticeContent,
             String portfolioContent,
@@ -77,12 +69,21 @@ public class Feedback extends BaseEntity {
                 .groomer(groomer)
                 .friendly(Friendly.fromDescription(friendly))
                 .reaction(Reaction.fromDescription(reaction))
-                .matter(Matter.fromDescription(matter))
                 .behavior(Behavior.fromDescription(behavior))
                 .noticeContent(noticeContent)
                 .portfolioContent(portfolioContent)
                 .expose(expose)
                 .deleted(false)
                 .build();
+    }
+
+    public Feedback removed() {
+        this.deleted = true;
+        return this;
+    }
+
+    public Feedback updatePortfolio(String updatePortfolioContent) {
+        this.portfolioContent = updatePortfolioContent;
+        return this;
     }
 }

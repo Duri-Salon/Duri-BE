@@ -30,4 +30,6 @@ public interface PetService {
     String uploadToS3(MultipartFile img);
 
     Pet updatePet(Pet pet, NewPetRequest newPetRequest, String imageUrl);
+
+    Pet getPetByFeedbackId(Long feedbackId);
 }

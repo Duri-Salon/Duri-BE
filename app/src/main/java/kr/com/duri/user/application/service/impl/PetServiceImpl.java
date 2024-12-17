@@ -92,6 +92,11 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    public Pet getPetByFeedbackId(Long feedbackId) {
+        return petRepository.findByfeedbackId(feedbackId);
+    }
+
+    @Override
     public String uploadToS3(MultipartFile img) {
         if (img == null || img.isEmpty()) {
             return null;

@@ -6,6 +6,8 @@ import kr.com.duri.common.Mapper.CommonMapper;
 import kr.com.duri.groomer.application.dto.response.*;
 import kr.com.duri.groomer.domain.entity.Feedback;
 import kr.com.duri.groomer.domain.entity.FeedbackImage;
+import kr.com.duri.groomer.domain.entity.Groomer;
+import kr.com.duri.user.domain.entity.Pet;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
@@ -21,7 +23,6 @@ public class FeedbackMapper {
                 .feedbackId(feedback.getId())
                 .friendly(feedback.getFriendly().getDescription())
                 .reaction(feedback.getReaction().getDescription())
-                .matter(feedback.getMatter().getDescription())
                 .behavior(feedback.getBehavior().getDescription())
                 .noticeContent(feedback.getNoticeContent())
                 .portfolioContent(feedback.getPortfolioContent())
@@ -39,15 +40,17 @@ public class FeedbackMapper {
     }
 
     public PortfolioDetailResponse toPortfolioDetailResponse(
-            Feedback feedback, List<String> images) {
+            Feedback feedback, List<String> images, Groomer groomer, Pet pet) {
         return PortfolioDetailResponse.builder()
                 .feedbackId(feedback.getId())
                 .friendly(feedback.getFriendly().getDescription())
                 .reaction(feedback.getReaction().getDescription())
-                .matter(feedback.getMatter().getDescription())
                 .behavior(feedback.getBehavior().getDescription())
                 .portfolioContent(feedback.getPortfolioContent())
+                .feedbackDate(feedback.getCreatedAt())
                 .feedbackImages(images)
+                .petInfo(toPetInfoResponse(pet))
+                .groomerInfo(toGroomerInfo(groomer))
                 .build();
     }
 
@@ -56,7 +59,6 @@ public class FeedbackMapper {
                 .feedbackId(feedback.getId())
                 .friendly(feedback.getFriendly().getDescription())
                 .reaction(feedback.getReaction().getDescription())
-                .matter(feedback.getMatter().getDescription())
                 .behavior(feedback.getBehavior().getDescription())
                 .noticeContent(feedback.getNoticeContent())
                 .feedbackImages(images)
@@ -69,6 +71,26 @@ public class FeedbackMapper {
                 .friendly(friendly)
                 .reaction(reaction)
                 .behavior(behavior)
+                .build();
+    }
+
+    public PetInfoResponse toPetInfoResponse(Pet pet) {
+        return PetInfoResponse.builder()
+                .name(pet.getName())
+                .breed(pet.getBreed())
+                .gender(pet.getGender().toString())
+                .age(pet.getAge())
+                .weight(pet.getWeight())
+                .neutralized(pet.getNeutering())
+                .imageUrl(pet.getImage())
+                .build();
+    }
+
+    private GroomerInfoResponse toGroomerInfo(Groomer groomer) {
+        return GroomerInfoResponse.builder()
+                .id(groomer.getId())
+                .name(groomer.getName())
+                .profileImageUrl(groomer.getImage())
                 .build();
     }
 }

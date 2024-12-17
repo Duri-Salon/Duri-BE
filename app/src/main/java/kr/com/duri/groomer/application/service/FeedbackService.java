@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import kr.com.duri.groomer.application.dto.request.NewFeedbackRequest;
+import kr.com.duri.groomer.application.dto.request.PortfolioUpdateRequest;
 import kr.com.duri.groomer.domain.entity.Feedback;
 import kr.com.duri.groomer.domain.entity.Groomer;
 import kr.com.duri.groomer.domain.entity.Quotation;
@@ -24,4 +25,8 @@ public interface FeedbackService {
             List<Feedback> feedbackList,
             Function<Feedback, T> categoryMapper,
             Function<T, String> descriptionMapper);
+
+    void removePortfolio(Feedback feedback);
+
+    void updatePortfolio(Feedback feedback, PortfolioUpdateRequest updatePortfolioContent);
 }

@@ -1,6 +1,7 @@
 package kr.com.duri.common.security.config;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import jakarta.servlet.http.HttpServletRequest;
 import kr.com.duri.common.security.jwt.JwtFilter;
@@ -72,10 +73,13 @@ public class SecurityConfig {
                                             HttpServletRequest request) {
                                         CorsConfiguration configuration = new CorsConfiguration();
 
-                                        // configuration.setAllowedMethods(Arrays.asList("*")); - 기존
-                                        configuration.setAllowedMethods(
-                                                Arrays.asList(
-                                                        "GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                                        configuration.setAllowedMethods(Arrays.asList("*"));
+                                        //
+                                        // configuration.setAllowedMethods(
+                                        //
+                                        // Arrays.asList(
+                                        //
+                                        // "GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
                                         configuration.setAllowedOrigins(
                                                 Arrays.asList(
@@ -87,16 +91,23 @@ public class SecurityConfig {
                                                         CLIENT_SHOP_DEV_URL,
                                                         CLIENT_DOMAIN_URL));
 
-                                        // configuration.setAllowedHeaders( - 기존
-                                        //        Collections.singletonList("*"));
-
                                         configuration.setAllowedHeaders(
-                                                Arrays.asList(
-                                                        "Authorization",
-                                                        "Content-Type",
-                                                        "X-Requested-With",
-                                                        "Origin",
-                                                        "Accept"));
+                                                Collections.singletonList("*"));
+
+                                        //
+                                        // configuration.setAllowedHeaders(
+                                        //
+                                        // Arrays.asList(
+                                        //
+                                        // "Authorization",
+                                        //
+                                        // "Content-Type",
+                                        //
+                                        // "X-Requested-With",
+                                        //
+                                        // "Origin",
+                                        //
+                                        // "Accept"));
 
                                         configuration.setExposedHeaders(
                                                 Arrays.asList(

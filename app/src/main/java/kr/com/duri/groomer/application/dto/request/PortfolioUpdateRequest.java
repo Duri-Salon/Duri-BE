@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class QuotationUpdateCompleteRequest {
-    private Boolean complete; // 시술 완료 여부
+public class PortfolioUpdateRequest {
+    String portfolioContent;
 }

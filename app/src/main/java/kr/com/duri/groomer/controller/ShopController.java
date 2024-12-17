@@ -4,8 +4,8 @@ import java.util.List;
 
 import kr.com.duri.common.response.CommonResponseEntity;
 import kr.com.duri.groomer.application.dto.response.GetShopDetailResponse;
-import kr.com.duri.groomer.application.dto.response.ShopDetailResponse;
 import kr.com.duri.groomer.application.dto.response.ShopNearByResponse;
+import kr.com.duri.groomer.application.dto.response.ShopProfileDetailResponse;
 import kr.com.duri.groomer.application.facade.ShopFacade;
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +24,7 @@ public class ShopController {
 
     // DURI-260 : 매장 상세정보 조회
     @GetMapping
-    public CommonResponseEntity<ShopDetailResponse> getShopDetail(
+    public CommonResponseEntity<ShopProfileDetailResponse> getShopDetail(
             @RequestHeader("authorization_shop") String token) {
         return CommonResponseEntity.success(shopFacade.getShopDetail(token));
     }

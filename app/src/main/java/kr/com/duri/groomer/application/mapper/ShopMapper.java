@@ -121,7 +121,8 @@ public class ShopMapper {
                 .build();
     }
 
-    public ShopProfileDetailResponse toShopProfileDetailResponse(Shop shop, String imageUrl) {
+    public ShopProfileDetailResponse toShopProfileDetailResponse(
+            Shop shop, String imageUrl, List<String> tags) {
         return ShopProfileDetailResponse.builder()
                 .id(shop.getId())
                 .name(shop.getName())
@@ -132,6 +133,7 @@ public class ShopMapper {
                 .closeTime(shop.getCloseTime().toString())
                 .info(shop.getInfo())
                 .kakaoTalk(shop.getKakaoTalk())
+                .tags(tags)
                 .build();
     }
 }

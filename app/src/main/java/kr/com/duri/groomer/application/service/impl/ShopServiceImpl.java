@@ -99,7 +99,6 @@ public class ShopServiceImpl implements ShopService {
     public Shop updateDetail(Shop shop, ShopProfileDetailRequest shopProfileDetailRequest) {
         return shopRepository.save(
                 shop.updateDetail(
-                        shopProfileDetailRequest.getName(),
                         shopProfileDetailRequest.getPhone(),
                         shopProfileDetailRequest.getOpenTime(),
                         shopProfileDetailRequest.getCloseTime(),

@@ -1,4 +1,4 @@
-package kr.com.duri.groomer.application.dto.request;
+package kr.com.duri.groomer.application.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class QuotationUpdateCompleteRequest {
-    private Boolean complete; // 시술 완료 여부
+public class GroomerInfoResponse {
+    private Long id;
+    private String name;
+    private String profileImageUrl;
 }

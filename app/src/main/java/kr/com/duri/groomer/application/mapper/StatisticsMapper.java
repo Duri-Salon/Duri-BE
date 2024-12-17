@@ -20,9 +20,10 @@ public class StatisticsMapper {
 
     // Shop Entity, List<IncomeResponse> to FiveMonthIncomeResponse DTO
     public FiveMonthIncomeResponse toFiveMonthIncomeResponse(
-            Shop shop, List<IncomeResponse> incomeMonthResponses) {
+            Shop shop, List<IncomeResponse> incomeMonthResponses, Float beforeRatio) {
         return FiveMonthIncomeResponse.builder()
                 .shopId(shop.getId())
+                .beforeRatio(beforeRatio)
                 .incomeMonthList(incomeMonthResponses)
                 .build();
     }
