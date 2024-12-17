@@ -144,4 +144,15 @@ public class UserInfoFacade {
         String imageUrl = siteUserService.uploadToS3(img);
         siteUserService.save(siteUserService.updateProfile(siteUser, imageUrl));
     }
+
+    public CustomerInfoResponse getCustomerInfo(Long quotationId) {
+        Quotation quotation = quotationService.findById(quotationId);
+        Pet pet = quotation.getRequest().getQuotation().getPet();
+        SiteUser siteUser = pet.getUser();
+        return CustomerInfoResponse.builder()
+                .petProfileResponse(petMapper.toPetProfileResponse(pet))
+                .customerName(siteUser.getName())
+                .customerPhone(siteUser.getPhone())
+                .build();
+    }
 }
