@@ -27,4 +27,6 @@ public interface RequestService {
 
     // Request상태를 EXPIRED로 업데이트
     void updateRequestStatusToExpired(Request request);
+
+    List<Request> getApprovedHistoryByShopId(Long shopId);
 }

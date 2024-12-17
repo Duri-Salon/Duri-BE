@@ -52,4 +52,6 @@ public interface QuotationService {
     List<Quotation> getNoShowHistoryByPetId(Long petId);
 
     List<Quotation> getApprovedHistoryByPetId(Long petId);
+
+    List<Quotation> getNoShowHistoryByShopId(Long shopId);
 }

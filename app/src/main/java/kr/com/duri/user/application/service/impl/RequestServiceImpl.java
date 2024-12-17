@@ -1,5 +1,6 @@
 package kr.com.duri.user.application.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import kr.com.duri.user.application.service.RequestService;
@@ -72,5 +73,14 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public void updateRequestStatusToExpired(Request request) {
         request.updateStatus(QuotationStatus.EXPIRED);
+    }
+
+    @Override
+    public List<Request> getApprovedHistoryByShopId(Long shopId) {
+        List<Request> requestList = requestRepository.findApprovedRequestsByShopId(shopId);
+        if (requestList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return requestList;
     }
 }

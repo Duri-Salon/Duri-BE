@@ -164,4 +164,12 @@ public interface QuotationRepository extends JpaRepository<Quotation, Long> {
     """,
             nativeQuery = true)
     List<Map<String, Object>> getPetCharacterStatistics(@Param("shopId") Long shopId);
+
+    @Query(
+            """
+      SELECT q FROM Quotation q
+      JOIN q.request r
+      WHERE r.shop.id = :shopId and q.noShow = true
+      """)
+    List<Quotation> findNoShowQuotationsByShopId(@Param("shopId") Long shopId);
 }

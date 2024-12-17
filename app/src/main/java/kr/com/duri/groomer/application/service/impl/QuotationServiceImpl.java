@@ -161,4 +161,13 @@ public class QuotationServiceImpl implements QuotationService {
         }
         return quotationList;
     }
+
+    @Override
+    public List<Quotation> getNoShowHistoryByShopId(Long shopId) {
+        List<Quotation> quotationList = quotationRepository.findNoShowQuotationsByShopId(shopId);
+        if (quotationList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return quotationList;
+    }
 }
