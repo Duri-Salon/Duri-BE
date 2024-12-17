@@ -141,6 +141,7 @@ public class QuotationMapper {
         QuotationRequest quotationRequest =
                 QuotationRequest.builder()
                         .requestId(quotation.getRequest().getId())
+                        .quotationId(quotation.getId())
                         .memo(quotation.getMemo())
                         .startDateTime(quotation.getStartDateTime())
                         .endDateTime(quotation.getEndDateTime())
