@@ -103,6 +103,8 @@ public class Shop extends BaseEntity {
         this.lon = lon;
         this.businessRegistrationNumber = businessRegistrationNumber;
         this.groomerLicenseNumber = groomerLicenseNumber;
+        this.openTime = LocalTime.of(9, 0);
+        this.closeTime = LocalTime.of(18, 0);
         this.newShop = false;
         this.adtop = false;
         this.entry = EntryStatus.WAITING;
