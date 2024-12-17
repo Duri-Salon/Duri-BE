@@ -22,7 +22,9 @@ import kr.com.duri.user.application.service.PetService;
 import kr.com.duri.user.application.service.SiteUserService;
 import kr.com.duri.user.domain.Enum.Day;
 import kr.com.duri.user.domain.entity.Pet;
+import kr.com.duri.user.domain.entity.Request;
 import kr.com.duri.user.domain.entity.SiteUser;
+import kr.com.duri.user.exception.RequestNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
@@ -43,6 +45,12 @@ public class UserInfoFacade {
     private Shop getShopByQuotation(Quotation quotation) {
         return Optional.ofNullable(quotation.getRequest().getShop())
                 .orElseThrow(() -> new ShopNotFoundException("해당 매장을 찾을 수 없습니다."));
+    }
+
+    // 견적서로 요청 조회
+    private Request getRequestByQuotation(Quotation quotation) {
+        return Optional.ofNullable(quotation.getRequest())
+                .orElseThrow(() -> new RequestNotFoundException("해당 요청을 찾을 수 없습니다."));
     }
 
     public PetProfileResponse createNewPet(String token, NewPetRequest newPetRequest) {
@@ -67,6 +75,7 @@ public class UserInfoFacade {
         return quotationList.stream()
                 .map(
                         quotation -> {
+                            Request request = getRequestByQuotation(quotation);
                             // 2) 요일
                             DayOfWeek dayWeek = quotation.getStartDateTime().getDayOfWeek();
                             Day dayMap = Day.from(dayWeek);
@@ -76,7 +85,7 @@ public class UserInfoFacade {
                             Groomer groomer = groomerService.getGroomerByShopId(shop.getId());
                             // DTO 변환
                             return userInfoMapper.toHistoryResponse(
-                                    quotation, groomer, shop, pet, day);
+                                    request, quotation, groomer, shop, pet, day);
                         })
                 .collect(Collectors.toList());
     }

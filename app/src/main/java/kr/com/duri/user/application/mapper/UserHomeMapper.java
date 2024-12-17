@@ -36,7 +36,8 @@ public class UserHomeMapper {
             Shop shop,
             ShopImage shopImage,
             Integer lastSinceDay,
-            Integer reserveDday) {
+            Integer reserveDday,
+            Integer totalPrice) {
         DateTimeFormatter DayTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh");
         return RecentProcedureResponse.builder()
                 .petId(pet.getId())
@@ -53,7 +54,7 @@ public class UserHomeMapper {
                         quotation.getStartDateTime() != null
                                 ? quotation.getStartDateTime().format(DayTimeFormatter)
                                 : "")
-                .price(quotation.getPrice())
+                .price(quotation.getPrice() != null ? totalPrice : 0)
                 .build();
     }
 

@@ -19,6 +19,7 @@ public class QuotationDetailResponse {
     private LocalDateTime quotationCreatedAt; // 견적서 작성일
     private PetDetailResponse petDetail; // 반려견 정보
     private MenuDetailResponse menuDetail; // 메뉴 정보
+    private Long quotationId; // 견적서 ID
     private QuotationRequest quotation; // 견적서 정보
     private String status; // 상태
 }

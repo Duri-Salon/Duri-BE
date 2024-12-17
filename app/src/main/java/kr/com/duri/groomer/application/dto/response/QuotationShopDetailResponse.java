@@ -15,4 +15,5 @@ public class QuotationShopDetailResponse {
     private String shopAddress; // 매장 주소
     private String shopPhone; // 매장 전화번호
     private String groomerName; // 디자이너 이름
+    private String shopImage; // 매장 이미지
 }
