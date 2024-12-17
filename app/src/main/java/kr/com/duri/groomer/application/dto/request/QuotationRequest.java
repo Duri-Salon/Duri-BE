@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class QuotationRequest {
-    private Long requestId; //견적 요청서 ID
+    private Long requestId; // 견적 요청서 ID
     private Long quotationId; // 견적서 ID
     private PriceDetailRequest priceDetail; // 가격 정보
     private String memo; // 전달 사항
