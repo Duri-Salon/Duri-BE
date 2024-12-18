@@ -33,12 +33,9 @@ public class SiteUserServiceImpl implements SiteUserService {
             String socialId,
             String email,
             String name,
-            String phone,
-            String gender,
-            String birth,
-            String birthYear) {
+            String phone) {
         SiteUser newSiteUser =
-                SiteUser.createNewSiteUser(socialId, email, name, phone, gender, birth, birthYear);
+                SiteUser.createNewSiteUser(socialId, email, name, phone);
         return siteUserRepository.save(newSiteUser);
     }
 

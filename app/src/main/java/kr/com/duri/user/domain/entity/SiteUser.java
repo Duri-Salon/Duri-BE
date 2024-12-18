@@ -45,7 +45,6 @@ public class SiteUser extends BaseEntity {
     @Column(name = "user_image_url")
     private String image; // 프로필 이미지
 
-    @NotBlank
     @Column(name = "user_birth")
     private String birth; // 생년월일
 
@@ -72,18 +71,12 @@ public class SiteUser extends BaseEntity {
             String socialId,
             String email,
             String name,
-            String phone,
-            String gender,
-            String birth,
-            String birthYear) {
+            String phone) {
         return SiteUser.builder()
                 .socialId(socialId)
                 .email(email)
                 .name(name)
                 .phone(phone)
-                .gender(Gender.valueOf(gender))
-                .birth(birth)
-                .birthYear(birthYear)
                 .build();
     }
 

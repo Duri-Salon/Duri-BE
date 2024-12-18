@@ -13,10 +13,7 @@ public interface SiteUserService {
             String socialId,
             String email,
             String name,
-            String phone,
-            String gender,
-            String birth,
-            String birthYear);
+            String phone);
 
     String createNewUserJwt(SiteUser siteUser);
 

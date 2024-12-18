@@ -49,9 +49,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                             .providerId(oAuth2Response.getProviderId())
                             .provider(userRequest.getClientRegistration().getRegistrationId())
                             .name(oAuth2Response.getName())
-                            .birthday(oAuth2Response.getBirthday())
-                            .birthyear(oAuth2Response.getBirthyear())
-                            .gender(oAuth2Response.getGender())
                             .mobile(oAuth2Response.getMobile())
                             .mobileE164(oAuth2Response.getMobileE164())
                             .role("ROLE_USER")
@@ -67,10 +64,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                                                     siteUserDto.getProviderId(),
                                                     siteUserDto.getEmail(),
                                                     siteUserDto.getName(),
-                                                    siteUserDto.getMobile(),
-                                                    siteUserDto.getGender(),
-                                                    siteUserDto.getBirthday(),
-                                                    siteUserDto.getBirthyear()));
+                                                    siteUserDto.getMobile()));
 
             siteUserDto.updateId(siteUser.getId());
             siteUserDto.updateNewUser(siteUser.getNewUser());
