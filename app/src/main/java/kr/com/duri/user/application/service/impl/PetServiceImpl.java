@@ -29,7 +29,7 @@ public class PetServiceImpl implements PetService {
     // [1] 목록 조회
     @Override
     public List<Pet> getPetList(Long userId) {
-        return petRepository.findByUserId(userId);
+        return petRepository.findByUserIdAndDeletedFalse(userId);
     }
 
     // [1-1] 단일 조회
@@ -94,6 +94,11 @@ public class PetServiceImpl implements PetService {
     @Override
     public Pet getPetByFeedbackId(Long feedbackId) {
         return petRepository.findByfeedbackId(feedbackId);
+    }
+
+    @Override
+    public void deletePet(Pet pet) {
+        petRepository.save(pet.deletePet());
     }
 
     @Override

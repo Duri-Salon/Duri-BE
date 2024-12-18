@@ -32,4 +32,6 @@ public interface PetService {
     Pet updatePet(Pet pet, NewPetRequest newPetRequest, String imageUrl);
 
     Pet getPetByFeedbackId(Long feedbackId);
+
+    void deletePet(Pet pet);
 }

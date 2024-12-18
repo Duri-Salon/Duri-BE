@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 public interface PetRepository extends JpaRepository<Pet, Long> {
 
     // 고객 ID 기준 반려견 찾기
-    List<Pet> findByUserId(Long userId);
+    List<Pet> findByUserIdAndDeletedFalse(Long userId);
 
     @Query(
             "SELECT p FROM Feedback f "

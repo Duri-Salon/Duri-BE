@@ -155,4 +155,9 @@ public class UserInfoFacade {
                 .customerPhone(siteUser.getPhone())
                 .build();
     }
+
+    public void deletePet(Long petId) {
+        Pet pet = petService.findById(petId);
+        petService.deletePet(pet);
+    }
 }

@@ -75,4 +75,10 @@ public class UserInfoController {
             @PathVariable Long quotationId) {
         return CommonResponseEntity.success(userInfoFacade.getCustomerInfo(quotationId));
     }
+
+    @PutMapping("/pet/delete/{petId}")
+    public CommonResponseEntity<String> deletePet(@PathVariable Long petId) {
+        userInfoFacade.deletePet(petId);
+        return CommonResponseEntity.success("반려동물 정보가 삭제되었습니다.");
+    }
 }
