@@ -56,12 +56,14 @@ public class FeedbackMapper {
 
     public DiaryDetailResponse toDiaryDetailResponse(Feedback feedback, List<String> images) {
         return DiaryDetailResponse.builder()
+                .groomerInfo(toGroomerInfo(feedback.getGroomer()))
                 .feedbackId(feedback.getId())
                 .friendly(feedback.getFriendly().getDescription())
                 .reaction(feedback.getReaction().getDescription())
                 .behavior(feedback.getBehavior().getDescription())
                 .noticeContent(feedback.getNoticeContent())
                 .feedbackImages(images)
+                .groomingDate(feedback.getQuotation().getStartDateTime())
                 .build();
     }
 
