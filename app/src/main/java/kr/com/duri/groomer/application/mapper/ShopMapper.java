@@ -56,7 +56,7 @@ public class ShopMapper {
         Float shopRating = (Float) result[8];
         Integer distance = (int) Math.round((Double) result[9]);
 
-        return ShopNearByResponse.builder()
+        return ShopNearByResponse.builder() // 이 부분은 추가 못함
                 .shopId(shopId) // 매장 ID
                 .shopImage(imageURL)
                 .shopName(shopName) // 매장 이름
@@ -97,6 +97,8 @@ public class ShopMapper {
                         .reviewCnt(reviewCnt)
                         .distance(distance)
                         .tags(tags)
+                        .shopInfo(shop.getInfo())
+                        .kakaoTalkUrl(shop.getKakaoTalk())
                         .build();
 
         List<String> licenseToString = commonMapper.toListString(groomer.getLicense());
