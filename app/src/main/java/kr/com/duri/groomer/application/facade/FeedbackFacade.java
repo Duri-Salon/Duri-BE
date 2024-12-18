@@ -8,6 +8,7 @@ import kr.com.duri.groomer.application.dto.request.NewFeedbackRequest;
 import kr.com.duri.groomer.application.dto.request.PortfolioUpdateRequest;
 import kr.com.duri.groomer.application.dto.response.*;
 import kr.com.duri.groomer.application.mapper.FeedbackMapper;
+import kr.com.duri.groomer.application.mapper.GroomerMapper;
 import kr.com.duri.groomer.application.service.*;
 import kr.com.duri.groomer.domain.Enum.Behavior;
 import kr.com.duri.groomer.domain.Enum.Friendly;
@@ -41,6 +42,8 @@ public class FeedbackFacade {
     private final FeedbackService feedbackService;
 
     private final FeedbackImageService feedbackImageService;
+
+    private final GroomerMapper groomerMapper;
 
     private final FeedbackMapper feedbackMapper;
 
@@ -83,7 +86,7 @@ public class FeedbackFacade {
                 feedback, imageUrls, feedback.getGroomer(), pet);
     }
 
-    public DiaryDetailResponse getDiaryDetail(Long quotationId) { // todo : 펫 프로필, 디자이너 프로필 같이 조회?
+    public DiaryDetailResponse getDiaryDetail(Long quotationId) {
         Feedback feedback = feedbackService.getFeedbackByQuotationId(quotationId);
         List<String> imageUrls = feedbackImageService.findFeedbackImagesByFeedback(feedback);
         return feedbackMapper.toDiaryDetailResponse(feedback, imageUrls);

@@ -1,7 +1,9 @@
 package kr.com.duri.groomer.application.dto.response;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +14,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class DiaryDetailResponse {
+    private GroomerInfoResponse groomerInfo; // 미용사 정보
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDateTime groomingDate; // 날짜
+
     private Long feedbackId; // 피드백 ID
     private String friendly; // 미용사와의 친화력
     private String reaction; // 미용도구 반응
