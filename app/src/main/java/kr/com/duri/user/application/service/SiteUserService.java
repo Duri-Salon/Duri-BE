@@ -9,11 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface SiteUserService {
     Optional<SiteUser> findBySocialId(String socialId);
 
-    SiteUser saveNewSiteUser(
-            String socialId,
-            String email,
-            String name,
-            String phone);
+    SiteUser saveNewSiteUser(String socialId, String email, String name, String phone);
 
     String createNewUserJwt(SiteUser siteUser);
 

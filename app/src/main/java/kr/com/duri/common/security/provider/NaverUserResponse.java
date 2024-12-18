@@ -36,5 +36,4 @@ public class NaverUserResponse implements OAuth2Response {
     public String getMobileE164() { // +821012345678
         return attributes.get("mobile_e164").toString();
     }
-
 }

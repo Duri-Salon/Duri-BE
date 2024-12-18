@@ -68,16 +68,8 @@ public class SiteUser extends BaseEntity {
     private Boolean newUser = true; // 신규 유저 여부
 
     public static SiteUser createNewSiteUser(
-            String socialId,
-            String email,
-            String name,
-            String phone) {
-        return SiteUser.builder()
-                .socialId(socialId)
-                .email(email)
-                .name(name)
-                .phone(phone)
-                .build();
+            String socialId, String email, String name, String phone) {
+        return SiteUser.builder().socialId(socialId).email(email).name(name).phone(phone).build();
     }
 
     public SiteUser updateNewUser(Boolean newUser) {

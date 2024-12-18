@@ -29,13 +29,8 @@ public class SiteUserServiceImpl implements SiteUserService {
     }
 
     @Override
-    public SiteUser saveNewSiteUser(
-            String socialId,
-            String email,
-            String name,
-            String phone) {
-        SiteUser newSiteUser =
-                SiteUser.createNewSiteUser(socialId, email, name, phone);
+    public SiteUser saveNewSiteUser(String socialId, String email, String name, String phone) {
+        SiteUser newSiteUser = SiteUser.createNewSiteUser(socialId, email, name, phone);
         return siteUserRepository.save(newSiteUser);
     }
 
