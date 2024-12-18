@@ -21,5 +21,6 @@ public class ShopProfileDetailResponse {
     private String closeTime; // 마감 시간
     private String info; // 매장 소개
     private String kakaoTalk; // 오픈채팅 링크
+    private Float rating; // 평점
     private List<String> tags; // 태그 목록
 }
