@@ -132,10 +132,16 @@ public class UserInfoFacade {
     public SiteUserProfileResponse getUserProfile(String token) {
         Long userId = siteUserService.getUserIdByToken(token);
         SiteUser siteUser = siteUserService.getSiteUserById(userId);
-        Pet pet = petService.getPetByUserId(userId);
-        Integer reservationCount = quotationService.getApprovedHistoryByPetId(pet.getId()).size();
-        Integer noShowCount = quotationService.getNoShowHistoryByPetId(pet.getId()).size();
-        return userInfoMapper.toSiteUserProfileResponse(siteUser, reservationCount, noShowCount);
+        try {
+            Pet pet = petService.getPetByUserId(userId);
+            Integer reservationCount =
+                    quotationService.getApprovedHistoryByPetId(pet.getId()).size();
+            Integer noShowCount = quotationService.getNoShowHistoryByPetId(pet.getId()).size();
+            return userInfoMapper.toSiteUserProfileResponse(
+                    siteUser, reservationCount, noShowCount);
+        } catch (Exception e) {
+            return userInfoMapper.toSiteUserProfileResponse(siteUser, -1, -1);
+        }
     }
 
     public void updateUserProfile(String token, MultipartFile img) {
