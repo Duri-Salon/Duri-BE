@@ -36,6 +36,9 @@ public class SecurityConfig {
     @Value("${client.local.shop.dev.url}")
     private String LOCAL_SHOP_DEV_URL;
 
+    @Value("${client.local.admin.dev.url}")
+    private String LOCAL_ADMIN_DEV_URL;
+
     @Value("${client.user.url}")
     private String CLIENT_USER_URL;
 
@@ -48,8 +51,14 @@ public class SecurityConfig {
     @Value("${client.shop.dev.url}")
     private String CLIENT_SHOP_DEV_URL;
 
-    @Value("${client.domain.url}")
-    private String CLIENT_DOMAIN_URL;
+    @Value("${client.admin.url}")
+    private String CLIENT_ADMIN_URL;
+
+    @Value("${client.admin.dev.url}")
+    private String CLIENT_ADMIN_DEV_URL;
+
+    @Value("${client.user.domain.url}")
+    private String CLIENT_USER_DOMAIN_URL;
 
     public SecurityConfig(
             CustomOAuth2UserService customOAuth2UserService,
@@ -85,11 +94,14 @@ public class SecurityConfig {
                                                 Arrays.asList(
                                                         LOCAL_USER_DEV_URL,
                                                         LOCAL_SHOP_DEV_URL,
+                                                        LOCAL_ADMIN_DEV_URL,
                                                         CLIENT_USER_URL,
                                                         CLIENT_SHOP_URL,
                                                         CLIENT_USER_DEV_URL,
                                                         CLIENT_SHOP_DEV_URL,
-                                                        CLIENT_DOMAIN_URL));
+                                                        CLIENT_ADMIN_URL,
+                                                        CLIENT_ADMIN_DEV_URL,
+                                                        CLIENT_USER_DOMAIN_URL));
 
                                         configuration.setAllowedHeaders(
                                                 Collections.singletonList("*"));
