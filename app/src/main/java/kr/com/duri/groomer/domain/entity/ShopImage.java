@@ -25,7 +25,7 @@ public class ShopImage extends BaseEntity {
     @JoinColumn(name = "shop_id")
     private Shop shop; // 매장 ID FK
 
-    @Column(name = "shop_image_url")
+    @Column(name = "shop_image_url", length = 2083)
     private String shopImageUrl; // 매장 이미지 URL
 
     @Enumerated(EnumType.STRING)

@@ -97,7 +97,8 @@ public class ReviewFacade {
     }
 
     // 매장 리뷰 리스트 조회 (매장)
-    public List<ReviewResponse> getReviewsByShopId(Long shopId) {
+    public List<ReviewResponse> getReviewsByShopId(String token) {
+        Long shopId = shopService.getShopIdByToken(token);
         Shop shop = getShop(shopId);
         // 1) 매장으로 리뷰 조회
         List<Review> reviewList = reviewService.getReviewsByShopId(shopId);

@@ -133,6 +133,7 @@ public class ShopMapper {
                 .closeTime(shop.getCloseTime().toString())
                 .info(shop.getInfo())
                 .kakaoTalk(shop.getKakaoTalk())
+                .rating(shop.getRating())
                 .tags(tags)
                 .build();
     }
