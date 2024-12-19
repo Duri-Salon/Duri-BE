@@ -109,13 +109,13 @@ public class ShopServiceImpl implements ShopService {
     // 입점 대기 목록
     @Override
     public List<Shop> getEntryWaitingShops() {
-        return shopRepository.findByEntry(EntryStatus.WAITING);
+        return shopRepository.findByEntryAndNewShopFalse(EntryStatus.WAITING);
     }
 
     // 입점 승인 목록
     @Override
     public List<Shop> getEntryApprovedShops() {
-        return shopRepository.findByEntry(EntryStatus.APPROVED);
+        return shopRepository.findByEntryAndNewShopFalse(EntryStatus.APPROVED);
     }
 
     // 입점 승인 처리

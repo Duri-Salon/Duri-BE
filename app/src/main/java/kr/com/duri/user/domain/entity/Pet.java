@@ -90,8 +90,9 @@ public class Pet extends BaseEntity {
         this.lastGrooming = lastDate;
     }
 
-    public void deletePet() {
+    public Pet deletePet() {
         this.deleted = true;
+        return this;
     }
 
     public Pet updatePet(

@@ -56,5 +56,5 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
     List<Shop> findShopsByRadius(
             @Param("lat") Double lat, @Param("lon") Double lon, @Param("radians") Double radians);
 
-    List<Shop> findByEntry(EntryStatus entry);
+    List<Shop> findByEntryAndNewShopFalse(EntryStatus entry);
 }

@@ -19,6 +19,9 @@ public class CorsMvcConfig implements WebMvcConfigurer {
     @Value("${client.user.url}")
     private String CLIENT_USER_URL;
 
+    @Value("${client.user.domain.url}")
+    private String CLIENT_USER_DOMAIN_URL;
+
     @Value("${client.shop.url}")
     private String CLIENT_SHOP_URL;
 
@@ -27,6 +30,15 @@ public class CorsMvcConfig implements WebMvcConfigurer {
 
     @Value("${client.shop.dev.url}")
     private String CLIENT_SHOP_DEV_URL;
+
+    @Value("${client.local.admin.dev.url}")
+    private String LOCAL_ADMIN_DEV_URL;
+
+    @Value("${client.admin.url}")
+    private String CLIENT_ADMIN_URL;
+
+    @Value("${client.admin.dev.url}")
+    private String CLIENT_ADMIN_DEV_URL;
 
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
@@ -48,7 +60,11 @@ public class CorsMvcConfig implements WebMvcConfigurer {
                         CLIENT_USER_URL,
                         CLIENT_SHOP_URL,
                         CLIENT_USER_DEV_URL,
-                        CLIENT_SHOP_DEV_URL)
+                        CLIENT_SHOP_DEV_URL,
+                        LOCAL_ADMIN_DEV_URL,
+                        CLIENT_ADMIN_URL,
+                        CLIENT_ADMIN_DEV_URL,
+                        CLIENT_USER_DOMAIN_URL)
                 .allowCredentials(true); // 인증 정보 허용
     }
 }

@@ -114,7 +114,7 @@ public class UserHomeFacade {
         Long userId = siteUserService.getUserIdByToken(token);
         getUser(userId);
         // 1) 반려견, 마지막 미용일로부터 지난일
-        Pet pet = petService.findById(userId);
+        Pet pet = petService.getPetByUserId(userId);
         Integer lastSinceDay =
                 (pet.getLastGrooming() != null)
                         ? Math.abs(calculateDateDiff(pet.getLastGrooming(), false))
@@ -174,7 +174,7 @@ public class UserHomeFacade {
     // 매장 추천
     public List<RecommendShopResponse> getRecommendShops(String token, Double lat, Double lon) {
         Long userId = siteUserService.getUserIdByToken(token);
-        Pet pet = petService.findById(userId);
+        Pet pet = petService.getPetByUserId(userId);
         // 1) 주변 매장 계산
         List<Shop> nearbyShops = recommendService.getNearbyShops(lat, lon);
         if (nearbyShops.isEmpty()) {
