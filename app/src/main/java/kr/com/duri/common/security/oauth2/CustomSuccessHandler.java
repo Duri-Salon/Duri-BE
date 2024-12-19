@@ -38,6 +38,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Value("${client.shop.url}")
     private String Client_SHOP_URL;
 
+    @Value("${client.user.domain.url}")
+    private String CLIENT_USER_DOMAIN_URL;
+
     private final JwtUtil jwtUtil;
 
     public CustomSuccessHandler(JwtUtil jwtUtil) {
@@ -92,30 +95,11 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             response.getWriter().flush();
 
         } else {
-            // 메인 URL
-            //            if (tokenName.equals("authorization_user")) {
-            //                String redirectUrl = Client_USER_URL + "/auth?providerId=" +
-            // providerId;
-            //                response.sendRedirect(redirectUrl);
-            //            } else {
-            //                String redirectUrl = Client_SHOP_URL + "/auth?providerId=" +
-            // providerId;
-            //                response.sendRedirect(redirectUrl);
-            //            }
-            // 개발 URL
-            //            if (tokenName.equals("authorization_user")) {
-            //                String redirectUrl = USER_DEV_URL + "/auth?providerId=" + providerId;
-            //                response.sendRedirect(redirectUrl);
-            //            } else {
-            //                String redirectUrl = SHOP_DEV_URL + "/auth?providerId=" + providerId;
-            //                response.sendRedirect(redirectUrl);
-            //            }
-            // 로컬 환경
             if (tokenName.equals("authorization_user")) {
-                String redirectUrl = LOCAL_USER_DEV_URL + "/auth?providerId=" + providerId;
+                String redirectUrl = CLIENT_USER_DOMAIN_URL + "/auth?providerId=" + providerId;
                 response.sendRedirect(redirectUrl);
             } else {
-                String redirectUrl = LOCAL_SHOP_DEV_URL + "/auth?providerId=" + providerId;
+                String redirectUrl = Client_SHOP_URL + "/auth?providerId=" + providerId;
                 response.sendRedirect(redirectUrl);
             }
         }
