@@ -31,7 +31,8 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
 
     // 주변 매장 리스트 조회 (매장 반환)
     @Query(
-            value = """
+            value =
+                    """
                 SELECT * FROM shop s
                 ORDER BY (6371000 * ACOS(COS(RADIANS(:lat)) * COS(RADIANS(s.shop_lat)) * COS(RADIANS(s.shop_lon) - RADIANS(:lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(s.shop_lat)))) ASC
             """,

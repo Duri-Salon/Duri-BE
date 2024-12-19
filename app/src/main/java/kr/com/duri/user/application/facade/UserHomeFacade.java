@@ -225,7 +225,7 @@ public class UserHomeFacade {
                                     // 4) 매장 이미지
                                     ShopImage shopImage = shopImageService.getMainShopImage(shop);
                                     return userHomeMapper.toRecommendShopResponse(
-                                        new Pet(), "주변 강아지 친구들", shop, shopImage, shopTags, 0F);
+                                            new Pet(), "주변 강아지 친구들", shop, shopImage, shopTags, 0F);
                                 })
                         .collect(Collectors.toList());
         // 5) 매칭 점수 기준 정렬해 상위 4개 반환
