@@ -20,14 +20,23 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
     @Query(
             value =
                     """
-    SELECT s.shop_id, s.shop_name, s.shop_address, s.shop_lat, s.shop_lon, s.shop_phone, s.shop_open_time, s.shop_close_time, s.shop_rating,
-           (6371000 * ACOS(COS(RADIANS(:lat)) * COS(RADIANS(s.shop_lat)) * COS(RADIANS(s.shop_lon) - RADIANS(:lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(s.shop_lat)))) AS d
-    FROM shop s
-    WHERE (6371000 * ACOS(COS(RADIANS(:lat)) * COS(RADIANS(s.shop_lat)) * COS(RADIANS(s.shop_lon) - RADIANS(:lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(s.shop_lat)))) <= :radius
-""",
+        SELECT s.shop_id, s.shop_name, s.shop_address, s.shop_lat, s.shop_lon, s.shop_phone, s.shop_open_time, s.shop_close_time, s.shop_rating,
+               (6371000 * ACOS(COS(RADIANS(:lat)) * COS(RADIANS(s.shop_lat)) * COS(RADIANS(s.shop_lon) - RADIANS(:lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(s.shop_lat)))) AS d
+        FROM shop s
+        WHERE (6371000 * ACOS(COS(RADIANS(:lat)) * COS(RADIANS(s.shop_lat)) * COS(RADIANS(s.shop_lon) - RADIANS(:lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(s.shop_lat)))) <= :radius
+    """,
             nativeQuery = true)
     List<Object[]> findShopsWithinRadius(
             @Param("lat") Double lat, @Param("lon") Double lon, @Param("radius") Double radius);
+
+    // 주변 매장 리스트 조회 (매장 반환)
+    @Query(
+            value = """
+                SELECT * FROM shop s
+                ORDER BY (6371000 * ACOS(COS(RADIANS(:lat)) * COS(RADIANS(s.shop_lat)) * COS(RADIANS(s.shop_lon) - RADIANS(:lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(s.shop_lat)))) ASC
+            """,
+            nativeQuery = true)
+    List<Shop> findShopswithSortAsc(@Param("lat") Double lat, @Param("lon") Double lon);
 
     // 주변 매장 검색
     @Query(
