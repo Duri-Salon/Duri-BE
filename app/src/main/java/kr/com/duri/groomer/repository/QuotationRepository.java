@@ -118,6 +118,7 @@ public interface QuotationRepository extends JpaRepository<Quotation, Long> {
             JOIN r.quotation qr
             JOIN qr.pet p
             WHERE r.shop.id = :shopId
+            AND q.status = 'APPROVED'
             GROUP BY
                 CASE
                     WHEN p.age <= 3 THEN '~3세'
@@ -142,6 +143,7 @@ public interface QuotationRepository extends JpaRepository<Quotation, Long> {
         JOIN quotation_req qr ON r.quotation_req_id = qr.quotation_req_id
         JOIN pet p ON qr.pet_id = p.pet_id
         WHERE r.shop_id = :shopId
+        AND q.quotation_status = 'APPROVED'
     """,
             nativeQuery = true)
     List<Map<String, Object>> getPetDiseaseCharacterStatistics(@Param("shopId") Long shopId);
@@ -162,6 +164,7 @@ public interface QuotationRepository extends JpaRepository<Quotation, Long> {
         JOIN quotation_req qr ON r.quotation_req_id = qr.quotation_req_id
         JOIN pet p ON qr.pet_id = p.pet_id
         WHERE r.shop_id = :shopId
+        AND q.quotation_status = 'APPROVED'
     """,
             nativeQuery = true)
     List<Map<String, Object>> getPetCharacterStatistics(@Param("shopId") Long shopId);
