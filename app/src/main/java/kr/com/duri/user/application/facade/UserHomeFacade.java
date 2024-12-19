@@ -171,7 +171,7 @@ public class UserHomeFacade {
         return userHomeMapper.toRegularShopResponse(pet, homeShopList);
     }
 
-    // 매장 추천
+    // 매장 추천 (로그인 O)
     public List<RecommendShopResponse> getRecommendShops(String token, Double lat, Double lon) {
         Long userId = siteUserService.getUserIdByToken(token);
         Pet pet = petService.getPetByUserId(userId);
@@ -208,6 +208,28 @@ public class UserHomeFacade {
                 .sorted(Comparator.comparingDouble(RecommendShopResponse::getScore).reversed())
                 .limit(MAX_RECOMMEND)
                 .collect(Collectors.toList());
+    }
+
+    // 매장 추천 (로그인 X)
+    public List<RecommendShopResponse> getNearByShopsDistance(Double lat, Double lon) {
+        // 1) 매장 반환 현재 위치 거리순 가져오기
+        List<Shop> shopResults = shopService.findShopswithSortAsc(lat, lon);
+        // 2) DTO 반환
+        List<RecommendShopResponse> recommendations =
+                shopResults.stream()
+                        .map(
+                                shop -> {
+                                    // 3) 매장 태그
+                                    List<String> shopTags =
+                                            shopTagService.findTagsByShopId(shop.getId());
+                                    // 4) 매장 이미지
+                                    ShopImage shopImage = shopImageService.getMainShopImage(shop);
+                                    return userHomeMapper.toRecommendShopResponse(
+                                            new Pet(), "주변 강아지 친구들", shop, shopImage, shopTags, 0F);
+                                })
+                        .collect(Collectors.toList());
+        // 5) 매칭 점수 기준 정렬해 상위 4개 반환
+        return recommendations.stream().limit(MAX_RECOMMEND).collect(Collectors.toList());
     }
 
     // 펫 간단 정보 조회

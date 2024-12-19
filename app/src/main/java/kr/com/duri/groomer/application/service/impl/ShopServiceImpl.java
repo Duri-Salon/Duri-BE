@@ -56,6 +56,12 @@ public class ShopServiceImpl implements ShopService {
         return shopRepository.findShopsWithinRadius(lat, lon, radius);
     }
 
+    // 거리순 매장 목록 조회 (매장 반환)
+    @Override
+    public List<Shop> findShopswithSortAsc(Double lat, Double lon) {
+        return shopRepository.findShopswithSortAsc(lat, lon);
+    }
+
     @Override
     public List<Object[]> findShopsWithSearch(String search, Double lat, Double lon) {
         return shopRepository.findShopsWithSearch(search, lat, lon);

@@ -34,6 +34,9 @@ public interface ShopService {
 
     Shop updateDetail(Shop shop, ShopProfileDetailRequest shopProfileDetailRequest);
 
+    // 거리순 매장 목록 조회 (매장 반환)
+    List<Shop> findShopswithSortAsc(Double lat, Double lon);
+
     // 입점 대기 목록
     List<Shop> getEntryWaitingShops();
 

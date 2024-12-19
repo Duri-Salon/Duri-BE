@@ -108,7 +108,7 @@ public class UserHomeMapper {
             List<String> shopTagsStr,
             Float score) {
         return RecommendShopResponse.builder()
-                .petId(pet.getId())
+                .petId(pet != null ? pet.getId() : null)
                 .recommendFeature(feature)
                 .shopId(shop.getId())
                 .imageURL(shopImage != null ? safeGet(shopImage.getShopImageUrl()) : "")

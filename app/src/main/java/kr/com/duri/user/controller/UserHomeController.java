@@ -52,7 +52,7 @@ public class UserHomeController {
         return CommonResponseEntity.success(homePetInfoResponse);
     }
 
-    // DURI-329 : 추천 매장 조회
+    // DURI-329 : 추천 매장 조회 (로그인 O)
     @GetMapping("/recommend")
     public CommonResponseEntity<List<RecommendShopResponse>> getRecommendShops(
             @RequestHeader("authorization_user") String token,
@@ -60,6 +60,15 @@ public class UserHomeController {
             @RequestParam Double lon) {
         List<RecommendShopResponse> recommendShopResponses =
                 userHomeFacade.getRecommendShops(token, lat, lon);
+        return CommonResponseEntity.success(recommendShopResponses);
+    }
+
+    // DURI-329 : 추천 매장 조회 (로그인 X)
+    @GetMapping("/recommend/non-member")
+    public CommonResponseEntity<List<RecommendShopResponse>> getRecommendShopsNonMember(
+            @RequestParam Double lat, @RequestParam Double lon) {
+        List<RecommendShopResponse> recommendShopResponses =
+                userHomeFacade.getNearByShopsDistance(lat, lon);
         return CommonResponseEntity.success(recommendShopResponses);
     }
 
