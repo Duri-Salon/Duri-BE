@@ -199,7 +199,7 @@ public class QuotationReqFacade {
     // 지난 견적 요청 상세 정보(User)
     public LastQuotationReqResponse getLastQuotationReqDetail(String token) {
         Long userId = siteUserService.getUserIdByToken(token);
-        Pet pet = petService.findById(userId);
+        Pet pet = petService.getPetByUserId(userId);
         QuotationReq quotationReq = quotationReqService.findLatestByPetId(pet.getId());
 
         return quotationReqMapper.toLastQuotationReqResponse(pet, quotationReq);

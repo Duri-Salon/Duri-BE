@@ -29,23 +29,11 @@ public class NaverUserResponse implements OAuth2Response {
         return attributes.get("name").toString();
     }
 
-    public String getGender() {
-        return attributes.get("gender").toString();
-    }
-
-    public String getBirthday() {
-        return attributes.get("birthday").toString();
-    }
-
     public String getMobile() { // 010-1234-5678
         return attributes.get("mobile").toString();
     }
 
     public String getMobileE164() { // +821012345678
         return attributes.get("mobile_e164").toString();
-    }
-
-    public String getBirthyear() {
-        return attributes.get("birthyear").toString();
     }
 }

@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ShopNearByResponse {
-
     private Long shopId; // 매장 ID
     private String shopImage; // 매장 이미지 URL
     private String shopName; // 매장 이름
@@ -26,5 +25,7 @@ public class ShopNearByResponse {
     private Float shopRating; // 매장 평균 평점
     private Integer reviewCnt; // 리뷰 수
     private Integer distance; // 중심 위치와의 거리 (미터 단위)
+    private String kakaoTalkUrl; // 카카오톡 URL
+    private String shopInfo; // 매장 소개
     private List<String> tags; // 태그 리스트
 }

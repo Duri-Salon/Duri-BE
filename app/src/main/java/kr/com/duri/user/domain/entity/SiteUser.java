@@ -45,7 +45,6 @@ public class SiteUser extends BaseEntity {
     @Column(name = "user_image_url")
     private String image; // 프로필 이미지
 
-    @NotBlank
     @Column(name = "user_birth")
     private String birth; // 생년월일
 
@@ -69,22 +68,8 @@ public class SiteUser extends BaseEntity {
     private Boolean newUser = true; // 신규 유저 여부
 
     public static SiteUser createNewSiteUser(
-            String socialId,
-            String email,
-            String name,
-            String phone,
-            String gender,
-            String birth,
-            String birthYear) {
-        return SiteUser.builder()
-                .socialId(socialId)
-                .email(email)
-                .name(name)
-                .phone(phone)
-                .gender(Gender.valueOf(gender))
-                .birth(birth)
-                .birthYear(birthYear)
-                .build();
+            String socialId, String email, String name, String phone) {
+        return SiteUser.builder().socialId(socialId).email(email).name(name).phone(phone).build();
     }
 
     public SiteUser updateNewUser(Boolean newUser) {
