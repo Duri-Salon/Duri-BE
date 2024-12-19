@@ -1,5 +1,6 @@
 package kr.com.duri.groomer.application.facade;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kr.com.duri.groomer.application.dto.response.AgeStatisticsResponse;
@@ -101,7 +102,10 @@ public class StatisticsFacade {
         Shop shop = getShop(shopId);
         // 나이별 조회
         List<StatisticsResponse> ageResponses = statisticsService.getAgeStatistics(shopId);
-        return statisticsMapper.toAgeStatisticsResponse(shop, ageResponses);
+        // 내림차순 정렬
+        List<StatisticsResponse> listDesc = new ArrayList<>(ageResponses);
+        listDesc.sort((stat1, stat2) -> Long.compare(stat2.getCount(), stat1.getCount()));
+        return statisticsMapper.toAgeStatisticsResponse(shop, listDesc);
     }
 
     // 반려견 질환별 누적 조회
@@ -110,7 +114,10 @@ public class StatisticsFacade {
         Shop shop = getShop(shopId);
         // 질환별 조회
         List<StatisticsResponse> diseaseResponses = statisticsService.getDiseaseStatistics(shopId);
-        return statisticsMapper.toDiseaseStatisticsResponse(shop, diseaseResponses);
+        // 내림차순 정렬
+        List<StatisticsResponse> listDesc = new ArrayList<>(diseaseResponses);
+        listDesc.sort((stat1, stat2) -> Long.compare(stat2.getCount(), stat1.getCount()));
+        return statisticsMapper.toDiseaseStatisticsResponse(shop, listDesc);
     }
 
     // 반려견 성격별 누적 조회
@@ -120,7 +127,10 @@ public class StatisticsFacade {
         // 성격별 조회
         List<StatisticsResponse> characterResponses =
                 statisticsService.getCharacterStatistics(shopId);
-        return statisticsMapper.toCharacterStatisticsResponse(shop, characterResponses);
+        // 내림차순 정렬
+        List<StatisticsResponse> listDesc = new ArrayList<>(characterResponses);
+        listDesc.sort((stat1, stat2) -> Long.compare(stat2.getCount(), stat1.getCount()));
+        return statisticsMapper.toCharacterStatisticsResponse(shop, listDesc);
     }
 
     // 매장 최고 키워드별 조회
