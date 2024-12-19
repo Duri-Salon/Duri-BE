@@ -29,7 +29,7 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
     List<Object[]> findShopsWithinRadius(
             @Param("lat") Double lat, @Param("lon") Double lon, @Param("radius") Double radius);
 
-    // 주변 매장 리스트 조회 (매장 반환)
+    // 주변 매장 리스트 조회 (매장)
     @Query(
             value =
                     """
